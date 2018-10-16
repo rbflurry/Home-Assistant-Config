@@ -14,7 +14,6 @@ known_devices.yaml
 secrets.yaml
 deps
 scripts
-*.py
 *.pid
 .homekit.state
 *.xml
@@ -43,5 +42,4 @@ secrets
 known_devices.yaml
 #folders
 appdaemon
-custom_components
 icloud
