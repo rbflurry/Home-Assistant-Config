@@ -1,0 +1,479 @@
+# we should be using the close door service rather than the turn on off service.
+
+
+#- alias: Chicken - Open the Chicken door at 10:00am
+#  initial_state: false
+#  trigger:
+#   platform: time
+#   at: '10:00:00'
+#  condition:
+#    - condition: state
+#      entity_id: input_boolean.chicken_door
+#      state: 'on'
+#    - condition: state
+#      entity_id: cover.chicken_door
+#      state: 'closed'
+#    - condition: state
+#      entity_id: sun.sun
+#      state: 'above_horizon'
+#  action:
+#   service: homeassistant.turn_on
+#   entity_id: switch.esp3
+
+
+- alias: Chicken - Turn off chicken switch after 13 seconds
+  trigger:
+   platform: state
+#   entity_id: switch.esp3
+   entity_id: switch.sensornode2_relay2
+   to: 'on'
+   for:
+     seconds: 13
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.sensornode2_relay2
+          
+          
+- alias: Chicken -  Send Message on chicken state changes
+#  initial_to: False
+  trigger:
+#    - platform: state
+#      entity_id: sensor.sn1_reed, switch.esp3
+#      from: 'on'
+#      to: 'off'
+#    - platform: state
+#      entity_id: sensor.sn1_reed, switch.esp3
+#      from: 'off'
+#      to: 'on'
+    - platform: state
+      entity_id: cover.chicken_door
+  action:
+   -  service: notify.ios_group
+      data_template:
+        title: 'Chicken Coop'
+        message: >
+          {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+        data:
+          push:
+           category: 'chicken_door'
+           
+           
+#- alias: Chicken - on with motion
+#  trigger:
+#    platform: state
+#    entity_id: sensor.sn1_pir
+#    from: 'standby'
+#    to: 'motion detected'
+#  action:
+#    service: light.turn_on
+#    entity_id: light.sn1_led
+#    data:
+#      brightness: 150
+#      rgb_color: [255, 0, 0] # This is RED you can choose here the color you want
+
+
+#- alias: Chicken - off with motion
+#  trigger:
+#    platform: state
+#    entity_id: sensor.sn1_pir
+#    from: 'motion detected'
+#    to: 'standby'
+#  action:
+#    service: light.turn_off
+#    entity_id: light.sn1_led
+
+- alias: Chicken -  Chicken Door Timer V2
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
+    - platform: state
+      entity_id: sun.sun
+      to: 'above_horizon'
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_door
+      state: 'on'
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'closed'
+    - condition: state
+      entity_id: sun.sun
+      state: 'above_horizon'
+    - condition: template
+      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_time.state }}'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: automation.chicken___send_message_on_chicken_state_changes
+    - service: cover.open_cover
+      entity_id: cover.chicken_door
+    - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
+      timeout: 00:00:15
+    - service: notify.ios_group
+      data_template:
+        title: 'Chicken Door Trigger'
+        message: >
+          {% if is_state('cover.chicken_door', 'open') %}
+            Automation triggered the door to open and it did.
+          {% else %}
+            Automation triggered the door to open but it did not!
+          {% endif %}
+        data:
+          push:
+           category: 'chicken_door'
+    - service: homeassistant.turn_on
+      entity_id: automation.chicken___send_message_on_chicken_state_changes
+
+
+- alias: Chicken -  Chicken Door Timer
+  initial_state: false
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
+    - platform: state
+      entity_id: sun.sun
+      to: 'above_horizon'
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_door
+      state: 'on'
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'closed'
+    - condition: state
+      entity_id: sun.sun
+      state: 'above_horizon'
+    - condition: template
+      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_time.state }}'
+  action:
+    - service: notify.ios_group
+      data_template:
+        title: 'Chicken Door Trigger'
+        message: >
+          Automation triggered the door to open.
+        data:
+          push:
+           category: 'chicken_door'
+    - service: homeassistant.turn_on
+#     entity_id: switch.esp3
+      entity_id: switch.sensornode2_relay2
+      
+      
+- alias: Chicken - Sunset close door
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_close_time_dirty.state }}'
+#    - platform: sun
+#      event: sunset
+#      offset: '+00:20:00'
+    - platform: time
+      minutes: '/5'
+      seconds: 00
+  condition:
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'open'
+#    - condition: sun
+#      after: sunset
+#      after_offset: '+00:20:00'
+    - condition: template
+      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_close_time_dirty.state }}'
+    - condition: state
+      entity_id: input_boolean.chicken_door_last_call
+      state: 'off'
+  action:
+    - service: cover.close_cover
+      entity_id: cover.chicken_door
+    - service: notify.ios_group
+      data_template:
+        title: 'Chicken Door Closed'
+        message: >
+          Automation triggered the door to close.
+        data:
+          push:
+           category: 'chicken_door'
+
+
+           
+- alias: Chicken - Door - Last Call
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_last_call_time_dirty.state }}'
+#    - platform: sun
+#      event: sunset
+#      offset: '+00:25:00'
+  condition:
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'closed'
+  action:
+    - service: cover.open_cover
+      entity_id: cover.chicken_door
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.chicken_door_last_call
+    - service: notify.ios_group
+      data_template:
+        title: 'Chicken Door - Last Call'
+        message: >
+          Automation triggered the door to open.
+        data:
+          push:
+           category: 'chicken_door'
+    - delay: 00:02:00
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'open'
+    - service: cover.close_cover
+      entity_id: cover.chicken_door
+    - service: notify.ios_group
+      data_template:
+        title: 'Chicken Door - Last Call'
+        message: >
+          Automation triggered the door to close.
+        data:
+          push:
+           category: 'chicken_door'
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.chicken_door_last_call, switch.esp4
+      
+      
+      
+- alias: Chicken -  Chicken Door Timer Disabled
+  trigger:
+    platform: template
+    value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_door
+      state: 'off'
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'closed'
+    - condition: state
+      entity_id: sun.sun
+      state: 'above_horizon'
+  action:
+    - service: notify.ios_group
+      data_template:
+        title: 'Warning - Chicken Door'
+        message: >
+          "The chicken door did not open"
+        data:
+          push:
+            category: 'chicken_door'
+
+
+#- alias: Chicken -  Chicken Fan On
+#  initial_state: false
+#  trigger:
+#    - platform: template
+#      value_template: '{{ states.sensor.sn1_temperature.state | float > 80 }}'
+#  condition:
+#    - condition: state
+#      entity_id: switch.wifi_switch1
+#      state: 'off'
+#  action:
+#    service: homeassistant.turn_on
+#    entity_id:
+#      - switch.wifi_switch1
+
+
+#- alias: Chicken -  Chicken Fan Off
+#  initial_state: false
+#  trigger:
+#    - platform: template
+#      value_template: '{{ states.sensor.sn1_temperature.state | float < 80 }}'
+#  condition:
+#    - condition: state
+#      entity_id: switch.wifi_switch1
+#      state: 'on'
+#  action:
+#    service: homeassistant.turn_off
+#    entity_id:
+#      - switch.wifi_switch1
+
+- alias: Chicken -  Chicken Fan
+#  initial_state: false
+  trigger:
+   - platform: numeric_state
+     entity_id: sensor.sn2_temperature
+     above: 80.1
+     for:
+       minutes: 10
+   - platform: numeric_state
+     entity_id: sensor.sn2_temperature
+     below: 80.0
+     for:
+       minutes: 10
+#      value_template: '{{ states.sensor.sn2_temperature.state | float < 80 }}'
+  action:
+    service_template: >
+      {% if (states.sensor.sn2_temperature.state ) >= '80' %}
+      homeassistant.turn_on
+      {% else %}
+      homeassistant.turn_off
+      {% endif %}
+    entity_id:
+      - switch.esp3
+
+
+- alias: Chicken - Sunset Light on
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: '-00:30:00'
+    - platform: time
+      minutes: '/5'
+      seconds: 00
+  condition:
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'open'
+    - condition: sun
+      after: sunset
+      after_offset: '-00:28:00'
+    - condition: state
+      entity_id: switch.esp4
+      state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.esp4
+#     data:
+#      brightness: 1
+
+- alias: Chicken - Afterdark, door closed turn off light
+  trigger:
+   platform: state
+   entity_id: cover.chicken_door
+   from: 'open'
+   to: 'closed'
+   for:
+     minutes: 5
+  condition:
+#    - condition: state
+#      entity_id: sun.sun
+#      state: 'below_horizon'
+#    - condition: state
+#      entity_id: light.wink_chicken_light
+#      state: 'on'
+    - condition: state
+      entity_id: switch.esp4
+      state: 'on'
+  action:
+   - service: homeassistant.turn_off
+     entity_id: switch.esp4
+#   - delay: 00:00:30
+#   - service: homeassistant.turn_on
+#     entity_id: light.wink_chicken_light
+#     data:
+#      brightness: 1
+#   - delay: 00:02:00
+#   - service: homeassistant.turn_off
+#     entity_id: light.wink_chicken_light
+
+
+- alias: Chicken - Afterdark, turn off light
+  initial_state: false
+  trigger:
+   platform: state
+   entity_id: switch.esp4
+   to: 'on'
+  condition:
+#    - condition: state
+#      entity_id: sun.sun
+#      state: 'below_horizon'
+    - condition: state
+      entity_id: switch.esp4
+      state: 'on'
+  action:
+   - service: homeassistant.turn_off
+     entity_id: switch.esp4
+#  - service: homeassistant.turn_on
+#     entity_id: light.wink_chicken_light
+#     data:
+#      brightness: 1
+#   - delay: 00:01:00
+#   - service: homeassistant.turn_off
+#     entity_id: light.wink_chicken_light
+
+
+- alias: Chicken - IOS Handler
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+  condition:
+   condition: template
+   value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'CHICKEN')}}"
+  action:
+   service_template: >-
+     {% if (trigger.event.data.actionName.split('_')[1] == 'OPEN' ) and ( states.cover.chicken_door.state == 'closed')   %}
+       cover.open_cover
+     {% elif (trigger.event.data.actionName.split('_')[1] == 'CLOSE' ) and ( states.cover.chicken_door.state == 'open')  %}
+       cover.close_cover
+     {% else %}
+     {% endif %}
+   data:
+    entity_id: cover.chicken_door
+
+- alias: Chicken -  Boorder turn on light at sunrise
+  trigger:
+   platform: sun
+   event: sunrise
+   offset: '-00:20:00'
+  action:
+   service: homeassistant.turn_on
+   entity_id: light.wink_guinea_coop
+   
+- alias: Chicken -  Brooder turn off light at sunset
+  trigger:
+   - platform: sun
+     event: sunset
+     offset: '+00:20:00'
+  action:
+   service: homeassistant.turn_off
+   entity_id: light.wink_guinea_coop
+
+
+- alias: Chicken -  Brooder Lamp
+  initial_state: false
+#  initial_state: false
+  trigger:
+#    - platform: template
+#      value_template: '{{ states.sensor.sn3_temperature.state >= states.sensor.brooder_target_temp.state }}'
+#      for:
+#        minutes: 10
+#    - platform: template
+#      value_template: '{{ states.sensor.sn3_temperature.state <= states.sensor.brooder_target_temp.state }}'
+#      for:
+#        minutes: 10
+   - platform: numeric_state
+     entity_id: sensor.sn3_temperature
+     above: 75.1
+     for:
+       minutes: 2
+   - platform: numeric_state
+     entity_id: sensor.sn3_temperature
+     below: 74.9
+     for:
+       minutes: 15
+#      value_template: '{{ states.sensor.sn2_temperature.state | float < 80 }}'
+  action:
+    service_template: >
+      {% if (states.sensor.sn3_temperature.state ) <= (states.sensor.brooder_target_temp.state ) %}
+      homeassistant.turn_on
+      {% else %}
+      homeassistant.turn_off
+      {% endif %}
+    entity_id:
+      - switch.wifi_switch1
+      
+      
+- alias: Chicken - Brooder Thermostat
+#  initial_to: True
+  trigger:
+    - platform: state
+      entity_id: sensor.brooder_target_temp
+  action:
+    - service: climate.set_temperature
+      data_template:
+        entity_id: climate.brooder
+        temperature: '{{states.sensor.brooder_target_temp.state | int }}'

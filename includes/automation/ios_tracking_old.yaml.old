@@ -1,0 +1,9 @@
+- alias: name entered zone
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app, device_tracker.chelseas_iphone_app
+  action:     
+   - service: notify.ios_ryans_iphone_app
+     data_template:
+        message: "{{ trigger.to_state.name }} is in {{ trigger.to_state.state }}"
+        

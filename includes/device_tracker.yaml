@@ -1,0 +1,27 @@
+  - platform: unifi
+    host: unifi.westmd.info
+    port: 8443 
+    username: !secret unifi_user
+    password: !secret unifi_pass
+    site_id: lilold
+    track_new_devices: no
+    interval_seconds: 24
+    consider_home: 120
+    monitored_conditions:
+      - ap_mac
+#  - platform: icloud
+#    account_name: ryan
+#    username: !secret icloud_ryan_user
+#    password: !secret icloud_ryan_pass
+#  - platform: icloud
+#    account_name: chelsea
+#    username: !secret icloud_chelsea_user
+#    password: !secret icloud_chelsea_pass
+#  - platform: nmap_tracker
+#    hosts: 192.168.47.1/24
+#  - platform: owntracks_http
+  - platform: snmp
+    host: 192.168.47.1
+    community: !secret snmp
+    baseoid: 1.3.6.1.2.1.4.22.1.2
+    interval_seconds: 30

@@ -1,0 +1,33 @@
+- alias: Door Chime - Door Open
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      to: 'on'
+  condition:
+   condition: state
+   entity_id: group.device_family
+   state: 'home'
+  action:
+   service: wink.enable_chime
+   entity_id: wink.dome
+   data:
+     tone: alert
+     
+- alias: Door Chime - Garage - Door Open
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_garage_entry_opened, cover.myq_first_bay, cover.myq_second_bay ,cover.myq_third_bay
+      to: 'on'
+  condition:
+   condition: state
+   entity_id: group.device_family
+   state: 'home'
+  action:
+   - service: wink.enable_chime
+     entity_id: wink.dome
+     data:
+       tone: alert
+   - service: notify.hallway
+     data_template:
+       message: > 
+        {{ trigger.to_state.name }} is {{ trigger.to_state.state }}

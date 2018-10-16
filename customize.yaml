@@ -1,0 +1,5 @@
+switch.esp6:
+  friendly_name: Heat Lamp
+  icon: mdi:fire
+switch.esp4:
+  friendly_name: Chicken Light

@@ -1,0 +1,132 @@
+- alias: Send Message when no one is home but a door was opened
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      to: 'on'
+  condition:
+   condition: state
+   entity_id: group.device_family
+   state: 'not_home'
+  action:
+    - service: notify.ios_group
+      data_template:
+         title: 'Something happened at home'
+         message: >
+           No one is home and {{ trigger.to_state.name }} was opened
+
+
+- alias: Send Message when no one is home but a door was opened v2
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      to: 'on'
+  condition:
+   condition: state
+   entity_id: group.device_family
+   state: 'not_home'
+  action:
+    - wait_template: >
+       {% set new = trigger.entity_id %}
+       {{ is_state(new, 'off') }}
+      timeout: 00:00:05
+    - service: notify.ios_group
+      data_template:
+        title: Something happened at home
+        message: >
+          {% set new = trigger.entity_id %}
+          {% if is_state(new, 'off') %}
+            No one is home and {{ trigger.to_state.name }} was opened and closed.
+          {% else %}
+            No one is home and {{ trigger.to_state.name }} was opened.
+          {% endif %}
+    - condition: template
+      value_template: >
+        {% set new = trigger.entity_id %}
+        {{ is_state(new, 'on') }}
+    - wait_template: >
+       {% set new = trigger.entity_id %}
+       {{ is_state(new, 'off') }}
+    - service: notify.ios_group
+      data_template:
+       title: Something happened at home
+       message: >
+         No one is home and {{ trigger.to_state.name }} was closed
+      
+- alias: Send Message when a door is left open
+  trigger:
+   platform: state
+   entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+   to: 'on'
+   for:
+     minutes: 5
+  action:
+    - service: notify.ios_group
+      data_template:
+        title: 'Door Left Open'
+        message: >
+          {{ trigger.to_state.name }} is open for more than 5 minutes
+    - wait_template: "{{ is_state(trigger.entity_id, 'off') }}"
+    - service: notify.ios_group
+      data_template:
+        title: 'Door Now closed'
+        message: >
+          {{ trigger.to_state.name }} is now closed
+          
+          
+#- alias: Send Message when wink hub changes
+#  trigger:
+#    - platform: state
+#      entity_id: binary_sensor.wink_hub
+#  condition:
+#   condition: state
+#   entity_id: input_boolean.ha_start_delay
+#   state: 'on'
+#  action:
+#   service: notify.ios_ryans_iphone_app
+#   data_template:
+#          message: >
+#            {% if is_state('binary_sensor.wink_hub', 'on') %}
+#              Wink Hub is On
+#            {% else %}
+#              Wink Hub is {{ states('binary_sensor.wink_hub') }}.
+#            {% endif %}
+
+
+- alias: Send Message on state changes
+#  initial_to: False
+  trigger:
+    - platform: state
+      entity_id: switch.wink_zwaveoutlet, sensor.process_dasher, sensor.process_mosquitto, sensor.process_appdaemon, sensor.process_homebridge, binary_sensor.climate_aux_heat, binary_sensor.device_vehicle_jeep, binary_sensor.device_vehicle_mazda
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: switch.wink_zwaveoutlet, sensor.process_dasher, sensor.process_mosquitto, sensor.process_appdaemon, sensor.process_homebridge, binary_sensor.climate_aux_heat, binary_sensor.device_vehicle_jeep, binary_sensor.device_vehicle_mazda
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.wink_hub
+      to: 'off'
+      for:
+        minutes: 1
+    - platform: state
+      entity_id: updater.updater, sensor.sn2_availablilty, sensor.sn3_availablilty
+      to: "offline"
+      for:
+        minutes: 1
+    - platform: numeric_state
+      entity_id: sensor.disk_use_percent_
+      above: 90
+      
+  action:
+   service: notify.ios_ryans_iphone_app
+   data_template:
+      title: 'A state changed'
+      message: >
+        {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+        
+
+        
+        
+
+
+

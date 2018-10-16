@@ -1,0 +1,387 @@
+#- platform: fedex
+#  username: rabittn
+#  password: !secret myq_pass
+#  name: myfedex
+  
+#- platform: ups
+#  username: rabittn
+#  password: !secret myq_pass
+#  name: myups
+  
+
+- platform: waze_travel_time
+  origin: device_tracker.ryans_iphone_app
+  destination: zone.home
+  region: 'US'
+  name: waze_device_ryan_to_home
+  
+- platform: waze_travel_time
+  name: waze_device_ryan_to_work
+  region: 'US'
+  origin: device_tracker.ryans_iphone_app
+  destination: zone.thales
+  
+- platform: waze_travel_time
+  name: waze_device_chelsea_to_home
+  region: 'US'
+  origin: device_tracker.chelseas_iphone_app
+  destination: zone.home
+  
+- platform: waze_travel_time
+  name: waze_device_chelsea_to_work
+  region: 'US'
+  origin: device_tracker.chelseas_iphone_app
+  destination: zone.waterloo
+  
+  
+- platform: google_travel_time
+  name: device_ryan_to_home
+  api_key: !secret google_api_dist
+  origin: device_tracker.ryans_iphone_app
+  destination: zone.home
+  scan_interval: 60
+
+- platform: google_travel_time
+  name: device_ryan_to_work
+  api_key: !secret google_api_dist
+  origin: device_tracker.ryans_iphone_app
+  destination: zone.thales
+  scan_interval: 60
+  
+- platform: google_travel_time
+  name: device_chelsea_to_home
+  api_key: !secret google_api_dist
+  origin: device_tracker.chelseas_iphone_app
+  destination: zone.home
+  scan_interval: 60
+  
+- platform: google_travel_time
+  name: device_chelsea_to_work
+  api_key: !secret google_api_dist
+  origin: device_tracker.chelseas_iphone_app
+  destination: zone.waterloo
+  scan_interval: 60
+  
+#- platform: google_travel_time
+#  name: test
+#  api_key: !secret google_api_dist
+#  origin: device_tracker.ryaniphone
+#  destination: sensor.my_destination
+  
+#- platform: google_travel_time
+#  name: Home to Work
+#  api_key: !secret google_api_dist
+#  origin: zone.thales
+#  destination: zone.home
+
+#- platform: scrape
+#  resource: http://status.winkapp.com/
+#  name: Overall Wink Status
+#  select: "span:nth-of-type(5)"
+#- platform: scrape
+#  resource: http://status.winkapp.com/
+#  name: Wink.com
+#  select: "span:nth-of-type(9)"
+#- platform: scrape
+#  resource: http://status.winkapp.com/
+#  name: Wink core API
+#  select: "span:nth-of-type(13)"
+#- platform: scrape
+#  resource: http://status.winkapp.com/
+#  name: Wink hub API
+#  select: "span:nth-of-type(16)"
+#- platform: scrape
+#  resource: http://status.winkapp.com/
+#  name: Chamberlain MyQ integration
+#  select: "span:nth-of-type(28)"
+
+- platform: speedtest
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+  manual: true
+#- platform: command_line
+#  name: ups_status
+#  command: upsc ups@192.168.47.60:3493 ups.status > /dev/stdout 2> /dev/null
+#- platform: command_line
+#  name: ups_charge
+#  command: upsc ups@192.168.47.60:3493 battery.charge > /dev/stdout 2> /dev/null
+#  unit_of_measurement: '%'
+#- platform: command_line
+#  name: ups_runtime
+#  command: upsc ups@192.168.47.60:3493 battery.runtime > /dev/stdout 2> /dev/null
+#  unit_of_measurement: sec
+#- platform: command_line
+#  name: ups_load
+#  command: upsc ups@192.168.47.60:3493 ups.load > /dev/stdout 2> /dev/null
+#  unit_of_measurement: '%'
+- platform: nut
+  name: syno
+  host: 192.168.47.60
+  username: ups
+  resources:
+    - ups.load
+    - ups.status
+    - battery.charge
+    - battery.runtime
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_free
+    - type: processor_use
+    - type: process
+      arg: homebridge
+    - type: process
+      arg: mosquitto
+    - type: process
+      arg: dasher
+    - type: process
+      arg: appdaemon
+    - type: last_boot
+    - type: since_last_boot
+    - type: load_1m
+    - type: load_5m
+    - type: load_15m
+    - type: processor_use
+- platform: time_date
+  display_options:
+    - 'time'
+#- platform: fitbit
+#  monitored_resources:
+#    - "activities/tracker/steps"
+- platform: cert_expiry
+  host: !secret ha_cert 
+  name: cert_url
+  
+- platform: cert_expiry
+  host: !secret nginz_cert
+  name: cert_internal
+  
+  
+- platform: mqtt  
+  state_topic: "home/sensornode1"  
+  name: "SN1 Humidity"
+  icon: mdi:water-percent
+  unit_of_measurement: "%"  
+  value_template: '{{ value_json.humidity | round(1) }}'  
+  
+  
+- platform: mqtt  
+  state_topic: "home/sensornode1"  
+  name: "SN1 LDR"
+  ##This sensor is not calibrated to actual LUX. Rather, this a map of the input voltage ranging from 0 - 1023.
+  unit_of_measurement: "LUX"  
+  value_template: '{{ value_json.ldr }}'  
+  
+- platform: mqtt  
+  state_topic: "home/sensornode1"  
+  name: "SN1 PIR"  
+  value_template: '{{ value_json.motion }}'  
+  
+- platform: mqtt  
+  state_topic: "home/sensornode1"  
+  name: "SN1 Reed"  
+  value_template: '{{ value_json.reed }}'
+  icon_template: >-
+    {% if is_state('sensor.sn1_reed', 'open') %}
+       mdi:door-open
+    {% else %}
+       mdi:door-closed
+    {% endif %}
+  
+- platform: mqtt  
+  state_topic: "home/sensornode1"  
+  name: "SN1 Temperature"  
+  unit_of_measurement: "°F"
+  icon: 'mdi:temperature-fahrenheit'
+  value_template: '{{ value_json.temperature | round(1) }}'  
+  
+- platform: history_stats
+  friendly_name: Fan on Today
+  name: history_climate_fan_on_today
+  entity_id: binary_sensor.climate_fan
+  state: 'on'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+  
+- platform: history_stats
+  friendly_name: Cool on Today
+  name: history_climate_cool_on_today
+  entity_id: sensor.climate_operation
+  state: 'cool'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+  
+- platform: history_stats
+  friendly_name: Heat on Today
+  name: history_climate_heat_on_today
+  entity_id: sensor.climate_operation
+  state: 'heat'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+  
+- platform: history_stats
+  friendly_name: Aux Heat on Today
+  name: history_climate_aux_heat_on_today
+  entity_id: binary_sensor.climate_aux_heat
+  state: 'on'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+ 
+- platform: snmp
+  name: Vent Temp
+  host: 192.168.47.162
+  port: 161
+#  accept_errors: true
+  community: public
+  baseoid: 1.3.6.1.4.1.21239.2.2.1.6.1
+  unit_of_measurement: "°F"
+- platform: snmp   
+  name: Vent Humidity
+  icon: mdi:water-percent
+  host: 192.168.47.162
+  port: 161
+ # accept_errors: true
+  community: public
+  baseoid: 1.3.6.1.4.1.21239.2.2.1.7.1
+  unit_of_measurement: "%"
+
+- platform: snmp
+  name: Basement Temp
+  host: 192.168.47.123
+  port: 161
+  accept_errors: true
+  community: bittner
+  baseoid: 1.3.6.1.4.1.21239.2.2.1.6.1
+  unit_of_measurement: "°F"
+- platform: snmp   
+  name: Basement Humidity
+  host: 192.168.47.123
+  port: 161
+  accept_errors: true
+  community: bittner
+  baseoid: 1.3.6.1.4.1.21239.2.2.1.7.1
+  unit_of_measurement: "%"
+  
+  
+- platform: google_geocode
+  origin: device_tracker.ryans_iphone_app
+  name: geocode_ryan
+  display_zone: hide
+  api_key: !secret google_geocode
+  
+#- platform: google_geocode
+#  origin: device_tracker.chelseasiphone
+#  name: geocode_chelsea
+#  display_zone: hide
+#  api_key: !secret google_geocode
+
+- platform: season
+  type: astronomical
+  
+- platform: mqtt  
+  state_topic: "home/sensornode3"  
+  name: "SN3 Humidity"  
+  icon: mdi:water-percent
+  unit_of_measurement: "%"  
+  value_template: '{{ value_json.humidity | round(1) }}'  
+  
+- platform: mqtt  
+  state_topic: "home/sensornode3"  
+  name: "SN3 LDR"
+  ##This sensor is not calibrated to actual LUX. Rather, this a map of the input voltage ranging from 0 - 1023.
+  unit_of_measurement: "LUX"  
+  value_template: '{{ value_json.ldr }}'  
+  
+- platform: mqtt  
+  state_topic: "home/sensornode3"  
+  name: "SN3 PIR"  
+  value_template: '{{ value_json.motion }}'  
+  
+- platform: mqtt  
+  state_topic: "home/sensornode3"  
+  name: "SN3 Reed"  
+  value_template: '{{ value_json.reed }}'  
+  icon_template: >-
+    {% if is_state('sensor.sn3_reed', 'open') %}
+       mdi:door-open
+    {% else %}
+       mdi:door-closed
+    {% endif %}
+
+- platform: mqtt  
+  state_topic: "home/sensornode3/availability"  
+  name: "SN3 Availablilty"  
+  payload_available: "online"
+  payload_not_available: "offline"
+  
+- platform: mqtt  
+  state_topic: "home/sensornode3"  
+  name: "SN3 Temperature"  
+  icon: 'mdi:temperature-fahrenheit'
+  unit_of_measurement: "°F"  
+  value_template: '{{ value_json.temperature | round(1) }}'  
+  
+- platform: mqtt
+  state_topic: "home/sensornode3"
+  name: "SN3 Real Feel"
+  unit_of_measurement: "°F"
+  value_template: '{{ value_json.heatIndex | round(1) }}'
+  
+  
+#- platform: mqtt  
+#  state_topic: "tele/sonoff/SENSOR"  
+#  name: "Batt level"
+#  value_template: '{{ value_json.ANALOG.A0 | int }}'  
+#  unit_of_measurement: "v"
+- platform: mqtt  
+  state_topic: "tele/sonoff/SENSOR"  
+  name: "Camper Temp"
+  icon: 'mdi:temperature-fahrenheit'
+  value_template: "{{ value_json['AM2301'].Temperature | int }}"
+  unit_of_measurement: "°F"
+- platform: mqtt  
+  state_topic: "tele/sonoff/SENSOR"  
+  name: "Camper Humid"
+  icon: mdi:water-percent
+  value_template: "{{ value_json['AM2301'].Humidity | int }}"
+  unit_of_measurement: "%"  
+  
+  
+  
+# https://github.com/custom-components/sensor.authenticated
+- platform: authenticated
+  enable_notification: 'True'
+  exclude:
+    - 192.168.47.202
+    - 192.168.47.90
+    
+- platform: mqtt  
+  state_topic: "home/OpenMQTTGateway/BTtoMQTT/123B6A1B58C9"  
+  name: "deeks_collar_state"
+  unit_of_measurement: "rssi"  
+  expire_after: 120
+- platform: template
+  sensors:
+    deeks_collar: #unique names; this is different from the one above
+      value_template: >
+        {% if is_state('sensor.deeks_collar_state', 'unknown') %}
+          -100 # RSSI values are negative; an even smaller value could be used 
+        {% else %}
+          {{states.sensor.deeks_collar_state.state | float}}
+        {% endif %}
+- platform: statistics
+  entity_id: 'sensor.deeks_collar' 
+  name: 'deeks_collar_stats' 
+  sampling_size: 10 
+- platform: template
+  sensors:
+      bt_car_keys_threshold:
+        friendly_name: 'deeks_collar_threshold'
+        value_template: '{{ states.sensor.deeks_collar_stats_mean.attributes["average_change"] | float > 0 }}' #"key_car_stats" is the name from C; mean is used but could be also other statistics (median, change, variation, count, etc)

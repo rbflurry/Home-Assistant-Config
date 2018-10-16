@@ -1,0 +1,29 @@
+- alias: Play Radio based on Station
+  trigger:
+    - platform: state
+      entity_id: input_select.radio_station
+  action:
+    - service: media_player.play_media
+      data_template:
+        entity_id: >
+         {% if is_state("input_select.speakers", "Garage") %}
+            media_player.kodi_garage
+          {%-elif is_state("input_select.speakers", "Office") %}
+            media_player.office_speakers
+          {%-elif is_state("input_select.speakers", "All") %}
+            media_player.home_speakers
+          {% else %}
+            "None"
+          {% endif %}
+        media_content_id: >
+         {% if is_state("input_select.radio_station", "Z104.3") %}
+            http://wzft-fm.akacast.akamaistream.net/7/393/19914/v1/auth.akacast.akamaistream.net/wzft-fm
+          {%-elif is_state("input_select.radio_station", "WPOC 93.1") %}
+            http://wpoc-fm.akacast.akamaistream.net/7/846/19913/v1/auth.akacast.akamaistream.net/wpoc-fm
+          {%-elif is_state("input_select.radio_station", "Hot 99.5") %}
+            http://wiht-fm.akacast.akamaistream.net/7/183/20127/v1/auth.akacast.akamaistream.net/wiht-fm
+          {% else %}
+            "None"
+          {% endif %}
+        media_content_type: 'AUDIO'
+        

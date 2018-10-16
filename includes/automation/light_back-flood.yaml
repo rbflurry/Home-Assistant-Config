@@ -1,0 +1,110 @@
+- alias: Back Door open and light is already on via door open keep light on for another 10.
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      from: 'closed'
+      to: 'open'
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+#    - condition: state
+#      entity_id: script.timer_flood_off
+#      state: 'on'
+    - condition: state
+      entity_id: binary_sensor.still_dark
+      state: 'on'
+    - condition: state
+      entity_id: timer.back_flood
+      state: 'active'
+  action:
+#    - service: homeassistant.turn_off
+#      entity_id: script.timer_flood_off
+#    - service: homeassistant.turn_on
+#      entity_id: script.timer_flood_off
+    - service: timer.start
+      entity_id: timer.back_flood
+      data:
+        duration: '00:10:00'
+
+
+
+
+- alias: Back Door open turn flood light on for 10 minutes unless it is already on.
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened
+      from: 'on'
+      to: 'off'
+  condition:
+     - condition: state
+       entity_id: sun.sun
+       state: 'below_horizon'
+     - condition: state
+       entity_id: switch.wink_back_flood
+       state: 'off'
+     - condition: state
+       entity_id: binary_sensor.still_dark
+       state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.wink_back_flood
+    - service: timer.start
+      entity_id: timer.back_flood
+      data:
+        duration: '00:10:00'
+      
+      
+      
+- alias: Garage open turn flood light on for 10 minutes unless it is already on
+  trigger:
+    - platform: state
+      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      from: 'closed'
+      to: 'open'
+  condition:
+     - condition: state
+       entity_id: sun.sun
+       state: 'below_horizon'
+     - condition: state
+       entity_id: switch.wink_back_flood
+       state: 'off'
+     - condition: state
+       entity_id: binary_sensor.still_dark
+       state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.wink_back_flood
+    - service: timer.start
+      entity_id: timer.back_flood
+      data:
+        duration: '00:10:00'
+      
+      
+      
+      
+#- alias: Fix the back flood light switch
+#  trigger:
+#    - platform: state
+#      entity_id: switch.wink_back_flood
+#      from: 'on'
+#      to: 'off'
+#  condition:
+#     - condition: state
+#       entity_id: script.timer_flood_off
+#       state: 'on'
+#  action:
+#     - service: homeassistant.turn_on
+#       entity_id: switch.wink_back_flood

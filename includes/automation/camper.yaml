@@ -1,0 +1,33 @@
+- alias: Camper - temp
+#  initial_state: false
+  trigger:
+   - platform: numeric_state
+     entity_id: sensor.camper_temp
+     above: 80.1
+     for:
+       minutes: 1
+   - platform: numeric_state
+     entity_id: sensor.camper_temp
+     below: 80.0
+     for:
+       minutes: 1
+#  action:
+#    service_template: >
+#      {% if (states.sensor.camper_temp.state ) >= '80' %}
+#      homeassistant.turn_on
+#      {% else %}
+#      homeassistant.turn_off
+#      {% endif %}
+#    entity_id:
+#      - switch.esp3
+  action:
+   -  service: notify.ios_ryans_iphone_app
+      data_template:
+        title: 'Camper'
+        message: >
+          {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+   -  service: notify.ios_chelseas_iphone_app
+      data_template:
+        title: 'Camper'
+        message: >
+          {{ trigger.to_state.name }} is {{ trigger.to_state.state }}

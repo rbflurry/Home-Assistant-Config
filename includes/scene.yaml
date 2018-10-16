@@ -1,0 +1,39 @@
+- name: goodnight
+  entities:
+    light.wink_hallway: off
+    light.wink_bed_room: off
+    light.wink_front_porch: off
+    switch.wink_back_flood: off
+    light.wink_led_strip_bed: off
+    input_boolean.good_night: on
+    input_boolean.good_morning: off
+- name: goodmorning
+  entities:
+    input_boolean.good_night: off
+    input_boolean.good_morning: on
+- name: dim_bedroom
+  entities:
+    light.wink_bed_room:
+      state: on
+      brightness: 1
+- name: tv_time
+  entities:
+    light.wink_living_room:
+      state: on
+      brightness: 1
+- name: tv_time_over
+  entities:
+    light.wink_living_room:
+      state: on
+      brightness: 255
+- name: leaving_home
+  entities:
+    light.wink_hallway: on
+- name: every_one_inside
+  entities:
+    light.wink_front_porch: off
+    switch.wink_back_flood: off
+- name: trash_time
+  entities:
+    light.wink_front_porch: on
+    switch.wink_back_flood: on

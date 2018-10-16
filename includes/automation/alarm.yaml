@@ -1,0 +1,51 @@
+- alias: Ryan Alarm Mon-Tue-Thu
+  trigger:
+    - platform: time
+      at: '05:30:00'
+  condition: 
+    - condition: time
+      before: '05:59:00'
+      weekday:
+       - mon
+       - tue
+       - thu
+    - condition: state
+      entity_id: input_boolean.alarm_ryan
+      state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.wink_led_strip_bed
+      data:
+       brightness: 100
+#   - delay:
+#       minutes: 10
+#   - service: homeassistant.turn_on
+#     entity_id: light.wink_bed_room
+#     data:
+#      brightness: 1
+
+
+- alias: Ryan Alarm Wed-Fri
+  trigger:
+    - platform: time
+      at: '06:30:00'
+  condition: 
+    - condition: time
+      before: '06:45:00'
+      weekday:
+      - wed
+      - fri
+    - condition: state
+      entity_id: input_boolean.alarm_ryan
+      state: 'on'
+  action:
+   - service: homeassistant.turn_on
+     entity_id: light.wink_led_strip_bed
+     data:
+      brightness: 100
+#   - delay:
+#       minutes: 10
+#   - service: homeassistant.turn_on
+#     entity_id: light.wink_bed_room
+#     data:
+#      brightness: 1

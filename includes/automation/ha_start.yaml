@@ -1,0 +1,133 @@
+- alias: HA Starts - Send Message
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - delay: 00:00:15
+#   - service: notify.ios_ryans_iphone_app
+#     data:
+#      title: 'Home Assistant Start'
+#     data_template:
+#          message: >
+#            Hot Water is {{ states('switch.wink_zwaveoutlet') }}
+#            
+#            Dasher is {{ states('sensor.process_dasher') }}
+#            
+#            HomeBridge is {{ states('sensor.process_homebridge') }}
+#            
+#            Wink Hub is {{ states('binary_sensor.wink_hub') }}
+#            
+#            Appdaemon is {{ states('sensor.process_appdaemon') }}
+    - service: notify.ios_ryans_iphone_app
+      data_template:
+        title: "Ha Start"
+        message: >
+          {% for entity in states.group.processes.attributes.entity_id if is_state(entity, 'on')-%}
+          {% set closed_loop = loop %}
+            {%- if closed_loop.length ==6 and closed_loop.first %}All the processes are running.{% endif -%}
+            {%- if closed_loop.length <6 %}
+            {%- if closed_loop.first %}Running:  {% elif closed_loop.last %} and {% else %} {% endif -%}
+              {{state_attr(entity, 'friendly_name')}}
+            {%- endif %}
+          {%- endfor %}
+       
+          {% for entity in states.group.processes.attributes.entity_id if is_state(entity, 'off')-%}
+          {% set open_loop = loop %}
+            {%- if open_loop.length ==6 and open_loop.first %}All the processes are stopped.{% endif -%}
+            {%- if open_loop.length <6 %}
+            {%- if open_loop.first %}Stopped:  {% elif open_loop.last %} and {% else %} {% endif -%}
+              {{state_attr(entity, 'friendly_name')}}
+            {%- endif %}
+          {%- endfor %}
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sonoff_basement/POWER"
+        payload: ""
+    - delay: 00:00:20
+    - service: notify.ios_ryans_iphone_app
+      data:
+       message: request_location_update
+    - service: notify.ios_chelseas_iphone_app
+      data:
+       message: request_location_update
+#   - service: homeassistant.turn_on
+#     entity_id: input_boolean.ha_start_delay
+    - delay: 00:00:20
+    - service: notify.ios_ryans_iphone_app
+      data:
+       message: request_location_update
+    - service: notify.ios_chelseas_iphone_app
+      data:
+       message: request_location_update
+    - delay: 00:05
+    - service: homekit.start
+      
+#####################################################################
+### Delay automations that trigger on restart; i.e. presence-detection
+#####################################################################
+
+#- alias: delay on restart
+#  trigger:
+#    platform: homeassistant
+#    event: start
+
+#  action:
+#    - service: automation.turn_off
+#      entity_id: automation.send_message_on_state_changes
+
+#    - delay:
+#        minutes: 1
+
+#    - service: automation.turn_on
+#      entity_id: automation.send_message_on_state_changes
+
+
+
+
+- alias: HA Stop - Send Message stop timers
+  trigger:
+    - platform: homeassistant
+      event: shutdown
+  action:
+    - service: notify.ios_ryans_iphone_app
+      data:
+       title: 'Home Assistant Stop'
+      data_template:
+           message: >
+             Ha is Shutting Down
+    - service: timer.finish
+
+
+
+- alias: HA Start - Set front timers if lights on
+  trigger:
+    - platform: homeassistant
+      event: start
+  condition:
+     - condition: state
+       entity_id: light.wink_front_porch
+       state: 'on'
+  action:
+    - service: timer.start
+      entity_id: timer.front_porch
+      data:
+        duration: '00:10:00'
+        
+        
+- alias: HA Start - Set flood timers if lights on
+  trigger:
+    - platform: homeassistant
+      event: start
+  condition:
+     - condition: state
+       entity_id: switch.wink_back_flood
+       state: 'on'
+  action:
+    - service: timer.start
+      entity_id: timer.back_flood
+      data:
+        duration: '00:10:00'
+
+        
+        
+             

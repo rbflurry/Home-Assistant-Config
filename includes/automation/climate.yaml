@@ -1,0 +1,80 @@
+- alias: Climate - Send Message on colder outside than inside
+#  initial_to: True
+  trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_temperature
+  condition:
+     - condition: state
+       entity_id: climate.home
+       state: 'cool'
+     - condition: template
+       value_template: '{{ states.sensor.dark_sky_temperature.state < states.input_number.climate_set_temp.state }}'
+     - condition: state
+       entity_id: cover.windows
+       state: 'closed'
+  action:
+    - service: notify.ios_ryans_iphone_app
+      data_template:
+        title: 'Colder outside than inside set temp.'
+        message: >
+          Outside temp is {{ states.sensor.dark_sky_temperature.state }} and inside set temp is {{ states.input_number.climate_set_temp.state }} Cool is off
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.home
+        operation_mode: 'off'
+
+
+
+- alias: Climate - Send Message on hotter outside than inside
+#  initial_state:: True
+  trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_temperature
+  condition:
+     - condition: state
+       entity_id: climate.home
+       state: 'off'
+     - condition: template
+       value_template: '{{ states.sensor.dark_sky_temperature.state > states.input_number.climate_set_temp.state }}'
+     - condition: state
+       entity_id: cover.windows
+       state: 'closed'
+  action:
+    - service: notify.ios_ryans_iphone_app
+      data_template:
+        title: 'Hotter outside than inside set temp.'
+        message: >
+          Outside temp is {{ states.sensor.dark_sky_temperature.state }} and inside set temp is {{ states.input_number.climate_set_temp.state }} Cool is on
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.home
+        operation_mode: 'cool'
+
+
+- alias: Climate - Set backdrop slider
+#  initial_state:: True
+  trigger:
+    platform: state
+    entity_id: sensor.climate_set_temp
+  condition:
+    condition: template
+    value_template: "{{ states.sensor.climate_set_temp.state != 'None' }}"
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.climate_set_temp
+      value: '{{  states.sensor.climate_set_temp.state  }}'
+      
+      
+      
+- alias: Climate - windows open turn off climate
+#  initial_to: True
+  trigger:
+    - platform: state
+      entity_id: cover.windows
+      to: 'open'
+  action:
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.home
+        operation_mode: 'off'

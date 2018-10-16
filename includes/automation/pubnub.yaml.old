@@ -1,0 +1,12 @@
+- alias: pubnub_update
+  trigger:
+   platform: time
+   minutes: 25
+   seconds: 30
+#  condition:
+#    - condition: state
+#      entity_id: light.basement
+#      state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: script.pubnub_update

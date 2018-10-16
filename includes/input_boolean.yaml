@@ -1,0 +1,27 @@
+  test:
+    name: test
+    initial: off
+  device_ryan:
+    name: Ryan Home
+    icon: mdi:cellphone-iphone
+  device_chelsea:
+    name: Chelsea Home
+    icon: mdi:cellphone-iphone
+  alarm_ryan:
+    name: Ryan Alarm
+    icon: mdi:clock
+  house_guest:
+    name: House Guest
+  vacation_mode:
+    name: Vacation Mode
+  chicken_door:
+    name: Chicken Door
+  good_morning:
+    name: good morning
+  good_night:
+    name: good night
+  tv_time_delay:
+    name: tv time delay
+  chicken_door_last_call:
+    initial: off
+    name: Chicken Door last Call

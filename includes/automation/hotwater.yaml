@@ -1,0 +1,60 @@
+- alias: Hotwater - Turn off hot water at 8 if no one is home
+  trigger:
+   platform: time
+   at: '08:00:00'
+  condition:
+     - condition: state
+       entity_id: group.device_family
+       state: 'not_home'
+     - condition: state
+       entity_id: input_boolean.house_guest
+       state: 'off'
+  action:
+   service: homeassistant.turn_off
+   entity_id: switch.wink_zwaveoutlet
+   
+- alias: Turn on hot water at 5
+  trigger:
+   platform: time
+   at: '17:00:00'
+  action:
+   service: homeassistant.turn_on
+   entity_id: switch.wink_zwaveoutlet
+   
+   
+   
+   
+- alias: Hotwater -  Came home early
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app
+    from: 'not_home'
+    to: 'home'
+    for:
+      minutes: 10
+  condition:
+     - condition: state
+       entity_id: switch.wink_zwaveoutlet
+       state: 'off'
+     - condition: template
+       value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
+  action:
+    -  service: notify.ios_ryans_iphone_app
+       data_template:
+         title: "You are Home and ..."
+         message: >
+           The Hotwater is off.
+         data:
+           push:
+             category: 'hot_water'
+             
+- alias: Hotwater - IOS
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+  condition:
+   condition: template
+   value_template: "{{(trigger.event.data.actionName == 'TURN_ON_HOT_WATER')}}"
+  action:
+   service: homeassistant.turn_on
+   entity_id: switch.wink_zwaveoutlet

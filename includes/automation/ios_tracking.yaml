@@ -1,0 +1,56 @@
+#- alias: Notify iOS moving
+#  trigger:
+#    platform: state
+#    entity_id: device_tracker.ryans_iphone_app
+#  action:
+#    service: notify.ios_ryans_iphone_app
+#    data_template:
+#      message: >
+#        {{trigger.from_state}}
+#        {{trigger.to_state}}
+#        {%- for attr in states.device_tracker.ryans_iphone_app.attributes -%}
+#        {%- if  attr not in ["attribution" , "friendly_name", "source_type"]%}
+#        {{attr.replace("_", " ")| capitalize}}: {{states.device_tracker.ryans_iphone_app.attributes[attr] }} 
+#        {%- endif %}
+#        {%- endfor %}
+#        {{states.device_tracker.ryans_iphone_app.state}}
+#        {{trigger.from_state}}
+#        {{trigger.to_state}}
+
+
+
+- alias: Notify iOS moving
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app
+  action:
+    service: notify.ios_ryans_iphone_app
+    data_template:
+      message: >
+         "your location"
+#        {{trigger.from_state}}
+#        {{trigger.to_state.attributes.latitude}}
+      data:
+        push:
+          category: map
+        action_data:
+          latitude: "{{trigger.to_state.attributes.latitude}}"
+          longitude: "{{trigger.to_state.attributes.longitude}}"
+
+
+#{{ states.device_tracker.ryans_iphone_app }} 
+#{{ states.device_tracker.ryans_iphone_app.attributes.latitude}}
+
+
+- alias: Notify iOS moving test
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app
+  action:
+    service: notify.ios_ryans_iphone_app
+    data_template:
+      message: >
+        {{trigger.from_state}}
+        {{trigger.to_state}}

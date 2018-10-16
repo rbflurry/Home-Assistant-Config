@@ -1,0 +1,22 @@
+- alias: Office Brightness
+  trigger:
+    platform: state
+    entity_id: input_number.auto_light_minutes
+  condition:
+    - condition: numeric_state
+      entity_id: input_number.auto_light_minutes
+      above: 0.0
+  action:
+    service: light.turn_on
+    data_template: 
+       entity_id: light.wink_chicken_light
+       brightness: '{{ trigger.to_state.state | int }}'
+
+- alias: Office Office
+  trigger:
+    platform: state
+    entity_id: input_number.auto_light_minutes
+    to: '0.0'
+  action:
+    service: light.turn_off
+    entity_id: light.wink_chicken_light

@@ -1,0 +1,40 @@
+- alias: Turn Off flood if no one is home for five minutes.
+  trigger:
+   platform: state
+   entity_id: group.device_family
+   to: 'not_home'
+   for:
+     minutes: 5
+  condition:
+     - condition: state
+       entity_id: switch.wink_back_flood
+       state: 'on'
+     - condition: state
+       entity_id: script.timer_flood_off
+       state: 'off'
+     - condition: state
+       entity_id: input_boolean.house_guest
+       state: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.wink_back_flood
+
+      
+      
+- alias: Turn Off outside lights if no one is home for five minutes and sun is up.
+  trigger:
+   platform: state
+   entity_id: group.device_family
+   to: 'not_home'
+   for:
+     minutes: 5
+  condition:
+     - condition: state
+       entity_id: sun.sun
+       state: 'above_horizon'
+     - condition: state
+       entity_id: group.outdoor_lights
+       state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.outdoor_lights

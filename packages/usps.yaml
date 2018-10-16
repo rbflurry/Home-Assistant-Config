@@ -1,0 +1,39 @@
+################################################################
+## Packages / USPS
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    packages.usps: &customize
+      package: 'usps'
+      hidden: true
+      haaska_hidden: true
+      homebridge_hidden: true
+      emulated_hue_hidden: true
+#      emulated_hue_name: "back office light"
+
+################################################
+## Platform
+################################################
+
+#usps:
+#  username: rabittn
+#  password: !secret usps
+#  name: myusps
+#  driver: 'chrome'
+  
+  
+  
+group:
+  usps_mail:
+    name: USPS
+    control: hidden
+    view: no
+    entities:
+      - sensor.myusps_mail
+      - sensor.myusps_packages
+      - camera.myusps_mail

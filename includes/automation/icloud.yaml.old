@@ -1,0 +1,8 @@
+- alias: I cloud test
+  trigger:
+    platform: template
+    value_template: '{{states.device_tracker.ryaniphone.attributes.interval != 60 }}'
+  action:
+    - service: device_tracker.icloud_set_interval
+      data:
+        interval: 60

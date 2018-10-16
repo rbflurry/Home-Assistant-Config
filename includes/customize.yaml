@@ -1,0 +1,194 @@
+#      friendly_name: Chicken Coop
+
+
+
+#####################
+### Sensors
+#####################
+
+    sensor.garage_motion_sensor_temperature:
+      friendly_name: Basement Temp_motion
+    sensor.device_ryan_to_home:
+      friendly_name: Ryan To Home
+    sensor.device_ryan_to_work:
+      friendly_name: Ryan To Work
+    sensor.device_chelsea_to_home:
+      friendly_name: Chelsea To Home
+    sensor.device_chelsea_to_work:
+      friendly_name: Chelsea To Work
+    sensor.vent_temp:
+      icon: 'mdi:temperature-fahrenheit'
+    sensor.vent_humidity:
+      icon: 'mdi:water-percent'
+    sensor.basement_temp:
+      icon: 'mdi:temperature-fahrenheit'
+    sensor.basement_humidity:
+      icon: 'mdi:water-percent'
+    sensor.recycle_day:
+      friendly_name: Is it Recycle Day today?
+      icon: mdi:recycle
+    sensor.trash_day:
+      friendly_name: Is it Trash Day today?
+      icon: mdi:delete-variant
+    binary_sensor.wink_back_door_opened:
+      friendly_name: Back Door
+    binary_sensor.wink_basement_door_opened:
+      friendly_name: Basement Door
+    binary_sensor.wink_front_door_opened:
+      friendly_name: Front Door
+    binary_sensor.wink_garage_entry_opened:
+      friendly_name: Garage Entry
+    sensor.process_appdaemon:
+      friendly_name: Appdaemon
+    binary_sensor.template_wink_hub:
+      friendly_name: Wink Hub
+    sensor.process_dasher:
+      friendly_name: Dasher
+    sensor.process_mosquitto:
+      friendly_name: Mosquitto
+
+#####################
+### Cover
+#####################
+
+    cover.myq_First_Bay:
+      friendly_name: Myq First Bay
+      icon: 'mdi:glassdoor'
+    cover.myq_Second_Bay:
+      friendly_name: Myq Second Bay
+      icon: 'mdi:glassdoor'
+    cover.myq_Third_Bay:
+      friendly_name: Myq Third Bay
+      icon: 'mdi:glassdoor'
+    cover.wink_first_bay:
+      friendly_name: First Bay
+    cover.wink_second_bay:
+      friendly_name: Second Bay
+    cover.wink_third_bay:
+      friendly_name: Third Bay
+    cover.chicken_door:
+      friendly_name: Chicken Coop
+    # cover.windows:
+
+#####################
+### Groups
+#####################
+
+    group.all_switches:
+      hidden: false
+      control: hidden
+    group.all_lights:
+      hidden: false
+    group.all_covers:
+      hidden: false
+    group.all_automations:
+      hidden: false
+    group.all_scripts:
+      hidden: false
+      control: hidden
+    # group.garage:
+    group.all_devices:
+      hidden: false
+      control: false
+      
+
+#####################
+### Switch
+#####################
+
+    switch.wink_switch:
+      hidden: true
+    # switch.garage_siren:
+    # switch.wink_back_flood:
+    # switch.wink_basement:
+    # switch.wink_kitchen:
+    switch.garage_lights:
+      hidden: true
+    switch.second_garage_switch:
+      hidden: true
+    switch.esp2:
+      friendly_name: Outside Outlets
+    switch.esp1:
+      friendly_name: Garage Lights
+    switch.esp3:
+      friendly_name: Chicken Fan
+      icon: 'mdi:fan'
+    switch.esp5:
+      friendly_name: Barn Light
+    switch.wink_zwaveoutlet:
+      friendly_name: Hot Water
+      icon: 'mdi:water-pump'
+    switch.wifi_switch1:
+      friendly_name: Brooder Lamp
+#    switch.wifi_switch1:
+#      friendly_name: Chicken Fan
+#      icon: 'mdi:fan'
+
+#####################
+### Input Booleans
+#####################
+
+    input_boolean.device_ryan:
+      persistent: true
+    input_boolean.alarm_ryan:
+      persistent: true
+    input_boolean.device_chelsea:
+      persistent: true
+    input_boolean.vacation_mode:
+      friendly_name: "Vacation Mode"
+      hidden: false
+      icon: 'mdi:beach'
+
+      
+#####################
+### Input NUmber
+#####################     
+    input_number.internet_traffic_delta_in:
+      persistent: false
+    input_number.internet_traffic_delta_out:
+      persistent: false
+
+#####################
+### Light
+#####################
+
+    # light.wink_front_porch:
+    # light.wink_bed_room:
+    # light.wink_hallway:
+    # light.wink_living_room:
+    # light.wink_office:
+      
+      
+#####################
+### Binary Sensor
+#####################
+
+    binary_sensor.wink_hallway_smoke_detector_co_detected:
+      friendly_name: CO Detector
+    binary_sensor.wink_hallway_smoke_detector_smoke_detected:
+      friendly_name: Smoke Detector
+
+#####################
+### Other
+#####################
+
+    # media_player.ryans_chrome_portal:
+      
+      
+#####################
+### Automations
+#####################
+    automation.persistence_enable_automations:
+      persistent: false
+
+    automation.persistence_publish:
+      persistent: false
+
+    automation.persistence_subscribe_binary:
+      persistent: false
+
+    automation.persistence_subscribe_select_option:
+      persistent: false
+
+    automation.persistence_subscribe_select_value:
+      persistent: false

@@ -1,0 +1,19 @@
+radio_station:
+  name: Radio Station
+  options:
+    - 'Z104.3'
+    - 'WPOC 93.1'
+    - 'Hot 99.5'
+    - "None"
+  initial: "None"
+  icon: mdi:radio
+
+speakers:
+  name: Speakers
+  options:
+    - Garage
+#    - Office
+#    - All
+    - "None"
+  initial: "Garage"
+  icon: mdi:speaker

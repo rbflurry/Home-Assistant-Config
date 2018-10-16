@@ -1,0 +1,14 @@
+- alias: Bedroom -  Bed Lights
+  trigger:
+    platform: state
+    entity_id: light.wink_led_strip_bed
+    to: 'on'
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.wink_led_strip_bed
+      data:
+        profile: relax

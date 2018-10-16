@@ -1,0 +1,407 @@
+#- platform: template
+#  sensors:
+#    front_door_clean:
+#      value_template: '{% if is_state("binary_sensor.wink_front_door_opened", "on") %}Open{% else %}Closed{% endif %}'
+#      friendly_name: 'Front Door'
+#      entity_id: binary_sensor.wink_front_door_opened
+#    back_door_clean:
+#      value_template: '{% if is_state("binary_sensor.wink_back_door_opened", "on") %}Open{% else %}Closed{% endif %}'
+#      friendly_name: 'Back Door'
+#      entity_id: binary_sensor.wink_back_door_opened
+#    garage_motion_clean:
+#      value_template: '{% if is_state("binary_sensor.garage_motion_sensor_motion", "on") %}True{% else %}False{% endif %}'
+#      friendly_name: 'Garage Motion'
+#      entity_id: binary_sensor.garage_motion_sensor_motion
+#    garage_entry_clean:
+#      value_template: '{% if is_state("binary_sensor.wink_garage_entry_opened", "on") %}Open{% else %}Closed{% endif %}'
+#      friendly_name: 'Back Door'
+#      entity_id: binary_sensor.wink_garage_entry_opened
+#    basement_door_clean:
+#      value_template: '{% if is_state("binary_sensor.wink_basement_door_opened", "on") %}Open{% else %}Closed{% endif %}'
+#      friendly_name: 'Back Door'
+#      entity_id: binary_sensor.wink_basement_door_opened
+#    ha_uptime: # i broke this when i disabled ha_start_delay
+#      value_template: '{{ relative_time(states.input_boolean.ha_start_delay.last_changed)}}'
+#      friendly_name: 'HA uptime'
+#      entity_id: sensor.time
+#    my_destination:
+#      value_template: '{%-if is_state("device_tracker.ryaniphone","Thales")-%}Home{%- else -%}zone.Thales{%- endif %}'
+#      friendly_name: 'My Destination'
+- platform: template
+  sensors:
+     ryan_iphone_ap:
+       value_template: >-
+         {% if is_state('device_tracker.ryans_iphone_wifi', 'home') and is_state_attr('device_tracker.ryans_iphone_wifi', 'ap_mac', "04:18:d6:6c:62:05" ) %}
+           House
+         {% elif is_state('device_tracker.ryans_iphone_wifi', 'home') and is_state_attr('device_tracker.ryans_iphone_wifi', 'ap_mac', "04:18:d6:4e:51:d2" ) %}
+            Garage
+         {% else %}
+            Unknown
+         {% endif %}
+     chelsea_iphone_ap:
+       value_template: >-
+         {% if is_state('device_tracker.chelseasiphone_wifi', 'home') and is_state_attr('device_tracker.chelseasiphone_wifi', 'ap_mac', "04:18:d6:6c:62:05" ) %}
+           House
+         {% elif is_state('device_tracker.chelseasiphone_wifi', 'home') and is_state_attr('device_tracker.chelseasiphone_wifi', 'ap_mac', "04:18:d6:4e:51:d2" ) %}
+            Garage
+         {% else %}
+            Unknown
+         {% endif %}
+###############################################################################
+# Sensor to hold info about current week is an odd week or an even week of the year
+###############################################################################
+- platform: template
+  sensors:
+    current_week:
+      value_template: >-
+        {%- if (as_timestamp(now()) | timestamp_custom('%W', true) | int ) % 2 == 0 -%}
+          Even Week (Week# {{ as_timestamp(now()) | timestamp_custom('%W', true) }})
+        {%- else -%}
+          Odd Week (Week# {{ as_timestamp(now()) | timestamp_custom('%W', true) }})
+        {%- endif -%}
+###############################################################################
+# Trash  - Pickup schedule is EVERY week.
+# Set the day to a day before the actual day leaving time for reminders
+###############################################################################
+
+- platform: template
+  sensors:
+    trash_day:
+      value_template: >-
+        {%- set pickupDay = monday | lower -%}
+        {%- macro day_of_week(timestamp) -%}
+          {{ as_timestamp(timestamp)| timestamp_custom('%A', true) | lower }}
+        {%- endmacro -%}
+        {%- if day_of_week(now()) == pickupDay -%}
+          yes
+        {%- else -%}
+          no
+        {%- endif -%}
+###############################################################################
+# Recycle - Pickup schedule is every other week.
+# Set the day to a day before the actual day leaving time for reminders
+###############################################################################
+
+- platform: template
+  sensors:
+    recycle_day:
+      value_template: >-
+        {%- set pickupDay = monday | lower -%}
+        {%- set evenWeekPickup = false %}
+        {%- macro day_of_week(timestamp) -%}
+          {{ as_timestamp(timestamp)| timestamp_custom('%A', true) | lower }}
+        {%- endmacro %}      
+        {%- macro week_number_of_year() -%}
+          {{ as_timestamp(now()) | timestamp_custom('%W', true) | int }}
+        {%- endmacro %}
+        {%- macro is_it_this_week() -%}
+          {%- if as_timestamp(now()) | timestamp_custom('%W', true) | int % 2 == 0 -%}
+            {%- if evenWeekPickup == true -%}
+              true
+            {%- else -%}
+              false
+            {%- endif -%}
+          {%- else -%}
+            {%- if evenWeekPickup == true -%}
+              false
+            {%- else -%}
+              true
+            {%- endif -%}
+          {%- endif -%}
+        {%- endmacro -%}
+        {%- macro is_it_today() -%}
+        {%- if is_it_this_week() == "true" -%}
+          {%- if day_of_week(now()) | lower == pickupDay -%}
+            yes
+          {%- else -%}
+            no
+          {%- endif -%}
+        {%- else -%}
+          no
+        {%- endif -%}
+        {%- endmacro -%}
+        {{- is_it_today() -}}
+
+        
+#######################################
+### HEAT
+#######################################
+
+
+- platform: template
+  sensors:
+    climate_set_temp:
+      value_template: '{{ states.climate.home.attributes.temperature }}'
+      friendly_name: 'Set Temp'
+      unit_of_measurement: °F
+    climate_operation:
+      value_template: '{{ states.climate.home.attributes.operation }}'
+      friendly_name: 'Operation'
+
+
+
+#######################################
+### Chicken
+#######################################
+
+- platform: template
+  sensors:
+    chicken_door_time:
+      friendly_name: 'Chicken Door Open Time'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.chicken_hour") | int, states("input_number.chicken_minutes") | int) }}'
+#    chicken_door_time_buffer:
+#      friendly_name: 'Chicken Door Open Time Buffer'
+#      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.chicken_hour") | int, states("input_number.chicken_minutes") | int +1) }}'
+#    template_chicken_age_weeks:
+#      friendly_name: 'Chicken Age'
+#      value_template: "{{ as_timestamp(now()) | timestamp_custom('%W', true)|int-18 }} Weeks"
+    chicken_door_close_time_clean:
+        icon_template: 'mdi:clock-outline'
+        friendly_name: 'Door Close at'
+        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
+    chicken_door_close_time_dirty:
+        friendly_name: 'Door Close at'        
+        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%H:%M") }}'
+    chicken_door_last_call_time_dirty:
+        friendly_name: 'Last Call Time'        
+        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%H:%M") }}'
+        #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%H:%M") }}'
+    chicken_door_last_call_time_clean:
+        icon_template: 'mdi:clock-outline'
+        friendly_name: 'Last Call Time'        
+        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%-I:%M %p") }}'
+        #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%-I:%M %p") }}'
+    sun_next_setting:
+        friendly_name: 'Next Sunset'
+        value_template: '{{(as_timestamp(states.sun.sun.attributes.next_setting)) | timestamp_custom("%I:%M %p") }}'
+    sun_next_rising:
+        friendly_name: 'Next Sunrise'
+        value_template: '{{(as_timestamp(states.sun.sun.attributes.next_rising)) | timestamp_custom("%I:%M %p") }}'
+    sun_elevation:
+        friendly_name: 'Sun Elevation'
+        value_template: '{{states.sun.sun.attributes.elevation}}'
+    chicken_age_batch1:
+        icon_template: 'mdi:calendar-clock'
+        value_template: >-
+            {%  set value = as_timestamp(utcnow()) - as_timestamp("2017-05-01T00:00:00-05:00")      %}
+            {% set uptime = value | int %}
+                {% set minutes = ((uptime % 3600) / 60) | int %}
+                {% set hours = ((uptime % 86400) / 3600) | int %}
+                {% set days = ((uptime % 604800) / 86400) | int %}
+                {% set weeks = ((uptime % 2629746) / 604800) | int %}
+                {% set months = ((uptime % 31557600) / 2629746) | int %}
+                {% set years = (uptime / 31557600) | int %}
+
+                {%- if uptime < 60 -%}
+                  Less than a minute
+                {%- else -%}
+                  {%- if years > 0 -%}
+                    {%- if years == 1 -%}
+                      1 year 
+                    {%- else -%}
+                      {{ years }} years 
+                    {%- endif -%}
+                    {%- if years > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if months > 0 -%}
+                    {%- if months == 1 -%}
+                      1 month 
+                    {%- else -%}
+                      {{ months }} months 
+                    {%- endif -%}
+                    {%- if months > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+             {%- if weeks > 0 -%}
+                    {%- if weeks == 1 -%}
+                      1 week
+                    {%- else -%}
+                      {{ weeks }} weeks
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if days > 0 -%}
+                    {%- if weeks > 0 -%}
+
+                      {{ ', ' }}
+                    {%- endif -%}
+                    {%- if days == 1 -%}
+                      1 day
+                    {%- else -%}
+                      {{ days }} days
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+    chicken_age_batch2:
+        icon_template: 'mdi:calendar-clock'
+        value_template: >-
+            {%  set value = as_timestamp(utcnow()) - as_timestamp("2017-11-09T00:00:00-05:00")      %}
+            {% set uptime = value | int %}
+                {% set minutes = ((uptime % 3600) / 60) | int %}
+                {% set hours = ((uptime % 86400) / 3600) | int %}
+                {% set days = ((uptime % 604800) / 86400) | int %}
+                {% set weeks = ((uptime % 2629746) / 604800) | int %}
+                {% set months = ((uptime % 31557600) / 2629746) | int %}
+                {% set years = (uptime / 31557600) | int %}
+
+                {%- if uptime < 60 -%}
+                  Less than a minute
+                {%- else -%}
+                  {%- if years > 0 -%}
+                    {%- if years == 1 -%}
+                      1 year 
+                    {%- else -%}
+                      {{ years }} years 
+                    {%- endif -%}
+                    {%- if years > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if months > 0 -%}
+                    {%- if months == 1 -%}
+                      1 month 
+                    {%- else -%}
+                      {{ months }} months 
+                    {%- endif -%}
+                    {%- if months > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+             {%- if weeks > 0 -%}
+                    {%- if weeks == 1 -%}
+                      1 week
+                    {%- else -%}
+                      {{ weeks }} weeks
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if days > 0 -%}
+                    {%- if weeks > 0 -%}
+
+                      {{ ', ' }}
+                    {%- endif -%}
+                    {%- if days == 1 -%}
+                      1 day
+                    {%- else -%}
+                      {{ days }} days
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+
+    chicken_age_batch3:
+        icon_template: 'mdi:calendar-clock'
+        value_template: >-
+            {%  set value = as_timestamp(utcnow()) - as_timestamp("2018-04-16T00:00:00-05:00")      %}
+            {% set uptime = value | int %}
+                {% set minutes = ((uptime % 3600) / 60) | int %}
+                {% set hours = ((uptime % 86400) / 3600) | int %}
+                {% set days = ((uptime % 604800) / 86400) | int %}
+                {% set weeks = ((uptime % 2629746) / 604800) | int %}
+                {% set months = ((uptime % 31557600) / 2629746) | int %}
+                {% set years = (uptime / 31557600) | int %}
+
+                {%- if uptime < 60 -%}
+                  Less than a minute
+                {%- else -%}
+                  {%- if years > 0 -%}
+                    {%- if years == 1 -%}
+                      1 year 
+                    {%- else -%}
+                      {{ years }} years 
+                    {%- endif -%}
+                    {%- if years > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if months > 0 -%}
+                    {%- if months == 1 -%}
+                      1 month 
+                    {%- else -%}
+                      {{ months }} months 
+                    {%- endif -%}
+                    {%- if months > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+             {%- if weeks > 0 -%}
+                    {%- if weeks == 1 -%}
+                      1 week
+                    {%- else -%}
+                      {{ weeks }} weeks
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if days > 0 -%}
+                    {%- if weeks > 0 -%}
+
+                      {{ ', ' }}
+                    {%- endif -%}
+                    {%- if days == 1 -%}
+                      1 day
+                    {%- else -%}
+                      {{ days }} days
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+                
+    chicken_age_batch4:
+        icon_template: 'mdi:calendar-clock'
+        friendly_name: 'Guineas'
+        value_template: >-
+            {%  set value = as_timestamp(utcnow()) - as_timestamp("2018-08-10T00:00:00-05:00")      %}
+            {% set uptime = value | int %}
+                {% set minutes = ((uptime % 3600) / 60) | int %}
+                {% set hours = ((uptime % 86400) / 3600) | int %}
+                {% set days = ((uptime % 604800) / 86400) | int %}
+                {% set weeks = ((uptime % 2629746) / 604800) | int %}
+                {% set months = ((uptime % 31557600) / 2629746) | int %}
+                {% set years = (uptime / 31557600) | int %}
+
+                {%- if uptime < 60 -%}
+                  Less than a minute
+                {%- else -%}
+                  {%- if years > 0 -%}
+                    {%- if years == 1 -%}
+                      1 year 
+                    {%- else -%}
+                      {{ years }} years 
+                    {%- endif -%}
+                    {%- if years > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if months > 0 -%}
+                    {%- if months == 1 -%}
+                      1 month 
+                    {%- else -%}
+                      {{ months }} months 
+                    {%- endif -%}
+                    {%- if months > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+             {%- if weeks > 0 -%}
+                    {%- if weeks == 1 -%}
+                      1 week
+                    {%- else -%}
+                      {{ weeks }} weeks
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if days > 0 -%}
+                    {%- if weeks > 0 -%}
+
+                      {{ ', ' }}
+                    {%- endif -%}
+                    {%- if days == 1 -%}
+                      1 day
+                    {%- else -%}
+                      {{ days }} days
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+                
+    brooder_target_temp:
+        friendly_name: 'Brooder Target Temp'
+        unit_of_measurement: °F
+        value_template: >-
+            {{(95-((as_timestamp(utcnow()) - as_timestamp("2018-08-10T00:00:00-05:00")) / 604800)|int * 5 )}}

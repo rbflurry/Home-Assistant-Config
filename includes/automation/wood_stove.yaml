@@ -1,0 +1,25 @@
+- alias: "Wood Stove - Set Fan On Time"
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: sensor.basement_temp
+  condition:
+    - condition: template
+      value_template: '{{ states.sensor.basement_temp.state > "66" }}'
+  action:
+     - service: climate.ecobee_set_fan_min_on_time
+       data_template:
+         fan_min_on_time: 30
+- alias: "Wood Stove - Turn off fan off"
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: sensor.basement_temp
+  condition:
+    - condition: template
+      value_template: '{{ states.sensor.basement_temp.state < "65" }}'
+  action:
+     - service: climate.set_fan_mode
+       data:
+         entity_id: climate.home
+         fan_mode: 'Auto'

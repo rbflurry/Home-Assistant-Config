@@ -1,0 +1,37 @@
+################################################################
+## Packages / front porch
+################################################################
+
+################################################
+## Customize
+################################################
+
+
+
+################################################
+## timer Platform
+################################################
+
+timer:
+  front_porch:
+
+
+  
+################################################
+## basement_light Automation
+################################################
+
+
+automation:
+  - alias: "timer - front porch"
+    trigger:
+      platform: event
+      event_type:  timer.finished
+      event_data:
+        entity_id: timer.front_porch
+    action:
+    - service: homeassistant.turn_off
+      entity_id: light.wink_front_porch
+
+
+

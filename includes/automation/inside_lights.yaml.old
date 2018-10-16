@@ -1,0 +1,13 @@
+- alias: turn off inside lights at 8am
+  trigger:
+   platform: time
+   hours: 08
+   minutes: 01
+   seconds: 01
+  condition:
+     - condition: state
+       entity_id: group.indoor_lights
+       state: 'on'
+  action:
+   service: homeassistant.turn_off
+   entity_id: group.indoor_lights

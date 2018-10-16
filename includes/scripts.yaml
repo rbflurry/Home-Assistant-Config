@@ -1,0 +1,184 @@
+#timed_lamp:
+#  alias: "Turn on front porch and set timer"
+#  sequence:
+#    - service: homeassistant.turn_on
+#      entity_id: switch.frontporch_lc1, light.wink_front_porch
+    # Cancel ev. old timers
+#    - service: script.turn_off
+#      entity_id: script.timer_off
+    # Set new timer
+#    - service: script.turn_on
+#      entity_id: script.timer_off
+
+#timer_off:
+#  alias: "Turn off front porch after 10 minutes"
+#  sequence:
+#    - delay:
+#        minutes: 10
+#    - service: homeassistant.turn_off
+#      entity_id: light.wink_front_porch, switch.frontporch_lc1
+        
+          
+#timed_flood_lamp:
+#  alias: "Turn on flood and set timer"
+#  sequence:
+#    - service: wink_lc_service.set
+#      data:
+#        {"devicetype": "lights", "id": "7", "action": "true"}  
+#    - service: homeassistant.turn_on
+#      entity_id: switch.floodlight_lc1, switch.wink_back_flood
+    # Cancel ev. old timers
+#    - service: script.turn_off
+#      entity_id: script.timer_flood_off
+    # Set new timer
+#    - service: script.turn_on
+#      entity_id: script.timer_flood_off
+
+          
+          
+#timer_flood_off:
+#  alias: "Turn off flood after 10 minutes"
+#  sequence:
+#    - delay:
+#        minutes: 10
+#    - service: homeassistant.turn_off
+#      entity_id: switch.wink_back_flood, switch.floodlight_lc1
+      
+      
+      
+      
+#timed_garage_lamp:
+#  alias: "Turn on garage and set timer"
+#  sequence:
+#    - service: homeassistant.turn_on
+#      entity_id: switch.esp1
+#    # Cancel ev. old timers
+#    - service: script.turn_off
+#      entity_id: script.timer_garage_off
+#    # Set new timer
+#    - service: script.turn_on
+#      entity_id: script.timer_garage_off
+
+          
+#timer_garage_off:
+#  alias: "Turn off garage after 10 minutes"
+#  sequence:
+#    - delay:
+#        minutes: 10
+#    - service: homeassistant.turn_off
+#      entity_id: switch.esp1
+        
+        
+          
+#reload_groups:
+#  alias: "Reload Groups"
+#  sequence:
+#    - service: group.reload
+    
+#reload_automation:
+#  alias: "Reload Automation"
+#  sequence:
+#    - service: automation.reload
+      
+#reload_core:
+#  alias: "Reload Core"
+#  sequence:
+#    - service: homeassistant.reload_core_config
+
+      
+#restart_hass:
+#  alias: "Restart HASS"
+#  sequence:
+#    - service: homeassistant.restart
+    
+test_light:
+  alias: "testlight"
+  sequence:
+#    - delay:
+#        minutes: 10
+    - service: homeassistant.turn_on
+      entity_id: light.basement
+      data:
+       brightness: 250
+    - service: homeassistant.turn_on
+      entity_id: light.basement
+      data:
+       brightness: 200
+    - service: homeassistant.turn_on
+      entity_id: light.basement
+      data:
+       brightness: 150
+    - service: homeassistant.turn_on
+      entity_id: light.basement
+      data:
+       brightness: 100
+    - service: homeassistant.turn_on
+      entity_id: light.basement
+      data:
+       brightness: 50
+    - service: homeassistant.turn_on
+      entity_id: light.basement
+      data:
+       brightness: 1
+  
+ 
+ 
+request_location:
+  alias: "Request iOS location"
+  sequence:
+   - service: notify.ios_ryans_iphone_app
+     data:
+      message: request_location_update
+   - service: notify.ios_chelseas_iphone_app
+     data:
+      message: request_location_update
+      
+      
+#chicken_door:
+#  alias: "Toggle the chicken door"
+#  sequence:
+#    - service: homeassistant.turn_off
+#      entity_id: switch.esp3
+#    - service: homeassistant.turn_on
+#      entity_id: switch.esp3
+#    - delay:
+#        seconds: 15
+#    - service: homeassistant.turn_off
+#      entity_id: switch.esp3
+
+test_script:
+  alias: test wait
+  sequence:
+    - service: notify.ios_ryans_iphone_app
+      data:
+        message: "before wait is state"
+    - wait_template: "{{is_state('input_boolean.test', 'on')}}"
+      timeout: 00:01:00
+    - service: notify.ios_ryans_iphone_app
+      data:
+        message: "after wait is state"
+        
+        
+        
+        
+timed_basement_lamp:
+  alias: "Turn on basement and set timer"
+  sequence:
+    - service: homeassistant.turn_on
+      entity_id: switch.wink_basement
+    # Cancel ev. old timers
+    - service: script.turn_off
+      entity_id: script.timer_basement_off
+    # Set new timer
+    - service: script.turn_on
+      entity_id: script.timer_basement_off
+
+          
+          
+timer_basement_off:
+  alias: "Turn off basement after 10 minutes"
+  sequence:
+    - delay:
+        minutes: 10
+    - service: homeassistant.turn_off
+      entity_id: switch.wink_basement

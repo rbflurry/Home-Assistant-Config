@@ -1,0 +1,49 @@
+################################################################
+## Packages / back_flood
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    packages.back_flood: &customize
+      package: 'back_flood'
+
+    packages.back_flood_exposed: &customize_exposed
+      <<: *customize
+      haaska_hidden: false
+      homebridge_hidden: false
+
+    binary_sensor.guest_bedroom_occupancy:
+      <<: *customize_exposed
+      friendly_name: "Guest Bedroom Occupancy"
+      device_class: occupancy
+
+
+################################################
+## timer Platform
+################################################
+
+timer:
+  back_flood:
+
+
+  
+################################################
+## back_flood Automation
+################################################
+
+
+automation:
+  - alias: "timer - back flood"
+    trigger:
+      platform: event
+      event_type:  timer.finished
+      event_data:
+        entity_id: timer.back_flood
+    action:
+    - service: homeassistant.turn_off
+      entity_id: switch.wink_back_flood, switch.floodlight_lc1
+         

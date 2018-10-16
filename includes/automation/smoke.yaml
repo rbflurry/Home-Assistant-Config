@@ -1,0 +1,37 @@
+- alias: Smoke Detected
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_hallway_smoke_detector_smoke_detected, binary_sensor.wink_hallway_smoke_detector_co_detected
+      from: 'off'
+      to: 'on'
+#    - platform: state
+#      entity_id: binary_sensor.wink_hallway_smoke_detector_co_detected
+#      from: 'off'
+#      to: 'on'
+  action:
+    - service: shell_command.call_ryan
+    - service: shell_command.call_chelsea
+    - service: notify.ios_group
+      data_template:
+        title: 'CO or Smoke Detected'
+        message: >
+          {% set door = trigger.entity_id.split('.')[1] | capitalize %}
+          "{{ door }} Triggered at Home"
+    - service: homeassistant.turn_on
+      entity_id: group.indoor_lights
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.wink_home
+        operation_mode: off
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.wink_home
+        fan_mode: 'off'
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.home
+        operation_mode: off
+    - service: climate.set_fan_mode
+      data:
+        entity_id: climate.home
+        fan_mode: 'off'

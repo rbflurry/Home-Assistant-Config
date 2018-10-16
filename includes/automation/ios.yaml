@@ -1,0 +1,228 @@
+- alias: Notify iOS app Coming
+  trigger:
+    - platform: state
+      entity_id: device_tracker.ryans_iphone_app
+      from: 'not_home'
+      to: 'home'
+#    - platform: state
+#      entity_id: device_tracker.ryan_owntracks
+#      from: 'not_home'
+#      to: 'home'
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
+  action:
+    - service: notify.file
+      data_template:
+        message: >
+         {{trigger.from_state}}
+        title: "from"
+    - service: notify.file
+      data_template:
+        message: >
+         {{trigger.to_state}}
+        title: "to"
+    - service: notify.ios_ryans_iphone_app
+      data_template:
+        title: "You are arriving home!"
+        message: >
+          {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
+          {% set closed_loop = loop %}
+            {%- if closed_loop.length ==3 and closed_loop.first %}All the doors are closed.{% endif -%}
+            {%- if closed_loop.length <3 %}
+            {%- if closed_loop.first %}Closed:  {% elif closed_loop.last %} and {% else %}{% endif -%}
+              {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+            {%- endif %}
+          {%- endfor %}
+        
+          {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'open')-%}
+          {% set open_loop = loop %}
+            {%- if open_loop.length ==3 and open_loop.first %}All the doors are Open.{% endif -%}
+            {%- if open_loop.length <3 %}
+            {%- if open_loop.first %}Open:  {% elif open_loop.last %} and {% else %}{% endif -%}
+              {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+            {%- endif %}
+          {%- endfor %}
+        data:
+          push:
+            category: 'door'
+#    - service: notify.hallway
+#      data:
+#        message: Ryan is home
+
+ 
+
+- alias: Notify iOS app Leaving
+  trigger:
+    - platform: state
+      entity_id: device_tracker.ryans_iphone_app
+      from: 'home'
+      to: 'not_home'
+#    - platform: state
+#      entity_id: device_tracker.ryan_owntracks
+#      to: 'not_home'
+#      from: 'home'
+  condition:
+   condition: template
+   value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
+  action:
+#    -  service: persistent_notification.create
+#       data_template:
+#         message: >
+#          {{trigger.from_state}}
+#          {{trigger.to_state}}
+#         title: "Custom subject"
+    - service: notify.ios_ryans_iphone_app
+      data_template:
+        title: "You are leaving the house!"
+        message: >
+          {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
+          {% set closed_loop = loop %}
+            {%- if closed_loop.length ==3 and closed_loop.first %}All the doors are closed.{% endif -%}
+            {%- if closed_loop.length <3 %}
+            {%- if closed_loop.first %}Closed:  {% elif closed_loop.last %} and {% else %}{% endif -%}
+              {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+            {%- endif %}
+          {%- endfor %}
+       
+          {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'open')-%}
+          {% set open_loop = loop %}
+            {%- if open_loop.length ==3 and open_loop.first %}All the doors are Open.{% endif -%}
+            {%- if open_loop.length <3 %}
+            {%- if open_loop.first %}Open:  {% elif open_loop.last %} and {% else %}{% endif -%}
+             {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+            {%- endif %}
+            {%- endfor %}
+
+        data:
+          push:
+            category: 'door_close'
+
+
+
+- alias: iOS app replace one big
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+  condition:
+   condition: template
+   value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'GARAGE')}}"
+  action:
+   service_template: >-
+     {% if (trigger.event.data.actionName.split('_')[1] == 'OPEN') %}
+       cover.open_cover
+     {% elif (trigger.event.data.actionName.split('_')[1] == 'CLOSE') %}
+       cover.close_cover
+     {% else %}
+     {% endif %}
+   data_template:
+    entity_id: >-
+     {% if (trigger.event.data.actionName.split('_')[2] == 'FIRST') %}
+      cover.myq_first_bay, cover.wink_first_bay
+     {% elif (trigger.event.data.actionName.split('_')[2] == 'SECOND') %}
+      cover.myq_second_bay,cover.wink_second_bay
+     {% elif (trigger.event.data.actionName.split('_')[2] == 'THIRD') %}
+      cover.myq_third_bay, cover.wink_third_bay
+     {% elif (trigger.event.data.actionName.split('_')[2] == 'ALL') %}
+      group.garage
+     {% else %}
+      cover.test
+     {% endif %}
+     
+     
+     
+     
+     
+- alias: Chelsea Notify iOS app Coming
+  trigger:
+    platform: state
+    entity_id: device_tracker.chelseas_iphone_app
+    from: 'not_home'
+    to: 'home'
+  condition:
+   condition: template
+   value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
+  action:
+    service: notify.ios_chelseas_iphone_app
+    data_template:
+      title: "You are arriving home!"
+      message: >
+        {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
+        {% set closed_loop = loop %}
+          {%- if closed_loop.length ==3 and closed_loop.first %}All the doors are closed.{% endif -%}
+          {%- if closed_loop.length <3 %}
+          {%- if closed_loop.first %}Closed:  {% elif closed_loop.last %} and {% else %}{% endif -%}
+            {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+          {%- endif %}
+        {%- endfor %}
+        
+        {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'open')-%}
+        {% set open_loop = loop %}
+          {%- if open_loop.length ==3 and open_loop.first %}All the doors are Open.{% endif -%}
+          {%- if open_loop.length <3 %}
+          {%- if open_loop.first %}Open:  {% elif open_loop.last %} and {% else %}{% endif -%}
+            {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+          {%- endif %}
+        {%- endfor %}
+      data:
+        push:
+          category: 'door'
+ 
+
+- alias: Chelsea Notify iOS app Leaving
+  trigger:
+    platform: state
+    entity_id: device_tracker.chelseas_iphone_app
+    from: 'home'
+    to: 'not_home'
+  condition:
+   condition: template
+   value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
+  action:
+    service: notify.ios_chelseas_iphone_app
+    data_template:
+      title: "You are leaving the house!"
+      message: >
+        {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
+        {% set closed_loop = loop %}
+          {%- if closed_loop.length ==3 and closed_loop.first %}All the doors are closed.{% endif -%}
+          {%- if closed_loop.length <3 %}
+          {%- if closed_loop.first %}Closed:  {% elif closed_loop.last %} and {% else %}{% endif -%}
+            {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+          {%- endif %}
+        {%- endfor %}
+        
+        {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'open')-%}
+        {% set open_loop = loop %}
+          {%- if open_loop.length ==3 and open_loop.first %}All the doors are Open.{% endif -%}
+          {%- if open_loop.length <3 %}
+          {%- if open_loop.first %}Open:  {% elif open_loop.last %} and {% else %}{% endif -%}
+            {{states[entity.split('.')[0]][entity.split('.')[1]].name}}
+          {%- endif %}
+        {%- endfor %}
+      data:
+        push:
+          category: 'door_close'
+          
+          
+          
+- alias: iOS Event TroubleShoot
+  initial_state: 'off'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+#  condition:
+#   condition: template
+#   value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'GARAGE')}}"
+  action:
+    -  service: persistent_notification.create
+       data_template:
+         message: >
+          {{(trigger.event.data.actionName)}}
+          {{(trigger.event.data)}}
+#          {{(trigger.event.data.actionName.split('_')[0] == 'GARAGE')}}
+#          {{trigger.from_state}}
+#          {{trigger.to_state}}
+         title: "Ios TroubleShoot"

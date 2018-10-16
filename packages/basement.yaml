@@ -1,0 +1,34 @@
+################################################################
+## Packages / basement
+################################################################
+
+################################################
+## Customize
+################################################
+
+
+
+################################################
+## timer Platform
+################################################
+
+timer:
+  basement_light:
+
+
+  
+################################################
+## basement_light Automation
+################################################
+
+
+automation:
+  - alias: "timer - basement_light"
+    trigger:
+      platform: event
+      event_type:  timer.finished
+      event_data:
+        entity_id: timer.basement_light
+    action:
+    - service: homeassistant.turn_off
+      entity_id: switch.wink_basement

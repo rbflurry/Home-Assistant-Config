@@ -1,0 +1,21 @@
+- alias: 1. Turn on light when sun sets and noone is home
+  trigger:
+   - platform: sun
+     event: sunset
+   - platform: template
+     value_template: '{{ states.sun.sun.attributes.elevation < -4 }}'
+  condition:
+   - condition: state
+     entity_id: group.device_family
+     state: 'not_home'
+   - condition: state
+     entity_id: light.wink_hallway
+     state: 'off'
+  action:
+   -  service: light.turn_on
+      entity_id: light.wink_hallway, light.wink_front_porch
+   -  service: notify.ios_group
+      data_template:
+        title: 'No one is home'
+        message: >
+          "No one is home so I turned on the light"

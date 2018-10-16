@@ -1,0 +1,61 @@
+################################################################
+## Packages / Fire Tab
+################################################################
+
+################################################
+## Customize
+################################################
+
+
+################################################
+## Group
+################################################
+
+##http://www.ozerov.de/fully-kiosk-browser/
+
+
+################################################
+## Sensor
+################################################
+
+sensor:
+  - platform: rest
+    name: Firetab
+    json_attributes:
+      - isScreenOn
+      - batteryLevel
+      - kioskMode
+      - screenBrightness
+      - motionDetectorState
+      - maintenanceMode
+      - appFreeMemory
+      - appUsedMemory
+      - totalFreeMemory
+      - totalUsedMemory
+      - hostname4
+      - ip4
+      - mac
+      - startUrl
+      - currentPage
+      - currentFragment
+      - plugged
+    resource: !secret fully_url
+    value_template: '{{ value_json.screenBrightness }}'
+
+
+################################################
+## Notify
+################################################    
+   
+notify:
+  - name: Fire_dash
+    platform: lannouncer
+    host: 192.168.47.163
+  - name: fully
+    platform: command_line
+    command: "/root/.homeassistant/scripts/fully.sh"
+    
+    
+
+
+    

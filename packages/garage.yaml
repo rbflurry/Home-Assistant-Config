@@ -1,0 +1,34 @@
+################################################################
+## Packages / garage
+################################################################
+
+################################################
+## Customize
+################################################
+
+
+
+################################################
+## timer Platform
+################################################
+
+timer:
+  garage_lights:
+
+
+  
+################################################
+## basement_light Automation
+################################################
+
+
+automation:
+  - alias: "timer - garage lights"
+    trigger:
+      platform: event
+      event_type:  timer.finished
+      event_data:
+        entity_id: timer.garage_lights
+    action:
+    - service: homeassistant.turn_off
+      entity_id: switch.esp1

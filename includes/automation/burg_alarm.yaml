@@ -1,0 +1,40 @@
+- alias: House armed - door open
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_motion_sensor_motion, binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened
+      to: 'on'
+    - platform: state
+      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay
+      to: 'open'
+  condition:
+    - condition: state
+      entity_id: group.device_family
+      state: 'not_home'
+    - condition: state
+      entity_id: alarm_control_panel.ha_alarm
+      state: 'armed_away'
+  action:
+   service: notify.ios_ryans_iphone_app
+   data_template:
+      title: 'Something happened at home'
+      message: >
+        {% set door = trigger.entity_id.split('.')[1] | capitalize %}
+        "No one is home and {{ door }} was opened"
+        
+        
+        
+        
+- alias: House armed - Make the panel beep
+  trigger:
+    - platform: time
+      seconds: 10
+  condition:
+    - condition: state
+      entity_id: binary_sensor.alarm_is_pending_triggered
+      state: 'on'
+  action:
+   service: notify.fire_dash
+   data:
+      message: chime
+      data:
+        method: alarm

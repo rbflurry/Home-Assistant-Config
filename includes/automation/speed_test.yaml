@@ -1,0 +1,12 @@
+- alias: 'Speed test'
+  trigger:
+    platform: time
+    # You can also match on interval. This will match every 5 minutes
+    minutes: '/60'
+    seconds: 0
+  condition:
+    condition: state
+    entity_id: device_tracker.livingroomtv
+    state: 'not_home'
+  action:
+     service: sensor.update_speedtest

@@ -1,0 +1,430 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: LilOld
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret lat
+  longitude: !secret long
+  # Impacts weather/sunrise data
+  elevation: 186
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/New_York
+  temperature_unit: F
+  customize: !include includes/customize.yaml
+  customize_domain: {}
+  customize_glob:
+    # "automation.*":
+    # "group.*":
+    # "switch.*":
+    # "cover.*":
+    # "light.*":
+    # "script.*":
+    # "scene.*":
+    # "device_tracker.*":
+    "input_boolean.*":
+      persistent: true
+    "input_number.*":
+      persistent: true
+  packages: !include_dir_named packages
+  auth_providers:
+    - type: homeassistant
+    - type: legacy_api_password
+    - type: trusted_networks
+# Show links to resources in log and frontend
+#introduction:
+
+zeroconf:
+cast: 
+
+# Enables the frontend
+frontend:
+  themes: !include includes/themes.yaml
+map:
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# enables the config panel
+config:
+
+# Records states to the database
+recorder:
+  db_url: postgres://hass:hass@192.168.47.155/hass
+#  db_url: postgres://hass:hass@/hass
+  purge_interval: 1
+  purge_keep_days: 20
+  exclude:
+    domains:
+      - persistent_notification
+    entities:
+      - automation.tv_led_random
+      - sensor.since_last_boot
+      - sensor.sun_elevation
+      - sensor.since_last_boot
+      - switch.wink_switch
+      - sensor.time
+      - automation.on_with_motion
+      - automation.off_with_motion
+      - automation.monitor_traffic_out
+      - automation.monitor_traffic_in
+      - automation.battery_notification
+      - automation.battery_notification_clear
+      - automation.battery_sensor_from_attributes
+      - automation.update_battery_status_group_members
+      - binary_sensor.blue_iris_cam234
+      - binary_sensor.blue_iris_camp235
+      - group.blueiris
+      - automation.tv_led_random
+      - group.doors_og
+      - group.indoor_lights
+      - group.outdoor_lights
+      - group.garage_brief
+      - group.motion
+      - group.chicken_timer
+      - group.input_booleans
+      - group.esp
+      - group.smoke
+      - group.all_lights_w_switches
+      - group.chicken_controls
+      - group.chicken_coop_view
+      - group.sensor_node_2_card
+      - input_number.internet_traffic_delta_in
+      - input_number.internet_traffic_delta_out
+      - automation.persistence_publish
+      - automation.persistence_subscribe_select_value
+      - automation.persistence_publish
+      - sensor.snmp_wan_in
+      - sensor.snmp_wan_out
+      - sensor.internet_speed_out
+      - sensor.internet_speed_in
+      - sensor.wan_traffic_out_mean
+      - sensor.wan_traffic_in_mean
+
+      
+      
+# This is the history tab (Graphs) you can hide certain components.
+history:
+  exclude:
+    domains:
+      - automation
+      - group
+    entities:
+      - sensor.time
+
+# View all events in a logbook ( timeline)
+logbook:
+  exclude:
+    entities:
+      - sensor.since_last_boot
+      - switch.wink_switch
+      - sensor.time
+      - automation.on_with_motion
+      - automation.off_with_motion
+      - binary_sensor.blue_iris_cam234
+      - binary_sensor.blue_iris_camp235
+      - binary_sensor.blue_iris_d239
+      - binary_sensor.temperature_up
+      - binary_sensor.temperature_down
+      - group.blueiris
+      - automation.tv_led_random
+      - group.doors_og
+      - group.indoor_lights
+      - group.outdoor_lights
+      - group.garage_brief
+      - group.motion
+      - group.chicken_timer
+      - group.input_booleans
+      - group.esp
+      - group.smoke
+      - group.all_lights_w_switches
+      - group.chicken_controls
+      - group.chicken_coop_view
+      - group.sensor_node_2_card
+      
+
+# Track the sun
+sun:
+
+# Weather Prediction
+#sensor:
+# platform: yr
+
+
+ 
+ifttt:
+  key: !secret ifttt_key
+
+ifttt2:
+  key: !secret ifttt_key2
+    
+mqtt:
+  broker: 192.168.47.202
+  port: 1883
+  client_id: home-assistant-1
+  keepalive: 60
+  discovery: true
+  discovery_prefix: homeassistant
+
+alarm_control_panel:
+  platform: manual
+  name: "HA Alarm"
+  code: !secret alarm_passcode
+  pending_time: 60
+  trigger_time: 120
+  disarm_after_trigger: true
+
+
+shell_command:
+  call_chelsea: wget -O- !secret call_chelsea
+  call_ryan: wget -O- !secret call_ryan
+  restart_drivewaycam: /root/port_bounce.sh
+
+
+#media_player:
+#  - platform: alexa
+#    email: nevar
+#    password: never
+#    url: amazon.com
+#  - platform: cast
+#  - platform: kodi
+#    host: kodi-garage.
+#    username: kodi
+#    password: never
+#    name: kodi_garage
+
+logger:
+ default: warning
+ logs:
+   urllib3.connectionpool: fatal
+   homeassistant.components.http: debug
+#   homeassistant.core: debug
+#   pubnubsubhandler: info
+#   pywink.api: debug
+#   homeassistant.components.wink: debug
+   requests.packages.urllib3.connectionpool: fatal
+#  pyicloud.base: debug
+#  homeassistant.components.device_tracker.icloud: debug
+   homeassistant.components.camera: error
+   homeassistant.components.image_processing.openalpr_cloud: debug
+      
+################################################
+## Component Includes (Merge List)
+################################################
+      
+      
+automation: !include_dir_merge_list includes/automation
+group: !include includes/group.yaml
+switch: !include includes/switch.yaml
+script: !include includes/scripts.yaml
+sensor: !include includes/sensor.yaml
+binary_sensor: !include includes/binary_sensor.yaml
+sensor templates: !include includes/sensor_templates.yaml
+zone: !include includes/zone.yaml
+panel_iframe: !include includes/iframe.yaml
+scene: !include includes/scene.yaml
+input_select: !include includes/input_select.yaml
+input_boolean: !include includes/input_boolean.yaml
+input_number: !include includes/input_number.yaml
+cover: !include includes/cover.yaml
+device_tracker: !include includes/device_tracker.yaml
+intent_script: !include includes/intent_scripts.yaml
+#fan: !include includes/fans.yaml
+
+
+#wink_lc_service:
+#  key: !secret wink_lc_key
+#  host: 192.168.47.157
+
+cloud:
+  alexa:
+    filter:
+      exclude_entities:
+        - switch.esp3
+        - light.sn1_led
+        - light.sn2_led
+        - switch.esp4
+        - light.wink_bed_room_2
+        - light.wink_wink_all_lights
+        - switch.fluxer
+        - switch.sensornode2_relay1
+        - switch.sensornode2_relay2
+      include_entities:
+        - light.kitchen
+        - automation.door_chime__door_open
+      include_domains:
+        - switch
+        - cover
+        - light
+        - scene
+      exclude_domains:
+        - automation
+        - script
+        - group
+    entity_config:
+      light.wink_led_strip_bed:
+        name: bed strip
+        description: The lights on the bed
+      switch.esp1:
+        name: garage
+        description: Garage Light
+        display_categories: LIGHT
+      switch.stairs:
+        display_categories: LIGHT
+      automation.door_chime__door_open:
+        name: Door Chime
+      switch.esp5:
+        name: barn
+        description: Barn Light
+        display_categories: LIGHT
+
+notify:
+  - name: ios_group
+    platform: group
+    services:
+      - service: ios_chelseas_iphone_app
+        data:
+          title: 'Alert'
+      - service: ios_ryans_iphone_app
+        data:
+          title: 'Alert'
+  - name: ios_group_chicken
+    platform: group
+    services:
+      - service: ios_chelseas_iphone_app
+        data:
+          title: 'Alert'
+          data:
+            push:
+              category: 'chicken_door'
+      - service: ios_ryans_iphone_app
+        data:
+          title: 'Alert'
+          data:
+            push:
+              category: 'chicken_door'
+  - platform: command_line
+    name: Hallway
+    command: "/root/.homeassistant/alexa_wrapper.sh -d 'Hallway'"
+  - platform: command_line
+    name: Office
+    command: "/root/.homeassistant/alexa_wrapper.sh -d 'Office'"
+  - platform: command_line
+    name: Everywhere
+    command: "/root/.homeassistant/alexa_wrapper.sh -d 'Everywhere'"
+  - name: file
+    platform: file
+    filename: notify.txt
+    timestamp: true
+
+climate:
+  - platform: generic_thermostat
+    name: Brooder
+    heater: switch.wifi_switch1
+    target_sensor: sensor.sn3_temperature
+    cold_tolerance: 1.0
+    hot_tolerance: 1.0
+    initial_operation_mode: "auto"
+    
+tts:
+  - platform: google
+  
+alexa:
+ 
+  
+light:  
+  - platform: mqtt_json  
+    name: "SN1 LED"  
+    state_topic: "home/sensornode1"  
+    command_topic: "home/sensornode1/set"  
+    brightness: true  
+    flash: true  
+    rgb: true  
+    optimistic: false  
+    qos: 0 
+
+  - platform: mqtt_json  
+    name: "SN2 LED"  
+    state_topic: "home/sensornode2"  
+    command_topic: "home/sensornode2/set"  
+    brightness: true  
+    flash: true  
+    rgb: true  
+    optimistic: false  
+    qos: 0 
+    
+    
+alert:
+  chicken_door:
+    name: Chicken Door is open after dark
+    done_message: Chicken Door Is closed
+    entity_id: binary_sensor.chicken_door_after_dark
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
+  chicken_door_still_closed:
+    name: Chicken Door is still closed
+    done_message: Chicken Door Is now Open
+    entity_id: binary_sensor.chicken_door_after_open
+    repeat: 10
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_group_chicken
+  garage_ap:
+    name: Garage AP is down
+    done_message: Garage AP is up
+    entity_id: device_tracker.0418d64e51d2
+    state: 'not_home'
+    repeat: 10
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_group_chicken
+  disk_space:
+    name: Disk is full
+    done_message: Disk is clear
+    entity_id: binary_sensor.template_disk_space
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
+  chicken_sensorpod:
+    name: Chicken Sensor Pod is down
+    done_message: Chicken Sensor Pod is up
+    entity_id: sensor.sn2_availablilty
+    state: 'offline'
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
+
+
+#emulated_hue:
+#  expose_by_default: false
+  
+influxdb:
+  host: 192.168.47.155
+  port: 8086
+  max_retries: 10
+  
+homekit:
+  auto_start: False
+  filter:
+    include_domains:
+      - light
+      - cover
+      - switch
+      
+
+  

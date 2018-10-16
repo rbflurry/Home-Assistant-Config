@@ -1,0 +1,77 @@
+- alias: Front Door open turn porch light on unless it is already on
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_front_door_opened
+      from: 'off'
+      to: 'on'
+  condition:
+     - condition: state
+       entity_id: sun.sun
+       state: 'below_horizon'
+     - condition: state
+       entity_id: light.wink_front_porch
+       state: 'off'
+     - condition: state
+       entity_id: binary_sensor.still_dark
+       state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.wink_front_porch
+    - service: timer.start
+      entity_id: timer.front_porch
+      data:
+        duration: '00:10:00'
+      
+      
+- alias: 13. Front Door open and light is already on via door keep light on for another 10.
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_front_door_opened
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: state
+      entity_id: timer.front_porch
+      state: 'active'
+    - condition: state
+      entity_id: binary_sensor.still_dark
+      state: 'on'
+  action:
+#    - service: homeassistant.turn_off
+#      entity_id: script.timer_off
+#    - service: homeassistant.turn_on
+#      entity_id: script.timer_off
+    - service: timer.start
+      entity_id: timer.front_porch
+      data:
+        duration: '00:10:00'
+       
+       
+       
+- alias: Garage open turn front porch light on for 10 minutes unless it is already on
+  trigger:
+    - platform: state
+      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      from: 'closed'
+      to: 'open'
+  condition:
+     - condition: state
+       entity_id: sun.sun
+       state: 'below_horizon'
+     - condition: state
+       entity_id: light.wink_front_porch
+       state: 'off'
+     - condition: state
+       entity_id: binary_sensor.still_dark
+       state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.wink_front_porch
+    - service: timer.start
+      entity_id: timer.front_porch
+      data:
+        duration: '00:10:00'
+      

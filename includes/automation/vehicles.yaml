@@ -1,0 +1,39 @@
+- alias: Vehicle - Mazda is Home
+#  initial_to: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.device_vehicle_mazda
+      from: 'off'
+      to: 'on'
+#    - platform: state
+#      entity_id: sensor.device_vehicle_mazda_uptime
+  condition:
+     - condition: template
+       value_template: '{{ states.sensor.device_vehicle_mazda_uptime.state | int  > 180 }}'
+  action:
+    - service: notify.ios_ryans_iphone_app
+      data:
+        title: 'Mazda Is Home'
+        message: The mazda is arriving home
+
+
+
+- alias: Vehicle - Jeep is home
+#  initial_to: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.device_vehicle_jeep
+      from: 'off'
+      to: 'on'
+#      for:
+#        seconds: 10
+#    - platform: state
+#      entity_id: sensor.device_vehicle_jeep_uptime
+  condition:
+     - condition: template
+       value_template: '{{ states.sensor.device_vehicle_jeep_uptime.state | int  > 180 }}'
+  action:
+    - service: notify.ios_ryans_iphone_app
+      data:
+        title: 'Jeep Is Home'
+        message: The Jeep is arriving home

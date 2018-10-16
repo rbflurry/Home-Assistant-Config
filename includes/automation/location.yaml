@@ -1,0 +1,80 @@
+- alias: 'Ryan Away'
+  condition:
+    condition: state
+    entity_id: input_boolean.device_ryan
+    state: 'on'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.ryans_iphone_wifi
+      to: 'not_home' 
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: device_tracker.ryans_iphone_app
+      to: 'not_home'
+    - platform: state
+      entity_id: device_tracker.ryans_iphone_app
+      from: 'home'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.device_ryan
+      
+      
+- alias: 'Ryan Home'
+  condition:
+    condition: state
+    entity_id: input_boolean.device_ryan
+    state: 'off'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.ryans_iphone_wifi
+      to: 'home'
+    - platform: state
+      entity_id: device_tracker.ryans_iphone_app
+      to: 'home'   
+  action:
+     service: homeassistant.turn_on
+     entity_id: input_boolean.device_ryan
+
+ 
+
+- alias: 'Chelsea Away'
+  condition:
+    condition: state
+    entity_id: input_boolean.device_chelsea
+    state: 'on'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.chelseas_iphone_wifi
+      to: 'not_home' 
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: device_tracker.chelseasiphone
+      to: 'not_home'   
+    - platform: state
+      entity_id: device_tracker.chelseas_iphone_app
+      to: 'not_home'   
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.device_chelsea
+      
+      
+- alias: 'Chelsea Home'
+  condition:
+    condition: state
+    entity_id: input_boolean.device_chelsea
+    state: 'off'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.chelseas_iphone_wifi
+      to: 'home'
+    - platform: state
+      entity_id: device_tracker.chelseasiphone
+      to: 'home'
+    - platform: state
+      entity_id: device_tracker.chelseas_iphone_app
+      to: 'home' 
+  action:
+     service: homeassistant.turn_on
+     entity_id: input_boolean.device_chelsea

@@ -1,0 +1,19 @@
+- alias: Send Message when hot water changes
+  trigger:
+    - platform: state
+      entity_id: switch.hot_water
+  condition:
+   condition: state
+   entity_id: input_boolean.ha_start_delay
+   state: 'on'
+  action:
+   service: notify.ios_ryans_iphone_app
+   data_template:
+          message: >
+            {% if is_state('switch.hot_water', 'on') %}
+              Hot Water is On
+            {% else %}
+              Hot Water is {{ states('switch.hot_water') }}.
+            {% endif %}
+        
+

@@ -1,0 +1,29 @@
+chicken_hour:
+  name: Hour Open
+  icon: mdi:timer
+  min: 5
+  max: 20
+  step: 1
+chicken_minutes:
+  name: Minutes Open
+  icon: mdi:timer
+  min: 0
+  max: 59
+  step: 15
+climate_set_temp:
+  name: Climate Set Temp
+  min: 50
+  max: 90
+  step: 1
+chicken_minutes_after_sunset:
+  name: Minutes After Sunset
+  icon: mdi:timer
+  min: 0
+  max: 59
+  step: 1
+chicken_last_call_after_close:
+  name: Last Call
+  icon: mdi:timer
+  min: 1
+  max: 20
+  step: 1

@@ -1,0 +1,142 @@
+
+input_number:
+  alarm_hour:
+    name: Hour
+    icon: mdi:timer
+    min: 1
+    max: 10
+    step: 1
+  alarm_minutes:
+    name: Minutes
+    icon: mdi:timer
+    min: 0
+    max: 59
+    #step: 15
+  alarm_second_alarm:
+    name: Hallway Delay
+    icon: mdi:timer
+    min: 0
+    max: 59
+    #step: 15
+    
+input_datetime:
+  only_time:
+    name: Alarm Time
+    has_date: false
+    has_time: true
+
+input_boolean:
+  alarm_on:
+    name: Alarm
+    icon: mdi:clock
+  alarm_mon:
+    name: Monday
+    icon: mdi:calendar-today
+  alarm_tue:
+    name: Tuesday
+    icon: mdi:calendar-today
+  alarm_wed:
+    name: Wednesday
+    icon: mdi:calendar-today
+  alarm_thur:
+    name: Thursday
+    icon: mdi:calendar-today
+  alarm_fri:
+    name: Friday
+    icon: mdi:calendar-today
+  alarm_sat:
+    name: Saturday
+    icon: mdi:calendar-today
+  alarm_sun:
+    name: Sunday
+    icon: mdi:calendar-today
+
+sensor:
+- platform: template
+  sensors:
+    alarm_time:
+      friendly_name: 'Alarm Time'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarm_hour") | int, states("input_number.alarm_minutes") | int) }}'
+    second_alarm_time:
+      friendly_name: 'Second Alarm Time'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarm_hour") | int, states("input_number.alarm_minutes") | int + states("input_number.alarm_second_alarm")|int )  }}'
+        
+
+automation:
+  - alias: Wake up Alarm - turn on lights
+    initial_state: True
+    trigger:
+      - platform: template
+        value_template: '{{ states.sensor.time.state == states.sensor.alarm_time.state }}'
+    condition:
+      - condition: state
+        entity_id: input_boolean.alarm_on
+        state: 'on'
+      - condition: state
+        entity_id: sun.sun
+        state: 'below_horizon'
+      - condition: template
+        value_template: '{{ states.sensor.time.state >= states.sensor.alarm_time.state }}'
+      - condition: or
+        conditions:
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Mon") and (states.input_boolean.alarm_mon.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Tue") and (states.input_boolean.alarm_tue.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Wed") and (states.input_boolean.alarm_wed.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Thu") and (states.input_boolean.alarm_thur.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Fri") and (states.input_boolean.alarm_fri.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Sat") and (states.input_boolean.alarm_sat.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: light.wink_hallway
+        data:
+         brightness_pct: 100
+         color_name: yellow
+  - alias: Wake up Alarm - turn on second lights
+    initial_state: True
+    trigger:
+      - platform: template
+        value_template: '{{ states.sensor.time.state == states.sensor.second_alarm_time.state }}'
+    condition:
+      #- condition: numeric_state
+      #  entity_id: 'sensor.second_alarm_time'
+      #  above: '1'
+      - condition: state
+        entity_id: input_boolean.alarm_on
+        state: 'on'
+#      - condition: state
+#        entity_id: light.wink_led_strip_bed
+#        state: 'on'
+      #- condition: state
+      #  entity_id: sun.sun
+      #  state: 'below_horizon'
+      #- condition: template
+      #  value_template: '{{ states.sensor.time.state >= states.sensor.second_alarm_time.state }}'
+      - condition: or
+        conditions:
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Mon") and (states.input_boolean.alarm_mon.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Tue") and (states.input_boolean.alarm_tue.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Wed") and (states.input_boolean.alarm_wed.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Thu") and (states.input_boolean.alarm_thur.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Fri") and (states.input_boolean.alarm_fri.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Sat") and (states.input_boolean.alarm_sat.state=="on")}}'
+            - condition: template
+              value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: light.wink_led_strip_bed
+        data:
+         brightness_pct: 100

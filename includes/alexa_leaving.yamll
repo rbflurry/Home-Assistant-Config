@@ -1,0 +1,10 @@
+          >
+          {% set responses = [
+          "Safe Travels",
+          "I'll Keep an eye on deeks, kensi is a lost cause.",
+          "hear that Kensi and Deeks? i'm in charge.",
+          "don't be out too late",
+          "dont worry, I got this",
+          ] %}
+          {% set rindex =  (range(0, (responses | length - 1) )|random) -%}
+          {{responses[rindex]}}

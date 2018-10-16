@@ -1,0 +1,96 @@
+- alias: Mail - Send Message on USPS_mail state changes
+#  initial_to: False
+  trigger:
+    - platform: state
+      entity_id: sensor.myusps_mail
+    - platform: time
+      at: '07:00:00'
+  condition:
+    - condition: time
+      after: '06:55:00'
+      before: '22:00:00'
+    - condition: numeric_state
+      entity_id: sensor.myusps_mail
+      above: '0'
+  action:
+   service: notify.ios_ryans_iphone_app
+   data_template:
+      title: 'USPS Mail state changed'
+      message: >
+        {%- for attr in states.sensor.myusps_mail.attributes %}
+        {%- if  attr not in ["attribution" , "friendly_name", "icon", "unit_of_measurement", "date"]  %}
+        {{attr.replace("_", " ")| capitalize}}: {{states.sensor.myusps_mail.attributes[attr] }} 
+        {%- endif %}
+        {%- endfor %}
+        {% if states.sensor.myusps_mail.state is defined %}Tracking: {{ states.sensor.myusps_mail.state }} {% endif %}
+
+#
+#      message: >
+#        {% if states.sensor.myusps_mail.attributes.shipping_label_created is defined %} Shipping label created: {{ states.sensor.myusps_mail.attributes.shipping_label_created }} {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.acceptance is defined %} Acceptance: {{ states.sensor.myusps_mail.attributes.acceptance }} {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.preshipment_info_sent_to_usps is defined %} Preship: {{ states.sensor.myusps_mail.attributes.preshipment_info_sent_to_usps }} {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.departed_shipping_partner_facility is defined %} Departed shipping partner: {{ states.sensor.myusps_mail.attributes.departed_shipping_partner_facility }}  {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.in_transit_to_destination %} In Transit: {{ states.sensor.myusps_mail.attributes.in_transit_to_destination }}  {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.arrived_at_usps_facility is defined %} Arrived at USPS: {{ states.sensor.myusps_mail.attributes.arrived_at_usps_facility }} {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.departed_usps_facility is defined %} Departed USPS: {{ states.sensor.myusps_mail.attributes.departed_usps_facility }} {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.arrived_at_post_office is defined %} Arrived at Post office: {{ states.sensor.myusps_mail.attributes.arrived_at_post_office }} {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.out_for_delivery is defined %} Out for Delivery: {{ states.sensor.myusps_mail.attributes.out_for_delivery }}  {% endif %}
+#        {% if states.sensor.myusps_mail.attributes.delivered is defined %} Delivered: {{ states.sensor.myusps_mail.attributes.delivered }}  {% endif %}
+#        {% if states.sensor.myusps_mail.state is defined %}Tracking: {{ states.sensor.myusps_mail.state }} {% endif %}
+
+
+
+- alias: Mail - Send Message on USPS_packages state changes
+#  initial_to: False
+  trigger:
+    - platform: state
+      entity_id: sensor.myusps_packages
+    - platform: time
+      at: '07:00:00'
+  condition:
+    - condition: time
+      after: '06:55:00'
+      before: '22:00:00'
+    - condition: numeric_state
+      entity_id: sensor.myusps_mail
+      above: '0'
+  action:
+   - service: notify.ios_ryans_iphone_app
+     data_template:
+        title: 'USPS Packages state changed'
+        message: >
+          {% for attr in states.sensor.myusps_packages.attributes -%}
+          {% if  attr not in ["attribution" , "friendly_name", "icon", "unit_of_measurement"] %}
+          {{attr.replace("_", " ")| capitalize}}: {{states.sensor.myusps_packages.attributes[attr]}}
+          {% endif %}
+          {% endfor %}
+          {% if states.sensor.myusps_packages.state is defined %}Tracking: {{ states.sensor.myusps_packages.state }}{% endif %}
+   - service: persistent_notification.create
+     data_template:
+       message: >
+          {% for attr in states.sensor.myusps_packages.attributes -%}
+          {% if  attr not in ["attribution" , "friendly_name", "icon", "unit_of_measurement"] %}
+          {{attr.replace("_", " ")| capitalize}}: {{states.sensor.myusps_packages.attributes[attr]}}
+          {% endif %}
+          {% endfor %}
+          {% if states.sensor.myusps_packages.state is defined %}Tracking: {{ states.sensor.myusps_packages.state }}{% endif %}
+       title: "Packages"
+
+
+- alias: Mail - Send Message on FEDEX_mail state changes
+#  initial_to: False
+  trigger:
+    - platform: state
+      entity_id: sensor.myfedex
+  action:
+   service: notify.ios_ryans_iphone_app
+   data_template:
+      title: 'Fedex state changed'
+      message: >
+        {%- for attr in states.sensor.myfedex.attributes %}
+        {%- if  attr not in ["attribution" , "friendly_name", "icon"]  %}
+        {{attr.replace("_", " ")| capitalize}}: {{states.sensor.myfedex.attributes[attr] }} 
+        {%- endif %}
+        {%- endfor %}
+
+        {% if states.sensor.myfedex.state is defined %}Tracking: {{ states.sensor.myfedex.state }} {% endif %}

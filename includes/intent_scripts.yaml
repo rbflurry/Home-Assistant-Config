@@ -1,0 +1,59 @@
+WhereAreWeIntent:
+  speech:
+    text: >
+      {%- if is_state('device_tracker.paulus', 'home') and
+             is_state('device_tracker.anne_therese', 'home') -%}
+        You are both home, you silly
+      {%- else -%}
+        Anne Therese is at {{ states("device_tracker.anne_therese") }}
+        and Paulus is at {{ states("device_tracker.paulus") }}
+      {% endif %}
+LocateIntent:
+  action:
+    service: notify.notify
+    data_template:
+     message: The location of {{ User }} has been queried via Alexa.
+  speech:
+   text: >
+     {%- for state in states.device_tracker -%}
+        {%- if state.name.lower() == User.lower() -%}
+         {{ state.name }} is at {{ state.state }}
+        {%- elif loop.last -%}
+         I am sorry, I do not know where {{ User }} is.
+        {%- endif -%}
+      {%- else -%}
+       Sorry, I don't have any trackers registered.
+      {%- endfor -%}
+  card:
+    type: simple
+    title: Sample title
+    content: Some more content
+ActivateSceneIntent:
+  action:
+    service: scene.turn_on
+    data_template:
+     entity_id: scene.{{ Scene | replace(" ", "_") }}
+  speech:
+    text: !include alexa_confirm.yamll
+ImLeavingIntent:
+  speech:
+    text: !include alexa_leaving.yamll
+#    text:
+#          Safe Travels {{ who }}.
+  action:
+    - service: homeassistant.turn_on
+      entity_id: scene.leaving_home
+HowIsTheTrafficIntent:
+  speech:
+    text: Your commute to work is about {{ states.sensor.device_ryan_to_work.state }} minutes and to home is {{ states.sensor.device_ryan_to_home.state }} minutes.
+  card:
+    type: simple
+    title: Traffic
+    content: Ask Home Assistant about traffic
+ChickenCoop:
+  speech:
+    text: The chicken door is {{ states.cover.chicken_door.state }}, the light is {{ states.light.wink_chicken_light.state }}, the fan is {{ states.switch.esp3.state }}  and the current temperature is {{ states.sensor.sn2_temperature.state | round }} degrees. The chicken Brooder is {{ states.sensor.sn3_temperature.state }} degress]]
+  card:
+    type: simple
+    title: Chicken
+    content: Ask Home Assistant about the chicken coop

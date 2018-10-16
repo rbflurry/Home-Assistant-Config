@@ -1,0 +1,51 @@
+camera:
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/cam234
+    name: cam234
+    username: ha
+    password: !secret camera_pass
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/d239
+    name: camd239
+    username: ha
+    password: !secret camera_pass
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/p237
+    name: camp237
+    username: ha
+    password: !secret camera_pass
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/camp235
+    name: camp235
+    username: ha
+    password: !secret camera_pass
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/z238
+    name: camz238
+    username: ha
+    password: !secret camera_pass
+    authentication: basic
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/cam233
+    name: cam233
+    username: ha
+    password: !secret camera_pass
+    authentication: basic
+  - platform: generic
+    still_image_url: https://icons.wxug.com/data/weather-maps/radar/united-states/staunton-virginia-region-current-radar-animation.gif
+    name: WundergroundRadar
+    
+    
+    
+    
+#image_processing:
+# - platform: openalpr_cloud
+#   api_key: !secret openalpr_api
+#   region: us
+#   source:
+#    - entity_id: camera.camp237
+#    - entity_id: camera.camp235

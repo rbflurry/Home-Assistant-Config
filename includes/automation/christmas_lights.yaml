@@ -1,0 +1,23 @@
+- alias: Turn on light Christmas lights at sunset
+  trigger:
+   platform: sun
+   event: sunset
+#  condition:
+#   condition: state
+#   entity_id: group.device_family
+#   to: 'not_home'
+  action:
+   service: homeassistant.turn_on
+   entity_id: switch.esp2
+   
+   
+   
+- alias: Turn off christmas lights at 10
+  trigger:
+   platform: time
+   hours: 22
+   minutes: 01
+   seconds: 01
+  action:
+   service: homeassistant.turn_off
+   entity_id: switch.esp2

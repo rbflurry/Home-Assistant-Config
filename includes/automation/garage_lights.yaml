@@ -1,0 +1,35 @@
+- alias: Garage open turn garage light on for 10 minutes unless it is already on
+  trigger:
+#    - platform: state
+#      entity_id: binary_sensor.wink_garage_entry_opened
+#      from: 'off'
+#      to 'on'
+    - platform: state
+      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      from: 'closed'
+      to: 'open'
+  condition:
+     - condition: state
+       entity_id: sun.sun
+       state: 'below_horizon'
+     - condition: state
+       entity_id: binary_sensor.still_dark
+       state: 'on'
+#     - condition: state
+#       entity_id: switch.esp1
+#       state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.esp1
+    - service: timer.start
+      entity_id: timer.back_flood
+      data:
+        duration: '00:10:00'
+    - delay: 00:01:00
+    - wait_template: "{{is_state('group.all_garage_doors', 'closed')}}"
+      timeout: 00:10:00
+    - service: homeassistant.turn_off
+      entity_id: switch.esp1
+      
+      
+

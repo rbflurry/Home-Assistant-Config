@@ -1,0 +1,79 @@
+- alias: Garage Send Message when chelsea left but garage door is still open
+  trigger:
+   platform: state
+   entity_id: group.device_chelsea
+   to: 'not_home'
+   for:
+     minutes: 10
+  condition:
+   condition: or
+   conditions:
+   - condition: state
+     entity_id: cover.wink_first_bay
+     state: 'open'
+   - condition: state
+     entity_id: cover.myq_first_bay
+     state: 'open'
+  action:
+   service: notify.ios_ryans_iphone_app
+   data:
+      title: 'Chelsea Left'
+      message: "First Bay was left open"
+      data:
+        push:
+          category: 'door_close'
+ 
+ 
+#this causes multiple lines, we should update this to show all door states.
+- alias: Garage Send Message when everyone left and a door is open.
+  trigger:
+   platform: state
+   entity_id: group.device_family
+   to: 'not_home'
+   for:
+     minutes: 5
+  condition:
+   condition: state
+   entity_id: group.garage
+   state: 'open'
+  action:
+   service: notify.ios_group
+   data_template:
+          title: 'Garage Door Left Open'
+          message: >
+            {% if is_state('cover.wink_first_bay', 'open') -%}
+              First Bay is open.
+            {% endif -%}
+            {% if is_state('cover.wink_second_bay', 'open') -%}
+              Second Bay is open.
+            {% endif -%}
+            {%- if is_state('cover.wink_third_bay', 'open') -%}
+              Third Bay is open
+            {% endif -%}
+          data:
+           push:
+            category: 'door_close'
+
+
+
+- alias: Garage Send Message when no one is home but a garage door was open was opened
+  trigger:
+    - platform: state
+      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      to: 'open'
+      for:
+        minutes: 1
+  condition:
+   condition: state
+   entity_id: group.device_family
+   state: 'not_home'
+  action:
+   service: notify.ios_group
+   data_template:
+      title: 'Something happened at home'
+      message: >
+        "No one is home and {{ trigger.to_state.name }} was opened"
+      data:
+        push:
+          category: camera
+        entity_id: camera.d239

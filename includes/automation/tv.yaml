@@ -1,0 +1,65 @@
+- alias: 'TV on dim the light'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.livingroomtv
+      to: 'home'
+      for:
+        minutes: 5
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: state
+      entity_id: input_boolean.tv_time_delay
+      state: 'off'
+  action:
+     service: homeassistant.turn_on
+     entity_id: scene.tv_time
+     
+     
+- alias: 'TV off light the light'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.livingroomtv
+      to: 'not_home'
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: state
+      entity_id: light.wink_living_room
+      state: 'on'
+  action:
+   service: homeassistant.turn_on
+   entity_id: scene.tv_time_over
+   
+- alias: 'TV LED Random'
+  trigger: 
+#    - platform: time
+#      seconds: '/10'
+    - platform: time
+      minutes: 00
+      seconds: 00
+  condition: 
+    condition: state
+    entity_id: light.wink_led_strip_tv
+    state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: light.wink_led_strip_tv
+        brightness_pct: 50
+        color_name: >
+          {{['aqua','seagreen','mediumslateblue','teal','blue','darkgreen','deepskyblue','green','indigo','magenta','midnightblue','orangered','hotpink','purple','red','violet','yellow']|random}}
+#        rgb_color: ['{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}']
+
+- alias: 'TV reset tc_time_delay'
+  trigger:
+    - platform: state
+      entity_id: input_boolean.tv_time_delay
+      to: 'on'
+      for:
+        minutes: 60
+  action:
+     service: homeassistant.turn_on
+     entity_id: input_boolean.tv_time_delay
