@@ -21,13 +21,13 @@ sensor:
     name: snmp_wan_in
     accept_errors: true
     host: 192.168.47.1
-    community: lilold
+    community: !secret snmp
     baseoid: 1.3.6.1.2.1.2.2.1.10.2
 
   - platform: snmp
     name: snmp_wan_out
     accept_errors: true
-    community: lilold
+    community: !secret snmp
     host: 192.168.47.1
     baseoid: 1.3.6.1.2.1.2.2.1.16.2
 
