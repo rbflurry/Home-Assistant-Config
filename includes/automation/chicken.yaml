@@ -1,6 +1,3 @@
-# we should be using the close door service rather than the turn on off service.
-
-
 #- alias: Chicken - Open the Chicken door at 10:00am
 #  initial_state: false
 #  trigger:
@@ -426,6 +423,8 @@
    platform: state
    entity_id: switch.esp4
    to: 'on'
+   for: 
+     minutes: 1
   condition:
 #    - condition: state
 #      entity_id: sun.sun
@@ -481,11 +480,11 @@
    service: homeassistant.turn_off
    entity_id: light.wink_guinea_coop
 
-
-- alias: Chicken -  Brooder Lamp
-  initial_state: false
+#This was replaces with a climate template
+#- alias: Chicken -  Brooder Lamp
 #  initial_state: false
-  trigger:
+#  initial_state: false
+#  trigger:
 #    - platform: template
 #      value_template: '{{ states.sensor.sn3_temperature.state >= states.sensor.brooder_target_temp.state }}'
 #      for:
@@ -494,26 +493,26 @@
 #      value_template: '{{ states.sensor.sn3_temperature.state <= states.sensor.brooder_target_temp.state }}'
 #      for:
 #        minutes: 10
-   - platform: numeric_state
-     entity_id: sensor.sn3_temperature
-     above: 75.1
-     for:
-       minutes: 2
-   - platform: numeric_state
-     entity_id: sensor.sn3_temperature
-     below: 74.9
-     for:
-       minutes: 15
+#   - platform: numeric_state
+#     entity_id: sensor.sn3_temperature
+#     above: 75.1
+#     for:
+#       minutes: 2
+#   - platform: numeric_state
+#     entity_id: sensor.sn3_temperature
+#     below: 74.9
+#     for:
+#       minutes: 15
 #      value_template: '{{ states.sensor.sn2_temperature.state | float < 80 }}'
-  action:
-    service_template: >
-      {% if (states.sensor.sn3_temperature.state ) <= (states.sensor.brooder_target_temp.state ) %}
-      homeassistant.turn_on
-      {% else %}
-      homeassistant.turn_off
-      {% endif %}
-    entity_id:
-      - switch.wifi_switch1
+#  action:
+#    service_template: >
+#      {% if (states.sensor.sn3_temperature.state ) <= (states.sensor.brooder_target_temp.state ) %}
+#      homeassistant.turn_on
+#      {% else %}
+#      homeassistant.turn_off
+#      {% endif %}
+#    entity_id:
+#      - switch.wifi_switch1
       
       
 - alias: Chicken - Brooder Thermostat
