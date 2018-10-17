@@ -34,14 +34,6 @@
 - alias: Chicken -  Send Message on chicken state changes
 #  initial_to: False
   trigger:
-#    - platform: state
-#      entity_id: sensor.sn1_reed, switch.esp3
-#      from: 'on'
-#      to: 'off'
-#    - platform: state
-#      entity_id: sensor.sn1_reed, switch.esp3
-#      from: 'off'
-#      to: 'on'
     - platform: state
       entity_id: cover.chicken_door
   condition:
