@@ -25,3 +25,6 @@
   chicken_door_last_call:
     initial: off
     name: Chicken Door last Call
+  chicken_door_automations:
+    initial: off
+    name: Chicken Door Automation
