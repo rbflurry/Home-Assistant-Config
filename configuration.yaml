@@ -185,6 +185,7 @@ shell_command:
   call_chelsea: wget -O- !secret call_chelsea
   call_ryan: wget -O- !secret call_ryan
   restart_drivewaycam: /root/port_bounce.sh
+  update_config: /root/.homeassistant/bin/pull_from_github.sh
 
 
 #media_player:
@@ -425,6 +426,4 @@ homekit:
       - light
       - cover
       - switch
-      
-
   
