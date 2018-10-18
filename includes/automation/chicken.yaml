@@ -231,8 +231,62 @@
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_automations
 
-     
+- alias: Chicken - Door - Last Call V2
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_last_call_time_dirty.state }}'
+#    - platform: sun
+#      event: sunset
+#      offset: '+00:25:00'
+  condition:
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'closed'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.chicken_door_last_call, input_boolean.chicken_door_automations
+    - service: cover.open_cover
+      entity_id: cover.chicken_door
+    - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
+      timeout: 00:00:15
+    - service: notify.ios_group
+      data_template:
+        title: 'Last Call - Chicken Door Open'
+        message: >
+          {% if is_state('cover.chicken_door', 'open') %}
+            I opened the chicken door for last call.
+          {% else %}
+            I tried to open the chicken door for last call but it did not open!
+          {% endif %}
+        data:
+          push:
+           category: 'chicken_door'
+    - delay: 00:02:00
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'open'
+    - service: cover.close_cover
+      entity_id: cover.chicken_door
+    - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
+      timeout: 00:00:15
+    - service: notify.ios_group
+      data_template:
+        title: 'Last Call - Chicken Door Close'
+        message: >
+          {% if is_state('cover.chicken_door', 'closed') %}
+            I closed the chicken door after last call.
+          {% else %}
+            I tried to close the chicken door after last call but it did not close!
+          {% endif %}
+        data:
+          push:
+           category: 'chicken_door'
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
+      
+      
 - alias: Chicken - Door - Last Call
+  initial_state: false
   trigger:
     - platform: template
       value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_last_call_time_dirty.state }}'
