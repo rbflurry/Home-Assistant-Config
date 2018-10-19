@@ -1,0 +1,41 @@
+  alexa:
+    filter:
+      exclude_entities:
+        - switch.esp3
+        - light.sn1_led
+        - light.sn2_led
+        - switch.esp4
+        - light.wink_bed_room_2
+        - light.wink_wink_all_lights
+        - switch.fluxer
+        - switch.sensornode2_relay1
+        - switch.sensornode2_relay2
+      include_entities:
+        - light.kitchen
+        - automation.door_chime__door_open
+      include_domains:
+        - switch
+        - cover
+        - light
+        - scene
+      exclude_domains:
+        - automation
+        - script
+        - group
+    entity_config:
+      light.wink_led_strip_bed:
+        name: bed strip
+        description: The lights on the bed
+      switch.esp1:
+        name: garage
+        description: Garage Light
+        display_categories: LIGHT
+      switch.stairs:
+        display_categories: LIGHT
+      automation.door_chime__door_open:
+        name: Door Chime
+      switch.esp5:
+        name: barn
+        description: Barn Light
+        display_categories: LIGHT
+        
