@@ -1,0 +1,47 @@
+  chicken_door:
+    name: Chicken Door is open after dark
+    done_message: Chicken Door Is closed
+    entity_id: binary_sensor.chicken_door_after_dark
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
+  chicken_door_still_closed:
+    name: Chicken Door is still closed
+    done_message: Chicken Door Is now Open
+    entity_id: binary_sensor.chicken_door_after_open
+    repeat: 10
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_group_chicken
+  garage_ap:
+    name: Garage AP is down
+    done_message: Garage AP is up
+    entity_id: device_tracker.0418d64e51d2
+    state: 'not_home'
+    repeat: 10
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - ios_group_chicken
+  disk_space:
+    name: Disk is full
+    done_message: Disk is clear
+    entity_id: binary_sensor.template_disk_space
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
+  chicken_sensorpod:
+    name: Chicken Sensor Pod is down
+    done_message: Chicken Sensor Pod is up
+    entity_id: sensor.sn2_availablilty
+    state: 'offline'
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
