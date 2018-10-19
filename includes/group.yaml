@@ -63,6 +63,7 @@ chicken_coop_view:
     - sensor.brooder_target_temp
     - sensor.sn3_temperature
     - climate.brooder
+    - climate.chicken_fan
 
 chicken_age:
   name: Chicken Age
