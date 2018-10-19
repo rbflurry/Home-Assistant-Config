@@ -103,7 +103,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Chicken Door Trigger'
+        title: '🐔Chicken Door Trigger🐔'
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
             Automation triggered the door to open and it did.
@@ -218,7 +218,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Chicken Door Closed'
+        title: '🐔Chicken Door Closed🐔'
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             Automation triggered the door to close and it did.
@@ -251,7 +251,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Last Call - Chicken Door Open'
+        title: '🐔Last Call - Chicken Door Open🐔'
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
             I opened the chicken door for last call.
@@ -271,7 +271,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Last Call - Chicken Door Close'
+        title: '🐔Last Call - Chicken Door Closed🐔'
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             I closed the chicken door after last call.
