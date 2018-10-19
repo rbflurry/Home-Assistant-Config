@@ -273,7 +273,7 @@
 #      - switch.wifi_switch1
 
 - alias: Chicken -  Chicken Fan
-#  initial_state: false
+  initial_state: false
   trigger:
    - platform: numeric_state
      entity_id: sensor.sn2_temperature
