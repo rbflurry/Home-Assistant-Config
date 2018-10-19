@@ -2,9 +2,7 @@
     platform: group
     services:
       - service: ios_chelseas_iphone_app
-        data:
       - service: ios_ryans_iphone_app
-        data:
   - name: ios_group_chicken
     platform: group
     services:
