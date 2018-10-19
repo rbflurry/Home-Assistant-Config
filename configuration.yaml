@@ -31,15 +31,15 @@ homeassistant:
     - type: homeassistant
     - type: legacy_api_password
     - type: trusted_networks
-# Show links to resources in log and frontend
-#introduction:
 
 zeroconf:
+
 cast: 
 
 # Enables the frontend
 frontend:
   themes: !include includes/themes.yaml
+
 map:
 
 # Checks for available updates
@@ -55,60 +55,7 @@ conversation:
 config:
 
 # Records states to the database
-recorder:
-  db_url: postgres://hass:hass@192.168.47.155/hass
-#  db_url: postgres://hass:hass@/hass
-  purge_interval: 1
-  purge_keep_days: 20
-  exclude:
-    domains:
-      - persistent_notification
-    entities:
-      - automation.tv_led_random
-      - sensor.since_last_boot
-      - sensor.sun_elevation
-      - sensor.since_last_boot
-      - switch.wink_switch
-      - sensor.time
-      - automation.on_with_motion
-      - automation.off_with_motion
-      - automation.monitor_traffic_out
-      - automation.monitor_traffic_in
-      - automation.battery_notification
-      - automation.battery_notification_clear
-      - automation.battery_sensor_from_attributes
-      - automation.update_battery_status_group_members
-      - binary_sensor.blue_iris_cam234
-      - binary_sensor.blue_iris_camp235
-      - group.blueiris
-      - automation.tv_led_random
-      - group.doors_og
-      - group.indoor_lights
-      - group.outdoor_lights
-      - group.garage_brief
-      - group.motion
-      - group.chicken_timer
-      - group.input_booleans
-      - group.esp
-      - group.smoke
-      - group.all_lights_w_switches
-      - group.chicken_controls
-      - group.chicken_coop_view
-      - group.sensor_node_2_card
-      - input_number.internet_traffic_delta_in
-      - input_number.internet_traffic_delta_out
-      - automation.persistence_publish
-      - automation.persistence_subscribe_select_value
-      - automation.persistence_publish
-      - sensor.snmp_wan_in
-      - sensor.snmp_wan_out
-      - sensor.internet_speed_out
-      - sensor.internet_speed_in
-      - sensor.wan_traffic_out_mean
-      - sensor.wan_traffic_in_mean
-
-      
-      
+   
 # This is the history tab (Graphs) you can hide certain components.
 history:
   exclude:
@@ -118,46 +65,9 @@ history:
     entities:
       - sensor.time
 
-# View all events in a logbook ( timeline)
-logbook:
-  exclude:
-    entities:
-      - sensor.since_last_boot
-      - switch.wink_switch
-      - sensor.time
-      - automation.on_with_motion
-      - automation.off_with_motion
-      - binary_sensor.blue_iris_cam234
-      - binary_sensor.blue_iris_camp235
-      - binary_sensor.blue_iris_d239
-      - binary_sensor.temperature_up
-      - binary_sensor.temperature_down
-      - group.blueiris
-      - automation.tv_led_random
-      - group.doors_og
-      - group.indoor_lights
-      - group.outdoor_lights
-      - group.garage_brief
-      - group.motion
-      - group.chicken_timer
-      - group.input_booleans
-      - group.esp
-      - group.smoke
-      - group.all_lights_w_switches
-      - group.chicken_controls
-      - group.chicken_coop_view
-      - group.sensor_node_2_card
-      
-
 # Track the sun
 sun:
 
-# Weather Prediction
-#sensor:
-# platform: yr
-
-
- 
 ifttt:
   key: !secret ifttt_key
 
@@ -180,13 +90,11 @@ alarm_control_panel:
   trigger_time: 120
   disarm_after_trigger: true
 
-
 shell_command:
   call_chelsea: wget -O- !secret call_chelsea
   call_ryan: wget -O- !secret call_ryan
   restart_drivewaycam: /root/port_bounce.sh
   update_config: /root/.homeassistant/bin/pull_from_github.sh
-
 
 #media_player:
 #  - platform: alexa
@@ -214,12 +122,11 @@ logger:
 #  homeassistant.components.device_tracker.icloud: debug
    homeassistant.components.camera: error
    homeassistant.components.image_processing.openalpr_cloud: debug
-      
+
 ################################################
 ## Component Includes (Merge List)
 ################################################
-      
-      
+
 automation: !include_dir_merge_list includes/automation
 group: !include includes/group.yaml
 switch: !include includes/switch.yaml
@@ -240,6 +147,8 @@ intent_script: !include includes/intent_scripts.yaml
 notify: !include includes/notify.yaml
 alert: !include includes/alert.yaml
 cloud: !include includes/cloud.yaml
+recorder: !include includes/recorder.yaml
+logbook: !include includes/logbook.yaml
 
 #wink_lc_service:
 #  key: !secret wink_lc_key
@@ -269,7 +178,6 @@ light:
     rgb: true  
     optimistic: false  
     qos: 0 
-
   - platform: mqtt_json  
     name: "SN2 LED"  
     state_topic: "home/sensornode2"  
