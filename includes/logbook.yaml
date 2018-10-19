@@ -1,0 +1,28 @@
+  exclude:
+    entities:
+      - sensor.since_last_boot
+      - switch.wink_switch
+      - sensor.time
+      - automation.on_with_motion
+      - automation.off_with_motion
+      - binary_sensor.blue_iris_cam234
+      - binary_sensor.blue_iris_camp235
+      - binary_sensor.blue_iris_d239
+      - binary_sensor.temperature_up
+      - binary_sensor.temperature_down
+      - group.blueiris
+      - automation.tv_led_random
+      - group.doors_og
+      - group.indoor_lights
+      - group.outdoor_lights
+      - group.garage_brief
+      - group.motion
+      - group.chicken_timer
+      - group.input_booleans
+      - group.esp
+      - group.smoke
+      - group.all_lights_w_switches
+      - group.chicken_controls
+      - group.chicken_coop_view
+      - group.sensor_node_2_card
+      
