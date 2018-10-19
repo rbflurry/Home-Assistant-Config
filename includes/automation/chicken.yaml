@@ -114,77 +114,9 @@
           push:
            category: 'chicken_door'
     - service: homeassistant.turn_off
-      entity_id: input_boolean.chicken_door_automations
-
-
-- alias: Chicken -  Chicken Door Timer
-  initial_state: false
-  trigger:
-    - platform: template
-      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
-    - platform: state
-      entity_id: sun.sun
-      to: 'above_horizon'
-  condition:
-    - condition: state
-      entity_id: input_boolean.chicken_door
-      state: 'on'
-    - condition: state
-      entity_id: cover.chicken_door
-      state: 'closed'
-    - condition: state
-      entity_id: sun.sun
-      state: 'above_horizon'
-    - condition: template
-      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_time.state }}'
-  action:
-    - service: notify.ios_group
-      data_template:
-        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
-        message: >
-          Automation triggered the door to open.
-        data:
-          push:
-           category: 'chicken_door'
-    - service: homeassistant.turn_on
-#     entity_id: switch.esp3
-      entity_id: switch.sensornode2_relay2
+      entity_id: input_boolean.chicken_door_automations   
       
-      
-- alias: Chicken - Sunset close door
-  initial_state: false
-  trigger:
-    - platform: template
-      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_close_time_dirty.state }}'
-#    - platform: sun
-#      event: sunset
-#      offset: '+00:20:00'
-    - platform: time
-      minutes: '/5'
-      seconds: 00
-  condition:
-    - condition: state
-      entity_id: cover.chicken_door
-      state: 'open'
-#    - condition: sun
-#      after: sunset
-#      after_offset: '+00:20:00'
-    - condition: template
-      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_close_time_dirty.state }}'
-    - condition: state
-      entity_id: input_boolean.chicken_door_last_call
-      state: 'off'
-  action:
-    - service: cover.close_cover
-      entity_id: cover.chicken_door
-    - service: notify.ios_group
-      data_template:
-        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
-        message: >
-          Automation triggered the door to close.
-        data:
-          push:
-           category: 'chicken_door'
+
 
 - alias: Chicken - Sunset close door V2
 #  initial_state: false
@@ -285,50 +217,7 @@
       entity_id: input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
       
       
-- alias: Chicken - Door - Last Call
-  initial_state: false
-  trigger:
-    - platform: template
-      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_last_call_time_dirty.state }}'
-#    - platform: sun
-#      event: sunset
-#      offset: '+00:25:00'
-  condition:
-    - condition: state
-      entity_id: cover.chicken_door
-      state: 'closed'
-  action:
-    - service: cover.open_cover
-      entity_id: cover.chicken_door
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.chicken_door_last_call
-    - service: notify.ios_group
-      data_template:
-        title: 'Chicken Door - Last Call'
-        message: >
-          Automation triggered the door to open.
-        data:
-          push:
-           category: 'chicken_door'
-    - delay: 00:02:00
-    - condition: state
-      entity_id: cover.chicken_door
-      state: 'open'
-    - service: cover.close_cover
-      entity_id: cover.chicken_door
-    - service: notify.ios_group
-      data_template:
-        title: 'Chicken Door - Last Call'
-        message: >
-          Automation triggered the door to close.
-        data:
-          push:
-           category: 'chicken_door'
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.chicken_door_last_call, switch.esp4
-      
-      
-      
+
 - alias: Chicken -  Chicken Door Timer Disabled
   trigger:
     platform: template
@@ -571,3 +460,113 @@
       data_template:
         entity_id: climate.brooder
         temperature: '{{states.sensor.brooder_target_temp.state | int }}'
+
+- alias: Chicken -  Chicken Door Timer
+  initial_state: false
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
+    - platform: state
+      entity_id: sun.sun
+      to: 'above_horizon'
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_door
+      state: 'on'
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'closed'
+    - condition: state
+      entity_id: sun.sun
+      state: 'above_horizon'
+    - condition: template
+      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_time.state }}'
+  action:
+    - service: notify.ios_group
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
+        message: >
+          Automation triggered the door to open.
+        data:
+          push:
+           category: 'chicken_door'
+    - service: homeassistant.turn_on
+#     entity_id: switch.esp3
+      entity_id: switch.sensornode2_relay2
+      
+- alias: Chicken - Door - Last Call
+  initial_state: false
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_last_call_time_dirty.state }}'
+#    - platform: sun
+#      event: sunset
+#      offset: '+00:25:00'
+  condition:
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'closed'
+  action:
+    - service: cover.open_cover
+      entity_id: cover.chicken_door
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.chicken_door_last_call
+    - service: notify.ios_group
+      data_template:
+        title: 'Chicken Door - Last Call'
+        message: >
+          Automation triggered the door to open.
+        data:
+          push:
+           category: 'chicken_door'
+    - delay: 00:02:00
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'open'
+    - service: cover.close_cover
+      entity_id: cover.chicken_door
+    - service: notify.ios_group
+      data_template:
+        title: 'Chicken Door - Last Call'
+        message: >
+          Automation triggered the door to close.
+        data:
+          push:
+           category: 'chicken_door'
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.chicken_door_last_call, switch.esp4
+      
+- alias: Chicken - Sunset close door
+  initial_state: false
+  trigger:
+    - platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_close_time_dirty.state }}'
+#    - platform: sun
+#      event: sunset
+#      offset: '+00:20:00'
+    - platform: time
+      minutes: '/5'
+      seconds: 00
+  condition:
+    - condition: state
+      entity_id: cover.chicken_door
+      state: 'open'
+#    - condition: sun
+#      after: sunset
+#      after_offset: '+00:20:00'
+    - condition: template
+      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_close_time_dirty.state }}'
+    - condition: state
+      entity_id: input_boolean.chicken_door_last_call
+      state: 'off'
+  action:
+    - service: cover.close_cover
+      entity_id: cover.chicken_door
+    - service: notify.ios_group
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
+        message: >
+          Automation triggered the door to close.
+        data:
+          push:
+           category: 'chicken_door'
