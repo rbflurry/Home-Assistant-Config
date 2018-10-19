@@ -43,7 +43,7 @@
   action:
    -  service: notify.ios_group
       data_template:
-        title: 'Chicken Coop'
+        title: '{{ "\ud83d\udc14" }}Chicken Coop{{ "\ud83d\udc14" }}'
         message: >
           {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
         data:
@@ -103,7 +103,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Chicken Door Trigger'
+        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
             Automation triggered the door to open and it did.
@@ -140,7 +140,7 @@
   action:
     - service: notify.ios_group
       data_template:
-        title: 'Chicken Door Trigger'
+        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
         message: >
           Automation triggered the door to open.
         data:
@@ -179,7 +179,7 @@
       entity_id: cover.chicken_door
     - service: notify.ios_group
       data_template:
-        title: 'Chicken Door Closed'
+        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
         message: >
           Automation triggered the door to close.
         data:
@@ -218,7 +218,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Chicken Door Closed'
+        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             Automation triggered the door to close and it did.
@@ -251,7 +251,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Last Call - Chicken Door Open'
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Open{{ "\ud83d\udc14" }}'
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
             I opened the chicken door for last call.
@@ -271,7 +271,7 @@
       timeout: 00:00:15
     - service: notify.ios_group
       data_template:
-        title: 'Last Call - Chicken Door Closed'
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             I closed the chicken door after last call.
