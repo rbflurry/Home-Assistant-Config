@@ -8,7 +8,6 @@
 #  password: !secret myq_pass
 #  name: myups
   
-
 - platform: waze_travel_time
   origin: device_tracker.ryans_iphone_app
   destination: zone.home
@@ -32,7 +31,6 @@
   region: 'US'
   origin: device_tracker.chelseas_iphone_app
   destination: zone.waterloo
-  
   
 - platform: google_travel_time
   name: device_ryan_to_home
@@ -116,6 +114,7 @@
 #  name: ups_load
 #  command: upsc ups@192.168.47.60:3493 ups.load > /dev/stdout 2> /dev/null
 #  unit_of_measurement: '%'
+
 - platform: nut
   name: syno
   host: 192.168.47.60
@@ -125,6 +124,7 @@
     - ups.status
     - battery.charge
     - battery.runtime
+    
 - platform: systemmonitor
   resources:
     - type: disk_use_percent
@@ -145,12 +145,15 @@
     - type: load_5m
     - type: load_15m
     - type: processor_use
+    
 - platform: time_date
   display_options:
     - 'time'
+    
 #- platform: fitbit
 #  monitored_resources:
 #    - "activities/tracker/steps"
+
 - platform: cert_expiry
   host: !secret ha_cert 
   name: cert_url
@@ -159,14 +162,12 @@
   host: !secret nginz_cert
   name: cert_internal
   
-  
 - platform: mqtt  
   state_topic: "home/sensornode1"  
   name: "SN1 Humidity"
   icon: mdi:water-percent
   unit_of_measurement: "%"  
   value_template: '{{ value_json.humidity | round(1) }}'  
-  
   
 - platform: mqtt  
   state_topic: "home/sensornode1"  
@@ -242,6 +243,7 @@
   community: public
   baseoid: 1.3.6.1.4.1.21239.2.2.1.6.1
   unit_of_measurement: "°F"
+  
 - platform: snmp   
   name: Vent Humidity
   icon: mdi:water-percent
@@ -260,6 +262,7 @@
   community: bittner
   baseoid: 1.3.6.1.4.1.21239.2.2.1.6.1
   unit_of_measurement: "°F"
+  
 - platform: snmp   
   name: Basement Humidity
   host: 192.168.47.123
@@ -269,18 +272,17 @@
   baseoid: 1.3.6.1.4.1.21239.2.2.1.7.1
   unit_of_measurement: "%"
   
-  
 - platform: google_geocode
   origin: device_tracker.ryans_iphone_app
   name: geocode_ryan
   display_zone: hide
   api_key: !secret google_geocode
   
-#- platform: google_geocode
-#  origin: device_tracker.chelseasiphone
-#  name: geocode_chelsea
-#  display_zone: hide
-#  api_key: !secret google_geocode
+- platform: google_geocode
+  origin: device_tracker.chelseas_iphone_app
+  name: geocode_chelsea
+  display_zone: hide
+  api_key: !secret google_geocode
 
 - platform: season
   type: astronomical
@@ -334,12 +336,12 @@
   unit_of_measurement: "°F"
   value_template: '{{ value_json.heatIndex | round(1) }}'
   
-  
 #- platform: mqtt  
 #  state_topic: "tele/sonoff/SENSOR"  
 #  name: "Batt level"
 #  value_template: '{{ value_json.ANALOG.A0 | int }}'  
 #  unit_of_measurement: "v"
+
 - platform: mqtt  
   state_topic: "tele/sonoff/SENSOR"  
   name: "Camper Temp"
@@ -353,8 +355,6 @@
   value_template: "{{ value_json['AM2301'].Humidity | int }}"
   unit_of_measurement: "%"  
   
-  
-  
 # https://github.com/custom-components/sensor.authenticated
 - platform: authenticated
   enable_notification: 'True'
@@ -367,6 +367,7 @@
   name: "deeks_collar_state"
   unit_of_measurement: "rssi"  
   expire_after: 120
+  
 - platform: template
   sensors:
     deeks_collar: #unique names; this is different from the one above
@@ -379,7 +380,8 @@
 - platform: statistics
   entity_id: 'sensor.deeks_collar' 
   name: 'deeks_collar_stats' 
-  sampling_size: 10 
+  sampling_size: 10
+  
 - platform: template
   sensors:
       bt_car_keys_threshold:
