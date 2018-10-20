@@ -112,21 +112,19 @@
       entity_id: updater.updater, sensor.sn2_availablilty, sensor.sn3_availablilty
       to: "offline"
       for:
-        minutes: 1
+        minutes: 5
+    - platform: state
+      entity_id: updater.updater, sensor.sn2_availablilty, sensor.sn3_availablilty
+      to: "online"
+      for:
+        minutes: 5
     - platform: numeric_state
       entity_id: sensor.disk_use_percent_
       above: 90
-      
   action:
    service: notify.ios_ryans_iphone_app
    data_template:
       title: 'A state changed'
       message: >
         {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
-        
-
-        
-        
-
-
-
+       
