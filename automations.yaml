@@ -1,8 +1,5 @@
 - id: '1540006472019'
   alias: New Automation
-  trigger:
-  - event: start
-    platform: homeassistant
+  trigger: []
   condition: []
-  action:
-  - service: automation.reload
+  action: []
