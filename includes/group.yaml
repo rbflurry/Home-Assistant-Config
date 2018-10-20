@@ -103,6 +103,8 @@ chicken_timer:
     - automation.chicken__door__last_call
     - sensor.chicken_door_last_call_time_clean
     - input_number.chicken_last_call_after_close
+    - sensor.sun_next_rising
+    - sensor.sun_next_setting
 
 rooms:
   name: Rooms
