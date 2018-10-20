@@ -1,8 +1,0 @@
-- id: '1540005487554'
-  alias: New Automation
-  trigger:
-  - event: sunset
-    platform: sun
-  condition: []
-  action:
-  - service: automation.reload
