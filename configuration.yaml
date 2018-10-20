@@ -128,7 +128,7 @@ logger:
 ################################################
 
 automation: !include automations.yaml
-automation old: !include_dir_merge_list includes/automation
+automation old: !include_dir_merge_list includes/automation/
 group: !include includes/group.yaml
 switch: !include includes/switch.yaml
 script: !include includes/scripts.yaml
