@@ -1,17 +1,8 @@
-# Example automations.yaml entry
-- id: my_unique_id  # <-- Required for editor to work.
-  alias: Hello world
+- id: '1540005487554'
+  alias: New Automation
   trigger:
-  - platform: state 
-    entity_id: sun.sun
-    from: below_horizon
-    to: above_horizon
-  condition:
-  - condition: numeric state
-    entity_id: sensor.temperature
-    above: 17
-    below: 25
-    value_template: '{{ float(state.state) + 2 }}'
+  - event: sunset
+    platform: sun
+  condition: []
   action:
-  - service: light.turn_on
-  
+  - service: automation.reload
