@@ -150,7 +150,7 @@ alert: !include includes/alert.yaml
 cloud: !include includes/cloud.yaml
 recorder: !include includes/recorder.yaml
 logbook: !include includes/logbook.yaml
-hangouts: !include includes/hangouts.yaml
+#hangouts: !include includes/hangouts.yaml
 
 #wink_lc_service:
 #  key: !secret wink_lc_key
