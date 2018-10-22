@@ -109,13 +109,7 @@
       for:
         minutes: 1
     - platform: state
-      entity_id: updater.updater, sensor.sn2_availablilty, sensor.sn3_availablilty
-      to: "offline"
-      for:
-        minutes: 10
-    - platform: state
-      entity_id: updater.updater, sensor.sn2_availablilty, sensor.sn3_availablilty
-      to: "online"
+      entity_id: updater.updater
     - platform: numeric_state
       entity_id: sensor.disk_use_percent_
       above: 90
