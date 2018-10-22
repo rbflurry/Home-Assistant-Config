@@ -45,3 +45,13 @@
     skip_first: False
     notifiers:
       - ios_group_chicken
+  chicken_sensorpod:
+    name: Chicken Sensor Pod is down
+    done_message: Chicken Sensor Pod is up
+    entity_id: sensor.sn3_availablilty
+    state: 'offline'
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
