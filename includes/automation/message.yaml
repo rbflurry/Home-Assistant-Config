@@ -14,7 +14,6 @@
          message: >
            No one is home and {{ trigger.to_state.name }} was opened
 
-
 - alias: Send Message when no one is home but a door was opened v2
   trigger:
     - platform: state
@@ -90,7 +89,6 @@
 #            {% else %}
 #              Wink Hub is {{ states('binary_sensor.wink_hub') }}.
 #            {% endif %}
-
 
 - alias: Send Message on state changes
 #  initial_to: False
