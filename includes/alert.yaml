@@ -42,7 +42,7 @@
     state: 'offline'
     repeat: 10
     can_acknowledge: True
-    skip_first: False
+    skip_first: True
     notifiers:
       - ios_group_chicken
   sensorpod_3:
@@ -52,6 +52,6 @@
     state: 'offline'
     repeat: 10
     can_acknowledge: True
-    skip_first: False
+    skip_first: True
     notifiers:
       - ios_group_chicken
