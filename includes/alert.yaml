@@ -7,6 +7,7 @@
     skip_first: False
     notifiers:
       - ios_group_chicken
+      
   chicken_door_still_closed:
     name: Chicken Door is still closed
     done_message: Chicken Door Is now Open
@@ -16,6 +17,7 @@
     skip_first: True
     notifiers:
       - ios_group_chicken
+      
   garage_ap:
     name: Garage AP is down
     done_message: Garage AP is up
@@ -26,6 +28,7 @@
     skip_first: True
     notifiers:
       - ios_group_chicken
+      
   disk_space:
     name: Disk is full
     done_message: Disk is clear
@@ -35,6 +38,7 @@
     skip_first: False
     notifiers:
       - ios_group_chicken
+      
   chicken_sensorpod:
     name: Chicken Sensor Pod is down
     done_message: Chicken Sensor Pod is up
@@ -45,6 +49,7 @@
     skip_first: True
     notifiers:
       - ios_group_chicken
+      
   sensorpod_3:
     name: Sensor Pod 3 is down
     done_message: Sensor Pod 3 is down
