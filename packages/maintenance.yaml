@@ -20,11 +20,6 @@ homeassistant:
     switch.debug:
       icon: mdi:bug
 
-    script.sync_dropbox:
-      icon: mdi:dropbox
-      custom_ui_state_card: state-card-script-custom-text
-      custom_text: "Sync To Dropbox"
-
     script.upgrade_hass:
       icon: mdi:cloud-check
       can_cancel: false
@@ -220,8 +215,3 @@ script:
         entity_id: input_boolean.maintenance_mode
       - delay: 00:00:02
       - service: shell_command.quick_reboot
-
-  learn_ir:
-    alias: ' '
-    sequence:
-      - service: !secret learn_ir
