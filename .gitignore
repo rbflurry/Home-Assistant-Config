@@ -22,7 +22,6 @@ scripts
 *.key
 *.conf
 *.json
-*.sh
 *.pickle
 .cloud
 home-assistant.log*
