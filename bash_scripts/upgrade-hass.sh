@@ -6,7 +6,7 @@
 ## any config changes from Github if needed. ##
 ###############################################
 
-cd /home/homeassistant/.homeassistant/
+cd /root/.homeassistant/
 git checkout master
 git branch -D upload
 git fetch origin master
