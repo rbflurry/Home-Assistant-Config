@@ -205,14 +205,6 @@ script:
           title: "Github"
           message: "You have pushed your local files to github, you must merge the branches on github then sync the master branch here."
 
-  sync_dropbox:
-    alias: ' '
-    sequence:
-      - service: shell_command.sync_dropbox
-        data:
-          token: !secret done_token
-          url: !secret done_url
-
   quick_restart:
     alias: ' '
     sequence:
