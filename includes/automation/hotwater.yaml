@@ -21,9 +21,6 @@
    service: homeassistant.turn_on
    entity_id: switch.wink_zwaveoutlet
    
-   
-   
-   
 - alias: Hotwater -  Came home early
   trigger:
     platform: state
