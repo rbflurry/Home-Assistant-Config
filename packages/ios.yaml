@@ -88,3 +88,9 @@ ios:
           - identifier: 'ALLINONE_FALSE'
             title: 'Off/False/Close/Unlock'
             authenticationRequired: no
+      - name: wink_lights
+        identifier: 'wink_lights'
+        actions:
+          - identifier: 'TURN_OFF_WINK_LIGHTS'
+            title: 'Turn off wink lights'
+            authenticationRequired: no      
