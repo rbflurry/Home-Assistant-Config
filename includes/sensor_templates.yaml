@@ -47,6 +47,7 @@
          {% else %}
             Unknown
          {% endif %}
+         
 ###############################################################################
 # Sensor to hold info about current week is an odd week or an even week of the year
 ###############################################################################
