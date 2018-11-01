@@ -47,6 +47,10 @@
          {% else %}
             Unknown
          {% endif %}
+     template_cert_internal:
+       value_template: >-
+         {{ states.sensor.cert_url.state |int <= 10 }}
+         
 ###############################################################################
 # Sensor to hold info about current week is an odd week or an even week of the year
 ###############################################################################

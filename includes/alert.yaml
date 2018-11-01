@@ -60,3 +60,13 @@
     skip_first: True
     notifiers:
       - ios_group_chicken
+      
+  certificate:
+    name: Cert is expiring
+    entity_id: sensor.template_cert_internal
+    state: 'on'
+    repeat: 180
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - ios_group_chicken
