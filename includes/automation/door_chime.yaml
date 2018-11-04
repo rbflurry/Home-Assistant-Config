@@ -31,3 +31,20 @@
      data_template:
        message: > 
         {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+
+
+- alias: No one is home - Door Chime
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      to: 'on'
+  condition:
+   condition: state
+   entity_id: group.device_family
+   state: 'not_home'
+  action:
+   service: wink.enable_chime
+   entity_id: wink.dome
+   data:
+     tone: alert
+ 
