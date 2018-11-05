@@ -46,7 +46,6 @@ all_lights_w_switches:
     - switch.esp2
     - light.wink_light_bulb_2
 
-
 chicken_coop_view:
   name: Chicken
   view: yes  
@@ -74,7 +73,6 @@ chicken_age:
     - sensor.chicken_age_batch3
     - sensor.chicken_age_batch4
 
-
 chicken_controls:
   name: Chicken Controls
   control: hidden
@@ -86,8 +84,6 @@ chicken_controls:
     - switch.esp4
     - switch.wifi_switch1
     - light.wink_guinea_coop
-
-
 
 chicken_timer:
   name: Chicken Timer
@@ -124,7 +120,6 @@ rooms:
     - binary_sensor.temperature_up
     - binary_sensor.temperature_down
 
-
 doors_view:
   name: Doors
   view: yes
@@ -143,7 +138,6 @@ garage_room:
     - media_player.kodi_garage
     - camera.cam234
 
-  
 garage_brief:
   name: Garage Controls
   control: hidden
@@ -153,7 +147,6 @@ garage_brief:
     - cover.myq_second_bay
     - cover.myq_third_bay
     - switch.esp1
-  
   
 bits:
   name: BTS
@@ -205,7 +198,6 @@ input_booleans:
     - input_boolean.test
     - input_boolean.vacation_mode
 
-
 blueiris:
   name: Blue Iris
   entities:
@@ -221,22 +213,22 @@ ups:
     - sensor.syno_battery_runtime
     - sensor.syno_load
     - sensor.syno_status_data
-
-  
+    
 device_ryan:
   name: Ryan
   view: no
   entities:
     - device_tracker.ryans_iphone_wifi
 #    - device_tracker.ryaniphone
-    - device_tracker.ryans_iphone_app
+#    - device_tracker.ryans_iphone_app
+    - device_tracker.ryans_iphone_app2
   
 device_chelsea:
   name: Chelsea
   view: no
   entities:
     - device_tracker.chelseasiphone_wifi
-    - device_tracker.chelseasiphone
+#    - device_tracker.chelseasiphone
     - device_tracker.chelseas_iphone_app
 
 garage:
@@ -257,8 +249,7 @@ all_garage_doors:
     - cover.wink_first_bay
     - cover.wink_second_bay
     - cover.wink_third_bay
-
-  
+    
 weather:
   name: Weather
   view: no
@@ -299,8 +290,6 @@ livingroom:
     - device_tracker.XboxSystemOSliloldwestmdinfo
     - device_tracker.rb360liloldwestmdinfo
   
-
-
 internet_speed_test:
   name: Internet Speed Test
   view: no
@@ -324,7 +313,6 @@ chelseasiphone:
     - sensor.chelseas_iphone_battery_level
     - sensor.chelseas_iphone_battery_state 
     - sensor.geocode_chelsea
-  
   
 indoor_lights:
   name: Indoor Lights
@@ -351,14 +339,12 @@ smoke:
     - binary_sensor.wink_hallway_smoke_detector_smoke_detected
     - binary_sensor.wink_hallway_smoke_detector_co_detected
 
-
 device_family:
   name: Family
   view: no
   entities:
     - group.device_ryan
     - group.device_chelsea
-
 
 doors_og:
   name: Doors OG
@@ -379,10 +365,13 @@ travel_time:
     - sensor.device_chelsea_to_work
     - sensor.device_ryan_to_home
     - sensor.device_ryan_to_work
+    - sensor.waze_device_chelsea_to_home
+    - sensor.waze_device_chelsea_to_work
+    - sensor.waze_device_ryan_to_home
+    - sensor.waze_device_ryan_to_work   
     - sensor.geocode_ryan 
     - sensor.geocode_chelsea
   
-
 services_devices:
   name: Services/Devices
   view: no
@@ -409,7 +398,6 @@ processes:
     - sensor.process_appdaemon
     - switch.wink_zwaveoutlet
 
-
 trash_recycle:
   name: Trash & Recycle
   view: no
@@ -429,7 +417,6 @@ esp:
     - switch.esp5
     - switch.esp6
     
-
 timer_light:
   name: Timer Light
   view: no
@@ -465,7 +452,6 @@ sensor_node_3_card:
     - sensor.sn3_real_feel
     - light.sn2_led
 
-
 sensor_node_2_card:  
   name: Chicken Coop  
   entities:  
@@ -487,7 +473,6 @@ sensor_node_1_card:
     - sensor.sn1_reed
     - sensor.sn1_real_feel
     - light.sn1_led
-
 
 history:
  name: History Sensors
