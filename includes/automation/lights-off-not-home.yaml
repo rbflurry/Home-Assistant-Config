@@ -19,8 +19,6 @@
     - service: homeassistant.turn_off
       entity_id: switch.wink_back_flood
 
-      
-      
 - alias: Turn Off outside lights if no one is home for five minutes and sun is up.
   trigger:
    platform: state
