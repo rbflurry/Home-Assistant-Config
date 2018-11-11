@@ -9,7 +9,7 @@
 #  name: myups
   
 - platform: waze_travel_time
-  origin: device_tracker.ryans_iphone_app
+  origin: device_tracker.ryans_iphone_app2
   destination: zone.home
   region: 'US'
   name: waze_device_ryan_to_home
@@ -17,7 +17,7 @@
 - platform: waze_travel_time
   name: waze_device_ryan_to_work
   region: 'US'
-  origin: device_tracker.ryans_iphone_app
+  origin: device_tracker.ryans_iphone_app2
   destination: zone.thales
   
 - platform: waze_travel_time
@@ -35,14 +35,14 @@
 - platform: google_travel_time
   name: device_ryan_to_home
   api_key: !secret google_api_dist
-  origin: device_tracker.ryans_iphone_app
+  origin: device_tracker.ryans_iphone_app2
   destination: zone.home
   scan_interval: 60
 
 - platform: google_travel_time
   name: device_ryan_to_work
   api_key: !secret google_api_dist
-  origin: device_tracker.ryans_iphone_app
+  origin: device_tracker.ryans_iphone_app2
   destination: zone.thales
   scan_interval: 60
   
@@ -273,7 +273,7 @@
   unit_of_measurement: "%"
   
 - platform: google_geocode
-  origin: device_tracker.ryans_iphone_app
+  origin: device_tracker.ryans_iphone_app2
   name: geocode_ryan
   display_zone: hide
   api_key: !secret google_geocode

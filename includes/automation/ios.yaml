@@ -1,7 +1,7 @@
 - alias: Notify iOS app Coming
   trigger:
     - platform: state
-      entity_id: device_tracker.ryans_iphone_app
+      entity_id: device_tracker.ryans_iphone_app2
       from: 'not_home'
       to: 'home'
 #    - platform: state
@@ -57,7 +57,7 @@
 - alias: Notify iOS app Leaving
   trigger:
     - platform: state
-      entity_id: device_tracker.ryans_iphone_app
+      entity_id: device_tracker.ryans_iphone_app2
       from: 'home'
       to: 'not_home'
 #    - platform: state
