@@ -2,7 +2,7 @@
   initial_state: 'off'
   trigger:
     platform: state
-    entity_id: device_tracker.ryans_iphone_app
+    entity_id: device_tracker.ryans_iphone_app2
   action:
     -  service: notify.ios_ryans_iphone_app
        data:

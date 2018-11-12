@@ -10,10 +10,10 @@
       for:
         minutes: 10
     - platform: state
-      entity_id: device_tracker.ryans_iphone_app
+      entity_id: device_tracker.ryans_iphone_app2
       to: 'not_home'
     - platform: state
-      entity_id: device_tracker.ryans_iphone_app
+      entity_id: device_tracker.ryans_iphone_app2
       from: 'home'
   action:
     - service: homeassistant.turn_off
@@ -30,7 +30,7 @@
       entity_id: device_tracker.ryans_iphone_wifi
       to: 'home'
     - platform: state
-      entity_id: device_tracker.ryans_iphone_app
+      entity_id: device_tracker.ryans_iphone_app2
       to: 'home'   
   action:
      service: homeassistant.turn_on
