@@ -24,7 +24,7 @@
 - alias: Hotwater -  Came home early
   trigger:
     platform: state
-    entity_id: device_tracker.ryans_iphone_app
+    entity_id: device_tracker.ryans_iphone_app2
     from: 'not_home'
     to: 'home'
     for:

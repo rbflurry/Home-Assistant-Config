@@ -220,8 +220,8 @@ device_ryan:
   entities:
     - device_tracker.ryans_iphone_wifi
 #    - device_tracker.ryaniphone
-#    - device_tracker.ryans_iphone_app
-    - device_tracker.ryans_iphone_app2
+#    - device_tracker.ryans_iphone_app2
+    - device_tracker.ryans_iphone_app22
   
 device_chelsea:
   name: Chelsea

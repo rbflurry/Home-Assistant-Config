@@ -1,19 +1,19 @@
 #- alias: Notify iOS moving
 #  trigger:
 #    platform: state
-#    entity_id: device_tracker.ryans_iphone_app
+#    entity_id: device_tracker.ryans_iphone_app2
 #  action:
 #    service: notify.ios_ryans_iphone_app
 #    data_template:
 #      message: >
 #        {{trigger.from_state}}
 #        {{trigger.to_state}}
-#        {%- for attr in states.device_tracker.ryans_iphone_app.attributes -%}
+#        {%- for attr in states.device_tracker.ryans_iphone_app2.attributes -%}
 #        {%- if  attr not in ["attribution" , "friendly_name", "source_type"]%}
-#        {{attr.replace("_", " ")| capitalize}}: {{states.device_tracker.ryans_iphone_app.attributes[attr] }} 
+#        {{attr.replace("_", " ")| capitalize}}: {{states.device_tracker.ryans_iphone_app2.attributes[attr] }} 
 #        {%- endif %}
 #        {%- endfor %}
-#        {{states.device_tracker.ryans_iphone_app.state}}
+#        {{states.device_tracker.ryans_iphone_app2.state}}
 #        {{trigger.from_state}}
 #        {{trigger.to_state}}
 
@@ -23,7 +23,7 @@
   initial_state: 'off'
   trigger:
     platform: state
-    entity_id: device_tracker.ryans_iphone_app
+    entity_id: device_tracker.ryans_iphone_app2
   action:
     service: notify.ios_ryans_iphone_app
     data_template:
@@ -39,15 +39,15 @@
           longitude: "{{trigger.to_state.attributes.longitude}}"
 
 
-#{{ states.device_tracker.ryans_iphone_app }} 
-#{{ states.device_tracker.ryans_iphone_app.attributes.latitude}}
+#{{ states.device_tracker.ryans_iphone_app2 }} 
+#{{ states.device_tracker.ryans_iphone_app2.attributes.latitude}}
 
 
 - alias: Notify iOS moving test
   initial_state: 'off'
   trigger:
     platform: state
-    entity_id: device_tracker.ryans_iphone_app
+    entity_id: device_tracker.ryans_iphone_app2
   action:
     service: notify.ios_ryans_iphone_app
     data_template:
