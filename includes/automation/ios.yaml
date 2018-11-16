@@ -24,7 +24,7 @@
         message: >
          {{trigger.to_state}}
         title: "to"
-    - service: notify.ios_ryans_iphone_app
+    - service: notify.ios_ryans_iphone_app2
       data_template:
         title: "You are arriving home!"
         message: >
@@ -74,7 +74,7 @@
 #          {{trigger.from_state}}
 #          {{trigger.to_state}}
 #         title: "Custom subject"
-    - service: notify.ios_ryans_iphone_app
+    - service: notify.ios_ryans_iphone_app2
       data_template:
         title: "You are leaving the house!"
         message: >
