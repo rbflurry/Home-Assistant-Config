@@ -18,7 +18,7 @@
 #            Wink Hub is {{ states('binary_sensor.wink_hub') }}
 #            
 #            Appdaemon is {{ states('sensor.process_appdaemon') }}
-    - service: notify.ios_ryans_iphone_app
+    - service: notify.ios_ryans_iphone_app2
       data_template:
         title: "Ha Start"
         message: >
@@ -44,7 +44,7 @@
         topic: "cmnd/sonoff_basement/POWER"
         payload: ""
     - delay: 00:00:20
-    - service: notify.ios_ryans_iphone_app
+    - service: notify.ios_ryans_iphone_app2
       data:
        message: request_location_update
     - service: notify.ios_chelseas_iphone_app
@@ -53,7 +53,7 @@
 #   - service: homeassistant.turn_on
 #     entity_id: input_boolean.ha_start_delay
     - delay: 00:00:20
-    - service: notify.ios_ryans_iphone_app
+    - service: notify.ios_ryans_iphone_app2
       data:
        message: request_location_update
     - service: notify.ios_chelseas_iphone_app
@@ -89,7 +89,7 @@
     - platform: homeassistant
       event: shutdown
   action:
-    - service: notify.ios_ryans_iphone_app
+    - service: notify.ios_ryans_iphone_app2
       data:
        title: 'Home Assistant Stop'
       data_template:
