@@ -21,7 +21,7 @@
 #    entity_id:
 #      - switch.esp3
   action:
-   -  service: notify.ios_ryans_iphone_app
+   -  service: notify.ios_ryans_iphone_app2
       data_template:
         title: 'Camper'
         message: >
