@@ -2,7 +2,8 @@ name: My Awesome Home
 views:
     # The name of a view will be used as tab title.
     # Might be used for other things in the future.
-  - name: Example
+  - id: example
+    name: Example
     title: Home
     # Each view can have a different theme applied. Theme should be defined in the frontend.
     theme: dark-mode
@@ -14,10 +15,12 @@ views:
       - type: weather-forecast
         entity: weather.home
         # The entities card will take a list of entities and show their state.
-  - name: Chicken
+  - id: chicken
+    name: Chicken
     title: Chicken
     cards:
-      - type: entities
+      - id: chicken_tiemr
+        type: entities
         title: Chicken Timer
         show_header_toggle: false
         entities:
@@ -30,7 +33,8 @@ views:
           - automation.chicken__door__last_call
           - sensor.chicken_door_last_call_time_clean
           - input_number.chicken_last_call_after_close
-      - type: entities
+      - id: chicken_controls
+        type: entities
         title: Chicken Controls
         show_header_toggle: false
         entities:  
@@ -38,23 +42,27 @@ views:
             - light.wink_chicken_light
             - automation.chicken___afterdark_turn_off_light
             - switch.esp3
-      - type: picture-entity
+      - id: cameracamz238
+        type: picture-entity
         entity: camera.camz238
         show_info: false
-      - type: picture-glance
+      - id: camer.camd2.239
+        type: picture-glance
         image: 
         camera_image: camera.camd239
         entities:
           - switch.esp3
           - cover.chicken_door
           - light.wink_chicken_light
-      - type: entities
+      - id: chicken_age
+        type: entities
         title: Chicken Age
         entities:  
             - sensor.chicken_age_batch1
             - sensor.chicken_age_batch2
             - sensor.chicken_age_batch3
-  - name: 'On'
+  - id: on
+    name: 'On'
     title: 'Garage'
     cards:
       - type: picture-glance
@@ -62,8 +70,8 @@ views:
         camera_image: camera.cam234
         entities:
           - switch.esp1
-  - icon: mdi:cctv
-    id: camera
+  - id: camera2
+    icon: mdi:cctv
     title: Camera
     cards:
       - type: picture-entity
@@ -210,9 +218,11 @@ views:
           - sensor.chicken_age_batch1
           - sensor.chicken_age_batch2
           - sensor.chicken_age_batch3
-  - title: Rooms
+  - id: rooms
+    title: Rooms
     cards:
-      - type: entities
+      - id: rooms2
+        type: entities
         entities:
           - input_number.fan_min_on_time
           - sensor.sn3_temperature
