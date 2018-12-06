@@ -1,50 +1,16 @@
+### VIEWS ###
+
 default_view:
   name: Home
   view: yes
   entities:
-    - group.camper
     - group.all_lights_w_switches
     - group.garage_brief
     - group.device_family
     - group.weather
     - alarm_control_panel.ha_alarm
-    - group.travel_time
     - alert.chicken_door
     - sensor.last_successful_authentication
-
-camper:
-  name: Camper
-  control: hidden
-  view: no
-  entities:
-    - sensor.camper_humid
-    - sensor.camper_temp
-    - switch.esp6
-
-all_lights_w_switches:
-  name: Controls
-  control: hidden
-  view: no
-  entities:
-    - light.wink_front_porch
-    - light.wink_hallway
-    - switch.wink_back_flood
-    - light.wink_bed_room
-    - light.wink_led_strip_bed
-    - switch.wink_kitchen
-    - switch.wink_basement
-    - light.wink_living_room
-    - light.wink_office
-    - switch.hot_water
-    - switch.esp1
-    - switch.esp5
-    - script.timed_lamp
-    - script.timed_flood_lamp
-    - switch.wink_zwaveoutlet
-    - switch.wifi_switch1
-    - light.wink_led_strip_tv
-    - switch.esp2
-    - light.wink_light_bulb_2
 
 chicken_coop_view:
   name: Chicken
@@ -63,6 +29,112 @@ chicken_coop_view:
     - sensor.sn3_temperature
     - climate.brooder
     - climate.chicken_fan
+
+rooms:
+  name: Rooms
+  view: yes
+  entities:
+    - group.livingroom
+    - group.basement
+    - group.indoor_lights
+    - group.outdoor_lights
+    - group.smoke
+    - group.house
+    - group.usps_mail
+    - input_number.fan_min_on_time
+
+
+climates:
+  name: Climates
+  view: yes
+  entities:
+    - climate.home
+    - sensor.lilbee_temperature
+    - sensor.sn3_temperature
+    - binary_sensor.temperature_up
+    - binary_sensor.temperature_down
+    - group.climate_sensors
+    - group.history
+
+people:
+  name: People
+  view: yes
+  entities:
+    - group.travel_time
+    - group.device_ryan
+    - group.device_chelsea
+       
+doors_view:
+  name: Doors
+  view: yes
+  entities:
+    - group.doors_og
+    - cover.windows
+    - group.motion
+    
+garage_room:
+  name: Garage
+  view: yes
+  entities:
+    - group.garage_brief
+    - camera.cam234
+    - binary_sensor.wink_garage_entry_opened
+  
+bits:
+  name: BTS
+  view: yes
+  entities:
+    - group.services_devices
+    - group.internet_speed_test
+    - group.ups
+    - group.blueiris
+    - group.trash_recycle
+    - group.timer_light
+    - group.sensor_node_1_card
+    - group.sensor_node_3_card
+    - sun.sun
+    - group.snmp_monitor
+    - group.camper
+  
+all:
+  name: ALL
+  view: yes
+  entities:
+    - group.all_scripts
+    - group.all_covers
+    - group.all_switches
+    - group.all_lights
+    - group.all_devices
+    - group.input_booleans
+    - group.esp
+    - group.all_devices
+
+automations:
+  name: auto
+  view: yes
+  entities:
+    - group.all_automations
+    
+alarm:
+  name: Alarm
+  view: yes
+  entities:
+    - group.alarm_timer
+    
+cameras:
+  name: cameras
+  view: yes
+  entities:
+    - camera.cam233
+    - camera.cam234
+    - camera.camd239
+    - camera.camp235
+    - camera.camp237
+    - camera.camz238
+    - camera.p230
+    - camera.cam3
+    
+### Groups ###
 
 chicken_age:
   name: Chicken Age
@@ -102,42 +174,6 @@ chicken_timer:
     - sensor.sun_next_rising
     - sensor.sun_next_setting
 
-rooms:
-  name: Rooms
-  view: yes
-  entities:
-    - group.livingroom
-    - group.basement
-    - group.indoor_lights
-    - group.outdoor_lights
-    - climate.home
-    - group.smoke
-    - group.house
-    - group.usps_mail
-    - input_number.fan_min_on_time
-    - sensor.lilbee_temperature
-    - sensor.sn3_temperature
-    - binary_sensor.temperature_up
-    - binary_sensor.temperature_down
-
-doors_view:
-  name: Doors
-  view: yes
-  entities:
-    - group.doors_og
-    - cover.windows
-    - group.motion
-    
-garage_room:
-  name: Garage
-  view: yes
-  entities:
-    - group.garage_brief
-    - input_select.radio_station
-    - input_select.speakers
-    - media_player.kodi_garage
-    - camera.cam234
-
 garage_brief:
   name: Garage Controls
   control: hidden
@@ -147,45 +183,32 @@ garage_brief:
     - cover.myq_second_bay
     - cover.myq_third_bay
     - switch.esp1
-  
-bits:
-  name: BTS
-  view: yes
-  entities:
-    - group.device_ryan
-    - group.device_chelsea
-    - group.services_devices
-    - group.internet_speed_test
-    - group.ups
-    - group.blueiris
-    - group.trash_recycle
-    - group.timer_light
-    - group.climate_sensors
-    - group.history
-    - group.sensor_node_1_card
-    - group.sensor_node_3_card
-    - sun.sun
-    - group.snmp_monitor
-  
-all:
-  name: ALL
-  view: yes
-  entities:
-    - group.all_scripts
-    - group.all_covers
-    - group.all_switches
-    - group.all_lights
-    - group.all_devices
-    - group.input_booleans
-    - group.esp
-    - group.all_devices
 
-automations:
-  name: auto
-  view: yes
+all_lights_w_switches:
+  name: Controls
+  control: hidden
+  view: no
   entities:
-    - group.all_automations
-  
+    - light.wink_front_porch
+    - light.wink_hallway
+    - switch.wink_back_flood
+    - light.wink_bed_room
+    - light.wink_led_strip_bed
+    - switch.wink_kitchen
+    - switch.wink_basement
+    - light.wink_living_room
+    - light.wink_office
+    - switch.hot_water
+    - switch.esp1
+    - switch.esp5
+    - script.timed_lamp
+    - script.timed_flood_lamp
+    - switch.wink_zwaveoutlet
+    - switch.wifi_switch1
+    - light.wink_led_strip_tv
+    - switch.esp2
+    - light.wink_light_bulb_2  
+    
 input_booleans:
   name: Input Booleans
   control: hidden
@@ -197,6 +220,15 @@ input_booleans:
     - input_boolean.house_guest
     - input_boolean.test
     - input_boolean.vacation_mode
+    
+camper:
+  name: Camper
+  control: hidden
+  view: no
+  entities:
+    - sensor.camper_humid
+    - sensor.camper_temp
+    - switch.esp6
 
 blueiris:
   name: Blue Iris
@@ -490,11 +522,6 @@ motion:
     - binary_sensor.wink_md1_motion
     - binary_sensor.wink_md2_motion
     
-alarm:
-  name: Alarm
-  view: yes
-  entities:
-    - group.alarm_timer
     
 alarm_timer:
   name: Alarm Timer
