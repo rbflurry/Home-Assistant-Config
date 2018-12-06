@@ -57,6 +57,7 @@
 - platform: template
   sensors:
     current_week:
+      entity_id: sensor.time
       value_template: >-
         {%- if (as_timestamp(now()) | timestamp_custom('%W', true) | int ) % 2 == 0 -%}
           Even Week (Week# {{ as_timestamp(now()) | timestamp_custom('%W', true) }})
