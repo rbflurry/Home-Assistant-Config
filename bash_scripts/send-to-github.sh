@@ -8,7 +8,7 @@
 
 cd /root/.homeassistant
 git add .
-git checkout -b dev
+git checkout -b upload
 git commit -m "$1"
-git push origin dev
+git push origin upload
 exit
