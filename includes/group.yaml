@@ -49,7 +49,6 @@ climates:
   view: yes
   entities:
     - climate.home
-    - sensor.lilbee_temperature
     - sensor.sn3_temperature
     - binary_sensor.temperature_up
     - binary_sensor.temperature_down
