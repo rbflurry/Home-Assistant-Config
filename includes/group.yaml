@@ -468,7 +468,7 @@ climate_sensors:
     - sensor.climate_set_temp
     - binary_sensor.climate_aux_heat
     - binary_sensor.climate_fan
-    - sensor.wink_lilbee_temperature
+    - sensor.lilbee_temperature
     - binary_sensor.lilbee_occupancy
     - sensor.home_temperature
     - binary_sensor.home_occupancy
