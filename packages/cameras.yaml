@@ -38,7 +38,16 @@ camera:
   - platform: generic
     still_image_url: https://icons.wxug.com/data/weather-maps/radar/united-states/staunton-virginia-region-current-radar-animation.gif
     name: WundergroundRadar
-    
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/cam3
+    name: cam3
+    username: ha
+    password: !secret camera_pass
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/p230
+    name: p230
+    username: ha
+    password: !secret camera_pass
     
     
     
