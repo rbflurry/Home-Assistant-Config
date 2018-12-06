@@ -49,7 +49,6 @@ climates:
   view: yes
   entities:
     - climate.home
-    - sensor.lilbee_temperature
     - sensor.sn3_temperature
     - binary_sensor.temperature_up
     - binary_sensor.temperature_down
@@ -468,7 +467,7 @@ climate_sensors:
     - sensor.climate_set_temp
     - binary_sensor.climate_aux_heat
     - binary_sensor.climate_fan
-    - sensor.wink_lilbee_temperature
+    - sensor.lilbee_temperature
     - binary_sensor.lilbee_occupancy
     - sensor.home_temperature
     - binary_sensor.home_occupancy
