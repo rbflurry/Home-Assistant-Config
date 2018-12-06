@@ -57,6 +57,7 @@
 - platform: template
   sensors:
     current_week:
+      entity_id: sensor.time
       value_template: >-
         {%- if (as_timestamp(now()) | timestamp_custom('%W', true) | int ) % 2 == 0 -%}
           Even Week (Week# {{ as_timestamp(now()) | timestamp_custom('%W', true) }})
@@ -71,6 +72,7 @@
 - platform: template
   sensors:
     trash_day:
+      entity_id: sensor.time
       value_template: >-
         {%- set pickupDay = monday | lower -%}
         {%- macro day_of_week(timestamp) -%}
@@ -89,6 +91,7 @@
 - platform: template
   sensors:
     recycle_day:
+      entity_id: sensor.time
       value_template: >-
         {%- set pickupDay = monday | lower -%}
         {%- set evenWeekPickup = false %}
@@ -160,85 +163,85 @@
 #      friendly_name: 'Chicken Age'
 #      value_template: "{{ as_timestamp(now()) | timestamp_custom('%W', true)|int-18 }} Weeks"
     chicken_door_close_time_clean:
-        icon_template: 'mdi:clock-outline'
-        friendly_name: 'Door Close at'
-        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
+      icon_template: 'mdi:clock-outline'
+      friendly_name: 'Door Close at'
+      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
     chicken_door_close_time_dirty:
-        friendly_name: 'Door Close at'        
-        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%H:%M") }}'
+      friendly_name: 'Door Close at'        
+      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%H:%M") }}'
     chicken_door_last_call_time_dirty:
-        friendly_name: 'Last Call Time'        
-        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%H:%M") }}'
-        #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%H:%M") }}'
+      friendly_name: 'Last Call Time'        
+      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%H:%M") }}'
+      #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%H:%M") }}'
     chicken_door_last_call_time_clean:
-        icon_template: 'mdi:clock-outline'
-        friendly_name: 'Last Call Time'        
-        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%-I:%M %p") }}'
-        #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%-I:%M %p") }}'
+      icon_template: 'mdi:clock-outline'
+      friendly_name: 'Last Call Time'        
+      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%-I:%M %p") }}'
+      #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%-I:%M %p") }}'
     sun_next_setting:
-        friendly_name: 'Next Sunset'
-        value_template: '{{(as_timestamp(states.sun.sun.attributes.next_setting)) | timestamp_custom("%I:%M %p") }}'
+      friendly_name: 'Next Sunset'
+      value_template: '{{(as_timestamp(states.sun.sun.attributes.next_setting)) | timestamp_custom("%I:%M %p") }}'
     sun_next_rising:
-        friendly_name: 'Next Sunrise'
-        value_template: '{{(as_timestamp(states.sun.sun.attributes.next_rising)) | timestamp_custom("%I:%M %p") }}'
+      friendly_name: 'Next Sunrise'
+      value_template: '{{(as_timestamp(states.sun.sun.attributes.next_rising)) | timestamp_custom("%I:%M %p") }}'
     sun_elevation:
-        friendly_name: 'Sun Elevation'
-        value_template: '{{states.sun.sun.attributes.elevation}}'
+      friendly_name: 'Sun Elevation'
+      value_template: '{{states.sun.sun.attributes.elevation}}'
     chicken_age_batch1:
-        icon_template: 'mdi:calendar-clock'
-        value_template: >-
-            {%  set value = as_timestamp(utcnow()) - as_timestamp("2017-05-01T00:00:00-05:00")      %}
-            {% set uptime = value | int %}
-                {% set minutes = ((uptime % 3600) / 60) | int %}
-                {% set hours = ((uptime % 86400) / 3600) | int %}
-                {% set days = ((uptime % 604800) / 86400) | int %}
-                {% set weeks = ((uptime % 2629746) / 604800) | int %}
-                {% set months = ((uptime % 31557600) / 2629746) | int %}
-                {% set years = (uptime / 31557600) | int %}
-
-                {%- if uptime < 60 -%}
-                  Less than a minute
-                {%- else -%}
+      entity_id: sensor.time
+      icon_template: 'mdi:calendar-clock'
+      value_template: >-
+          {%  set value = as_timestamp(utcnow()) - as_timestamp("2017-05-01T00:00:00-05:00")      %}
+          {% set uptime = value | int %}
+              {% set minutes = ((uptime % 3600) / 60) | int %}
+              {% set hours = ((uptime % 86400) / 3600) | int %}
+              {% set days = ((uptime % 604800) / 86400) | int %}
+              {% set weeks = ((uptime % 2629746) / 604800) | int %}
+              {% set months = ((uptime % 31557600) / 2629746) | int %}
+              {% set years = (uptime / 31557600) | int %}
+              {%- if uptime < 60 -%}
+                Less than a minute
+              {%- else -%}
+                {%- if years > 0 -%}
+                  {%- if years == 1 -%}
+                    1 year 
+                  {%- else -%}
+                    {{ years }} years 
+                  {%- endif -%}
                   {%- if years > 0 -%}
-                    {%- if years == 1 -%}
-                      1 year 
-                    {%- else -%}
-                      {{ years }} years 
-                    {%- endif -%}
-                    {%- if years > 0 -%}
-                      {{ ', ' }}
-                    {%- endif -%}
-                  {%- endif -%}
-                  {%- if months > 0 -%}
-                    {%- if months == 1 -%}
-                      1 month 
-                    {%- else -%}
-                      {{ months }} months 
-                    {%- endif -%}
-                    {%- if months > 0 -%}
-                      {{ ', ' }}
-                    {%- endif -%}
-                  {%- endif -%}
-             {%- if weeks > 0 -%}
-                    {%- if weeks == 1 -%}
-                      1 week
-                    {%- else -%}
-                      {{ weeks }} weeks
-                    {%- endif -%}
-                  {%- endif -%}
-                  {%- if days > 0 -%}
-                    {%- if weeks > 0 -%}
-
-                      {{ ', ' }}
-                    {%- endif -%}
-                    {%- if days == 1 -%}
-                      1 day
-                    {%- else -%}
-                      {{ days }} days
-                    {%- endif -%}
+                    {{ ', ' }}
                   {%- endif -%}
                 {%- endif -%}
+                {%- if months > 0 -%}
+                  {%- if months == 1 -%}
+                    1 month 
+                  {%- else -%}
+                    {{ months }} months 
+                  {%- endif -%}
+                  {%- if months > 0 -%}
+                    {{ ', ' }}
+                  {%- endif -%}
+                {%- endif -%}
+           {%- if weeks > 0 -%}
+                  {%- if weeks == 1 -%}
+                    1 week
+                  {%- else -%}
+                    {{ weeks }} weeks
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if days > 0 -%}
+                  {%- if weeks > 0 -%}
+                     {{ ', ' }}
+                  {%- endif -%}
+                  {%- if days == 1 -%}
+                    1 day
+                  {%- else -%}
+                    {{ days }} days
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endif -%}
     chicken_age_batch2:
+        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         value_template: >-
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2017-11-09T00:00:00-05:00")      %}
@@ -294,6 +297,7 @@
                 {%- endif -%}
 
     chicken_age_batch3:
+        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         value_template: >-
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2018-04-16T00:00:00-05:00")      %}
@@ -349,6 +353,7 @@
                 {%- endif -%}
                 
     chicken_age_batch4:
+        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         friendly_name: 'Guineas'
         value_template: >-
@@ -406,6 +411,7 @@
                 
     brooder_target_temp:
         friendly_name: 'Brooder Target Temp'
+        entity_id: sensor.time
         unit_of_measurement: °F
         value_template: >-
             {{(95-((as_timestamp(utcnow()) - as_timestamp("2018-08-10T00:00:00-05:00")) / 604800)|int * 5 )}}
