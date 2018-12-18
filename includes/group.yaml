@@ -150,7 +150,6 @@ chicken_controls:
   view: no
   entities:  
     - cover.chicken_door
-    - light.wink_chicken_light
     - switch.esp3
     - switch.esp4
     - switch.wifi_switch1
@@ -197,16 +196,12 @@ all_lights_w_switches:
     - switch.wink_basement
     - light.wink_living_room
     - light.wink_office
-    - switch.hot_water
     - switch.esp1
     - switch.esp5
-    - script.timed_lamp
-    - script.timed_flood_lamp
     - switch.wink_zwaveoutlet
     - switch.wifi_switch1
     - light.wink_led_strip_tv
     - switch.esp2
-    - light.wink_light_bulb_2  
     
 input_booleans:
   name: Input Booleans
