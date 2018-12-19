@@ -66,13 +66,13 @@ sensor:
 - platform: mqtt
   state_topic: "home/sensornode1"
   name: "SN1 Real Feel"
-  unit_of_measurement: "?"
+  unit_of_measurement: "°F"
   value_template: '{{ value_json.heatIndex | round(1) }}'
    
 - platform: mqtt
   state_topic: "home/sensornode2"
   name: "SN2 Real Feel"
-  unit_of_measurement: "?"
+  unit_of_measurement: "°F"
   value_template: '{{ value_json.heatIndex | round(1) }}'
   
 - platform: mqtt  
