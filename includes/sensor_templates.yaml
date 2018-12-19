@@ -162,6 +162,13 @@
 #    template_chicken_age_weeks:
 #      friendly_name: 'Chicken Age'
 #      value_template: "{{ as_timestamp(now()) | timestamp_custom('%W', true)|int-18 }} Weeks"
+    chicken_door_open_time_clean:
+      icon_template: 'mdi:clock-outline'
+      friendly_name: 'Door Opens at'
+      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_rising) + (states("input_number.chicken_minutes_before_sunset") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
+    chicken_door_open_time_dirty:
+      friendly_name: 'Door Opens at'        
+      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_rising) + (states("input_number.chicken_minutes_before_sunset") | int)  * 60)  | timestamp_custom("%H:%M") }}'
     chicken_door_close_time_clean:
       icon_template: 'mdi:clock-outline'
       friendly_name: 'Door Close at'
