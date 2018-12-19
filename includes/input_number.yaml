@@ -27,3 +27,9 @@ chicken_last_call_after_close:
   min: 1
   max: 20
   step: 1
+chicken_minutes_before_sunrise:
+  name: Minutes Offset Sunrise
+  icon: mdi:timer
+  min: -30
+  max: 30
+  step: 1
