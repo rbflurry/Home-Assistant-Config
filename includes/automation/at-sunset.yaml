@@ -16,6 +16,6 @@
       entity_id: light.wink_hallway, light.wink_front_porch
    -  service: notify.ios_group
       data_template:
-        title: 'No one is home'
+        title: No one is home
         message: >
-          "No one is home so I turned on the light"
+          No one is home so I turned on the light
