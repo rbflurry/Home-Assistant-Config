@@ -415,10 +415,67 @@
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
+
+    chicken_age_batch5:
+        entity_id: sensor.time
+        icon_template: 'mdi:calendar-clock'
+        friendly_name: 'Chicks 5'
+        value_template: >-
+            {%  set value = as_timestamp(utcnow()) - as_timestamp("2018-12-10T00:00:00-05:00")      %}
+            {% set uptime = value | int %}
+                {% set minutes = ((uptime % 3600) / 60) | int %}
+                {% set hours = ((uptime % 86400) / 3600) | int %}
+                {% set days = ((uptime % 604800) / 86400) | int %}
+                {% set weeks = ((uptime % 2629746) / 604800) | int %}
+                {% set months = ((uptime % 31557600) / 2629746) | int %}
+                {% set years = (uptime / 31557600) | int %}
+
+                {%- if uptime < 60 -%}
+                  Less than a minute
+                {%- else -%}
+                  {%- if years > 0 -%}
+                    {%- if years == 1 -%}
+                      1 year 
+                    {%- else -%}
+                      {{ years }} years 
+                    {%- endif -%}
+                    {%- if years > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if months > 0 -%}
+                    {%- if months == 1 -%}
+                      1 month 
+                    {%- else -%}
+                      {{ months }} months 
+                    {%- endif -%}
+                    {%- if months > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+             {%- if weeks > 0 -%}
+                    {%- if weeks == 1 -%}
+                      1 week
+                    {%- else -%}
+                      {{ weeks }} weeks
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if days > 0 -%}
+                    {%- if weeks > 0 -%}
+
+                      {{ ', ' }}
+                    {%- endif -%}
+                    {%- if days == 1 -%}
+                      1 day
+                    {%- else -%}
+                      {{ days }} days
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
                 
     brooder_target_temp:
         friendly_name: 'Brooder Target Temp'
         entity_id: sensor.time
         unit_of_measurement: °F
         value_template: >-
-            {{(95-((as_timestamp(utcnow()) - as_timestamp("2018-08-10T00:00:00-05:00")) / 604800)|int * 5 )}}
+            {{(95-((as_timestamp(utcnow()) - as_timestamp("2018-12-10T00:00:00-05:00")) / 604800)|int * 5 )}}

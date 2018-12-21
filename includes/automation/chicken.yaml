@@ -78,10 +78,10 @@
 - alias: Chicken -  Chicken Door Timer V2
   trigger:
     - platform: template
-      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
-    - platform: state
-      entity_id: sun.sun
-      to: 'above_horizon'
+      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_open_time_dirty.state }}'
+#    - platform: state
+#      entity_id: sun.sun
+#      to: 'above_horizon'
   condition:
     - condition: state
       entity_id: input_boolean.chicken_door
@@ -89,11 +89,11 @@
     - condition: state
       entity_id: cover.chicken_door
       state: 'closed'
-    - condition: state
-      entity_id: sun.sun
-      state: 'above_horizon'
+#    - condition: state
+#     entity_id: sun.sun
+#     state: 'above_horizon'
     - condition: template
-      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_time.state }}'
+      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_open_time_dirty.state }}'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_automations
@@ -114,9 +114,8 @@
           push:
            category: 'chicken_door'
     - service: homeassistant.turn_off
-      entity_id: input_boolean.chicken_door_automations   
+      entity_id: input_boolean.chicken_door_automations, input_boolean.chicken_door_last_call
       
-
 
 - alias: Chicken - Sunset close door V2
 #  initial_state: false
@@ -194,6 +193,7 @@
           push:
            category: 'chicken_door'
     - delay: 00:02:00
+# need to fix this. If we close the door during this time... it does not turn off the input booleans
     - condition: state
       entity_id: cover.chicken_door
       state: 'open'
