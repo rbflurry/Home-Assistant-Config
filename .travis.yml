@@ -2,8 +2,7 @@ language: python
 python:
   - "3.5"
 before_install:
-  - mkdir /root/.android
-  - echo -e "hello" > /root/.android/adbkey
+  - echo -e "hello" > /tmp/adbkey
   - mv travis_secrets.yaml secrets.yaml
 install:
   - pip3 install homeassistant
