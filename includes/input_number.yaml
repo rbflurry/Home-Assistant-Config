@@ -16,7 +16,7 @@ climate_set_temp:
   max: 90
   step: 1
 chicken_minutes_after_sunset:
-  name: Minutes After Sunset
+  name: Sunset Offset
   icon: mdi:timer
   min: 0
   max: 59
@@ -28,7 +28,7 @@ chicken_last_call_after_close:
   max: 20
   step: 1
 chicken_minutes_before_sunrise:
-  name: Minutes Offset Sunrise
+  name: Sunrise Offset
   icon: mdi:timer
   min: -30
   max: 30
