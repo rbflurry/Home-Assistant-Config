@@ -170,7 +170,7 @@ chicken_timer:
 #    - input_number.chicken_minutes
     - sensor.chicken_door_close_time_clean
     - input_number.chicken_minutes_after_sunset
-    - automation.chicken__door__last_call
+    - automation.chicken__door__last_call_v2
     - sensor.chicken_door_last_call_time_clean
     - input_number.chicken_last_call_after_close
     - sensor.sun_next_rising

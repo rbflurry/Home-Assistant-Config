@@ -96,7 +96,11 @@ shell_command:
   restart_drivewaycam: /root/port_bounce.sh
   update_config: /root/.homeassistant/bin/pull_from_github.sh
 
-#media_player:
+media_player:
+  - platform: firetv
+    name: Fire TV 1
+    host: 192.168.47.134
+    adbkey: /root/.android/adbkey
 #  - platform: alexa
 #    email: nevar
 #    password: never
@@ -219,3 +223,12 @@ homekit:
       - cover
       - switch
   
+telegram_bot:
+  - platform: polling
+    api_key: 700554930:AAEuskxbrLSLZLOPFDzI-F95aoJLrVPVZGg
+    allowed_chat_ids:
+     - 618533989
+     - 664122562
+     - 356616190
+     - -356616190
+     

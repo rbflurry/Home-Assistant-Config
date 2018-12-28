@@ -18,29 +18,29 @@
 ## Sensor
 ################################################
 
-sensor:
-  - platform: rest
-    name: Firetab
-    json_attributes:
-      - isScreenOn
-      - batteryLevel
-      - kioskMode
-      - screenBrightness
-      - motionDetectorState
-      - maintenanceMode
-      - appFreeMemory
-      - appUsedMemory
-      - totalFreeMemory
-      - totalUsedMemory
-      - hostname4
-      - ip4
-      - mac
-      - startUrl
-      - currentPage
-      - currentFragment
-      - plugged
-    resource: !secret fully_url
-    value_template: '{{ value_json.screenBrightness }}'
+# sensor:
+  # - platform: rest
+    # name: Firetab
+    # json_attributes:
+      # - isScreenOn
+      # - batteryLevel
+      # - kioskMode
+      # - screenBrightness
+      # - motionDetectorState
+      # - maintenanceMode
+      # - appFreeMemory
+      # - appUsedMemory
+      # - totalFreeMemory
+      # - totalUsedMemory
+      # - hostname4
+      # - ip4
+      # - mac
+      # - startUrl
+      # - currentPage
+      # - currentFragment
+      # - plugged
+    # resource: !secret fully_url
+    # value_template: '{{ value_json.screenBrightness }}'
 
 
 ################################################
