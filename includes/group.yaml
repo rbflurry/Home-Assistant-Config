@@ -143,6 +143,7 @@ chicken_age:
     - sensor.chicken_age_batch2
     - sensor.chicken_age_batch3
     - sensor.chicken_age_batch4
+    - sensor.chicken_age_batch5
 
 chicken_controls:
   name: Chicken Controls
@@ -161,14 +162,15 @@ chicken_timer:
   view: no
   entities:
     - input_boolean.chicken_door
-    - sensor.chicken_door_time
+#    - sensor.chicken_door_time
+    - sensor.chicken_door_open_time_clean
     - input_number.chicken_minutes_before_sunrise
     - sensor.chicken_door_open_time_clean
-    - input_number.chicken_hour
-    - input_number.chicken_minutes
+#    - input_number.chicken_hour
+#    - input_number.chicken_minutes
     - sensor.chicken_door_close_time_clean
     - input_number.chicken_minutes_after_sunset
-    - automation.chicken__door__last_call
+    - automation.chicken__door__last_call_v2
     - sensor.chicken_door_last_call_time_clean
     - input_number.chicken_last_call_after_close
     - sensor.sun_next_rising
@@ -216,6 +218,8 @@ input_booleans:
     - input_boolean.house_guest
     - input_boolean.test
     - input_boolean.vacation_mode
+    - input_boolean.chicken_door_last_call
+    - input_boolean.chicken_door_automations
     
 camper:
   name: Camper

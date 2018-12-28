@@ -1,6 +1,6 @@
   chicken_door:
     name: Chicken Door is open after dark
-    done_message: Chicken Door Is closed
+    done_message: 'Alert Clear: Chicken Door is closed'
     entity_id: binary_sensor.chicken_door_after_dark
     repeat: 10
     can_acknowledge: True
