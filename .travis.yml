@@ -2,6 +2,8 @@ language: python
 python:
   - "3.5"
 before_install:
+  - mkdir /root
+  - mkdir /root/.android
   - echo -e "hello" > /root/.android/adbkey
   - mv travis_secrets.yaml secrets.yaml
 install:
