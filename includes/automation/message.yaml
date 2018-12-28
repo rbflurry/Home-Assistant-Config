@@ -8,7 +8,7 @@
    entity_id: group.device_family
    state: 'not_home'
   action:
-    - service: notify.ios_group
+    - service: notify.everyone_group
       data_template:
          title: 'Something happened at home'
          message: >
@@ -28,7 +28,7 @@
        {% set new = trigger.entity_id %}
        {{ is_state(new, 'off') }}
       timeout: 00:00:05
-    - service: notify.ios_group
+    - service: notify.everyone_group
       data_template:
         title: Something happened at home
         message: >
@@ -45,7 +45,7 @@
     - wait_template: >
        {% set new = trigger.entity_id %}
        {{ is_state(new, 'off') }}
-    - service: notify.ios_group
+    - service: notify.everyone_group
       data_template:
        title: Something happened at home
        message: >
@@ -59,13 +59,13 @@
    for:
      minutes: 5
   action:
-    - service: notify.ios_group
+    - service: notify.everyone_group
       data_template:
         title: 'Door Left Open'
         message: >
           {{ trigger.to_state.name }} is open for more than 5 minutes
     - wait_template: "{{ is_state(trigger.entity_id, 'off') }}"
-    - service: notify.ios_group
+    - service: notify.everyone_group
       data_template:
         title: 'Door Now closed'
         message: >

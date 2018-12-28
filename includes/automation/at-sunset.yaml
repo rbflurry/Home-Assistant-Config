@@ -19,3 +19,8 @@
         title: No one is home
         message: >
           No one is home so I turned on the light
+   -  service: notify.telegram_group
+      data_template:
+        title: No one is home
+        message: >
+          No one is home so I turned on the light

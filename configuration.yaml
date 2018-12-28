@@ -226,6 +226,7 @@ homekit:
 telegram_bot:
   - platform: polling
     api_key: !secret telegram
+    parse_mode: html
     allowed_chat_ids:
      - 618533989
      - 664122562
