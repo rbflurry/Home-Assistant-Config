@@ -1,0 +1,188 @@
+- alias: forward_persistent_notifications
+  initial_state: 'off'
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        domain: persistent_notification
+        service: create
+  action:
+    - service: notify.telegram_ryan
+      data_template:
+        message: >-
+          {% set message = trigger.event.data.service_data.message %}
+          {% if 'login attempt' in message|lower %}
+            {{ message }}: http://www.ip-tracker.org/locator/ip-lookup.php?ip={{ message.split('from ')[1] }}
+          {% else %}
+            {{ message }}
+          {% endif %}
+- alias: telegram_restart
+  trigger:
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/restart'
+  action:
+    - service: telegram_bot.send_message
+      data:
+        target: '{{ trigger.event.data.user_id }}'
+        message: "Restarting Home Assistant, please wait..."
+
+- alias: telegram_roll
+  trigger:
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/roll'
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Roll' 
+  action:
+    - service: telegram_bot.send_message
+      data_template:
+        target: '{{ trigger.event.data.chat_id }}'
+        message: >-
+          {% set sides = (trigger.event.data.args|default)[0]|default(6) %}
+          I rolled a {{ sides|string ~ '-sided die' if sides != 6 else 'die' }} and got {{ range(1, sides + 1)|random }}.
+            
+
+- alias: Chicken - Telegram Handler
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: telegram_callback
+  condition:
+   condition: template
+   value_template: "{{(trigger.event.data.data.split('_')[0] == '/CHICKEN')}}"
+  action:
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: 'OK'
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+  - service_template: >-
+     {% if (trigger.event.data.data.split('_')[1] == 'OPEN' ) and ( states.cover.chicken_door.state == 'closed')   %}
+       cover.open_cover
+     {% elif (trigger.event.data.data.split('_')[1] == 'CLOSE' ) and ( states.cover.chicken_door.state == 'open')  %}
+       cover.close_cover
+     {% else %}
+     {% endif %}
+    data:
+      entity_id: cover.chicken_door
+    
+    
+- alias: Telegram Event TroubleShoot
+  initial_state: 'off'
+  trigger:
+    platform: event
+    event_type: telegram_callback
+  condition:
+   condition: template
+   value_template: "{{(trigger.event.data.data.split('_')[0] == '/CHICKEN')}}"
+  action:
+    -  service: persistent_notification.create
+       data_template:
+         message: >
+          {{(trigger.event.data.data)}}
+#          {{(trigger.event.data)}}
+#          {{(trigger.event.data.actionName.split('_')[0] == 'GARAGE')}}
+#          {{trigger.from_state}}
+#          {{trigger.to_state}}
+         title: "Telegram TroubleShoot"
+         
+         
+- alias: Telegram - Test - Send Message when input boolean change
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: input_boolean.test
+      from: 'off'
+      to: 'on'
+  action:
+    - service: notify.telegram_ryan
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
+        message: >
+          {% if is_state('cover.chicken_door', 'closed') %}
+            I closed the chicken door after last call.
+          {% else %}
+            I tried to close the chicken door after last call but it did not close!
+          {% endif %}
+        data:
+          inline_keyboard:
+           - 'Open Door:/CHICKEN_OPEN_DOOR'
+           - 'Close Door:/CHICKEN_CLOSE_DOOR'
+           
+- alias: telegram_dinner
+  trigger:
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/dinner'
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Dinner' 
+  action:
+    - service: telegram_bot.send_message
+      data_template:
+        target: '{{ trigger.event.data.chat_id }}'
+        message: >-
+          {% set responses = ( 'Pizza', 'Burgers', 'Chicken', 'Chillis', 'Sit in', 'To Go', 'TRH' ) %}
+          {% set rindex = (range(0, (responses | length - 1) )|random) -%}
+          How About {{responses[rindex]}}
+          
+- alias: telegram_flipcoin
+  trigger:
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/flipcoin'
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Flipcoin' 
+  action:
+    - service: telegram_bot.send_message
+      data_template:
+        target: '{{ trigger.event.data.chat_id }}'
+        message: >-
+          {% set responses = ( 'Heads', 'Tails', 'Other' ) %}
+          {% set rindex = (range(0, (responses | length - 1) )|random) -%}
+          I flipped a coin and got {{responses[rindex]}}
+          
+          
+- alias: 'Conversation'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: telegram_text
+  condition:
+    condition: template
+    value_template: >-
+      {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+      {% for entity in states.group.all_lights.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+      true
+      {%- else -%}
+        {% for entity in states.group.all_switches.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+        true
+      {%- else -%}
+      false
+      {%- endfor -%}
+      {%- endfor -%}
+  action:
+    - service: conversation.process
+      data_template:
+        text: '{{ trigger.event.data.text|lower }}'
+    - service: telegram_bot.send_message
+      data_template:
+        message: >-
+          {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+          OK, {{ trigger.event.data.text|lower|replace('turn','turning') }}.
+        title: ''
+        target: '{{ trigger.event.data.chat_id }}'

@@ -113,6 +113,19 @@
         data:
           push:
            category: 'chicken_door'
+    - service: notify.telegram_group
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
+        message: >
+          {% if is_state('cover.chicken_door', 'open') %}
+            Automation triggered the door to open and it did.
+          {% else %}
+            Automation triggered the door to open but it did not!
+          {% endif %}
+        data:
+          inline_keyboard:
+           - 'Open Door:/CHICKEN_OPEN_DOOR'
+           - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_automations, input_boolean.chicken_door_last_call
       
@@ -125,9 +138,9 @@
 #    - platform: sun
 #      event: sunset
 #      offset: '+00:20:00'
-    - platform: time
-      minutes: '/5'
-      seconds: 00
+#    - platform: time
+#      minutes: '/5'
+#      seconds: 00
   condition:
     - condition: state
       entity_id: cover.chicken_door
@@ -159,6 +172,19 @@
         data:
           push:
            category: 'chicken_door'
+    - service: notify.telegram_group
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
+        message: >
+          {% if is_state('cover.chicken_door', 'closed') %}
+            Automation triggered the door to close and it did.
+          {% else %}
+            Automation triggered the door to close but it did not!
+          {% endif %}
+        data:
+          inline_keyboard:
+           - 'Open Door:/CHICKEN_OPEN_DOOR'
+           - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_automations
 
@@ -192,6 +218,19 @@
         data:
           push:
            category: 'chicken_door'
+    - service: notify.telegram_group
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Open{{ "\ud83d\udc14" }}'
+        message: >
+          {% if is_state('cover.chicken_door', 'open') %}
+            I opened the chicken door for last call.
+          {% else %}
+            I tried to open the chicken door for last call but it did not open!
+          {% endif %}
+        data:
+          inline_keyboard:
+           - 'Open Door:/CHICKEN_OPEN_DOOR'
+           - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - delay: 00:02:00
 # need to fix this. If we close the door during this time... it does not turn off the input booleans
     - condition: state
@@ -213,6 +252,19 @@
         data:
           push:
            category: 'chicken_door'
+    - service: notify.telegram_group
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
+        message: >
+          {% if is_state('cover.chicken_door', 'closed') %}
+            I closed the chicken door after last call.
+          {% else %}
+            I tried to close the chicken door after last call but it did not close!
+          {% endif %}
+        data:
+          inline_keyboard:
+           - 'Open Door:/CHICKEN_OPEN_DOOR'
+           - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
       
