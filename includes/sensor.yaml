@@ -389,3 +389,32 @@
       bt_car_keys_threshold:
         friendly_name: 'deeks_collar_threshold'
         value_template: '{{ states.sensor.deeks_collar_stats_mean.attributes["average_change"] | float > 0 }}' #"key_car_stats" is the name from C; mean is used but could be also other statistics (median, change, variation, count, etc)
+
+
+
+- platform: sql
+  db_url: postgres://hass:hass@192.168.47.155/hass
+  scan_interval: 60
+  queries:
+#    - name: sql States recorded today
+#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
+#      column: 'value'
+#      unit_of_measurement: States
+#    - name: sql States recorded yesterday
+#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN subdate(current_date, 1) and CURDATE() LIMIT 1;"
+ #     column: 'value'
+ #     unit_of_measurement: States
+    - name: sql Total states stored
+      query: "SELECT COUNT(*) as value FROM states;"
+      column: 'value'
+      unit_of_measurement: States
+    - name: sql Unique Entity IDs
+      query: "SELECT count(DISTINCT entity_id) as value FROM states;"
+      column: 'value'
+      unit_of_measurement: Entities
+    - name: sql Newest Entity ID
+      query: "SELECT entity_id, min(last_updated) as last_state FROM states GROUP BY entity_id ORDER BY last_state DESC LIMIT 1;"
+      column: 'entity_id'
+    - name: sql Most Updated Entity ID
+      query: "SELECT entity_id, count(*) as count, max(last_updated), min(last_updated) FROM states GROUP BY entity_id ORDER BY count DESC LIMIT 1;"
+      column: 'entity_id'

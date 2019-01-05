@@ -138,9 +138,9 @@
 #    - platform: sun
 #      event: sunset
 #      offset: '+00:20:00'
-    - platform: time
-      minutes: '/5'
-      seconds: 00
+#    - platform: time
+#      minutes: '/5'
+#      seconds: 00
   condition:
     - condition: state
       entity_id: cover.chicken_door

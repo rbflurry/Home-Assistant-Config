@@ -470,7 +470,7 @@ automation:
         message: *message
 
 - alias: battery_notification_pushover
-  initial_state: 'on'
+  initial_state: 'off'
   trigger:
     - platform: time
       at: '10:00:00'

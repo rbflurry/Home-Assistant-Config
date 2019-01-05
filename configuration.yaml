@@ -50,6 +50,10 @@ discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
+  intents:
+    turnonoff:
+    - Turn [on] [off] [the] {light} [light] [switch]
+    
 
 # enables the config panel
 config:
@@ -126,6 +130,7 @@ logger:
 #  homeassistant.components.device_tracker.icloud: debug
    homeassistant.components.camera: error
    homeassistant.components.image_processing.openalpr_cloud: debug
+   homeassistant.components.http.view: warn
 
 ################################################
 ## Component Includes (Merge List)

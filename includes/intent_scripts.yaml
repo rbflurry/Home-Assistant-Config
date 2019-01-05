@@ -57,3 +57,9 @@ ChickenCoop:
     type: simple
     title: Chicken
     content: Ask Home Assistant about the chicken coop
+turnonoff:
+  speech:
+    text: OK, adjusting {{ light }}
+  aciton:
+    service: light.turn_on
+    

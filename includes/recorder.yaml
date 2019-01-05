@@ -5,6 +5,10 @@
   exclude:
     domains:
       - persistent_notification
+      - device_tracker
+      - group
+      - camera
+      - scene
     entities:
       - automation.tv_led_random
       - sensor.since_last_boot
@@ -24,19 +28,6 @@
       - binary_sensor.blue_iris_camp235
       - group.blueiris
       - automation.tv_led_random
-      - group.doors_og
-      - group.indoor_lights
-      - group.outdoor_lights
-      - group.garage_brief
-      - group.motion
-      - group.chicken_timer
-      - group.input_booleans
-      - group.esp
-      - group.smoke
-      - group.all_lights_w_switches
-      - group.chicken_controls
-      - group.chicken_coop_view
-      - group.sensor_node_2_card
       - input_number.internet_traffic_delta_in
       - input_number.internet_traffic_delta_out
       - automation.persistence_publish
@@ -48,3 +39,9 @@
       - sensor.internet_speed_in
       - sensor.wan_traffic_out_mean
       - sensor.wan_traffic_in_mean
+  include:
+    entities:
+      - device_tracker.ryans_iphone_app2
+      - device_tracker.chelseasiphone_wifi
+      - device_tracker.ryans_iphone_wifi
+

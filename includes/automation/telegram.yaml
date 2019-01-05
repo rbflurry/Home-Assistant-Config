@@ -1,5 +1,5 @@
 - alias: forward_persistent_notifications
-  initial_state: 'on'
+  initial_state: 'off'
   trigger:
     - platform: event
       event_type: call_service
@@ -41,7 +41,7 @@
   action:
     - service: telegram_bot.send_message
       data_template:
-        target: '{{ trigger.event.data.user_id }}'
+        target: '{{ trigger.event.data.chat_id }}'
         message: >-
           {% set sides = (trigger.event.data.args|default)[0]|default(6) %}
           I rolled a {{ sides|string ~ '-sided die' if sides != 6 else 'die' }} and got {{ range(1, sides + 1)|random }}.
@@ -117,3 +117,72 @@
           inline_keyboard:
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
+           
+- alias: telegram_dinner
+  trigger:
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/dinner'
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Dinner' 
+  action:
+    - service: telegram_bot.send_message
+      data_template:
+        target: '{{ trigger.event.data.chat_id }}'
+        message: >-
+          {% set responses = ( 'Pizza', 'Burgers', 'Chicken', 'Chillis', 'Sit in', 'To Go', 'TRH' ) %}
+          {% set rindex = (range(0, (responses | length - 1) )|random) -%}
+          How About {{responses[rindex]}}
+          
+- alias: telegram_flipcoin
+  trigger:
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/flipcoin'
+    - platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/Flipcoin' 
+  action:
+    - service: telegram_bot.send_message
+      data_template:
+        target: '{{ trigger.event.data.chat_id }}'
+        message: >-
+          {% set responses = ( 'Heads', 'Tails', 'Other' ) %}
+          {% set rindex = (range(0, (responses | length - 1) )|random) -%}
+          I flipped a coin and got {{responses[rindex]}}
+          
+          
+- alias: 'Conversation'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: telegram_text
+  condition:
+    condition: template
+    value_template: >-
+      {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+      {% for entity in states.group.all_lights.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+      true
+      {%- else -%}
+        {% for entity in states.group.all_switches.attributes.entity_id if states[entity.split('.')[0]][entity.split('.')[1]].name|lower == device -%}
+        true
+      {%- else -%}
+      false
+      {%- endfor -%}
+      {%- endfor -%}
+  action:
+    - service: conversation.process
+      data_template:
+        text: '{{ trigger.event.data.text|lower }}'
+    - service: telegram_bot.send_message
+      data_template:
+        message: >-
+          {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
+          OK, {{ trigger.event.data.text|lower|replace('turn','turning') }}.
+        title: ''
+        target: '{{ trigger.event.data.chat_id }}'
