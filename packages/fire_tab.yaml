@@ -18,6 +18,7 @@
 ## Sensor
 ################################################
 
+
 light:
   - platform: template
     lights:
@@ -30,8 +31,6 @@ binary_sensor:
   - platform: mqtt
     name: dashboard_motion
     state_topic: any/value
-
-
 # sensor:
   # - platform: rest
     # name: Firetab
