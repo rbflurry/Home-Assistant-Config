@@ -43,8 +43,9 @@
       data_template:
         target: '{{ trigger.event.data.chat_id }}'
         message: >-
-          {% set sides = (trigger.event.data.args|default)[0]|default(6) %}
-          I rolled a {{ sides|string ~ '-sided die' if sides != 6 else 'die' }} and got {{ range(1, sides + 1)|random }}.
+          {% set sides = (trigger.event.data.args[0] or 6) %}
+          {% set intsides = (sides | int )%}
+          I rolled a {{ intsides|string ~ '-sided die' if intsides != 6 else 'die' }} and got {{ range(1, intsides + 1)|random }}.
             
 
 - alias: Chicken - Telegram Handler

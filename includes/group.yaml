@@ -12,126 +12,126 @@ default_view:
     - alert.chicken_door
     - sensor.last_successful_authentication
 
-chicken_coop_view:
-  name: Chicken
-  view: yes  
-  entities:
-    - alert.chicken_door
-    - alert.chicken_door_still_closed
-    - group.chicken_controls
-    - group.sensor_node_2_card
-    - camera.camd239
-    - group.chicken_timer
-    - camera.camz238
-    - switch.esp3
-    - group.chicken_age
-    - sensor.brooder_target_temp
-    - sensor.sn3_temperature
-    - climate.brooder
-    - climate.chicken_fan
+# chicken_coop_view:
+  # name: Chicken
+  # view: yes  
+  # entities:
+    # - alert.chicken_door
+    # - alert.chicken_door_still_closed
+    # - group.chicken_controls
+    # - group.sensor_node_2_card
+    # - camera.camd239
+    # - group.chicken_timer
+    # - camera.camz238
+    # - switch.esp3
+    # - group.chicken_age
+    # - sensor.brooder_target_temp
+    # - sensor.sn3_temperature
+    # - climate.brooder
+    # - climate.chicken_fan
 
-rooms:
-  name: Rooms
-  view: yes
-  entities:
-    - group.livingroom
-    - group.basement
-    - group.indoor_lights
-    - group.outdoor_lights
-    - group.smoke
-    - group.house
-    - group.usps_mail
-    - input_number.fan_min_on_time
+# rooms:
+  # name: Rooms
+  # view: yes
+  # entities:
+    # - group.livingroom
+    # - group.basement
+    # - group.indoor_lights
+    # - group.outdoor_lights
+    # - group.smoke
+    # - group.house
+    # - group.usps_mail
+    # - input_number.fan_min_on_time
 
 
-climates:
-  name: Climates
-  view: yes
-  entities:
-    - climate.home
-    - sensor.sn3_temperature
-    - binary_sensor.temperature_up
-    - binary_sensor.temperature_down
-    - group.climate_sensors
-    - group.history
+# climates:
+  # name: Climates
+  # view: yes
+  # entities:
+    # - climate.home
+    # - sensor.sn3_temperature
+    # - binary_sensor.temperature_up
+    # - binary_sensor.temperature_down
+    # - group.climate_sensors
+    # - group.history
 
-people:
-  name: People
-  view: yes
-  entities:
-    - group.travel_time
-    - group.device_ryan
-    - group.device_chelsea
+# people:
+  # name: People
+  # view: yes
+  # entities:
+    # - group.travel_time
+    # - group.device_ryan
+    # - group.device_chelsea
        
-doors_view:
-  name: Doors
-  view: yes
-  entities:
-    - group.doors_og
-    - cover.windows
-    - group.motion
+# doors_view:
+  # name: Doors
+  # view: yes
+  # entities:
+    # - group.doors_og
+    # - cover.windows
+    # - group.motion
     
-garage_room:
-  name: Garage
-  view: yes
-  entities:
-    - group.garage_brief
-    - camera.cam234
-    - binary_sensor.wink_garage_entry_opened
+# garage_room:
+  # name: Garage
+  # view: yes
+  # entities:
+    # - group.garage_brief
+    # - camera.cam234
+    # - binary_sensor.wink_garage_entry_opened
   
-bits:
-  name: BTS
-  view: yes
-  entities:
-    - group.services_devices
-    - group.internet_speed_test
-    - group.ups
-    - group.blueiris
-    - group.trash_recycle
-    - group.timer_light
-    - group.sensor_node_1_card
-    - group.sensor_node_3_card
-    - sun.sun
-    - group.snmp_monitor
-    - group.camper
+# bits:
+  # name: BTS
+  # view: yes
+  # entities:
+    # - group.services_devices
+    # - group.internet_speed_test
+    # - group.ups
+    # - group.blueiris
+    # - group.trash_recycle
+    # - group.timer_light
+    # - group.sensor_node_1_card
+    # - group.sensor_node_3_card
+    # - sun.sun
+    # - group.snmp_monitor
+    # - group.camper
   
-all:
-  name: ALL
-  view: yes
-  entities:
-    - group.all_scripts
-    - group.all_covers
-    - group.all_switches
-    - group.all_lights
-    - group.all_devices
-    - group.input_booleans
-    - group.esp
-    - group.all_devices
+# all:
+  # name: ALL
+  # view: yes
+  # entities:
+    # - group.all_scripts
+    # - group.all_covers
+    # - group.all_switches
+    # - group.all_lights
+    # - group.all_devices
+    # - group.input_booleans
+    # - group.esp
+    # - group.all_devices
 
-automations:
-  name: auto
-  view: yes
-  entities:
-    - group.all_automations
+# automations:
+  # name: auto
+  # view: yes
+  # entities:
+    # - group.all_automations
     
-alarm:
-  name: Alarm
-  view: yes
-  entities:
-    - group.alarm_timer
+# alarm:
+  # name: Alarm
+  # view: yes
+  # entities:
+    # - group.alarm_timer
     
-cameras:
-  name: cameras
-  view: yes
-  entities:
-    - camera.cam233
-    - camera.cam234
-    - camera.camd239
-    - camera.camp235
-    - camera.camp237
-    - camera.camz238
-    - camera.p230
-    - camera.cam3
+# cameras:
+  # name: cameras
+  # view: yes
+  # entities:
+    # - camera.cam233
+    # - camera.cam234
+    # - camera.camd239
+    # - camera.camp235
+    # - camera.camp237
+    # - camera.camz238
+    # - camera.p230
+    # - camera.cam3
     
 ### Groups ###
 
