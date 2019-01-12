@@ -50,7 +50,3 @@
       - service: ios_group
 #      - service: telegram_ryan
       - service: telegram_chelsea
-  - name: telegram_both
-    platform: telegram
-    chat_id: -356616190
-

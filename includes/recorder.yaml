@@ -39,6 +39,14 @@
       - sensor.internet_speed_in
       - sensor.wan_traffic_out_mean
       - sensor.wan_traffic_in_mean
+      - sensor.freebsd_router_packets_received
+      - sensor.freebsd_router_packets_sent
+      - sensor.freebsd_router_bytes_sent
+      - sensor.freebsd_router_bytes_received
+      - sensor.freebsd_router_packetssec_received
+      - sensor.freebsd_router_packetssec_sent
+      - sensor.freebsd_router_kbytesec_received
+      - sensor.freebsd_router_kbytesec_sent
   include:
     entities:
       - device_tracker.ryans_iphone_app2
