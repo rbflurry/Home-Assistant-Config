@@ -1,14 +1,14 @@
-  - platform: unifi
-    host: unifi.westmd.info
-    port: 8443 
-    username: !secret unifi_user
-    password: !secret unifi_pass
-    site_id: lilold
-    track_new_devices: no
-    interval_seconds: 24
-    consider_home: 120
-    monitored_conditions:
-      - ap_mac
+#  - platform: unifi
+#    host: unifi.westmd.info
+#    port: 8443 
+#    username: !secret unifi_user
+#    password: !secret unifi_pass
+#    site_id: lilold
+#    track_new_devices: no
+#    interval_seconds: 24
+#    consider_home: 120
+#    monitored_conditions:
+#      - ap_mac
 #  - platform: icloud
 #    account_name: ryan
 #    username: !secret icloud_ryan_user
@@ -26,10 +26,11 @@
     baseoid: 1.3.6.1.2.1.4.22.1.2
     interval_seconds: 30
 # BedRoom Speaker
-  - platform: googlehome
-    host: 192.168.47.153
-    rssi_threshold: -100
-    interval_seconds: 5
-    consider_home: 10
-    new_device_defaults:
-      track_new_devices: true
+#  - platform: googlehome
+#    host: 192.168.47.153
+#    rssi_threshold: -100
+#    interval_seconds: 5
+#    consider_home: 10
+#    new_device_defaults:
+#      track_new_devices: true
+

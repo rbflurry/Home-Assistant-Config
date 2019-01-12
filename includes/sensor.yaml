@@ -20,17 +20,17 @@
   origin: device_tracker.ryans_iphone_app2
   destination: zone.thales
   
-- platform: waze_travel_time
-  name: waze_device_chelsea_to_home
-  region: 'US'
-  origin: device_tracker.chelseas_iphone_app
-  destination: zone.home
+#- platform: waze_travel_time
+#  name: waze_device_chelsea_to_home
+#  region: 'US'
+#  origin: device_tracker.chelseas_iphone_app
+#  destination: zone.home
   
-- platform: waze_travel_time
-  name: waze_device_chelsea_to_work
-  region: 'US'
-  origin: device_tracker.chelseas_iphone_app
-  destination: zone.waterloo
+#- platform: waze_travel_time
+#  name: waze_device_chelsea_to_work
+#  region: 'US'
+#  origin: device_tracker.chelseas_iphone_app
+#  destination: zone.waterloo
   
 - platform: google_travel_time
   name: device_ryan_to_home
@@ -46,19 +46,19 @@
   destination: zone.thales
   scan_interval: 60
   
-- platform: google_travel_time
-  name: device_chelsea_to_home
-  api_key: !secret google_api_dist
-  origin: device_tracker.chelseas_iphone_app
-  destination: zone.home
-  scan_interval: 60
+#- platform: google_travel_time
+#  name: device_chelsea_to_home
+#  api_key: !secret google_api_dist
+#  origin: device_tracker.chelseas_iphone_app
+#  destination: zone.home
+#  scan_interval: 60
   
-- platform: google_travel_time
-  name: device_chelsea_to_work
-  api_key: !secret google_api_dist
-  origin: device_tracker.chelseas_iphone_app
-  destination: zone.waterloo
-  scan_interval: 60
+#- platform: google_travel_time
+#  name: device_chelsea_to_work
+#  api_key: !secret google_api_dist
+#  origin: device_tracker.chelseas_iphone_app
+#  destination: zone.waterloo
+#  scan_interval: 60
   
 #- platform: google_travel_time
 #  name: test
@@ -394,7 +394,7 @@
 
 - platform: sql
   db_url: postgres://hass:hass@192.168.47.155/hass
-  scan_interval: 60
+  scan_interval: 300
   queries:
 #    - name: sql States recorded today
 #      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
