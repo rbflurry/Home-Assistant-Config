@@ -1,4 +1,3 @@
-################################################################
 ## Packages / Fire Tab
 ################################################################
 
@@ -69,7 +68,4 @@ notify:
     platform: command_line
     command: "/root/.homeassistant/scripts/fully.sh"
     
-    
-
-
     
