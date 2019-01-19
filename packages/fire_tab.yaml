@@ -1,4 +1,3 @@
-################################################################
 ## Packages / Fire Tab
 ################################################################
 
@@ -18,7 +17,6 @@
 ## Sensor
 ################################################
 
-
 light:
   - platform: template
     lights:
@@ -31,6 +29,8 @@ binary_sensor:
   - platform: mqtt
     name: dashboard_motion
     state_topic: any/value
+
+
 # sensor:
   # - platform: rest
     # name: Firetab
@@ -68,7 +68,4 @@ notify:
     platform: command_line
     command: "/root/.homeassistant/scripts/fully.sh"
     
-    
-
-
     
