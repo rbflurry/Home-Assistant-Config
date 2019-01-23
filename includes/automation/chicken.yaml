@@ -138,7 +138,7 @@
 #    - platform: sun
 #      event: sunset
 #      offset: '+00:20:00'
-#    - platform: time
+#    - platform: time_pattern
 #      minutes: '/5'
 #      seconds: 00
   condition:
@@ -354,7 +354,7 @@
     - platform: sun
       event: sunset
       offset: '-00:30:00'
-    - platform: time
+    - platform: time_pattern
       minutes: '/5'
       seconds: 00
   condition:
@@ -596,7 +596,7 @@
 #    - platform: sun
 #      event: sunset
 #      offset: '+00:20:00'
-    - platform: time
+    - platform: time_pattern
       minutes: '/5'
       seconds: 00
   condition:
