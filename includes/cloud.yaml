@@ -12,7 +12,7 @@
         - switch.sensornode2_relay2
       include_entities:
         - light.kitchen
-        - automation.door_chime__door_open
+        - automation.door_chime_door_open
       include_domains:
         - switch
         - cover
@@ -32,7 +32,7 @@
         display_categories: LIGHT
       switch.stairs:
         display_categories: LIGHT
-      automation.door_chime__door_open:
+      automation.door_chime_door_open:
         name: Door Chime
       switch.esp5:
         name: barn
@@ -52,7 +52,7 @@
         - switch.sensornode2_relay2
       include_entities:
         - light.kitchen
-        - automation.door_chime__door_open
+        - automation.door_chime_door_open
       include_domains:
         - switch
         - cover
@@ -69,7 +69,7 @@
       switch.esp1:
         name: garage
         aliases: Garage Light
-      automation.door_chime__door_open:
+      automation.door_chime_door_open:
         name: Door Chime
       switch.esp5:
         name: barn

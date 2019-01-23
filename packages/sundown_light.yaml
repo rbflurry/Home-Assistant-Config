@@ -56,7 +56,7 @@ automation:
   - alias: "auto_light_on"
     initial_state: True
     trigger:
-      - platform: time
+      - platform: time_pattern
         minutes: '/1'
         seconds: 10
     condition:
@@ -68,7 +68,7 @@ automation:
   - alias: "auto_light_off"
     initial_state: True
     trigger:
-      - platform: time
+      - platform: time_pattern
         minutes: '/1'
         seconds: 10
     condition:

@@ -14,7 +14,7 @@
    
 - alias: Turn off christmas lights at 10
   trigger:
-   platform: time
+   platform: time_pattern
    hours: 22
    minutes: 01
    seconds: 01

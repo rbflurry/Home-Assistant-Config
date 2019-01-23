@@ -1,6 +1,6 @@
 - alias: pubnub_update
   trigger:
-   platform: time
+   platform: time_pattern
    minutes: 25
    seconds: 30
 #  condition:
