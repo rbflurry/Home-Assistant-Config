@@ -47,6 +47,7 @@
       - sensor.freebsd_router_packetssec_sent
       - sensor.freebsd_router_kbytesec_received
       - sensor.freebsd_router_kbytesec_sent
+      - sun.sun
   include:
     entities:
       - device_tracker.ryans_iphone_app2

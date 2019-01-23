@@ -184,6 +184,13 @@ climate:
     target_temp: 80
     min_cycle_duration:
       minutes: 5
+  - platform: generic_thermostat
+    name: woodstove
+    heater: switch.esp6
+    target_sensor: sensor.home_temperature
+    cold_tolerance: 1.0
+    hot_tolerance: 1.0
+    initial_operation_mode: "off"
     
 tts:
   - platform: google
