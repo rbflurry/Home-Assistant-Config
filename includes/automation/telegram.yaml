@@ -16,36 +16,6 @@
           {% else %}
             {{ message }}
           {% endif %}
-- alias: telegram_restart
-  trigger:
-    - platform: event
-      event_type: telegram_command
-      event_data:
-        command: '/restart'
-  action:
-    - service: telegram_bot.send_message
-      data:
-        target: '{{ trigger.event.data.user_id }}'
-        message: "Restarting Home Assistant, please wait..."
-
-- alias: telegram_roll
-  trigger:
-    - platform: event
-      event_type: telegram_command
-      event_data:
-        command: '/roll'
-    - platform: event
-      event_type: telegram_command
-      event_data:
-        command: '/Roll' 
-  action:
-    - service: telegram_bot.send_message
-      data_template:
-        target: '{{ trigger.event.data.chat_id }}'
-        message: >-
-          {% set sides = (trigger.event.data.args[0] or 6) %}
-          {% set intsides = (sides | int )%}
-          I rolled a {{ intsides|string ~ '-sided die' if intsides != 6 else 'die' }} and got {{ range(1, intsides + 1)|random }}.
             
 
 - alias: Chicken - Telegram Handler
@@ -118,45 +88,7 @@
           inline_keyboard:
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
-           
-- alias: telegram_dinner
-  trigger:
-    - platform: event
-      event_type: telegram_command
-      event_data:
-        command: '/dinner'
-    - platform: event
-      event_type: telegram_command
-      event_data:
-        command: '/Dinner' 
-  action:
-    - service: telegram_bot.send_message
-      data_template:
-        target: '{{ trigger.event.data.chat_id }}'
-        message: >-
-          {% set responses = ( 'Pizza', 'Burgers', 'Chicken', 'Chillis', 'Sit in', 'To Go', 'TRH' ) %}
-          {% set rindex = (range(0, (responses | length - 1) )|random) -%}
-          How About {{responses[rindex]}}
-          
-- alias: telegram_flipcoin
-  trigger:
-    - platform: event
-      event_type: telegram_command
-      event_data:
-        command: '/flipcoin'
-    - platform: event
-      event_type: telegram_command
-      event_data:
-        command: '/Flipcoin' 
-  action:
-    - service: telegram_bot.send_message
-      data_template:
-        target: '{{ trigger.event.data.chat_id }}'
-        message: >-
-          {% set responses = ( 'Heads', 'Tails', 'Other' ) %}
-          {% set rindex = (range(0, (responses | length - 1) )|random) -%}
-          I flipped a coin and got {{responses[rindex]}}
-          
+                
           
 - alias: 'Conversation'
   initial_state: 'on'
