@@ -1,4 +1,3 @@
-################################################################
 ## Packages / Fire Tab
 ################################################################
 
@@ -18,29 +17,43 @@
 ## Sensor
 ################################################
 
-sensor:
-  - platform: rest
-    name: Firetab
-    json_attributes:
-      - isScreenOn
-      - batteryLevel
-      - kioskMode
-      - screenBrightness
-      - motionDetectorState
-      - maintenanceMode
-      - appFreeMemory
-      - appUsedMemory
-      - totalFreeMemory
-      - totalUsedMemory
-      - hostname4
-      - ip4
-      - mac
-      - startUrl
-      - currentPage
-      - currentFragment
-      - plugged
-    resource: !secret fully_url
-    value_template: '{{ value_json.screenBrightness }}'
+light:
+  - platform: template
+    lights:
+      dashboard_screen:
+        turn_on:
+        turn_off:
+        set_level:
+
+binary_sensor:
+  - platform: mqtt
+    name: dashboard_motion
+    state_topic: any/value
+
+
+# sensor:
+  # - platform: rest
+    # name: Firetab
+    # json_attributes:
+      # - isScreenOn
+      # - batteryLevel
+      # - kioskMode
+      # - screenBrightness
+      # - motionDetectorState
+      # - maintenanceMode
+      # - appFreeMemory
+      # - appUsedMemory
+      # - totalFreeMemory
+      # - totalUsedMemory
+      # - hostname4
+      # - ip4
+      # - mac
+      # - startUrl
+      # - currentPage
+      # - currentFragment
+      # - plugged
+    # resource: !secret fully_url
+    # value_template: '{{ value_json.screenBrightness }}'
 
 
 ################################################
@@ -55,7 +68,4 @@ notify:
     platform: command_line
     command: "/root/.homeassistant/scripts/fully.sh"
     
-    
-
-
     

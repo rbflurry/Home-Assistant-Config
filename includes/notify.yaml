@@ -35,3 +35,19 @@
     platform: file
     filename: notify.txt
     timestamp: true
+  - name: telegram_ryan
+    platform: telegram
+    chat_id: 618533989
+  - name: telegram_chelsea
+    platform: telegram
+    chat_id: 664122562
+  - name: telegram_group
+    platform: telegram
+    chat_id: -356616190
+  - name: everyone_group
+    platform: group
+    services:
+      - service: ios_group
+#      - service: telegram_ryan
+      - service: telegram_chelsea
+

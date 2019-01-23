@@ -38,6 +38,15 @@
       entity_id: sensor.sn3_temperature
       device_class: cold
       invert: Yes
+    house_temperature_up:
+      friendly_name: 'Temp increasing'
+      entity_id: sensor.home_temperature
+      device_class: heat
+    house_temperature_down:
+      friendly_name: 'Temp decreasing'
+      entity_id: sensor.home_temperature
+      device_class: cold
+      invert: Yes
 #######################################################
 ## blue iris
 #######################################################

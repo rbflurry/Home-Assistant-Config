@@ -50,6 +50,10 @@ discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
+  intents:
+    turnonoff:
+    - Turn [on] [off] [the] {light} [light] [switch]
+    
 
 # enables the config panel
 config:
@@ -96,7 +100,11 @@ shell_command:
   restart_drivewaycam: /root/port_bounce.sh
   update_config: /root/.homeassistant/bin/pull_from_github.sh
 
-#media_player:
+media_player:
+  - platform: firetv
+    name: Fire TV 1
+    host: 192.168.47.134
+    adbkey: !secret adbkey
 #  - platform: alexa
 #    email: nevar
 #    password: never
@@ -122,6 +130,7 @@ logger:
 #  homeassistant.components.device_tracker.icloud: debug
    homeassistant.components.camera: error
    homeassistant.components.image_processing.openalpr_cloud: debug
+   homeassistant.components.http.view: warn
 
 ################################################
 ## Component Includes (Merge List)
@@ -175,6 +184,13 @@ climate:
     target_temp: 80
     min_cycle_duration:
       minutes: 5
+  - platform: generic_thermostat
+    name: woodstove
+    heater: switch.esp6
+    target_sensor: sensor.home_temperature
+    cold_tolerance: 1.0
+    hot_tolerance: 1.0
+    initial_operation_mode: "off"
     
 tts:
   - platform: google
@@ -219,3 +235,15 @@ homekit:
       - cover
       - switch
   
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram
+    parse_mode: html
+    allowed_chat_ids:
+     - 618533989
+     - 664122562
+     - 356616190
+     - -356616190
+ 
+shopping_list:
+
