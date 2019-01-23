@@ -1,6 +1,6 @@
 - alias: turn off inside lights at 8am
   trigger:
-   platform: time
+   platform: time_pattern
    hours: 08
    minutes: 01
    seconds: 01

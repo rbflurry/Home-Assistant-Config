@@ -37,7 +37,7 @@
   trigger: 
 #    - platform: time
 #      seconds: '/10'
-    - platform: time
+    - platform: time_pattern
       minutes: 00
       seconds: 00
   condition: 

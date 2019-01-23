@@ -26,7 +26,7 @@
         
 - alias: House armed - Make the panel beep
   trigger:
-    - platform: time
+    - platform: time_pattern
       seconds: 10
   condition:
     - condition: state
