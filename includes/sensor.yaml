@@ -144,6 +144,7 @@
     - type: load_5m
     - type: load_15m
     - type: disk_use
+      arg: /
 
     
 - platform: time_date
