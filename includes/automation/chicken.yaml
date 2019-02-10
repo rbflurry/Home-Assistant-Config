@@ -19,6 +19,7 @@
 
 
 - alias: Chicken - Turn off chicken switch after 13 seconds
+  initial_state: true
   trigger:
    platform: state
 #   entity_id: switch.esp3
@@ -32,7 +33,7 @@
           
           
 - alias: Chicken -  Send Message on chicken state changes
-#  initial_to: False
+  initial_state: true
   trigger:
     - platform: state
       entity_id: cover.chicken_door
@@ -76,6 +77,7 @@
 #    entity_id: light.sn1_led
 
 - alias: Chicken -  Chicken Door Timer V2
+  initial_state: true
   trigger:
     - platform: template
       value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_open_time_dirty.state }}'
@@ -101,18 +103,18 @@
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
       timeout: 00:00:15
-    - service: notify.ios_group
-      data_template:
-        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
-        message: >
-          {% if is_state('cover.chicken_door', 'open') %}
-            Automation triggered the door to open and it did.
-          {% else %}
-            Automation triggered the door to open but it did not!
-          {% endif %}
-        data:
-          push:
-           category: 'chicken_door'
+#    - service: notify.ios_group
+#      data_template:
+#        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
+#        message: >
+#          {% if is_state('cover.chicken_door', 'open') %}
+#            Automation triggered the door to open and it did.
+#          {% else %}
+#            Automation triggered the door to open but it did not!
+#          {% endif %}
+#        data:
+#          push:
+#           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
         title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
@@ -131,7 +133,7 @@
       
 
 - alias: Chicken - Sunset close door V2
-#  initial_state: false
+  initial_state: true
   trigger:
     - platform: template
       value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_close_time_dirty.state }}'
@@ -160,18 +162,18 @@
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
       timeout: 00:00:15
-    - service: notify.ios_group
-      data_template:
-        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
-        message: >
-          {% if is_state('cover.chicken_door', 'closed') %}
-            Automation triggered the door to close and it did.
-          {% else %}
-            Automation triggered the door to close but it did not!
-          {% endif %}
-        data:
-          push:
-           category: 'chicken_door'
+#    - service: notify.ios_group
+#      data_template:
+#        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
+#        message: >
+#          {% if is_state('cover.chicken_door', 'closed') %}
+#            Automation triggered the door to close and it did.
+#          {% else %}
+#            Automation triggered the door to close but it did not!
+#          {% endif %}
+#        data:
+#          push:
+#           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
         title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
@@ -189,6 +191,7 @@
       entity_id: input_boolean.chicken_door_automations
 
 - alias: Chicken - Door - Last Call V2
+  initial_state: true
   trigger:
     - platform: template
       value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_last_call_time_dirty.state }}'
@@ -206,18 +209,18 @@
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
       timeout: 00:00:15
-    - service: notify.ios_group
-      data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Open{{ "\ud83d\udc14" }}'
-        message: >
-          {% if is_state('cover.chicken_door', 'open') %}
-            I opened the chicken door for last call.
-          {% else %}
-            I tried to open the chicken door for last call but it did not open!
-          {% endif %}
-        data:
-          push:
-           category: 'chicken_door'
+#    - service: notify.ios_group
+#      data_template:
+#        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Open{{ "\ud83d\udc14" }}'
+#        message: >
+#          {% if is_state('cover.chicken_door', 'open') %}
+#            I opened the chicken door for last call.
+#          {% else %}
+#            I tried to open the chicken door for last call but it did not open!
+#          {% endif %}
+#        data:
+#          push:
+#           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
         title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Open{{ "\ud83d\udc14" }}'
@@ -240,18 +243,18 @@
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
       timeout: 00:00:15
-    - service: notify.ios_group
-      data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
-        message: >
-          {% if is_state('cover.chicken_door', 'closed') %}
-            I closed the chicken door after last call.
-          {% else %}
-            I tried to close the chicken door after last call but it did not close!
-          {% endif %}
-        data:
-          push:
-           category: 'chicken_door'
+#    - service: notify.ios_group
+#      data_template:
+#        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
+#        message: >
+#          {% if is_state('cover.chicken_door', 'closed') %}
+#            I closed the chicken door after last call.
+#          {% else %}
+#            I tried to close the chicken door after last call but it did not close!
+#          {% endif %}
+#        data:
+#          push:
+#           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
         title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
@@ -271,6 +274,7 @@
       
 
 - alias: Chicken -  Chicken Door Timer Disabled
+  initial_state: true
   trigger:
     platform: template
     value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
@@ -503,7 +507,7 @@
       
       
 - alias: Chicken - Brooder Thermostat
-#  initial_to: True
+  initial_state: True
   trigger:
     - platform: state
       entity_id: sensor.brooder_target_temp

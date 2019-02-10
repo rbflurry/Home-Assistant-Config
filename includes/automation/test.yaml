@@ -67,17 +67,28 @@
       data:
         message: "after wait states"
 
-- alias: test wait is_state
+- alias: test badge2
   initial_state: 'off'
   trigger:
     platform: state
     entity_id: device_tracker.ryans_iphone_app2
   action:
-    - service: notify.ios_ryans_iphone_app
-      data:
-        message: "before wait is state"
-    - wait_template: "{{is_state('input_boolean.test', 'on')}}"
-      timeout: 00:01:00
-    - service: notify.ios_ryans_iphone_app
+    - service: notify.ios_ryans_iphone_app2
       data:
         message: "after wait is state"
+        data:
+          push:
+            badge: 1
+        
+- alias: test badge
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app2
+  action:
+    - service: notify.ios_ryans_iphone_app2
+      data_template:
+        message: "before wait is state"
+        data:
+          push:
+            badge: '{{states.input_number.alarm_hour.state|int}}'

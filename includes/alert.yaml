@@ -6,7 +6,7 @@
     can_acknowledge: True
     skip_first: False
     notifiers:
-      - ios_group_chicken
+      - telegram_group
       
   chicken_door_still_closed:
     name: Chicken Door is still closed
@@ -16,7 +16,7 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_group
+      - telegram_group
       
   garage_ap:
     name: Garage AP is down
@@ -43,12 +43,12 @@
     name: Chicken Sensor Pod is down
     done_message: Chicken Sensor Pod is up
     entity_id: sensor.sn2_availablilty
-    state: 'offline'
+    state: offline
     repeat: 10
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_group
+      - telegram_group
       
   sensorpod_3:
     name: Sensor Pod 3 is down
@@ -59,7 +59,7 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_group
+      - telegram_group
       
   certificate:
     name: Cert is expiring
