@@ -73,7 +73,6 @@
   retain: true
 - platform: mqtt
   name: "esp4"
-  friendly_name: Chicken Light
   state_topic: "home/sonoff/4/1/stat"
   command_topic: "home/sonoff/4/1"
   payload_on: "on"

@@ -186,12 +186,12 @@
   state_topic: "home/sensornode1"  
   name: "SN1 Reed"  
   value_template: '{{ value_json.reed }}'
-  icon_template: >-
-    {% if is_state('sensor.sn1_reed', 'open') %}
-       mdi:door-open
-    {% else %}
-       mdi:door-closed
-    {% endif %}
+#  icon_template: >-
+#    {% if is_state('sensor.sn1_reed', 'open') %}
+#       mdi:door-open
+#    {% else %}
+#       mdi:door-closed
+#    {% endif %}
   
 - platform: mqtt  
   state_topic: "home/sensornode1"  
@@ -311,12 +311,12 @@
   state_topic: "home/sensornode3"  
   name: "SN3 Reed"  
   value_template: '{{ value_json.reed }}'  
-  icon_template: >-
-    {% if is_state('sensor.sn3_reed', 'open') %}
-       mdi:door-open
-    {% else %}
-       mdi:door-closed
-    {% endif %}
+#  icon_template: >-
+#    {% if is_state('sensor.sn3_reed', 'open') %}
+#       mdi:door-open
+#    {% else %}
+#       mdi:door-closed
+#    {% endif %}
 
 - platform: mqtt  
   state_topic: "home/sensornode3/availability"  
@@ -375,11 +375,11 @@
     deeks_collar: #unique names; this is different from the one above
       value_template: >
         {% if is_state('sensor.deeks_collar_state', 'unknown') %}
-          -100 # RSSI values are negative; an even smaller value could be used 
+          -100 
         {% else %}
           {{states.sensor.deeks_collar_state.state | float}}
         {% endif %}
-        
+        # RSSI values are negative; an even smaller value could be used 
 - platform: statistics
   entity_id: 'sensor.deeks_collar' 
   name: 'deeks_collar_stats' 

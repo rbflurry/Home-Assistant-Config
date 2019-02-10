@@ -5,8 +5,8 @@
 #      from: 'off'
 #      to 'on'
     - platform: state
-      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
-      from: 'open'
+      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay, cover.wink_first_bay_2, cover.wink_second_bay_2, cover.wink_third_bay_2
+      from: 'closed'
       to: 'opening'
   condition:
      - condition: state
@@ -26,7 +26,14 @@
       data:
         duration: '00:10:00'
     - delay: 00:01:00
-    - wait_template: "{{is_state('group.all_garage_doors', 'closed')}}"
+    - condition: template
+      value_template: >
+        {% set new = trigger.entity_id %}
+        {{ is_state(new, 'open') }}
+    - wait_template: >
+       {% set new = trigger.entity_id %}
+       {{ is_state(new, 'closed') }}
+#    - wait_template: "{{is_state('group.all_garage_doors', 'closed')}}"
       timeout: 00:10:00
     - service: homeassistant.turn_off
       entity_id: switch.esp1

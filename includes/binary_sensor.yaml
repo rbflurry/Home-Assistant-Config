@@ -60,7 +60,7 @@
   device_class: door
   availability_topic: "tele/sonoff_basement/LWT"
   payload_available: "Online"
-  payload_unavailable: "Offline"
+  payload_not_available: "Offline"
   
 - platform: mqtt
   name: "OpenMQTTGateway"

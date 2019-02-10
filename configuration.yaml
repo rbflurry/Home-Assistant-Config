@@ -14,7 +14,8 @@ homeassistant:
   customize: !include includes/customize.yaml
   customize_domain: {}
   customize_glob:
-    # "automation.*":
+    "automation.*":
+       persistent: true
     # "group.*":
     # "switch.*":
     # "cover.*":
@@ -116,6 +117,9 @@ media_player:
 #    password: never
 #    name: kodi_garage
 
+system_health:
+
+
 logger:
  default: warning
  logs:
@@ -125,6 +129,7 @@ logger:
 #   pubnubsubhandler: info
 #   pywink.api: debug
 #   homeassistant.components.wink: debug
+   homeassistant.components.notify.ios: debug
    requests.packages.urllib3.connectionpool: fatal
 #  pyicloud.base: debug
 #  homeassistant.components.device_tracker.icloud: debug
@@ -204,7 +209,7 @@ light:
     state_topic: "home/sensornode1"  
     command_topic: "home/sensornode1/set"  
     brightness: true  
-    flash: true  
+#    flash: true  
     rgb: true  
     optimistic: false  
     qos: 0 
@@ -214,7 +219,7 @@ light:
     state_topic: "home/sensornode2"  
     command_topic: "home/sensornode2/set"  
     brightness: true  
-    flash: true  
+#    flash: true  
     rgb: true  
     optimistic: false  
     qos: 0 

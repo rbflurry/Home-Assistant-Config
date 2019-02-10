@@ -49,12 +49,12 @@ sensor:
   state_topic: "home/sensornode2"  
   name: "SN2 Reed"  
   value_template: '{{ value_json.reed }}'
-  icon_template: >-
-    {% if is_state('sensor.sn2_reed', 'open') %}
-       mdi:door-open
-    {% else %}
-      mdi:door-closed
-    {% endif %}
+#  icon_template: >-
+#    {% if is_state('sensor.sn2_reed', 'open') %}
+#       mdi:door-open
+#    {% else %}
+#      mdi:door-closed
+#    {% endif %}
   
 - platform: mqtt  
   state_topic: "home/sensornode2"  
