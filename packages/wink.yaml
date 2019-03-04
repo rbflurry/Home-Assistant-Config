@@ -90,9 +90,9 @@ climate:
   - platform: wink
     entity_namespace: wink
 
-scene:
-  - platform: wink
-    entity_namespace: wink
+#scene:
+#  - platform: wink
+#    entity_namespace: wink
 
     
     
