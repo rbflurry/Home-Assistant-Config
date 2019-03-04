@@ -165,6 +165,7 @@ cloud: !include includes/cloud.yaml
 recorder: !include includes/recorder.yaml
 logbook: !include includes/logbook.yaml
 #hangouts: !include includes/hangouts.yaml
+influxdb: !include includes/influxdb.yaml
 
 #wink_lc_service:
 #  key: !secret wink_lc_key
@@ -230,10 +231,6 @@ light:
 #emulated_hue:
 #  expose_by_default: false
   
-influxdb:
-  host: 192.168.47.155
-  port: 8086
-  max_retries: 10
   
 homekit:
   auto_start: False
