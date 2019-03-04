@@ -11,4 +11,4 @@ git checkout master
 git branch -D upload
 git fetch origin master
 git reset --hard origin/master
-service hass-daemon restart
+#service hass-daemon restart
