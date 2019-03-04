@@ -123,19 +123,19 @@ system_health:
 logger:
  default: warning
  logs:
-   urllib3.connectionpool: fatal
-   homeassistant.components.http: debug
+#   urllib3.connectionpool: fatal
+#   homeassistant.components.http: debug
 #   homeassistant.core: debug
 #   pubnubsubhandler: info
 #   pywink.api: debug
 #   homeassistant.components.wink: debug
-   homeassistant.components.notify.ios: debug
+#   homeassistant.components.notify.ios: debug
    requests.packages.urllib3.connectionpool: fatal
 #  pyicloud.base: debug
 #  homeassistant.components.device_tracker.icloud: debug
    homeassistant.components.camera: error
-   homeassistant.components.image_processing.openalpr_cloud: debug
-   homeassistant.components.http.view: warn
+#   homeassistant.components.image_processing.openalpr_cloud: debug
+#   homeassistant.components.http.view: warn
 
 ################################################
 ## Component Includes (Merge List)
@@ -201,6 +201,9 @@ tts:
   - platform: google
   
 alexa:
+ 
+speedtestdotnet:
+  manual: true
  
 light:  
   - platform: mqtt

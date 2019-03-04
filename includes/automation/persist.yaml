@@ -37,7 +37,7 @@
   ################################################
 
   - alias: persistence_publish
-    initial_state: 'on'
+    initial_state: 'off'
 #    hide_entity: true
     trigger:
       - platform: event
@@ -81,7 +81,7 @@
   ################################################
 
   - alias: persistence_subscribe_binary
-    initial_state: 'on'
+    initial_state: 'off'
 #    hide_entity: true
     trigger:
       - platform: mqtt
@@ -103,7 +103,7 @@
           entity_id: "{{ trigger.topic|replace('home-assistant/', '')|replace('/', '.') }}"
 
   - alias: persistence_subscribe_select_option
-    initial_state: 'on'
+    initial_state: 'off'
 #    hide_entity: true
     trigger:
       - platform: mqtt
@@ -116,7 +116,7 @@
           option: "{{ trigger.payload }}"
 
   - alias: persistence_subscribe_select_value
-    initial_state: 'on'
+    initial_state: 'off'
  #   hide_entity: true
     trigger:
       - platform: mqtt

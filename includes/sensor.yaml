@@ -93,12 +93,12 @@
 #  name: Chamberlain MyQ integration
 #  select: "span:nth-of-type(28)"
 
-- platform: speedtest
-  monitored_conditions:
-    - ping
-    - download
-    - upload
-  manual: true
+#- platform: speedtest
+#  monitored_conditions:
+#    - ping
+#    - download
+#    - upload
+#  manual: true
 #- platform: command_line
 #  name: ups_status
 #  command: upsc ups@192.168.47.60:3493 ups.status > /dev/stdout 2> /dev/null
@@ -201,7 +201,7 @@
   value_template: '{{ value_json.temperature | round(1) }}'  
   
 - platform: history_stats
-  friendly_name: Fan on Today
+#  friendly_name: Fan on Today
   name: history_climate_fan_on_today
   entity_id: binary_sensor.climate_fan
   state: 'on'
@@ -210,7 +210,7 @@
   end: '{{ now() }}'
   
 - platform: history_stats
-  friendly_name: Cool on Today
+#  friendly_name: Cool on Today
   name: history_climate_cool_on_today
   entity_id: sensor.climate_operation
   state: 'cool'
@@ -219,7 +219,7 @@
   end: '{{ now() }}'
   
 - platform: history_stats
-  friendly_name: Heat on Today
+#  friendly_name: Heat on Today
   name: history_climate_heat_on_today
   entity_id: sensor.climate_operation
   state: 'heat'
@@ -228,7 +228,7 @@
   end: '{{ now() }}'
   
 - platform: history_stats
-  friendly_name: Aux Heat on Today
+#  friendly_name: Aux Heat on Today
   name: history_climate_aux_heat_on_today
   entity_id: binary_sensor.climate_aux_heat
   state: 'on'
@@ -247,7 +247,7 @@
   
 - platform: snmp   
   name: Vent Humidity
-  icon: mdi:water-percent
+#  icon: mdi:water-percent
   host: 192.168.47.162
   port: 161
  # accept_errors: true

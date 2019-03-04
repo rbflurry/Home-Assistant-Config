@@ -511,6 +511,8 @@
   trigger:
     - platform: state
       entity_id: sensor.brooder_target_temp
+    - platform: homeassistant
+      event: start
   action:
     - service: climate.set_temperature
       data_template:

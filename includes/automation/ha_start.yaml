@@ -96,7 +96,7 @@
            message: >
              Ha is Shutting Down
     - service: timer.finish
-      entity_id: all
+ #     entity_id: all
 
 
 
