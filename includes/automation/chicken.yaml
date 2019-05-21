@@ -223,7 +223,7 @@
 #           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Open{{ "\ud83d\udc14" }}'
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door{{ "\ud83d\udc14" }}'
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
             I opened the chicken door for last call.
@@ -236,16 +236,46 @@
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - delay: 00:02:00
 # need to fix this. If we close the door during this time... it does not turn off the input booleans
+#    - condition: state
+#      entity_id: cover.chicken_door
+#      state: 'open'
+    - service: notify.telegram_group
+      data_template:
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door{{ "\ud83d\udc14" }}'
+        message: >
+          {% if is_state('cover.chicken_door', 'closed') %}
+            The chicken door was closed during last call.
+          {% else %}
+            The chicken door is still open ill close it now.
+          {% endif %}
+        data:
+          inline_keyboard:
+           - 'Open Door:/CHICKEN_OPEN_DOOR'
+           - 'Close Door:/CHICKEN_CLOSE_DOOR'
+    - service: homeassistant.turn_off
+      data_template: 
+        entity_id: >-
+          {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
+          {% else %}cover.null
+          {% endif %}
     - condition: state
       entity_id: cover.chicken_door
-      state: 'open'
+      state: 'open'  
     - service: cover.close_cover
-      entity_id: cover.chicken_door
+      data_template: 
+        entity_id: >
+          {% if ( states.cover.chicken_door.state == 'open') -%}
+            cover.chicken_door
+          {%- else -%}
+            cover.null
+          {%- endif -%}
+#    - service: cover.close_cover
+#      entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
       timeout: 00:00:15
 #    - service: notify.ios_group
 #      data_template:
-#        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
+#        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door{{ "\ud83d\udc14" }}'
 #        message: >
 #          {% if is_state('cover.chicken_door', 'closed') %}
 #            I closed the chicken door after last call.
@@ -257,7 +287,7 @@
 #           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
+        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door{{ "\ud83d\udc14" }}'
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             I closed the chicken door after last call.

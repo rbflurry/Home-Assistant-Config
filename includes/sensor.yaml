@@ -394,7 +394,8 @@
 
 
 - platform: sql
-  db_url: postgres://hass:hass@192.168.47.155/hass
+#  db_url: postgres://hass:hass@192.168.47.155/hass
+  db_url: postgres://hass:hass@127.0.0.1/hass
   scan_interval: 300
   queries:
 #    - name: sql States recorded today
