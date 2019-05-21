@@ -50,4 +50,10 @@
       - service: ios_group
 #      - service: telegram_ryan
       - service: telegram_chelsea
-
+  - name: firetv
+    platform: nfandroidtv
+    host: 192.168.47.134
+  - name: ios_ryans_iphone_app2
+    platform: group
+    services:
+      - service: mobile_app_ryan_iphone

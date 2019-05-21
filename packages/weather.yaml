@@ -166,6 +166,12 @@ homeassistant:
 ## Sensor
 ################################################
 
+weather:
+  - platform: darksky
+    api_key: !secret forecast_key
+    mode: daily
+
+
 sensor:
   - platform: darksky
     api_key: !secret forecast_key
@@ -181,6 +187,8 @@ sensor:
       - wind_bearing
       - apparent_temperature
       - precip_type
+      
+
 
 #  - platform: wunderground
 #    api_key: !secret wunderground_api_key

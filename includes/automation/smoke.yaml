@@ -11,6 +11,10 @@
   action:
     - service: shell_command.call_ryan
     - service: shell_command.call_chelsea
+    - service: ifttt.trigger
+      data:
+        event: smoke_detected
+        key: chelsea, ryan
     - service: notify.ios_group
       data_template:
         title: 'CO or Smoke Detected'

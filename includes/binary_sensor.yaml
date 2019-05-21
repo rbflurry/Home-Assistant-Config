@@ -26,7 +26,7 @@
     template_wink_hub:
       value_template: '{{ is_state("binary_sensor.wink_hub", "on")}}'
     template_disk_space:
-      value_template: '{{states.sensor.disk_use_percent_.state |int > 90}}'
+      value_template: '{{states.sensor.disk_use_percent.state |int > 90}}'
 - platform: trend
   sensors:
     temperature_up:
@@ -68,3 +68,6 @@
   payload_on: "Online"
   payload_off: "Offline"
   device_class: "connectivity"
+  
+- platform: car_wash
+  weather: weather.dark_sky

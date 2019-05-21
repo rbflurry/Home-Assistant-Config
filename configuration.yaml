@@ -31,10 +31,15 @@ homeassistant:
   auth_providers:
     - type: homeassistant
     - type: legacy_api_password
+      api_password: !secret http_password
     - type: trusted_networks
+      trusted_networks:
+        - 192.168.47.0/24
+        - 10.0.93.2/32
+
 
 zeroconf:
-
+mobile_app:
 cast: 
 
 # Enables the frontend
@@ -74,10 +79,9 @@ history:
 sun:
 
 ifttt:
-  key: !secret ifttt_key
-
-ifttt2:
-  key: !secret ifttt_key2
+  key: 
+    ryan: !secret ifttt_key
+    chelsea: !secret ifttt_key2
     
 mqtt:
   broker: 192.168.47.202
@@ -102,7 +106,7 @@ shell_command:
   update_config: /root/.homeassistant/bin/pull_from_github.sh
 
 media_player:
-  - platform: firetv
+  - platform: androidtv
     name: Fire TV 1
     host: 192.168.47.134
     adbkey: !secret adbkey
@@ -199,7 +203,8 @@ climate:
     initial_operation_mode: "off"
     
 tts:
-  - platform: google
+  - platform: google_translate
+    service_name: google_say
   
 alexa:
  
