@@ -92,3 +92,60 @@
         data:
           push:
             badge: '{{states.input_number.alarm_hour.state|int}}'
+            
+            
+- alias: discord_test1
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app2
+  action:
+    - service: homeassistant.turn_off
+      data_template: 
+        entity_id: >
+          {%- if ( states.cover.chicken_door.state == 'closed') -%}
+            input_boolean.chicken_door_last_call
+          {%- else -%}
+            cover.null
+          {%- endif -%}
+            
+- alias: discord_test2
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app2
+  action:
+    - service: homeassistant.turn_off
+      data_template: 
+        entity_id: >
+          {%- if ( states.cover.chicken_door.state == 'closed') -%}
+            input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
+          {%- else -%}
+            cover.null
+          {%- endif -%}
+
+- alias: discord_test3
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app2
+  action:
+    - service: homeassistant.turn_off
+      data_template: 
+        entity_id: >- 
+          {% if ( states.cover.chicken_door.state == 'closed') -%}input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
+          {%- else -%}cover.null
+          {%- endif -%}
+          
+- alias: discord_test4
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: device_tracker.ryans_iphone_app2
+  action:
+    - service: homeassistant.turn_off
+      data_template: 
+        entity_id: >- 
+          {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call
+          {% else %}cover.null
+          {% endif %}
