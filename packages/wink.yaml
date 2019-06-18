@@ -103,7 +103,7 @@ automation:
       - platform: template
         value_template: '{{ states.sensor.total_wink_lights_on.state == states.sensor.total_wink_lights.state }}'
     action:
-      - service: notify.ios_ryans_iphone_app2
+      - service: notify.mobile_app_ryan_iphone
         data_template:
            title: 'All wink lights are on'
            message: 'All the wink lights are on {{ states.sensor.total_wink_lights_on.state | int }} of {{ states.sensor.total_wink_lights.state }}'

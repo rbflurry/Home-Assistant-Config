@@ -1,17 +1,11 @@
   - name: ios_group
     platform: group
     services:
-      - service: ios_chelseas_iphone_app
 #      - service: ios_ryans_iphone_app
       - service: ios_ryans_iphone_app2
   - name: ios_group_chicken
     platform: group
     services:
-      - service: ios_chelseas_iphone_app
-        data:
-          data:
-            push:
-              category: 'chicken_door'
       - service: ios_ryans_iphone_app2
         data:
           data:

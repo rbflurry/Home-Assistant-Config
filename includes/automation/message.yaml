@@ -112,7 +112,7 @@
       entity_id: sensor.disk_use_percent
       above: 90
   action:
-   service: notify.ios_ryans_iphone_app2
+   service: notify.mobile_app_ryan_iphone
    data_template:
       title: 'A state changed'
       message: >

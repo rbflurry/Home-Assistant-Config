@@ -21,12 +21,7 @@
 #    entity_id:
 #      - switch.esp3
   action:
-   -  service: notify.ios_ryans_iphone_app2
-      data_template:
-        title: 'Camper'
-        message: >
-          {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
-   -  service: notify.ios_chelseas_iphone_app
+   -  service: notify.telegram_group
       data_template:
         title: 'Camper'
         message: >
