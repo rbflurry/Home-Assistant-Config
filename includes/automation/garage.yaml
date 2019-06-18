@@ -1,7 +1,7 @@
 - alias: Garage Send Message when chelsea left but garage door is still open
   trigger:
    platform: state
-   entity_id: group.device_chelsea
+   entity_id: person.chelsea
    to: 'not_home'
    for:
      minutes: 10

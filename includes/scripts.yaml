@@ -126,12 +126,10 @@ test_light:
 request_location:
   alias: "Request iOS location"
   sequence:
-   - service: notify.ios_ryans_iphone_app2
+   - service: notify.mobile_app_ryan_iphone
      data:
       message: request_location_update
-   - service: notify.ios_chelseas_iphone_app
-     data:
-      message: request_location_update
+
       
       
 #chicken_door:
@@ -149,12 +147,12 @@ request_location:
 test_script:
   alias: test wait
   sequence:
-    - service: notify.ios_ryans_iphone_app2
+    - service: notify.mobile_app_ryan_iphone
       data:
         message: "before wait is state"
     - wait_template: "{{is_state('input_boolean.test', 'on')}}"
       timeout: 00:01:00
-    - service: notify.ios_ryans_iphone_app2
+    - service: notify.mobile_app_ryan_iphone
       data:
         message: "after wait is state"
         

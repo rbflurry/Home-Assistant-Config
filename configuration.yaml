@@ -86,6 +86,8 @@ ifttt:
 mqtt:
   broker: 192.168.47.202
   port: 1883
+  username: homeassistant-broker
+  password: !secret http_password
   client_id: home-assistant-1
   keepalive: 60
   discovery: true
@@ -169,7 +171,7 @@ cloud: !include includes/cloud.yaml
 recorder: !include includes/recorder.yaml
 logbook: !include includes/logbook.yaml
 #hangouts: !include includes/hangouts.yaml
-influxdb: !include includes/influxdb.yaml
+#influxdb: !include includes/influxdb.yaml
 
 #wink_lc_service:
 #  key: !secret wink_lc_key
