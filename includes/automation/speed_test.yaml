@@ -9,4 +9,4 @@
     entity_id: device_tracker.livingroomtv
     state: 'not_home'
   action:
-     service: sensor.update_speedtest
+     service: speedtestdotnet.speedtest

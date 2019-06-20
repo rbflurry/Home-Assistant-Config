@@ -117,7 +117,7 @@
 #           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
+        title: "\U0001F414 Chicken Door Trigger \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
             Automation triggered the door to open and it did.
@@ -176,7 +176,7 @@
 #           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Chicken Door Closed{{ "\ud83d\udc14" }}'
+        title: "\U0001F414 Chicken Door Closed \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             Automation triggered the door to close and it did.
@@ -223,7 +223,7 @@
 #           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door{{ "\ud83d\udc14" }}'
+        title: "\U0001F414 Last Call - Chicken Door \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
             I opened the chicken door for last call.
@@ -241,7 +241,7 @@
 #      state: 'open'
     - service: notify.telegram_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door{{ "\ud83d\udc14" }}'
+        title: "\U0001F414 Last Call - Chicken Door \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             The chicken door was closed during last call.
@@ -287,7 +287,7 @@
 #           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door{{ "\ud83d\udc14" }}'
+        title: "\U0001F414 Last Call - Chicken Door \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             I closed the chicken door after last call.
