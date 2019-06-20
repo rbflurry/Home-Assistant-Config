@@ -363,6 +363,7 @@
   exclude:
     - 192.168.47.202
     - 192.168.47.90
+    - 127.0.0.1
     
 - platform: mqtt  
   state_topic: "home/OpenMQTTGateway/BTtoMQTT/123B6A1B58C9"  
@@ -379,7 +380,6 @@
         {% else %}
           {{states.sensor.deeks_collar_state.state | float}}
         {% endif %}
-        # RSSI values are negative; an even smaller value could be used 
 - platform: statistics
   entity_id: 'sensor.deeks_collar' 
   name: 'deeks_collar_stats' 
@@ -395,7 +395,7 @@
 
 - platform: sql
 #  db_url: postgres://hass:hass@192.168.47.155/hass
-  db_url: postgres://hass:hass@127.0.0.1/hass
+  db_url: mysql://hass:hass@core-mariadb/homeassistant
   scan_interval: 300
   queries:
 #    - name: sql States recorded today
