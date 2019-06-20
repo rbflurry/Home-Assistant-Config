@@ -77,7 +77,7 @@
   action:
     - service: notify.telegram_ryan
       data_template:
-        title: '{{ "\ud83d\udc14" }}Last Call - Chicken Door Closed{{ "\ud83d\udc14" }}'
+        title: "\U0001F414 Last Call - Chicken Door Closed \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
             I closed the chicken door after last call.
