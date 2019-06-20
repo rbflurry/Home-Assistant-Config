@@ -136,6 +136,7 @@
      
      
 - alias: Chelsea Notify iOS app Coming
+  initial_state: false
   trigger:
     platform: state
     entity_id: device_tracker.chelseas_iphone_app
@@ -172,6 +173,7 @@
  
 
 - alias: Chelsea Notify iOS app Leaving
+  initial_state: false
   trigger:
     platform: state
     entity_id: device_tracker.chelseas_iphone_app
