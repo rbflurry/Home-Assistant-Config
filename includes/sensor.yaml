@@ -9,7 +9,7 @@
 #  name: myups
   
 - platform: waze_travel_time
-  origin: device_tracker.ryans_iphone_app2
+  origin: device_tracker.ryan_iphone
   destination: zone.home
   region: 'US'
   name: waze_device_ryan_to_home
@@ -17,7 +17,7 @@
 - platform: waze_travel_time
   name: waze_device_ryan_to_work
   region: 'US'
-  origin: device_tracker.ryans_iphone_app2
+  origin: device_tracker.ryan_iphone
   destination: zone.thales
   
 #- platform: waze_travel_time
@@ -35,14 +35,14 @@
 - platform: google_travel_time
   name: device_ryan_to_home
   api_key: !secret google_api_dist
-  origin: device_tracker.ryans_iphone_app2
+  origin: device_tracker.ryan_iphone
   destination: zone.home
   scan_interval: 60
 
 - platform: google_travel_time
   name: device_ryan_to_work
   api_key: !secret google_api_dist
-  origin: device_tracker.ryans_iphone_app2
+  origin: device_tracker.ryan_iphone
   destination: zone.thales
   scan_interval: 60
   
@@ -274,16 +274,16 @@
   unit_of_measurement: "%"
   
 - platform: google_geocode
-  origin: device_tracker.ryans_iphone_app2
+  origin: device_tracker.ryan_iphone
   name: geocode_ryan
   display_zone: hide
   api_key: !secret google_geocode
   
-- platform: google_geocode
-  origin: device_tracker.chelseas_iphone_app
-  name: geocode_chelsea
-  display_zone: hide
-  api_key: !secret google_geocode
+#- platform: google_geocode
+#  origin: device_tracker.chelseas_iphone_app
+#  name: geocode_chelsea
+#  display_zone: hide
+#  api_key: !secret google_geocode
 
 - platform: season
   type: astronomical
@@ -364,6 +364,7 @@
     - 192.168.47.202
     - 192.168.47.90
     - 127.0.0.1
+    - 172.30.32.2
     
 - platform: mqtt  
   state_topic: "home/OpenMQTTGateway/BTtoMQTT/123B6A1B58C9"  
