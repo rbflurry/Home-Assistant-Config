@@ -25,35 +25,39 @@ light:
         turn_off:
         set_level:
 
+# this causes the screen to constantly get set to 255
+#switch:
+#  - platform: rest
+#    resource: !secret fully_switch
+
 binary_sensor:
   - platform: mqtt
     name: dashboard_motion
     state_topic: any/value
 
-
-# sensor:
-  # - platform: rest
-    # name: Firetab
-    # json_attributes:
-      # - isScreenOn
-      # - batteryLevel
-      # - kioskMode
-      # - screenBrightness
-      # - motionDetectorState
-      # - maintenanceMode
-      # - appFreeMemory
-      # - appUsedMemory
-      # - totalFreeMemory
-      # - totalUsedMemory
-      # - hostname4
-      # - ip4
-      # - mac
-      # - startUrl
-      # - currentPage
-      # - currentFragment
-      # - plugged
-    # resource: !secret fully_url
-    # value_template: '{{ value_json.screenBrightness }}'
+sensor:
+   - platform: rest
+     name: Firetab
+     json_attributes:
+       - isScreenOn
+       - batteryLevel
+       - kioskMode
+       - screenBrightness
+       - motionDetectorState
+       - maintenanceMode
+       - appFreeMemory
+       - appUsedMemory
+       - totalFreeMemory
+       - totalUsedMemory
+       - hostname4
+       - ip4
+       - mac
+       - startUrl
+       - currentPage
+       - currentFragment
+       - plugged
+     resource: !secret fully_url
+     value_template: '{{ value_json.screenBrightness }}'
 
 
 ################################################
