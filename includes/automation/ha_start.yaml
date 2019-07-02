@@ -4,7 +4,7 @@
       event: start
   action:
     - delay: 00:00:15
-#   - service: notify.ios_ryans_iphone_app
+#   - service: notify.telegram_ryan
 #     data:
 #      title: 'Home Assistant Start'
 #     data_template:
@@ -18,7 +18,7 @@
 #            Wink Hub is {{ states('binary_sensor.wink_hub') }}
 #            
 #            Appdaemon is {{ states('sensor.process_appdaemon') }}
-    - service: notify.mobile_app_ryan_iphone
+    - service: notify.telegram_ryan
       data_template:
         title: "Ha Start"
         message: >
@@ -44,16 +44,16 @@
         topic: "cmnd/sonoff_basement/POWER"
         payload: ""
     - delay: 00:00:20
-    - service: notify.mobile_app_ryan_iphone
-      data:
-       message: request_location_update
+#    - service: notify.telegram_ryan
+#      data:
+#       message: request_location_update
 
 #   - service: homeassistant.turn_on
 #     entity_id: input_boolean.ha_start_delay
     - delay: 00:00:20
-    - service: notify.mobile_app_ryan_iphone
-      data:
-       message: request_location_update
+#    - service: notify.telegram_ryan
+#      data:
+#       message: request_location_update
     - delay: 00:05
     - service: homekit.start
       
@@ -84,7 +84,7 @@
     - platform: homeassistant
       event: shutdown
   action:
-    - service: notify.mobile_app_ryan_iphone
+    - service: notify.telegram_ryan
       data:
        title: 'Home Assistant Stop'
       data_template:

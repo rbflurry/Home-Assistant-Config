@@ -255,7 +255,7 @@
     - service: homeassistant.turn_off
       data_template: 
         entity_id: >-
-          {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
+          {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.powerpivot1_2, input_boolean.chicken_door_automations
           {% else %}cover.null
           {% endif %}
     - condition: state
@@ -299,7 +299,7 @@
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - service: homeassistant.turn_off
-      entity_id: input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
+      entity_id: input_boolean.chicken_door_last_call, switch.powerpivot1_2, input_boolean.chicken_door_automations
       
       
 
@@ -399,11 +399,11 @@
       after: sunset
       after_offset: '-00:28:00'
     - condition: state
-      entity_id: switch.esp4
+      entity_id: switch.powerpivot1_2
       state: 'off'
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.esp4
+      entity_id: switch.powerpivot1_2
 #     data:
 #      brightness: 1
 
@@ -423,11 +423,11 @@
 #      entity_id: light.wink_chicken_light
 #      state: 'on'
     - condition: state
-      entity_id: switch.esp4
+      entity_id: switch.powerpivot1_2
       state: 'on'
   action:
    - service: homeassistant.turn_off
-     entity_id: switch.esp4
+     entity_id: switch.powerpivot1_2
 #   - delay: 00:00:30
 #   - service: homeassistant.turn_on
 #     entity_id: light.wink_chicken_light

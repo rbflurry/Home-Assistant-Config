@@ -162,4 +162,29 @@
           entity_id: wink.siren1
           enabled: false
 
+- platform: mqtt
+  name: "PowerPivot1-1"
+  state_topic: "stat/powerpivot1/RESULT"
+  value_template: '{{ value_json["POWER1"] }}'
+  command_topic: "cmnd/powerpivot1/POWER1"
+  availability_topic: "tele/powerpivot1/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true 
+
+- platform: mqtt
+  name: "PowerPivot1-2"
+  state_topic: "stat/powerpivot1/RESULT"
+  value_template: '{{ value_json["POWER2"] }}'
+  command_topic: "cmnd/powerpivot1/POWER2"
+  availability_topic: "tele/powerpivot1/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
 
