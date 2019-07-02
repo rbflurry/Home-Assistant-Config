@@ -365,6 +365,7 @@
     - 192.168.47.90
     - 127.0.0.1
     - 172.30.32.2
+
     
 - platform: mqtt  
   state_topic: "home/OpenMQTTGateway/BTtoMQTT/123B6A1B58C9"  
