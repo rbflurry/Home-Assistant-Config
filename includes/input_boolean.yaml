@@ -28,3 +28,5 @@
   chicken_door_automations:
     initial: off
     name: Chicken Door Automation
+  chicken_water_automations:
+    name: Chicken Water Automation

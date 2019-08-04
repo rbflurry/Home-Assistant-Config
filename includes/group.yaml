@@ -28,7 +28,7 @@ garage_brief:
     - cover.myq_first_bay
     - cover.myq_second_bay
     - cover.myq_third_bay
-    - switch.esp1
+    - switch.on_off_sonoff2
 
 all_lights_w_switches:
   name: Controls
@@ -44,7 +44,7 @@ all_lights_w_switches:
     - switch.wink_basement
     - light.wink_living_room
     - light.wink_office
-    - switch.esp1
+    - switch.on_off_sonoff2
     - switch.esp5
     - switch.wink_zwaveoutlet
     - switch.wifi_switch1
@@ -94,7 +94,7 @@ outdoor_lights:
   entities:
     - light.wink_front_porch
     - switch.wink_back_flood
-    - switch.esp1
+    - switch.on_off_sonoff2
   
 device_family:
   name: Family

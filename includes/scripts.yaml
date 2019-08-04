@@ -51,7 +51,7 @@
 #  alias: "Turn on garage and set timer"
 #  sequence:
 #    - service: homeassistant.turn_on
-#      entity_id: switch.esp1
+#      entity_id: switch.on_off_sonoff2
 #    # Cancel ev. old timers
 #    - service: script.turn_off
 #      entity_id: script.timer_garage_off
@@ -66,7 +66,7 @@
 #    - delay:
 #        minutes: 10
 #    - service: homeassistant.turn_off
-#      entity_id: switch.esp1
+#      entity_id: switch.on_off_sonoff2
         
         
           

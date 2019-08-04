@@ -11,7 +11,7 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
   temperature_unit: F
-  customize: !include includes/customize.yaml
+  customize: !include customize.yaml
   customize_domain: {}
   customize_glob:
     "automation.*":
@@ -170,40 +170,16 @@ alert: !include includes/alert.yaml
 cloud: !include includes/cloud.yaml
 recorder: !include includes/recorder.yaml
 logbook: !include includes/logbook.yaml
+climate: !include includes/climates.yaml
 #hangouts: !include includes/hangouts.yaml
 #influxdb: !include includes/influxdb.yaml
+
+
 
 #wink_lc_service:
 #  key: !secret wink_lc_key
 #  host: 192.168.47.157
-
-climate:
-  - platform: generic_thermostat
-    name: Brooder
-    heater: switch.wifi_switch1
-    target_sensor: sensor.sn3_temperature
-    cold_tolerance: 1.0
-    hot_tolerance: 1.0
-    initial_operation_mode: "auto"
-  - platform: generic_thermostat
-    name: Chicken Fan
-    heater: switch.powerpivot1_1
-    target_sensor: sensor.sn2_temperature
-    cold_tolerance: 1.0
-    hot_tolerance: 1.0
-    initial_operation_mode: "auto"
-    ac_mode: true
-    target_temp: 80
-    min_cycle_duration:
-      minutes: 5
-  - platform: generic_thermostat
-    name: woodstove
-    heater: switch.esp6
-    target_sensor: sensor.home_temperature
-    cold_tolerance: 1.0
-    hot_tolerance: 1.0
-    initial_operation_mode: "off"
-    
+  
 tts:
   - platform: google_translate
     service_name: google_say

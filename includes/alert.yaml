@@ -27,7 +27,7 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - ios_group
+      - telegram_group
       
   disk_space:
     name: Disk is full
@@ -37,7 +37,7 @@
     can_acknowledge: True
     skip_first: False
     notifiers:
-      - ios_group
+      - telegram_group
       
   chicken_sensorpod:
     name: Chicken Sensor Pod is down
@@ -69,4 +69,4 @@
     can_acknowledge: True
     skip_first: False
     notifiers:
-      - ios_group
+      - telegram_group

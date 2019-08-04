@@ -344,18 +344,48 @@
 #  unit_of_measurement: "v"
 
 - platform: mqtt  
-  state_topic: "tele/sonoff/SENSOR"  
+  state_topic: "tele/Camper/SENSOR"  
   name: "Camper Temp"
   icon: 'mdi:temperature-fahrenheit'
   value_template: "{{ value_json['AM2301'].Temperature | int }}"
   unit_of_measurement: "°F"
+  availability_topic: "tele/Camper/LWT"
+  qos: 1
+  payload_available: "Online"
+  payload_not_available: "Offline"
   
 - platform: mqtt  
-  state_topic: "tele/sonoff/SENSOR"  
+  state_topic: "tele/Camper/SENSOR"  
   name: "Camper Humid"
   icon: mdi:water-percent
   value_template: "{{ value_json['AM2301'].Humidity | int }}"
-  unit_of_measurement: "%"  
+  unit_of_measurement: "%"
+  availability_topic: "tele/Camper/LWT"
+  qos: 1
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+- platform: mqtt  
+  state_topic: "tele/TempSensor2/SENSOR"  
+  name: "Camper Temp 2"
+  icon: 'mdi:temperature-fahrenheit'
+  value_template: "{{ value_json['AM2301'].Temperature | int }}"
+  unit_of_measurement: "°F"
+  availability_topic: "tele/TempSensor2/LWT"
+  qos: 1
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  
+- platform: mqtt  
+  state_topic: "tele/TempSensor2/SENSOR"  
+  name: "Camper Humid 2"
+  icon: mdi:water-percent
+  value_template: "{{ value_json['AM2301'].Humidity | int }}"
+  unit_of_measurement: "%"
+  availability_topic: "tele/TempSensor2/LWT"
+  qos: 1
+  payload_available: "Online"
+  payload_not_available: "Offline"
   
 # https://github.com/custom-components/sensor.authenticated
 - platform: authenticated
@@ -363,6 +393,7 @@
   exclude:
     - 192.168.47.202
     - 192.168.47.90
+    - 192.168.49.3
     - 127.0.0.1
     - 172.30.32.2
 

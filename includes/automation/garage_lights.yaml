@@ -16,11 +16,11 @@
        entity_id: binary_sensor.still_dark
        state: 'on'
 #     - condition: state
-#       entity_id: switch.esp1
+#       entity_id: switch.on_off_sonoff2
 #       state: 'off'
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.esp1
+      entity_id: switch.on_off_sonoff2
     - service: timer.start
       entity_id: timer.back_flood
       data:
@@ -36,7 +36,7 @@
 #    - wait_template: "{{is_state('group.all_garage_doors', 'closed')}}"
       timeout: 00:10:00
     - service: homeassistant.turn_off
-      entity_id: switch.esp1
+      entity_id: switch.on_off_sonoff2
       
       
 
