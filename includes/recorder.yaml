@@ -24,6 +24,8 @@
       - automation.monitor_traffic_in
       - automation.battery_notification
       - automation.battery_notification_clear
+      - automation.battery_persistent_notification
+      - automation.battery_persistent_notification_clear
       - automation.battery_sensor_from_attributes
       - automation.update_battery_status_group_members
       - binary_sensor.blue_iris_cam234
