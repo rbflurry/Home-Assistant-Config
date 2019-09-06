@@ -108,6 +108,8 @@
         minutes: 1
     - platform: state
       entity_id: binary_sensor.updater
+      from: 'off'
+      to: 'on'
     - platform: numeric_state
       entity_id: sensor.disk_use_percent
       above: 90
