@@ -3,22 +3,17 @@
    - platform: sun
      event: sunset
    - platform: template
-     value_template: '{{ states.sun.sun.attributes.elevation < -4 }}'
+     value_template: '{{ states.sun.sun.attributes.elevation < -1 }}'
   condition:
    - condition: state
      entity_id: group.device_family
      state: 'not_home'
    - condition: state
-     entity_id: light.wink_hallway
+     entity_id: switch.wink_hallway_switch
      state: 'off'
   action:
-   -  service: light.turn_on
-      entity_id: light.wink_hallway, light.wink_front_porch
-   -  service: notify.ios_group
-      data_template:
-        title: No one is home
-        message: >
-          No one is home so I turned on the light
+   -  service: homeassistant.turn_on
+      entity_id: switch.wink_hallway_switch, switch.wink_front_porch_switch
    -  service: notify.telegram_group
       data_template:
         title: No one is home

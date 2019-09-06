@@ -9,56 +9,6 @@ default_view:
 
 #Groups#
 
-chicken_controls:
-  name: Chicken Controls
-  control: hidden
-  view: no
-  entities:  
-    - cover.chicken_door
-    - switch.esp3
-    - switch.esp4
-    - switch.wifi_switch1
-    - light.wink_guinea_coop
-
-garage_brief:
-  name: Garage Controls
-  control: hidden
-  view: no
-  entities:
-    - cover.myq_first_bay
-    - cover.myq_second_bay
-    - cover.myq_third_bay
-    - switch.on_off_sonoff2
-
-all_lights_w_switches:
-  name: Controls
-  control: hidden
-  view: no
-  entities:
-    - light.wink_front_porch
-    - light.wink_hallway
-    - switch.wink_back_flood
-    - light.wink_bed_room
-    - light.wink_led_strip_bed
-    - switch.wink_kitchen
-    - switch.wink_basement
-    - light.wink_living_room
-    - light.wink_office
-    - switch.on_off_sonoff2
-    - switch.esp5
-    - switch.wink_zwaveoutlet
-    - switch.wifi_switch1
-    - light.wink_led_strip_tv
-    - switch.esp2
-
-blueiris:
-  name: Blue Iris
-  entities:
-    - binary_sensor.blue_iris_p230
-    - binary_sensor.blue_iris_cam234
-    - binary_sensor.blue_iris_z231
-    - binary_sensor.blue_iris_camp235
-
 garage:
   name: Garage Doors
   view: no
@@ -107,10 +57,6 @@ processes:
   name: Processes
   view: no
   entities:
-    - sensor.process_homebridge
-    - sensor.process_mosquitto
-    - sensor.process_dasher
     - binary_sensor.template_wink_hub
-    - sensor.process_appdaemon
     - switch.wink_zwaveoutlet
 

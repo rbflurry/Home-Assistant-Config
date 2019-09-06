@@ -4,20 +4,6 @@
       event: start
   action:
     - delay: 00:00:15
-#   - service: notify.telegram_ryan
-#     data:
-#      title: 'Home Assistant Start'
-#     data_template:
-#          message: >
-#            Hot Water is {{ states('switch.wink_zwaveoutlet') }}
-#            
-#            Dasher is {{ states('sensor.process_dasher') }}
-#            
-#            HomeBridge is {{ states('sensor.process_homebridge') }}
-#            
-#            Wink Hub is {{ states('binary_sensor.wink_hub') }}
-#            
-#            Appdaemon is {{ states('sensor.process_appdaemon') }}
     - service: notify.telegram_ryan
       data_template:
         title: "Ha Start"
@@ -44,40 +30,8 @@
         topic: "cmnd/sonoff_basement/POWER"
         payload: ""
     - delay: 00:00:20
-#    - service: notify.telegram_ryan
-#      data:
-#       message: request_location_update
-
-#   - service: homeassistant.turn_on
-#     entity_id: input_boolean.ha_start_delay
-    - delay: 00:00:20
-#    - service: notify.telegram_ryan
-#      data:
-#       message: request_location_update
-    - delay: 00:05
     - service: homekit.start
       
-#####################################################################
-### Delay automations that trigger on restart; i.e. presence-detection
-#####################################################################
-
-#- alias: delay on restart
-#  trigger:
-#    platform: homeassistant
-#    event: start
-
-#  action:
-#    - service: automation.turn_off
-#      entity_id: automation.send_message_on_state_changes
-
-#    - delay:
-#        minutes: 1
-
-#    - service: automation.turn_on
-#      entity_id: automation.send_message_on_state_changes
-
-
-
 
 - alias: HA Stop - Send Message stop timers
   trigger:

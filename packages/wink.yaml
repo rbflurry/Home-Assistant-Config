@@ -52,6 +52,8 @@ sensor:
           {% if loop.last %}
           {{ loop.index|int }}
           {% endif %}
+          {% else %}
+          0
           {% endfor %}
       total_wink_lights_off:
         entity_id: group.all_lights
@@ -60,6 +62,8 @@ sensor:
           {% if loop.last %}
           {{ loop.index|int }}
           {% endif %}
+          {% else %}
+          0
           {% endfor %}
       total_wink_lights:
         entity_id: group.all_lights
@@ -68,6 +72,8 @@ sensor:
           {% if loop.last %}
           {{ loop.index|int }}
           {% endif %}
+          {% else %}
+          0
           {% endfor %}
 
 light:

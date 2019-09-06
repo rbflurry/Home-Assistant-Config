@@ -650,3 +650,11 @@
         unit_of_measurement: °F
         value_template: >-
             {{(95-((as_timestamp(utcnow()) - as_timestamp("2019-04-15T00:00:00-05:00")) / 604800)|int * 5 )}}
+            
+    car_wash_clean:
+        value_template: >-
+          {% if is_state('binary_sensor.car_wash', 'on') %}
+            yes
+          {% else %}
+            no
+          {% endif %}

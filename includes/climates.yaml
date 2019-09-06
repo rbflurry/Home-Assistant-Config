@@ -7,7 +7,7 @@
     initial_hvac_mode: "heat"
   - platform: generic_thermostat
     name: Chicken Fan
-    heater: switch.powerpivot1_1
+    heater: switch.4chpro_1
     target_sensor: sensor.sn2_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0

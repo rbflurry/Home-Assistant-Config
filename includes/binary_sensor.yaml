@@ -16,7 +16,8 @@
     chicken_door_after_dark:
       value_template: '{{ is_state("cover.chicken_door", "open") and states.sensor.time.state > states.sensor.chicken_door_last_call_time_dirty.state and is_state("input_boolean.chicken_door_last_call", "off") }}'
     still_dark:
-      value_template: '{{ states.sun.sun.attributes.elevation < -6 }}'
+      value_template: '{{ states.sun.sun.attributes.elevation < -1 }}'
+ #     value_template: '{{ states.sun.sun.attributes.elevation < -6 }}'
     chicken_door_after_open:
       value_template: '{{ is_state("cover.chicken_door", "closed") and is_state("sun.sun", "above_horizon") and states.sensor.time.state > states.sensor.chicken_door_time.state}}'
     alarm_is_pending_triggered:
@@ -29,15 +30,15 @@
       value_template: '{{states.sensor.disk_use_percent.state |int > 90}}'
 - platform: trend
   sensors:
-    temperature_up:
-      friendly_name: 'Temp increasing'
-      entity_id: sensor.sn3_temperature
-      device_class: heat
-    temperature_down:
-      friendly_name: 'Temp decreasing'
-      entity_id: sensor.sn3_temperature
-      device_class: cold
-      invert: Yes
+#    temperature_up:
+#      friendly_name: 'Temp increasing'
+#      entity_id: sensor.sn3_temperature
+#      device_class: heat
+#    temperature_down:
+#      friendly_name: 'Temp decreasing'
+#      entity_id: sensor.sn3_temperature
+#      device_class: cold
+#      invert: Yes
     house_temperature_up:
       friendly_name: 'Temp increasing'
       entity_id: sensor.home_temperature
@@ -50,9 +51,21 @@
 #######################################################
 ## blue iris
 #######################################################
+
 - platform: mqtt
-  state_topic: "Blueiris/z238/status"
-  name: "Chicken Coop Motion"
+  state_topic: "BlueIris/fp_motion"
+  name: "blueiris_front_porch_motion"
+  payload_on: "ON"
+  payload_off: "OFF"
+  device_class: motion
+- platform: mqtt
+  state_topic: "BlueIris/bp_motion"
+  name: "blueiris_back_porch_motion"
+  payload_on: "ON"
+  payload_off: "OFF"
+  device_class: motion
+  
+  
 
 - platform: mqtt  
   state_topic: "stat/sonoff_basement/POWER"  

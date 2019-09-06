@@ -1,4 +1,5 @@
 - alias: Bedroom -  Bed Lights
+  initial_state: false
   trigger:
     platform: state
     entity_id: light.wink_led_strip_bed

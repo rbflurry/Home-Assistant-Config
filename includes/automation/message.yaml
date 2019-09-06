@@ -107,12 +107,12 @@
       for:
         minutes: 1
     - platform: state
-      entity_id: updater.updater
+      entity_id: binary_sensor.updater
     - platform: numeric_state
       entity_id: sensor.disk_use_percent
       above: 90
   action:
-   service: notify.mobile_app_ryan_iphone
+   service: notify.telegram_ryan
    data_template:
       title: 'A state changed'
       message: >

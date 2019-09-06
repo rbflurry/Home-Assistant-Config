@@ -3,7 +3,7 @@
     - platform: state
       entity_id: sensor.syno_status_data
   action:
-   service: notify.ios_group
+   service: notify.telegram_group
    data_template:
           message: >
             {% if is_state('sensor.syno_status_data', 'OL') %}

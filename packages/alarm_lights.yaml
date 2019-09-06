@@ -95,10 +95,13 @@ automation:
               value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
     action:
       - service: homeassistant.turn_on
-        entity_id: light.wink_hallway
-        data:
-         brightness_pct: 100
-         color_name: yellow
+        entity_id: switch.wink_hallway_switch
+#      - service: homeassistant.turn_on
+#        entity_id: light.wink_hallway
+#        data:
+#         brightness_pct: 100
+#         color_name: yellow
+         
   - alias: Wake up Alarm - turn on second lights
     initial_state: True
     trigger:

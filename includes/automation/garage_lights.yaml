@@ -22,7 +22,7 @@
     - service: homeassistant.turn_on
       entity_id: switch.on_off_sonoff2
     - service: timer.start
-      entity_id: timer.back_flood
+      entity_id: timer.back_flood, timer.garage_lights, switch.esp5
       data:
         duration: '00:10:00'
     - delay: 00:01:00

@@ -87,11 +87,8 @@ switch.wink_zwaveoutlet:
   icon: mdi:water-pump
 switch.wifi_switch1:
   friendly_name: Brooder Heat Lamp
-switch.powerpivot1_2:
-  friendly_name: Chicken Light
-switch.powerpivot1_1:
-  friendly_name: Chicken Fan
-  icon: mdi:fan
+switch.powerpivot1_2: {}
+switch.powerpivot1_1: {}
 input_boolean.device_ryan:
   persistent: true
 input_boolean.alarm_ryan:
@@ -134,3 +131,17 @@ sensor.camper_temp_2:
   friendly_name: Bullet Camper Temp
 sensor.camper_humid_2:
   friendly_name: Bullet Camper Humidity
+switch.on_off_sonoff:
+  friendly_name: Garage Lights 2
+switch.4chpro_2:
+  friendly_name: Chicken Light Switch
+  icon: mdi:light-switch
+switch.4chpro_1:
+  friendly_name: Chicken Fan
+  icon: mdi:fan
+switch.4chpro_3:
+  friendly_name: Bug Zapper
+  icon: mdi:bug
+switch.4chpro_4:
+  friendly_name: Chicken Other Switch
+  icon: mdi:light-switch

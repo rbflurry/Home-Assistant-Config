@@ -30,3 +30,7 @@
     name: Chicken Door Automation
   chicken_water_automations:
     name: Chicken Water Automation
+  camper_automations:
+    name: Camper Temp Automations
+  image_processing:
+    name: Image Processing

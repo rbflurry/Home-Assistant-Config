@@ -20,100 +20,45 @@
   origin: device_tracker.ryan_iphone
   destination: zone.thales
   
-#- platform: waze_travel_time
-#  name: waze_device_chelsea_to_home
-#  region: 'US'
-#  origin: device_tracker.chelseas_iphone_app
-#  destination: zone.home
-  
-#- platform: waze_travel_time
-#  name: waze_device_chelsea_to_work
-#  region: 'US'
-#  origin: device_tracker.chelseas_iphone_app
-#  destination: zone.waterloo
-  
 - platform: google_travel_time
   name: device_ryan_to_home
   api_key: !secret google_api_dist
   origin: device_tracker.ryan_iphone
   destination: zone.home
-  scan_interval: 60
+  scan_interval: 15
 
 - platform: google_travel_time
   name: device_ryan_to_work
   api_key: !secret google_api_dist
   origin: device_tracker.ryan_iphone
   destination: zone.thales
-  scan_interval: 60
+  scan_interval: 15
   
-#- platform: google_travel_time
-#  name: device_chelsea_to_home
-#  api_key: !secret google_api_dist
-#  origin: device_tracker.chelseas_iphone_app
-#  destination: zone.home
-#  scan_interval: 60
+- platform: google_travel_time
+  name: chelsea_to_home
+  api_key: !secret google_api_dist
+  origin: zone.waterloo
+  destination: zone.home
+  scan_interval: 15
   
-#- platform: google_travel_time
-#  name: device_chelsea_to_work
-#  api_key: !secret google_api_dist
-#  origin: device_tracker.chelseas_iphone_app
-#  destination: zone.waterloo
-#  scan_interval: 60
+- platform: google_travel_time
+  name: chelsea_to_work
+  api_key: !secret google_api_dist
+  origin: zone.home
+  destination: zone.waterloo
+  scan_interval: 15
   
-#- platform: google_travel_time
-#  name: test
-#  api_key: !secret google_api_dist
-#  origin: device_tracker.ryaniphone
-#  destination: sensor.my_destination
+- platform: waze_travel_time
+  origin: zone.waterloo
+  destination: zone.home
+  region: 'US'
+  name: waze_chelsea_to_home
   
-#- platform: google_travel_time
-#  name: Home to Work
-#  api_key: !secret google_api_dist
-#  origin: zone.thales
-#  destination: zone.home
-
-#- platform: scrape
-#  resource: http://status.winkapp.com/
-#  name: Overall Wink Status
-#  select: "span:nth-of-type(5)"
-#- platform: scrape
-#  resource: http://status.winkapp.com/
-#  name: Wink.com
-#  select: "span:nth-of-type(9)"
-#- platform: scrape
-#  resource: http://status.winkapp.com/
-#  name: Wink core API
-#  select: "span:nth-of-type(13)"
-#- platform: scrape
-#  resource: http://status.winkapp.com/
-#  name: Wink hub API
-#  select: "span:nth-of-type(16)"
-#- platform: scrape
-#  resource: http://status.winkapp.com/
-#  name: Chamberlain MyQ integration
-#  select: "span:nth-of-type(28)"
-
-#- platform: speedtest
-#  monitored_conditions:
-#    - ping
-#    - download
-#    - upload
-#  manual: true
-#- platform: command_line
-#  name: ups_status
-#  command: upsc ups@192.168.47.60:3493 ups.status > /dev/stdout 2> /dev/null
-#- platform: command_line
-#  name: ups_charge
-#  command: upsc ups@192.168.47.60:3493 battery.charge > /dev/stdout 2> /dev/null
-#  unit_of_measurement: '%'
-#- platform: command_line
-#  name: ups_runtime
-#  command: upsc ups@192.168.47.60:3493 battery.runtime > /dev/stdout 2> /dev/null
-#  unit_of_measurement: sec
-#- platform: command_line
-#  name: ups_load
-#  command: upsc ups@192.168.47.60:3493 ups.load > /dev/stdout 2> /dev/null
-#  unit_of_measurement: '%'
+- platform: waze_travel_time
+  name: waze_chelsea_to_work
+  region: 'US'
+  origin: zone.home
+  destination: zone.waterloo
 
 - platform: nut
   name: syno
@@ -131,14 +76,6 @@
       arg: /
     - type: memory_free
     - type: processor_use
-    - type: process
-      arg: homebridge
-    - type: process
-      arg: mosquitto
-    - type: process
-      arg: dasher
-    - type: process
-      arg: appdaemon
     - type: last_boot
     - type: load_1m
     - type: load_5m
@@ -146,14 +83,9 @@
     - type: disk_use
       arg: /
 
-    
 - platform: time_date
   display_options:
     - 'time'
-    
-#- platform: fitbit
-#  monitored_resources:
-#    - "activities/tracker/steps"
 
 - platform: cert_expiry
   host: !secret ha_cert 
@@ -186,12 +118,6 @@
   state_topic: "home/sensornode1"  
   name: "SN1 Reed"  
   value_template: '{{ value_json.reed }}'
-#  icon_template: >-
-#    {% if is_state('sensor.sn1_reed', 'open') %}
-#       mdi:door-open
-#    {% else %}
-#       mdi:door-closed
-#    {% endif %}
   
 - platform: mqtt  
   state_topic: "home/sensornode1"  
@@ -201,7 +127,6 @@
   value_template: '{{ value_json.temperature | round(1) }}'  
   
 - platform: history_stats
-#  friendly_name: Fan on Today
   name: history_climate_fan_on_today
   entity_id: binary_sensor.climate_fan
   state: 'on'
@@ -210,7 +135,6 @@
   end: '{{ now() }}'
   
 - platform: history_stats
-#  friendly_name: Cool on Today
   name: history_climate_cool_on_today
   entity_id: sensor.climate_operation
   state: 'cool'
@@ -219,7 +143,6 @@
   end: '{{ now() }}'
   
 - platform: history_stats
-#  friendly_name: Heat on Today
   name: history_climate_heat_on_today
   entity_id: sensor.climate_operation
   state: 'heat'
@@ -228,7 +151,6 @@
   end: '{{ now() }}'
   
 - platform: history_stats
-#  friendly_name: Aux Heat on Today
   name: history_climate_aux_heat_on_today
   entity_id: binary_sensor.climate_aux_heat
   state: 'on'
@@ -247,7 +169,6 @@
   
 - platform: snmp   
   name: Vent Humidity
-#  icon: mdi:water-percent
   host: 192.168.47.162
   port: 161
  # accept_errors: true
@@ -278,12 +199,6 @@
   name: geocode_ryan
   display_zone: hide
   api_key: !secret google_geocode
-  
-#- platform: google_geocode
-#  origin: device_tracker.chelseas_iphone_app
-#  name: geocode_chelsea
-#  display_zone: hide
-#  api_key: !secret google_geocode
 
 - platform: season
   type: astronomical
@@ -298,7 +213,6 @@
 - platform: mqtt  
   state_topic: "home/sensornode3"  
   name: "SN3 LDR"
-  ##This sensor is not calibrated to actual LUX. Rather, this a map of the input voltage ranging from 0 - 1023.
   unit_of_measurement: "LUX"  
   value_template: '{{ value_json.ldr }}'  
   
@@ -311,12 +225,6 @@
   state_topic: "home/sensornode3"  
   name: "SN3 Reed"  
   value_template: '{{ value_json.reed }}'  
-#  icon_template: >-
-#    {% if is_state('sensor.sn3_reed', 'open') %}
-#       mdi:door-open
-#    {% else %}
-#       mdi:door-closed
-#    {% endif %}
 
 - platform: mqtt  
   state_topic: "home/sensornode3/availability"  
@@ -336,12 +244,6 @@
   name: "SN3 Real Feel"
   unit_of_measurement: "°F"
   value_template: '{{ value_json.heatIndex | round(1) }}'
-  
-#- platform: mqtt  
-#  state_topic: "tele/sonoff/SENSOR"  
-#  name: "Batt level"
-#  value_template: '{{ value_json.ANALOG.A0 | int }}'  
-#  unit_of_measurement: "v"
 
 - platform: mqtt  
   state_topic: "tele/Camper/SENSOR"  
@@ -423,8 +325,6 @@
       bt_car_keys_threshold:
         friendly_name: 'deeks_collar_threshold'
         value_template: '{{ states.sensor.deeks_collar_stats_mean.attributes["average_change"] | float > 0 }}' #"key_car_stats" is the name from C; mean is used but could be also other statistics (median, change, variation, count, etc)
-
-
 
 - platform: sql
 #  db_url: postgres://hass:hass@192.168.47.155/hass

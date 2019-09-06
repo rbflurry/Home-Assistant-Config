@@ -25,4 +25,8 @@
       - group.chicken_controls
       - group.chicken_coop_view
       - group.sensor_node_2_card
+      - binary_sensor.house_temperature_up
+      - binary_sensor.house_temperature_down
+      - binary_sensor.blueiris_front_porch_motion
+      - binary_sensor.blueiris_back_porch_motion
       

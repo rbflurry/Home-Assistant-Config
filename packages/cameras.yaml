@@ -48,6 +48,16 @@ camera:
     name: p230
     username: ha
     password: !secret camera_pass
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/fp
+    name: front_porch
+    username: ha
+    password: !secret camera_pass
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/BD
+    name: back_deck
+    username: ha
+    password: !secret camera_pass
     
     
     
