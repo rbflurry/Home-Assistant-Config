@@ -1,1 +1,1 @@
-"""The Google GeoCode component."""
+"""Google Geocode component"""

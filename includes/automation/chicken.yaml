@@ -256,7 +256,7 @@
       data_template: 
         entity_id: >-
           {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.4chpro_2, input_boolean.chicken_door_automations
-          {% else %}cover.null
+          {% else %}switch.null
           {% endif %}
     - condition: state
       entity_id: cover.chicken_door

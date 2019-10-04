@@ -29,6 +29,22 @@
       data:
         topic: "cmnd/sonoff_basement/POWER"
         payload: ""
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sonoff4chpro/POWER1"
+        payload: ""
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sonoff4chpro/POWER2"
+        payload: ""
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sonoff4chpro/POWER3"
+        payload: ""
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sonoff4chpro/POWER4"
+        payload: ""
     - delay: 00:00:20
     - service: homekit.start
       

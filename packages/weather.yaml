@@ -187,6 +187,8 @@ sensor:
       - wind_bearing
       - apparent_temperature
       - precip_type
+      - temperature_low
+      - temperature_high
       
 
 
