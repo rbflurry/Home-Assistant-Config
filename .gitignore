@@ -43,3 +43,4 @@ known_devices.yaml
 appdaemon
 icloud
 www\deepstack_person_images
+*.jpg
