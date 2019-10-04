@@ -261,11 +261,5 @@ alexa_media:
       password: !secret alexa_password
       url: amazon.com
 
-hacs: 
-  token: !secret githubapi
-  appdaemon: true
-  python_script: true
-  theme: true
-
 circadian_lighting:
 
