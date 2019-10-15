@@ -34,3 +34,5 @@
     name: Camper Temp Automations
   image_processing:
     name: Image Processing
+  image_processing_alerts:
+    name: Image Processing Alerts

@@ -173,6 +173,7 @@ logbook: !include includes/logbook.yaml
 climate: !include includes/climates.yaml
 #hangouts: !include includes/hangouts.yaml
 #influxdb: !include includes/influxdb.yaml
+python_script:
 
 
 

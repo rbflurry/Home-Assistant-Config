@@ -11,60 +11,6 @@ homeassistant:
     packages.ecobee: &customize
       package: 'ecobee'
 
-    packages.ecobee_exposed: &customize_exposed
-      <<: *customize
-      haaska_hidden: false
-      homebridge_hidden: false
-
-    binary_sensor.guest_bedroom_occupancy:
-      <<: *customize_exposed
-      friendly_name: "Guest Bedroom Occupancy"
-      device_class: occupancy
-
-    binary_sensor.home_occupancy:
-      <<: *customize_exposed
-      friendly_name: "Hallway Occupancy"
-      device_class: occupancy
-
-    binary_sensor.living_room_occupancy:
-      <<: *customize_exposed
-      friendly_name: "Living Room Occupancy"
-      device_class: occupancy
-
-    binary_sensor.master_bedroom_occupancy:
-      <<: *customize_exposed
-      friendly_name: "Master Bedroom Occupancy"
-      device_class: occupancy
-
-    climate.wink_home:
-      <<: *customize_exposed
-      friendly_name: "Home"
-      icon: mdi:nest-thermostat
-
-    sensor.guest_bedroom_temperature:
-      <<: *customize_exposed
-      friendly_name: "Guest Bedroom Temperature"
-      icon: mdi:thermometer
-
-    sensor.home_humidity:
-      <<: *customize_exposed
-      friendly_name: "Home Humidity"
-      icon: mdi:water-percent
-
-    sensor.home_temperature:
-      <<: *customize_exposed
-      friendly_name: "Home Temperature"
-      icon: mdi:thermometer
-
-    sensor.living_room_temperature:
-      <<: *customize_exposed
-      friendly_name: "Living Room Temperature"
-      icon: mdi:thermometer
-
-    sensor.master_bedroom_temperature:
-      <<: *customize_exposed
-      friendly_name: "Master Bedroom Temperature"
-      icon: mdi:thermometer
 
 ################################################
 ## ecobee Platform
@@ -72,7 +18,7 @@ homeassistant:
 
 ecobee:
   api_key: !secret eco_api
-  hold_temp: true
+
  
 notify:
   - name: ecobee
@@ -106,7 +52,7 @@ automation:
       platform: state
       entity_id: input_number.fan_min_on_time
     action:
-    - service: climate.ecobee_set_fan_min_on_time
+    - service: ecobee.set_fan_min_on_time
       data_template:
          fan_min_on_time: '{{ states.input_number.fan_min_on_time.state | int }}'
          
