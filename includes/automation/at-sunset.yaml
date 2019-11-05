@@ -2,8 +2,8 @@
   trigger:
    - platform: sun
      event: sunset
-   - platform: template
-     value_template: '{{ states.sun.sun.attributes.elevation < -1 }}'
+#   - platform: template
+#     value_template: '{{ states.sun.sun.attributes.elevation < -1 }}'
   condition:
    - condition: state
      entity_id: group.device_family

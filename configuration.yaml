@@ -250,11 +250,16 @@ image_processing:
         name: person_detector_fp
       - entity_id: camera.back_deck
         name: person_detector_bd
+      - entity_id: camera.deepstack_test
+        name: deepstack_test
 
 camera:
   - platform: local_file
     file_path: /config/www/deepstack_person_images/deepstack_latest_person.jpg
     name: deepstack_latest_person
+  - platform: local_file
+    file_path: /config/www/gettyimage.jpg
+    name: deepstack_test
 
 alexa_media:
   accounts:

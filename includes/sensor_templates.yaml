@@ -156,41 +156,35 @@
     chicken_door_time:
       friendly_name: 'Chicken Door Open Time'
       value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.chicken_hour") | int, states("input_number.chicken_minutes") | int) }}'
-#    chicken_door_time_buffer:
-#      friendly_name: 'Chicken Door Open Time Buffer'
-#      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.chicken_hour") | int, states("input_number.chicken_minutes") | int +1) }}'
-#    template_chicken_age_weeks:
-#      friendly_name: 'Chicken Age'
-#      value_template: "{{ as_timestamp(now()) | timestamp_custom('%W', true)|int-18 }} Weeks"
     chicken_door_open_time_clean:
       icon_template: 'mdi:clock-outline'
       friendly_name: 'Door Opens at'
-      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_rising) + (states("input_number.chicken_minutes_before_sunrise") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
+      value_template: '{{ (as_timestamp(states.sensor.sunrise.state) + (states("input_number.chicken_minutes_before_sunrise") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
     chicken_door_open_time_dirty:
       friendly_name: 'Door Opens at'        
-      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_rising) + (states("input_number.chicken_minutes_before_sunrise") | int)  * 60)  | timestamp_custom("%H:%M") }}'
+      value_template: '{{ (as_timestamp(states.sensor.sunrise.state) + (states("input_number.chicken_minutes_before_sunrise") | int)  * 60)  | timestamp_custom("%H:%M") }}'
     chicken_door_close_time_clean:
       icon_template: 'mdi:clock-outline'
       friendly_name: 'Door Close at'
-      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
+      value_template: '{{ (as_timestamp(states.sensor.sunset.state) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%-I:%M %p") }}'
     chicken_door_close_time_dirty:
       friendly_name: 'Door Close at'        
-      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%H:%M") }}'
+      value_template: '{{ (as_timestamp(states.sensor.sunset.state) + (states("input_number.chicken_minutes_after_sunset") | int)  * 60)  | timestamp_custom("%H:%M") }}'
     chicken_door_last_call_time_dirty:
       friendly_name: 'Last Call Time'        
-      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%H:%M") }}'
+      value_template: '{{ (as_timestamp(states.sensor.sunset.state) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%H:%M") }}'
       #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%H:%M") }}'
     chicken_door_last_call_time_clean:
       icon_template: 'mdi:clock-outline'
       friendly_name: 'Last Call Time'        
-      value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%-I:%M %p") }}'
+      value_template: '{{ (as_timestamp(states.sensor.sunset.state) + (states("input_number.chicken_minutes_after_sunset")|int + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%-I:%M %p") }}'
       #value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_setting) + (states("input_number.chicken_minutes_after_sunset") | int+2)  * 60)  | timestamp_custom("%-I:%M %p") }}'
     sun_next_setting:
       friendly_name: 'Next Sunset'
-      value_template: '{{(as_timestamp(states.sun.sun.attributes.next_setting)) | timestamp_custom("%I:%M %p") }}'
+      value_template: '{{(as_timestamp(states.sensor.sunset.state)) | timestamp_custom("%I:%M %p") }}'
     sun_next_rising:
       friendly_name: 'Next Sunrise'
-      value_template: '{{(as_timestamp(states.sun.sun.attributes.next_rising)) | timestamp_custom("%I:%M %p") }}'
+      value_template: '{{(as_timestamp(states.sensor.sunrise.state)) | timestamp_custom("%I:%M %p") }}'
     sun_elevation:
       friendly_name: 'Sun Elevation'
       value_template: '{{states.sun.sun.attributes.elevation}}'

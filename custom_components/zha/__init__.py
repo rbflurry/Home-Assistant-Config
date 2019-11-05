@@ -6,7 +6,6 @@ import voluptuous as vol
 import subprocess
 subprocess.Popen(['/config/bringupcom1.sh'])
 
-
 from homeassistant import config_entries, const as ha_const
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.device_registry import CONNECTION_ZIGBEE
