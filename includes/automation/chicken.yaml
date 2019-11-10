@@ -103,26 +103,14 @@
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
       timeout: 00:00:15
-#    - service: notify.ios_group
-#      data_template:
-#        title: '{{ "\ud83d\udc14" }}Chicken Door Trigger{{ "\ud83d\udc14" }}'
-#        message: >
-#          {% if is_state('cover.chicken_door', 'open') %}
-#            Automation triggered the door to open and it did.
-#          {% else %}
-#            Automation triggered the door to open but it did not!
-#          {% endif %}
-#        data:
-#          push:
-#           category: 'chicken_door'
     - service: notify.telegram_group
       data_template:
         title: "\U0001F414 Chicken Door Trigger \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
-            Automation triggered the door to open and it did.
+            Success: Automation triggered the door to open and it did.
           {% else %}
-            Automation triggered the door to open but it did not!
+            Failure: Automation triggered the door to open but it did not!
           {% endif %}
         data:
           inline_keyboard:
