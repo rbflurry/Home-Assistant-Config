@@ -5,6 +5,7 @@ before_install:
   - echo -e "hello" > /tmp/adbkey
   - echo -e "hello" > /tmp/adbkey.pub
   - mv travis_secrets.yaml secrets.yaml
+  - pip install deepstack-python
 install:
   - pip3 install homeassistant
 script:
