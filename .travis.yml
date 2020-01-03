@@ -5,7 +5,7 @@ before_install:
   - echo -e "hello" > /tmp/adbkey
   - echo -e "hello" > /tmp/adbkey.pub
   - mv travis_secrets.yaml secrets.yaml
-  - mkdir -p /config/www/deepstack_person_images
+  - sudo mkdir -p /config/www/deepstack_person_images
 install:
   - pip3 install homeassistant
 script:
