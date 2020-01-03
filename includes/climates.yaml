@@ -17,6 +17,17 @@
     min_cycle_duration:
       minutes: 5
   - platform: generic_thermostat
+    name: Chicken Water Heater
+    heater: switch.4chpro_3
+    target_sensor: sensor.sn2_temperature
+    cold_tolerance: 1.0
+    hot_tolerance: 1.0
+    initial_hvac_mode: "heat"
+    target_temp: 36
+    min_temp: -2
+    min_cycle_duration:
+      minutes: 5
+  - platform: generic_thermostat
     name: woodstove
     heater: switch.esp6
     target_sensor: sensor.home_temperature

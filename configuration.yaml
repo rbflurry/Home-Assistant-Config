@@ -110,7 +110,7 @@ shell_command:
 media_player:
   - platform: androidtv
     name: Fire TV 1
-    host: 192.168.47.134
+    host: 192.168.47.215
     adbkey: !secret adbkey
 #  - platform: alexa
 #    email: nevar
@@ -175,12 +175,6 @@ climate: !include includes/climates.yaml
 #influxdb: !include includes/influxdb.yaml
 python_script:
 
-
-
-#wink_lc_service:
-#  key: !secret wink_lc_key
-#  host: 192.168.47.157
-  
 tts:
   - platform: google_translate
     service_name: google_say
@@ -212,10 +206,6 @@ light:
     optimistic: false  
     qos: 0 
 
-#emulated_hue:
-#  expose_by_default: false
-  
-  
 homekit:
   auto_start: False
   filter:
@@ -239,12 +229,11 @@ shopping_list:
 
 image_processing:
   - platform: deepstack_object
-    ip_address: 192.168.47.204
+    ip_address: 192.168.47.205
     port: 5000
-    scan_interval: 20000
     save_file_folder: /config/www/deepstack_person_images
     target: person
-    confidence: 80
+    confidence: 85
     source:
       - entity_id: camera.front_porch
         name: person_detector_fp
@@ -260,6 +249,13 @@ camera:
   - platform: local_file
     file_path: /config/www/gettyimage.jpg
     name: deepstack_test
+  - platform: local_file
+    file_path: /config/www/deepstack_person_images/person_detector_bd_latest_person.jpg
+    name: deepstack_latest_person_bd
+  - platform: local_file
+    file_path: /config/www/deepstack_person_images/person_detector_fp_latest_person.jpg
+    name: deepstack_latest_person_fp
+
 
 alexa_media:
   accounts:

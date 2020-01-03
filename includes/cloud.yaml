@@ -34,7 +34,7 @@
         display_categories: LIGHT
       automation.door_chime_door_open:
         name: Door Chime
-      switch.esp5:
+      switch.powerpivot1_2:
         name: barn
         description: Barn Light
         display_categories: LIGHT
@@ -71,6 +71,6 @@
         aliases: Garage Light
       automation.door_chime_door_open:
         name: Door Chime
-      switch.esp5:
+      switch.powerpivot1_2:
         name: barn
         aliases: Barn Light

@@ -142,9 +142,8 @@
       friendly_name: 'Set Temp'
       unit_of_measurement: °F
     climate_operation:
-      value_template: '{{ states.climate.home.attributes.operation }}'
+      value_template: '{{ states.climate.home.attributes.hvac_action }}'
       friendly_name: 'Operation'
-
 
 
 #######################################

@@ -37,6 +37,7 @@ indoor_lights:
     - light.wink_bed_room
     - light.wink_office
     - light.wink_led_strip_bed
+    - switch.wink_hallway_switch
   
 outdoor_lights:
   name: Outdoor Lights

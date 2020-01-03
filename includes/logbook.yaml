@@ -29,4 +29,6 @@
       - binary_sensor.house_temperature_down
       - binary_sensor.blueiris_front_porch_motion
       - binary_sensor.blueiris_back_porch_motion
+      - image_processing.person_detector_bd
+      - image_processing.person_detector_fp
       

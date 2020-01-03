@@ -13,11 +13,11 @@
        entity_id: sun.sun
        state: 'below_horizon'
      - condition: state
-       entity_id: switch.esp5
+       entity_id: switch.powerpivot1_2
        state: 'off'
      - condition: state
        entity_id: binary_sensor.still_dark
        state: 'on'
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.esp5
+      entity_id: switch.powerpivot1_2

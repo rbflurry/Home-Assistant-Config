@@ -41,8 +41,7 @@
   - name: everyone_group
     platform: group
     services:
-      - service: ios_group
-#      - service: telegram_ryan
+      - service: telegram_ryan
       - service: telegram_chelsea
   - name: firetv
     platform: nfandroidtv
