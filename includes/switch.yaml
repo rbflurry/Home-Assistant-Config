@@ -283,11 +283,4 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
-  
-  
-- platform: circadian_lighting
-  lights_rgb:
-    - light.wink_bed_room
-    - light.wink_hallway
-    - light.wink_led_strip_bed
     

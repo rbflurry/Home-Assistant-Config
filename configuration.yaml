@@ -147,32 +147,34 @@ logger:
 ## Component Includes (Merge List)
 ################################################
 
-automation: !include automations.yaml
-automation old: !include_dir_merge_list includes/automation/
-group: !include includes/group.yaml
-switch: !include includes/switch.yaml
-script: !include includes/scripts.yaml
-sensor: !include includes/sensor.yaml
-binary_sensor: !include includes/binary_sensor.yaml
-sensor templates: !include includes/sensor_templates.yaml
-zone: !include includes/zone.yaml
-panel_iframe: !include includes/iframe.yaml
-scene: !include includes/scene.yaml
-input_select: !include includes/input_select.yaml
-input_boolean: !include includes/input_boolean.yaml
-input_number: !include includes/input_number.yaml
-cover: !include includes/cover.yaml
-device_tracker: !include includes/device_tracker.yaml
-intent_script: !include includes/intent_scripts.yaml
 #fan: !include includes/fans.yaml
-notify: !include includes/notify.yaml
-alert: !include includes/alert.yaml
-cloud: !include includes/cloud.yaml
-recorder: !include includes/recorder.yaml
-logbook: !include includes/logbook.yaml
-climate: !include includes/climates.yaml
 #hangouts: !include includes/hangouts.yaml
 #influxdb: !include includes/influxdb.yaml
+alert: !include includes/alert.yaml
+automation old: !include_dir_merge_list includes/automation/
+automation: !include automations.yaml
+binary_sensor: !include includes/binary_sensor.yaml
+climate: !include includes/climates.yaml
+cloud: !include includes/cloud.yaml
+cover: !include includes/cover.yaml
+device_tracker: !include includes/device_tracker.yaml
+group: !include includes/group.yaml
+input_boolean: !include includes/input_boolean.yaml
+input_number: !include includes/input_number.yaml
+input_select: !include includes/input_select.yaml
+intent_script: !include includes/intent_scripts.yaml
+light: !include includes/light.yaml
+logbook: !include includes/logbook.yaml
+notify: !include includes/notify.yaml
+panel_iframe: !include includes/iframe.yaml
+recorder: !include includes/recorder.yaml
+scene: !include includes/scene.yaml
+script: !include includes/scripts.yaml
+sensor templates: !include includes/sensor_templates.yaml
+sensor: !include includes/sensor.yaml
+switch: !include includes/switch.yaml
+zone: !include includes/zone.yaml
+
 python_script:
 
 tts:
@@ -183,28 +185,6 @@ alexa:
  
 speedtestdotnet:
   manual: true
- 
-light:  
-  - platform: mqtt
-    schema: json
-    name: "SN1 LED"  
-    state_topic: "home/sensornode1"  
-    command_topic: "home/sensornode1/set"  
-    brightness: true  
-#    flash: true  
-    rgb: true  
-    optimistic: false  
-    qos: 0 
-  - platform: mqtt
-    schema: json
-    name: "SN2 LED"  
-    state_topic: "home/sensornode2"  
-    command_topic: "home/sensornode2/set"  
-    brightness: true  
-#    flash: true  
-    rgb: true  
-    optimistic: false  
-    qos: 0 
 
 homekit:
   auto_start: False
