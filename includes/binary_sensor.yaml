@@ -1,10 +1,3 @@
-#- platform: command_line
-#  command: ps -p $(cat /root/dasher/pid/dasher.pid) > /dev/null && (echo "Running") || (echo "Not running")
-#  name: 'dasher'
-#  sensor_class: moving
-#  payload_on: "Running"
-#  payload_off: "Not running"
-  
 - platform: template
   sensors:
     climate_aux_heat:
@@ -64,8 +57,8 @@
   payload_on: "ON"
   payload_off: "OFF"
   device_class: motion
-  
-  
+
+######################################################
 
 - platform: mqtt  
   state_topic: "stat/sonoff_basement/POWER"  
@@ -82,5 +75,3 @@
   payload_off: "Offline"
   device_class: "connectivity"
   
-- platform: car_wash
-  weather: weather.dark_sky

@@ -226,22 +226,6 @@ telegram_bot:
  
 shopping_list:
 
-
-image_processing:
-  - platform: deepstack_object
-    ip_address: 192.168.47.205
-    port: 5000
-    save_file_folder: /config/www/deepstack_person_images
-    target: person
-    confidence: 85
-    source:
-      - entity_id: camera.front_porch
-        name: person_detector_fp
-      - entity_id: camera.back_deck
-        name: person_detector_bd
-      - entity_id: camera.deepstack_test
-        name: deepstack_test
-
 camera:
   - platform: local_file
     file_path: /config/www/deepstack_person_images/deepstack_latest_person.jpg
@@ -257,11 +241,5 @@ camera:
     name: deepstack_latest_person_fp
 
 
-alexa_media:
-  accounts:
-    - email: !secret alexa_email
-      password: !secret alexa_password
-      url: amazon.com
 
-circadian_lighting:
-
+  
