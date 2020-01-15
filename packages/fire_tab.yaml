@@ -45,10 +45,10 @@ sensor:
        - screenBrightness
        - motionDetectorState
        - maintenanceMode
-       - appFreeMemory
-       - appUsedMemory
-       - totalFreeMemory
-       - totalUsedMemory
+#       - appFreeMemory
+#       - appUsedMemory
+#       - totalFreeMemory
+#       - totalUsedMemory
        - hostname4
        - ip4
        - mac
@@ -58,6 +58,7 @@ sensor:
        - plugged
      resource: !secret fully_url
      value_template: '{{ value_json.screenBrightness }}'
+#     scan_interval: 60
 
 
 ################################################

@@ -82,6 +82,7 @@
     - type: load_15m
     - type: disk_use
       arg: /
+  scan_interval: 60
 
 - platform: time_date
   display_options:
@@ -133,6 +134,7 @@
   type: time
   start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
   end: '{{ now() }}'
+  scan_interval: 60
   
 - platform: history_stats
   name: history_climate_cool_on_today
@@ -141,6 +143,7 @@
   type: time
   start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
   end: '{{ now() }}'
+  scan_interval: 60
   
 - platform: history_stats
   name: history_climate_heat_on_today
@@ -149,6 +152,7 @@
   type: time
   start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
   end: '{{ now() }}'
+  scan_interval: 60
   
 - platform: history_stats
   name: history_climate_aux_heat_on_today
@@ -157,6 +161,7 @@
   type: time
   start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
   end: '{{ now() }}'
+  scan_interval: 60
  
 - platform: snmp
   name: Vent Temp
@@ -312,7 +317,7 @@
 - platform: sql
 #  db_url: postgres://hass:hass@192.168.47.155/hass
   db_url: mysql://hass:hass@core-mariadb/homeassistant
-  scan_interval: 300
+  scan_interval: 900
   queries:
 #    - name: sql States recorded today
 #      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
@@ -337,8 +342,29 @@
       query: "SELECT entity_id, count(*) as count, max(last_updated), min(last_updated) FROM states GROUP BY entity_id ORDER BY count DESC LIMIT 1;"
       column: 'entity_id'
       
-    
 - platform: scrape
   name: hcps_status
   resource: https://status.hcpss.org/
   select: "span.status-code"
+  
+- platform: mqtt  
+  state_topic: "tele/esp_bathroom/SENSOR"  
+  name: "Bathroom Temp"
+  icon: 'mdi:temperature-fahrenheit'
+  value_template: "{{ value_json['AM2301'].Temperature | int }}"
+  unit_of_measurement: "°F"
+  availability_topic: "tele/esp_bathroom/LWT"
+  qos: 1
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+- platform: mqtt  
+  state_topic: "tele/esp_bathroom/SENSOR"  
+  name: "Bathroom Humid"
+  icon: mdi:water-percent
+  value_template: "{{ value_json['AM2301'].Humidity | int }}"
+  unit_of_measurement: "%"
+  availability_topic: "tele/esp_bathroom/LWT"
+  qos: 1
+  payload_available: "Online"
+  payload_not_available: "Offline"
