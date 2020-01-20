@@ -70,3 +70,16 @@
     skip_first: False
     notifiers:
       - telegram_group
+      
+  dog:
+    name: Dog Alert
+    entity_id: calendar.us_dogs
+    state: 'on'
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    title: "{{states.calendar.us_dogs.attributes.message}}"
+    message: "{{states.calendar.us_dogs.attributes.message}}"
+    notifiers:
+      - telegram_group
+

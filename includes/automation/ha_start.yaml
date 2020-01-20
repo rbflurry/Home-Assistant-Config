@@ -45,8 +45,6 @@
       data:
         topic: "cmnd/sonoff4chpro/POWER4"
         payload: ""
-    - delay: 00:00:20
-    - service: homekit.start
       
 
 - alias: HA Stop - Send Message stop timers
