@@ -123,6 +123,11 @@ media_player:
 #    password: never
 #    name: kodi_garage
 
+mopar:
+  username: !secret mopar_user
+  password: !secret mopar_pw
+  pin: !secret mopar_pin
+
 system_health:
 
 
