@@ -55,21 +55,6 @@ cover.wink_third_bay:
   friendly_name: Third Bay
 cover.chicken_door:
   friendly_name: Chicken Coop
-group.all_switches:
-  hidden: false
-  control: hidden
-group.all_lights:
-  hidden: false
-group.all_covers:
-  hidden: false
-group.all_automations:
-  hidden: false
-group.all_scripts:
-  hidden: false
-  control: hidden
-group.all_devices:
-  hidden: false
-  control: false
 switch.wink_switch:
   hidden: true
 switch.garage_lights:

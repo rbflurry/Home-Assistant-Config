@@ -2,7 +2,6 @@
 
 default_view:
   name: Home
-  view: yes
   entities:
     - group.all_lights_w_switches
     - group.garage_brief
@@ -11,7 +10,6 @@ default_view:
 
 garage:
   name: Garage Doors
-  view: no
   entities:
     - cover.myq_first_bay
     - cover.myq_second_bay
@@ -19,7 +17,6 @@ garage:
 
 all_garage_doors:
   name: All Garage Doors
-  view: no
   entities:
     - cover.myq_first_bay
     - cover.myq_second_bay
@@ -30,7 +27,6 @@ all_garage_doors:
 
 indoor_lights:
   name: Indoor Lights
-  view: no
   entities:
     - light.wink_hallway
     - light.wink_living_room
@@ -41,7 +37,6 @@ indoor_lights:
   
 outdoor_lights:
   name: Outdoor Lights
-  view: no
   entities:
     - light.wink_front_porch
     - switch.wink_back_flood
@@ -49,14 +44,12 @@ outdoor_lights:
   
 device_family:
   name: Family
-  view: no
   entities:
     - person.ryan
     - person.chelsea
 
 processes:
   name: Processes
-  view: no
   entities:
     - binary_sensor.template_wink_hub
     - switch.wink_zwaveoutlet

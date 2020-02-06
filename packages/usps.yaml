@@ -31,8 +31,6 @@ homeassistant:
 group:
   usps_mail:
     name: USPS
-    control: hidden
-    view: no
     entities:
       - sensor.myusps_mail
       - sensor.myusps_packages

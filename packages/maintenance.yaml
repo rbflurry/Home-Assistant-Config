@@ -103,7 +103,6 @@ input_text:
 
 group:
   Maintenance:
-    control: hidden
     entities:
       - input_boolean.maintenance_mode
       - switch.debug

@@ -131,13 +131,11 @@ homeassistant:
 
 #group:
 #  weather_general:
-#    control: hidden
 #    entities:
 #      - sun.sun
 #      - sensor.season
 
 #  weather_darksky:
-#    control: hidden
 #    entities:
 #      - sensor.dark_sky_cloud_coverage
 #      - sensor.dark_sky_humidity
@@ -145,7 +143,6 @@ homeassistant:
 #      - sensor.dark_sky_temperature
 
 #  weather_wunderground:
-#    control: hidden
 #    entities:
 #      - sensor.pws_feelslike_f
 #      - sensor.pws_heat_index_f
@@ -155,7 +152,6 @@ homeassistant:
 #      - sensor.pws_weather
 
 #  weather_yr:
-#    control: hidden
 #    entities:
 #      - sensor.yr_cloudiness
 #      - sensor.yr_humidity
