@@ -75,3 +75,17 @@
   payload_off: "Offline"
   device_class: "connectivity"
   
+- platform: command_line
+  command: 'netstat -atn | grep :3333 | grep ESTABLISHED | wc -l'
+  name: 'zwave_online'
+  device_class: connectivity
+  payload_on: 1
+  payload_off: 0
+
+- platform: command_line
+  command: 'netstat -atn | grep :3334 | grep ESTABLISHED | wc -l'
+  name: 'zigbee_online'
+  device_class: connectivity
+  payload_on: 1
+  payload_off: 0
+  
