@@ -84,7 +84,7 @@ ifttt:
     chelsea: !secret ifttt_key2
     
 mqtt:
-  broker: mqtt.internal.lilold.westmd.info
+  broker: !secret mqtt_url
   port: 1883
   username: homeassistant-broker
   password: !secret http_password
