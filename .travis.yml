@@ -5,6 +5,7 @@ before_install:
   - echo -e "hello" > /tmp/adbkey
   - echo -e "hello" > /tmp/adbkey.pub
   - mv travis_secrets.yaml secrets.yaml
+  - rm /config/packages/custom_components.yaml
 install:
   - pip3 install homeassistant
 script:
