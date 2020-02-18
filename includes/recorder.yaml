@@ -62,4 +62,5 @@
       - device_tracker.ryans_iphone_wifi
       - group.device_family
       - device_tracker.ryan_iphone
+      - device_tracker.pixel_3
 

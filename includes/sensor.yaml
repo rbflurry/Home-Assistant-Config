@@ -7,7 +7,12 @@
 #  username: rabittn
 #  password: !secret myq_pass
 #  name: myups
-  
+
+### Travel Sensors ###
+
+### Ryan ###
+# device_tracker.ryan_iphone
+
 - platform: waze_travel_time
   origin: device_tracker.ryan_iphone
   destination: zone.home
@@ -34,6 +39,8 @@
   destination: zone.thales
   scan_interval: 15
   
+  ### Chelsea ###
+  # device_tracker.pixel_3
 - platform: google_travel_time
   name: chelsea_to_home
   api_key: !secret google_api_dist
@@ -59,6 +66,8 @@
   region: 'US'
   origin: zone.home
   destination: zone.waterloo
+
+###
 
 - platform: nut
   name: syno

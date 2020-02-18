@@ -45,7 +45,6 @@ appdaemon
 icloud
 custom_components/
 www/community/
-custom_components.yaml
 www\deepstack_person_images
 *.jpg
 google_calendars.yaml
