@@ -11,10 +11,10 @@
 ### Travel Sensors ###
 
 ### Ryan ###
-# device_tracker.ryan_iphone
+# device_tracker.fry
 
 - platform: waze_travel_time
-  origin: device_tracker.ryan_iphone
+  origin: device_tracker.fry
   destination: zone.home
   region: 'US'
   name: waze_device_ryan_to_home
@@ -22,20 +22,20 @@
 - platform: waze_travel_time
   name: waze_device_ryan_to_work
   region: 'US'
-  origin: device_tracker.ryan_iphone
+  origin: device_tracker.fry
   destination: zone.thales
   
 - platform: google_travel_time
   name: device_ryan_to_home
   api_key: !secret google_api_dist
-  origin: device_tracker.ryan_iphone
+  origin: device_tracker.fry
   destination: zone.home
   scan_interval: 15
 
 - platform: google_travel_time
   name: device_ryan_to_work
   api_key: !secret google_api_dist
-  origin: device_tracker.ryan_iphone
+  origin: device_tracker.fry
   destination: zone.thales
   scan_interval: 15
   

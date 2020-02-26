@@ -27,7 +27,7 @@ circadian_lighting:
   
 sensor:
   - platform: google_geocode
-    origin: device_tracker.ryan_iphone
+    origin: device_tracker.fry
     name: geocode_ryan
     display_zone: hide
     api_key: !secret google_geocode
