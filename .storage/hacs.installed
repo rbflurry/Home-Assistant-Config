@@ -1,0 +1,55 @@
+{
+    "data": {
+        "custom-components/authenticated": {
+            "version_type": "version",
+            "version_installed": "1.2.1",
+            "version_available": "1.2.1"
+        },
+        "claytonjn/hass-circadian_lighting": {
+            "version_type": "version",
+            "version_installed": "1.0.9",
+            "version_available": "1.0.9"
+        },
+        "custom-cards/monster-card": {
+            "version_type": "version",
+            "version_installed": "0.2.5",
+            "version_available": "0.2.5"
+        },
+        "custom-cards/vertical-stack-in-card": {
+            "version_type": "version",
+            "version_installed": "v0.1.3",
+            "version_available": "v0.2.1"
+        },
+        "nervetattoo/simple-thermostat": {
+            "version_type": "version",
+            "version_installed": "0.25.0",
+            "version_available": "0.31.0"
+        },
+        "custom-components/alexa_media_player": {
+            "version_type": "version",
+            "version_installed": "v2.3.4",
+            "version_available": "v2.3.4"
+        },
+        "gregoryduckworth/GoogleGeocode-HASS": {
+            "version_type": "version",
+            "version_installed": "0.1.1",
+            "version_available": "0.1.1"
+        },
+        "thomasloven/lovelace-markdown-mod": {
+            "version_type": "version",
+            "version_installed": "0.3",
+            "version_available": "0.3"
+        },
+        "robmarkcole/HASS-Deepstack-object": {
+            "version_type": "version",
+            "version_installed": "v2.3",
+            "version_available": "v2.3"
+        },
+        "hacs/integration": {
+            "version_type": "version",
+            "version_installed": "0.16.3",
+            "version_available": "0.16.3"
+        }
+    },
+    "schema": "5"
+}
