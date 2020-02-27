@@ -4,19 +4,11 @@
             "resources": [
                 {
                     "type": "js",
-                    "url": "/local/community/monster-card/monster-card.js?v=0.0.2"
-                },
-                {
-                    "type": "js",
                     "url": "/local/lovelace-fullykiosk.js"
                 },
                 {
                     "type": "js",
                     "url": "/local/kiosk-config.js"
-                },
-                {
-                    "type": "js",
-                    "url": "/local/my-monster-card.js?v=0.0.2"
                 },
                 {
                     "type": "module",
@@ -236,42 +228,21 @@
                                 "title": "Chicken Controls",
                                 "type": "entities"
                             },
+                            "entities": [
+                                "cover.chicken_door",
+                                "switch.4chpro_1",
+                                "switch.4chpro_2",
+                                "switch.4chpro_3",
+                                "switch.4chpro_4",
+                                "light.wink_ge_link_bulb",
+                                "input_boolean.chicken_water_automations"
+                            ],
                             "filter": {
-                                "include": [
-                                    {
-                                        "entity_id": "cover.chicken_door"
-                                    },
-                                    {
-                                        "entity_id": "switch.4chpro_1"
-                                    },
-                                    {
-                                        "entity_id": "switch.4chpro_2"
-                                    },
-                                    {
-                                        "entity_id": "switch.4chpro_3"
-                                    },
-                                    {
-                                        "entity_id": "switch.4chpro_4"
-                                    },
-                                    {
-                                        "entity_id": "light.wink_ge_link_bulb"
-                                    },
-                                    {
-                                        "entity_id": "input_boolean.chicken_water_automations"
-                                    },
-                                    {
-                                        "entity_id": "switch.side_spigot",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_water_automations",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    }
-                                ]
+                                "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
                             },
                             "show_empty": true,
-                            "type": "custom:my-monster-card"
+                            "sort": "none",
+                            "type": "custom:auto-entities"
                         },
                         {
                             "entities": [
@@ -298,96 +269,14 @@
                                 "title": "Chicken Timer",
                                 "type": "entities"
                             },
+                            "entities": [
+                                "input_boolean.chicken_door"
+                            ],
                             "filter": {
-                                "include": [
-                                    {
-                                        "entity_id": "input_boolean.chicken_door"
-                                    },
-                                    {
-                                        "entity_id": "sensor.chicken_door_open_time_clean",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "input_number.chicken_minutes_before_sunrise",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "sensor.chicken_door_close_time_clean",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "input_number.chicken_minutes_after_sunset",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "automation.chicken_door_last_call_v2",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "sensor.chicken_door_last_call_time_clean",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "input_number.chicken_last_call_after_close",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "sensor.sun_next_rising",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "entity_id": "sensor.sun_next_setting",
-                                        "when": [
-                                            {
-                                                "entity_id": "input_boolean.chicken_door",
-                                                "state": "on"
-                                            }
-                                        ]
-                                    }
-                                ]
+                                "template": "{% if states.input_boolean.chicken_door.state == \"on\" %}\n  sensor.chicken_door_open_time_clean, input_number.chicken_minutes_before_sunrise, sensor.chicken_door_close_time_clean, input_number.chicken_minutes_after_sunset, automation.chicken_door_last_call_v2, sensor.chicken_door_last_call_time_clean, input_number.chicken_last_call_after_close, sensor.sun_next_rising, sensor.sun_next_setting\n\n{% endif %}\n"
                             },
                             "show_empty": true,
-                            "type": "custom:my-monster-card"
+                            "type": "custom:auto-entities"
                         },
                         {
                             "entities": [
@@ -943,7 +832,7 @@
                                 ]
                             },
                             "show_empty": true,
-                            "type": "custom:monster-card"
+                            "type": "custom:auto-entities"
                         },
                         {
                             "card": {
@@ -964,7 +853,7 @@
                                 ]
                             },
                             "show_empty": true,
-                            "type": "custom:monster-card"
+                            "type": "custom:auto-entities"
                         },
                         {
                             "card": {
@@ -985,7 +874,7 @@
                                 ]
                             },
                             "show_empty": true,
-                            "type": "custom:monster-card"
+                            "type": "custom:auto-entities"
                         },
                         {
                             "card": {
@@ -1006,7 +895,7 @@
                                 ]
                             },
                             "show_empty": true,
-                            "type": "custom:monster-card"
+                            "type": "custom:auto-entities"
                         },
                         {
                             "entities": [
@@ -1091,7 +980,7 @@
                                 ]
                             },
                             "show_empty": true,
-                            "type": "custom:monster-card"
+                            "type": "custom:auto-entities"
                         },
                         {
                             "entities": [
@@ -1132,7 +1021,7 @@
                                 ]
                             },
                             "show_empty": true,
-                            "type": "custom:monster-card"
+                            "type": "custom:auto-entities"
                         }
                     ],
                     "path": "automations",

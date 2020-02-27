@@ -133,6 +133,6 @@ switch.powerpivot1_1:
 switch.esp5:
   friendly_name: Christmas Tree
 person.ryan:
-  entity_picture: http://graph.facebook.com/1228860068/picture?type=normal
+  entity_picture: !secret ryan_picture
 person.chelsea:
-  entity_picture: http://graph.facebook.com/639513494/picture?type=normal
+  entity_picture: !secret chelsea_picture
