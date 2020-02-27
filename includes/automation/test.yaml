@@ -106,7 +106,7 @@
           {%- if ( states.cover.chicken_door.state == 'closed') -%}
             input_boolean.chicken_door_last_call
           {%- else -%}
-            cover.null
+            none
           {%- endif -%}
             
 - alias: discord_test2
@@ -121,7 +121,7 @@
           {%- if ( states.cover.chicken_door.state == 'closed') -%}
             input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
           {%- else -%}
-            cover.null
+            none
           {%- endif -%}
 
 - alias: discord_test3
@@ -134,7 +134,7 @@
       data_template: 
         entity_id: >- 
           {% if ( states.cover.chicken_door.state == 'closed') -%}input_boolean.chicken_door_last_call, switch.esp4, input_boolean.chicken_door_automations
-          {%- else -%}cover.null
+          {%- else -%}none
           {%- endif -%}
           
 - alias: discord_test4
@@ -147,5 +147,5 @@
       data_template: 
         entity_id: >- 
           {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call
-          {% else %}cover.null
+          {% else %}none
           {% endif %}

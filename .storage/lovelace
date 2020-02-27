@@ -222,9 +222,6 @@
                             "camera_image": "camera.deepstack_latest_person_fp",
                             "entities": [],
                             "type": "picture-glance"
-                        },
-                        {
-                            "type": "conditional"
                         }
                     ],
                     "path": "default_view",

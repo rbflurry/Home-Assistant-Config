@@ -255,7 +255,7 @@
           {% if ( states.cover.chicken_door.state == 'open') -%}
             cover.chicken_door
           {%- else -%}
-            cover.null
+            none
           {%- endif -%}
 #    - service: cover.close_cover
 #      entity_id: cover.chicken_door
