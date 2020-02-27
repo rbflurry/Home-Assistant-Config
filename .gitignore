@@ -1,3 +1,4 @@
+!.storage/lovelace
 secrets.yaml
 known_devices.yaml
 .homekit.state
@@ -39,7 +40,6 @@ home-assistant_v2.db
 __pycache__
 tts
 secrets
-known_devices.yaml
 #folders
 appdaemon
 icloud
