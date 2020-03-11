@@ -16,6 +16,20 @@ image_processing:
         name: deepstack_test
       - entity_id: camera.p230
         name: person_detector_side
+  - platform: deepstack_object
+    ip_address: 192.168.47.205
+    port: 5000
+    save_file_folder: /config/www/deepstack_object_images
+    target: 
+      - person
+      - car
+      - truck
+    confidence: 80
+    source:
+      - entity_id: camera.blueiris_driveway
+        name: object_detection_driveway
+      - entity_id: camera.p230
+        name: object_detection_side
 
 alexa_media:
   accounts:

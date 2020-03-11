@@ -57,6 +57,12 @@
   payload_on: "ON"
   payload_off: "OFF"
   device_class: motion
+- platform: mqtt
+  state_topic: "BlueIris/driveway_motion"
+  name: "blueiris_driveway_motion"
+  payload_on: "ON"
+  payload_off: "OFF"
+  device_class: motion
 
 ######################################################
 

@@ -58,7 +58,11 @@ camera:
     name: back_deck
     username: ha
     password: !secret camera_pass
-    
+  - platform: mjpeg
+    mjpeg_url: http://192.168.47.90/mjpg/cam8
+    name: driveway
+    username: ha
+    password: !secret camera_pass
     
     
 #image_processing:
