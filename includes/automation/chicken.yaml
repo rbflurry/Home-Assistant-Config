@@ -98,7 +98,7 @@
       value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_open_time_dirty.state }}'
   action:
     - service: homeassistant.turn_on
-      entity_id: input_boolean.chicken_door_automations
+      entity_id: input_boolean.chicken_door_automations, automation.chicken_door_last_call_v2
     - service: cover.open_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
@@ -244,7 +244,7 @@
       data_template: 
         entity_id: >-
           {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.4chpro_2, input_boolean.chicken_door_automations
-          {% else %}none
+          {% else %} light.null
           {% endif %}
     - condition: state
       entity_id: cover.chicken_door

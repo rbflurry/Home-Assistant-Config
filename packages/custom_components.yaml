@@ -26,7 +26,7 @@ image_processing:
       - truck
     confidence: 80
     source:
-      - entity_id: camera.blueiris_driveway
+      - entity_id: camera.driveway
         name: object_detection_driveway
       - entity_id: camera.p230
         name: object_detection_side

@@ -221,10 +221,10 @@ camera:
     file_path: /config/www/gettyimage.jpg
     name: deepstack_test
   - platform: local_file
-    file_path: /config/www/deepstack_person_images/person_detector_bd_latest_person.jpg
+    file_path: /config/www/deepstack_person_images/person_detector_bd_latest.jpg
     name: deepstack_latest_person_bd
   - platform: local_file
-    file_path: /config/www/deepstack_person_images/person_detector_fp_latest_person.jpg
+    file_path: /config/www/deepstack_person_images/person_detector_fp_latest.jpg
     name: deepstack_latest_person_fp
 
 google:

@@ -210,6 +210,12 @@
                             "camera_image": "camera.deepstack_latest_person_fp",
                             "entities": [],
                             "type": "picture-glance"
+                        },
+                        {
+                            "aspect_ratio": "0%",
+                            "entities": [],
+                            "image": "local/deepstack_object_images/object_detection_driveway_latest.jpg",
+                            "type": "picture-glance"
                         }
                     ],
                     "path": "default_view",
@@ -312,6 +318,7 @@
                             "type": "picture-entity"
                         },
                         {
+                            "aspect_ratio": "50%",
                             "entity": "camera.camz238",
                             "show_name": false,
                             "show_state": false,
@@ -326,6 +333,20 @@
                             "entity": "climate.chicken_water_heater",
                             "step_size": 1,
                             "type": "custom:simple-thermostat"
+                        },
+                        {
+                            "aspect_ratio": "0%",
+                            "camera_image": "camera.camz238",
+                            "entities": [
+                                {
+                                    "entity": "cover.chicken_door"
+                                },
+                                {
+                                    "entity": "switch.4chpro_2"
+                                }
+                            ],
+                            "image": "camera.camz238",
+                            "type": "picture-glance"
                         }
                     ],
                     "path": "chicken_coop_view",
@@ -1105,7 +1126,7 @@
                         },
                         {
                             "aspect_ratio": "50%",
-                            "entity": "camera.blueiris_driveway",
+                            "entity": "camera.driveway",
                             "image": "https://www.home-assistant.io/images/merchandise/shirt-frontpage.png",
                             "type": "picture-entity"
                         }

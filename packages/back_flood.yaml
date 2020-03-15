@@ -45,5 +45,5 @@ automation:
         entity_id: timer.back_flood
     action:
     - service: homeassistant.turn_off
-      entity_id: switch.wink_back_flood, switch.floodlight_lc1
+      entity_id: switch.wink_back_flood
          
