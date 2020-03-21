@@ -1,28 +1,6 @@
 {
     "data": {
         "config": {
-            "resources": [
-                {
-                    "type": "js",
-                    "url": "/local/lovelace-fullykiosk.js"
-                },
-                {
-                    "type": "js",
-                    "url": "/local/kiosk-config.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/local/community/simple-thermostat/simple-thermostat.js?v=2"
-                },
-                {
-                    "type": "js",
-                    "url": "/local/community/vertical-stack-in-card/vertical-stack-in-card.js?v=0.0.3"
-                },
-                {
-                    "type": "module",
-                    "url": "/local/community/lovelace-auto-entities/auto-entities.js"
-                }
-            ],
             "title": "LilOld",
             "views": [
                 {
@@ -105,6 +83,9 @@
                                 },
                                 {
                                     "entity": "input_boolean.image_processing_alerts"
+                                },
+                                {
+                                    "entity": "input_boolean.image_processing_driveway_alerts"
                                 },
                                 {
                                     "entity": "switch.circadian_lighting_circadian_lighting"

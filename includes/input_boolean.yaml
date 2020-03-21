@@ -36,5 +36,7 @@
     name: Image Processing
   image_processing_alerts:
     name: Image Processing Alerts
+  image_processing_driveway_alerts:
+    name: Image Processing Driveway Alerts
   chicken_bug_automations:
     name: Chicken Bug Automation

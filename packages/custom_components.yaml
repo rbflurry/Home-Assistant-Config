@@ -24,6 +24,8 @@ image_processing:
       - person
       - car
       - truck
+      - dog
+      - cat
     confidence: 80
     source:
       - entity_id: camera.driveway
