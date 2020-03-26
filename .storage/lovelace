@@ -79,15 +79,6 @@
                                     "entity": "switch.side_spigot"
                                 },
                                 {
-                                    "entity": "input_boolean.image_processing"
-                                },
-                                {
-                                    "entity": "input_boolean.image_processing_alerts"
-                                },
-                                {
-                                    "entity": "input_boolean.image_processing_driveway_alerts"
-                                },
-                                {
                                     "entity": "switch.circadian_lighting_circadian_lighting"
                                 },
                                 {
@@ -131,13 +122,13 @@
                         {
                             "entities": [
                                 {
+                                    "entity": "group.device_family"
+                                },
+                                {
                                     "entity": "person.ryan"
                                 },
                                 {
                                     "entity": "person.chelsea"
-                                },
-                                {
-                                    "entity": "group.device_family"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -178,6 +169,25 @@
                             "type": "entities"
                         },
                         {
+                            "entities": [
+                                {
+                                    "entity": "input_boolean.image_processing"
+                                },
+                                {
+                                    "entity": "input_boolean.image_processing_alerts"
+                                },
+                                {
+                                    "entity": "input_boolean.image_processing_coop_alerts"
+                                },
+                                {
+                                    "entity": "input_boolean.image_processing_driveway_alerts"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Image Processing",
+                            "type": "entities"
+                        },
+                        {
                             "type": "shopping-list"
                         },
                         {
@@ -190,12 +200,6 @@
                             "aspect_ratio": "0%",
                             "camera_image": "camera.deepstack_latest_person_fp",
                             "entities": [],
-                            "type": "picture-glance"
-                        },
-                        {
-                            "aspect_ratio": "0%",
-                            "entities": [],
-                            "image": "local/deepstack_object_images/object_detection_driveway_latest.jpg",
                             "type": "picture-glance"
                         }
                     ],

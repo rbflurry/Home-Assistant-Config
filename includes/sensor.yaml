@@ -99,11 +99,9 @@
 
 - platform: cert_expiry
   host: !secret ha_cert 
-  name: cert_url
   
 - platform: cert_expiry
   host: !secret nginz_cert
-  name: cert_internal
   
 - platform: mqtt  
   state_topic: "home/sensornode1"  

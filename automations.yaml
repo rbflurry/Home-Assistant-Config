@@ -3,3 +3,29 @@
   trigger: []
   condition: []
   action: []
+- id: '1584913993330'
+  alias: Bathroom Vent
+  description: ''
+  trigger:
+  - above: '90'
+    entity_id: sensor.bathroom_humid
+    for: 00:05:00
+    platform: numeric_state
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.bathroom_fan
+    service: switch.turn_on
+- id: '1584914187902'
+  alias: Bath Room Vent Off
+  description: ''
+  trigger:
+  - below: '89'
+    entity_id: sensor.bathroom_humid
+    for: 00:01:00
+    platform: numeric_state
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.bathroom_fan
+    service: switch.turn_off
