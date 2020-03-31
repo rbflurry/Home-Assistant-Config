@@ -32,7 +32,7 @@ image_processing:
         name: object_detection_driveway
       - entity_id: camera.p230
         name: object_detection_side
-      - entity_id: camera.z238
+      - entity_id: camera.camz238
         name: object_detection_coop
 
 alexa_media:
