@@ -133,6 +133,10 @@ switch.powerpivot1_1:
 switch.esp5:
   friendly_name: Christmas Tree
 person.ryan:
-  entity_picture: !secret ryan_picture
+  entity_picture: https://graph.facebook.com/1228860068/picture?type=normal
 person.chelsea:
-  entity_picture: !secret chelsea_picture
+  entity_picture: https://graph.facebook.com/639513494/picture?type=normal
+switch.sensornode2_relay1:
+  friendly_name: Chicken Pen Door Switch
+switch.sensornode2_relay2:
+  friendly_name: Chicken Coop Door Switch

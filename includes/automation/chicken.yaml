@@ -18,11 +18,10 @@
 #   entity_id: switch.esp3
 
 
-- alias: Chicken - Turn off chicken switch after 13 seconds
+- alias: Chicken - Turn off chicken coop door switch after 13 seconds
   initial_state: true
   trigger:
    platform: state
-#   entity_id: switch.esp3
    entity_id: switch.sensornode2_relay2
    to: 'on'
    for:
@@ -30,6 +29,18 @@
   action:
     - service: homeassistant.turn_off
       entity_id: switch.sensornode2_relay2
+      
+- alias: Chicken - Turn off chicken pen door switch after 13 seconds
+  initial_state: true
+  trigger:
+   platform: state
+   entity_id: switch.sensornode2_relay1
+   to: 'on'
+   for:
+     seconds: 13
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.sensornode2_relay1
           
           
 - alias: Chicken -  Send Message on chicken state changes

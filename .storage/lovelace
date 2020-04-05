@@ -222,7 +222,8 @@
                                 "switch.4chpro_3",
                                 "switch.4chpro_4",
                                 "light.wink_ge_link_bulb",
-                                "input_boolean.chicken_water_automations"
+                                "input_boolean.chicken_water_automations",
+                                "switch.sensornode2_relay1"
                             ],
                             "filter": {
                                 "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
