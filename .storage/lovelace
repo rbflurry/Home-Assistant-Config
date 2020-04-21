@@ -580,6 +580,24 @@
                             "show_header_toggle": false,
                             "title": "Chelsea",
                             "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "device_tracker.fry"
+                                }
+                            ],
+                            "hours_to_show": 10,
+                            "type": "map"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "person.chelsea"
+                                }
+                            ],
+                            "hours_to_show": 0,
+                            "type": "map"
                         }
                     ],
                     "path": "people",
@@ -670,6 +688,20 @@
                             "show_name": false,
                             "show_state": false,
                             "type": "picture-entity"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "switch.traffic_light_green"
+                                },
+                                {
+                                    "entity": "switch.traffic_light_yellow"
+                                },
+                                {
+                                    "entity": "switch.traffic_light_red"
+                                }
+                            ],
+                            "type": "entities"
                         }
                     ],
                     "path": "garage_room",
