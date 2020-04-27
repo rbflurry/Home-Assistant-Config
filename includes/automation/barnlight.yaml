@@ -1,11 +1,11 @@
 - alias: Back Door open turn barn light on
   trigger:
     - platform: state
-      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened
+      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door
       from: 'off'
       to: 'on'
     - platform: state
-      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened
+      entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door
       from: 'on'
       to: 'off'
   condition:

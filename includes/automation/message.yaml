@@ -1,7 +1,7 @@
 - alias: Send Message when no one is home but a door was opened
   trigger:
     - platform: state
-      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
       to: 'on'
   condition:
    condition: state
@@ -17,7 +17,7 @@
 - alias: Send Message when no one is home but a door was opened v2
   trigger:
     - platform: state
-      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
       to: 'on'
   condition:
    condition: state
@@ -54,7 +54,7 @@
 - alias: Send Message when a door is left open
   trigger:
    platform: state
-   entity_id: binary_sensor.wink_back_door_opened, binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+   entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.basement_door, binary_sensor.front_door
    to: 'on'
    for:
      minutes: 5

@@ -1,7 +1,7 @@
 - alias: Door Chime - Door Open
   trigger:
     - platform: state
-      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
       to: 'on'
   condition:
    condition: state
@@ -16,7 +16,7 @@
 - alias: Door Chime - Garage - Door Open
   trigger:
     - platform: state
-      entity_id: binary_sensor.wink_garage_entry_opened, cover.myq_first_bay, cover.myq_second_bay ,cover.myq_third_bay
+      entity_id: binary_sensor.garage_entry_door, cover.myq_first_bay, cover.myq_second_bay ,cover.myq_third_bay
       to: 'on'
   condition:
    condition: state
@@ -36,7 +36,7 @@
 - alias: No one is home - Door Chime
   trigger:
     - platform: state
-      entity_id: binary_sensor.wink_garage_entry_opened, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.wink_basement_door_opened, binary_sensor.front_door
+      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
       to: 'on'
   condition:
     - condition: state

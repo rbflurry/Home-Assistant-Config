@@ -23,12 +23,13 @@ sensor.trash_day:
   friendly_name: Is it Trash Day today?
   icon: mdi:delete-variant
 binary_sensor.wink_back_door_opened:
+  device_class: door
   friendly_name: Back Door
-binary_sensor.wink_basement_door_opened:
+binary_sensor.basement_door:
   friendly_name: Basement Door
-binary_sensor.wink_front_door_opened:
+binary_sensor.front_door:
   friendly_name: Front Door
-binary_sensor.wink_garage_entry_opened:
+binary_sensor.garage_entry_door:
   friendly_name: Garage Entry
 sensor.process_appdaemon:
   friendly_name: Appdaemon

@@ -612,13 +612,13 @@
                                     "entity": "binary_sensor.wink_back_door_opened"
                                 },
                                 {
-                                    "entity": "binary_sensor.wink_garage_entry_opened"
-                                },
-                                {
-                                    "entity": "binary_sensor.wink_basement_door_opened"
-                                },
-                                {
                                     "entity": "binary_sensor.front_door"
+                                },
+                                {
+                                    "entity": "binary_sensor.basement_door"
+                                },
+                                {
+                                    "entity": "binary_sensor.garage_entry_door"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -664,13 +664,13 @@
                                     "entity": "cover.myq_second_bay_2"
                                 },
                                 {
-                                    "entity": "cover.myq_third_bay_2"
-                                },
-                                {
-                                    "entity": "binary_sensor.wink_garage_entry_opened"
-                                },
-                                {
                                     "entity": "cover.wink_first_bay"
+                                },
+                                {
+                                    "entity": "binary_sensor.garage_entry_door"
+                                },
+                                {
+                                    "entity": "cover.myq_third_bay_2"
                                 },
                                 {
                                     "entity": "cover.wink_second_bay"
