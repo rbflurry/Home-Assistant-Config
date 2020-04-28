@@ -35,9 +35,6 @@ camera:
     username: ha
     password: !secret camera_pass
     authentication: basic
-  - platform: generic
-    still_image_url: https://icons.wxug.com/data/weather-maps/radar/united-states/staunton-virginia-region-current-radar-animation.gif
-    name: WundergroundRadar
   - platform: mjpeg
     mjpeg_url: http://192.168.47.90/mjpg/cam3
     name: cam3
@@ -63,6 +60,7 @@ camera:
     name: driveway
     username: ha
     password: !secret camera_pass
+
     
     
 #image_processing:

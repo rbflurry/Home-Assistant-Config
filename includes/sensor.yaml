@@ -1,13 +1,3 @@
-#- platform: fedex
-#  username: rabittn
-#  password: !secret myq_pass
-#  name: myfedex
-  
-#- platform: ups
-#  username: rabittn
-#  password: !secret myq_pass
-#  name: myups
-
 ### Travel Sensors ###
 
 ### Ryan ###

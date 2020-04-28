@@ -221,6 +221,9 @@ camera:
   - platform: local_file
     file_path: /config/www/deepstack_person_images/person_detector_fp_latest.jpg
     name: deepstack_latest_person_fp
+  - platform: local_file
+    name: deepstack_driveway_latest
+    file_path: /config/www/deepstack_object_images/object_detection_driveway_latest.jpg
 
 google:
   client_id: !secret google_client_id

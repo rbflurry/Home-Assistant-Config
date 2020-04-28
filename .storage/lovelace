@@ -188,9 +188,6 @@
                             "type": "entities"
                         },
                         {
-                            "type": "shopping-list"
-                        },
-                        {
                             "aspect_ratio": "0%",
                             "camera_image": "camera.deepstack_latest_person_bd",
                             "entities": [],
@@ -199,6 +196,12 @@
                         {
                             "aspect_ratio": "0%",
                             "camera_image": "camera.deepstack_latest_person_fp",
+                            "entities": [],
+                            "type": "picture-glance"
+                        },
+                        {
+                            "aspect_ratio": "0%",
+                            "camera_image": "camera.deepstack_driveway_latest",
                             "entities": [],
                             "type": "picture-glance"
                         }
@@ -245,6 +248,9 @@
                                 },
                                 {
                                     "entity": "sensor.sn2_real_feel"
+                                },
+                                {
+                                    "entity": "sensor.sn2_availablilty"
                                 }
                             ],
                             "show_header_toggle": false,
