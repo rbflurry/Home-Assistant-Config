@@ -129,7 +129,7 @@ system_health:
 
 
 logger:
- default: warning
+ default: fatal
  logs:
 #   urllib3.connectionpool: fatal
 #   homeassistant.components.http: debug
@@ -144,6 +144,10 @@ logger:
    homeassistant.components.camera: error
 #   homeassistant.components.image_processing.openalpr_cloud: debug
 #   homeassistant.components.http.view: warn
+# for v 1.0.0
+   custom_components.alexa_media: debug  
+# for API debugging (verbose and intended for service debugging)
+   alexapy: debug
 
 ################################################
 ## Component Includes (Merge List)
@@ -229,4 +233,10 @@ google:
   client_id: !secret google_client_id
   client_secret: !secret google_secret
 
-  
+image_processing:
+  - platform: sighthound
+    api_key: !secret sighthound
+    save_file_folder: /config/www/sighthound
+    save_timestamped_file: True
+    source:
+      - entity_id: camera.deepstack_driveway_latest

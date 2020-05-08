@@ -17,7 +17,7 @@
     entity_id: switch.bathroom_fan
     service: switch.turn_on
 - id: '1584914187902'
-  alias: Bath Room Vent Off
+  alias: Bathroom Vent Off
   description: ''
   trigger:
   - below: '89'

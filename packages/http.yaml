@@ -6,7 +6,7 @@ http:
   use_x_forwarded_for: true
   base_url: !secret base_url
   ip_ban_enabled: true
-  login_attempts_threshold: 5
+  login_attempts_threshold: 10
   trusted_proxies:
     - 192.168.49.2
     - 192.168.49.3

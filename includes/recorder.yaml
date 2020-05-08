@@ -1,8 +1,6 @@
 #  db_url: postgres://hass:hass@127.0.0.1/hass?client_encoding=utf8
   db_url: mysql://hass:hass@core-mariadb/homeassistant?charset=utf8
 #  db_url: postgres://hass:hass@127.0.0.1/hass?client_encoding=utf8
-
-  purge_interval: 1
   purge_keep_days: 20
   exclude:
     domains:

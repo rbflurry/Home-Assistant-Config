@@ -28,6 +28,9 @@
     state_closed: "closed"
     optimistic: false
     value_template: '{{ value_json.reed }}'
+    availability_topic: "home/sensornode2/availability"  
+    payload_available: "online"
+    payload_not_available: "offline"    
   - platform: mqtt
     state_topic: "home/windows"  
     command_topic: "home/windows"

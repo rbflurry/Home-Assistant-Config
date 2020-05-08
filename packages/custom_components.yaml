@@ -5,7 +5,12 @@ image_processing:
     ip_address: 192.168.47.205
     port: 5000
     save_file_folder: /config/www/deepstack_person_images
-    target: person
+    target: 
+      - person
+      - car
+      - truck
+      - dog
+      - cat
     confidence: 85
     source:
       - entity_id: camera.front_porch
@@ -34,12 +39,6 @@ image_processing:
         name: object_detection_side
       - entity_id: camera.camz238
         name: object_detection_coop
-
-alexa_media:
-  accounts:
-    - email: !secret alexa_email
-      password: !secret alexa_password
-      url: amazon.com
 
 circadian_lighting:
   

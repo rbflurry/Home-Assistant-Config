@@ -181,6 +181,12 @@
                                 },
                                 {
                                     "entity": "input_boolean.image_processing_driveway_alerts"
+                                },
+                                {
+                                    "entity": "input_boolean.image_alert_snooze"
+                                },
+                                {
+                                    "entity": "input_number.image_alert_snooze_time"
                                 }
                             ],
                             "show_header_toggle": false,
