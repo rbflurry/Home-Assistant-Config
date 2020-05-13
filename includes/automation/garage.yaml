@@ -15,13 +15,13 @@
      entity_id: cover.myq_first_bay
      state: 'open'
   action:
-   service: notify.ios_ryans_iphone_app
+   service: notify.telegram_ryan
    data:
       title: 'Chelsea Left'
       message: "First Bay was left open"
-      data:
-        push:
-          category: 'door_close'
+ #     data:
+ #       push:
+ #         category: 'door_close'
  
  
 #this causes multiple lines, we should update this to show all door states.

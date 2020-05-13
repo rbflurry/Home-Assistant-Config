@@ -676,13 +676,13 @@
                                     "entity": "cover.myq_second_bay_2"
                                 },
                                 {
-                                    "entity": "cover.wink_first_bay"
+                                    "entity": "cover.myq_third_bay_2"
                                 },
                                 {
                                     "entity": "binary_sensor.garage_entry_door"
                                 },
                                 {
-                                    "entity": "cover.myq_third_bay_2"
+                                    "entity": "cover.wink_first_bay"
                                 },
                                 {
                                     "entity": "cover.wink_second_bay"

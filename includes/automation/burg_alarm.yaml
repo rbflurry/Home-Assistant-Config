@@ -14,7 +14,7 @@
       entity_id: alarm_control_panel.ha_alarm
       state: 'armed_away'
   action:
-   service: notify.ios_ryans_iphone_app
+   service: notify.telegram_ryan
    data_template:
       title: 'Something happened at home'
       message: >
