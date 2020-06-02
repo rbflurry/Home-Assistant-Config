@@ -489,7 +489,7 @@
    offset: '-00:20:00'
   action:
    service: homeassistant.turn_on
-   entity_id: light.wink_guinea_coop
+   entity_id: light.ge_daylight_b1510014_level_on_off
    
 - alias: Chicken -  Brooder turn off light at sunset
   trigger:
@@ -498,7 +498,7 @@
      offset: '+00:20:00'
   action:
    service: homeassistant.turn_off
-   entity_id: light.wink_guinea_coop
+   entity_id: light.ge_daylight_b1510014_level_on_off
 
 #This was replaces with a climate template
 #- alias: Chicken -  Brooder Lamp

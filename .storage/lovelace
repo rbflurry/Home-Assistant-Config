@@ -5,7 +5,9 @@
             "views": [
                 {
                     "badges": [
-                        "sensor.last_successful_authentication"
+                        {
+                            "entity": "sensor.last_successful_authentication"
+                        }
                     ],
                     "cards": [
                         {
@@ -92,6 +94,9 @@
                                 },
                                 {
                                     "entity": "switch.bathroom_fan"
+                                },
+                                {
+                                    "entity": "switch.esp6"
                                 }
                             ],
                             "filter": {
@@ -101,23 +106,15 @@
                                     }
                                 ]
                             },
+                            "sort": {
+                                "method": "state",
+                                "reverse": "yes"
+                            },
                             "type": "custom:auto-entities"
                         },
                         {
-                            "entities": [
-                                {
-                                    "entity": "cover.wink_first_bay"
-                                },
-                                {
-                                    "entity": "cover.wink_second_bay"
-                                },
-                                {
-                                    "entity": "cover.wink_third_bay"
-                                }
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Garage Controls",
-                            "type": "entities"
+                            "entity": "weather.dark_sky",
+                            "type": "weather-forecast"
                         },
                         {
                             "entities": [
@@ -138,27 +135,6 @@
                             "entities": [
                                 {
                                     "entity": "sun.sun"
-                                },
-                                {
-                                    "entity": "sensor.dark_sky_temperature"
-                                },
-                                {
-                                    "entity": "sensor.dark_sky_humidity"
-                                },
-                                {
-                                    "entity": "sensor.dark_sky_precip_intensity"
-                                },
-                                {
-                                    "entity": "sensor.dark_sky_precip_probability"
-                                },
-                                {
-                                    "entity": "sensor.dark_sky_wind_speed"
-                                },
-                                {
-                                    "entity": "sensor.dark_sky_apparent_temperature"
-                                },
-                                {
-                                    "entity": "sensor.dark_sky_summary"
                                 },
                                 {
                                     "entity": "sensor.car_wash_clean"
@@ -195,6 +171,12 @@
                         },
                         {
                             "aspect_ratio": "0%",
+                            "camera_image": "camera.deepstack_driveway_latest",
+                            "entities": [],
+                            "type": "picture-glance"
+                        },
+                        {
+                            "aspect_ratio": "0%",
                             "camera_image": "camera.deepstack_latest_person_bd",
                             "entities": [],
                             "type": "picture-glance"
@@ -202,12 +184,6 @@
                         {
                             "aspect_ratio": "0%",
                             "camera_image": "camera.deepstack_latest_person_fp",
-                            "entities": [],
-                            "type": "picture-glance"
-                        },
-                        {
-                            "aspect_ratio": "0%",
-                            "camera_image": "camera.deepstack_driveway_latest",
                             "entities": [],
                             "type": "picture-glance"
                         }
@@ -228,11 +204,13 @@
                                 "cover.chicken_door",
                                 "switch.4chpro_1",
                                 "switch.4chpro_2",
+                                "input_boolean.chicken_bug_automations",
                                 "switch.4chpro_3",
                                 "switch.4chpro_4",
                                 "light.wink_ge_link_bulb",
                                 "input_boolean.chicken_water_automations",
-                                "switch.sensornode2_relay1"
+                                "switch.sensornode2_relay1",
+                                "light.ge_daylight_b1510014_level_on_off"
                             ],
                             "filter": {
                                 "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
@@ -713,6 +691,22 @@
                                     "entity": "switch.traffic_light_red"
                                 }
                             ],
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "cover.wink_first_bay"
+                                },
+                                {
+                                    "entity": "cover.wink_second_bay"
+                                },
+                                {
+                                    "entity": "cover.wink_third_bay"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Garage Controls",
                             "type": "entities"
                         }
                     ],

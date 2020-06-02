@@ -53,8 +53,7 @@ updater:
 
 # Discover some devices automatically
 discovery:
-  ignore:
-    - igd
+
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -95,14 +94,6 @@ mqtt:
   discovery: true
   discovery_prefix: homeassistant
 
-alarm_control_panel:
-  platform: manual
-  name: "HA Alarm"
-  code: !secret alarm_passcode
-  pending_time: 60
-  trigger_time: 120
-  disarm_after_trigger: true
-
 shell_command:
   call_chelsea: /root/.homeassistant/scripts/call_chelsea.sh
   call_ryan: /root/.homeassistant/scripts/.sh
@@ -129,7 +120,7 @@ system_health:
 
 
 logger:
- default: fatal
+ default: error
  logs:
 #   urllib3.connectionpool: fatal
 #   homeassistant.components.http: debug
@@ -145,9 +136,9 @@ logger:
 #   homeassistant.components.image_processing.openalpr_cloud: debug
 #   homeassistant.components.http.view: warn
 # for v 1.0.0
-   custom_components.alexa_media: debug  
+#   custom_components.alexa_media: debug  
 # for API debugging (verbose and intended for service debugging)
-   alexapy: debug
+#   alexapy: debug
 
 ################################################
 ## Component Includes (Merge List)
@@ -240,3 +231,6 @@ image_processing:
     save_timestamped_file: True
     source:
       - entity_id: camera.deepstack_driveway_latest
+      
+stream:
+  

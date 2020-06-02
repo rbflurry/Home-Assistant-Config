@@ -4,7 +4,6 @@
 
 http:
   use_x_forwarded_for: true
-  base_url: !secret base_url
   ip_ban_enabled: true
   login_attempts_threshold: 10
   trusted_proxies:
