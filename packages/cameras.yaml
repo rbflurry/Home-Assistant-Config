@@ -1,62 +1,62 @@
 camera:
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/cam234
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/cam234
     name: cam234
     username: ha
     password: !secret camera_pass
     authentication: basic
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/d239
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/d239
     name: camd239
     username: ha
     password: !secret camera_pass
     authentication: basic
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/p237
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/p237
     name: camp237
     username: ha
     password: !secret camera_pass
     authentication: basic
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/camp235
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/camp235
     name: camp235
     username: ha
     password: !secret camera_pass
     authentication: basic
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/z238
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/z238
     name: camz238
     username: ha
     password: !secret camera_pass
     authentication: basic
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/cam233
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/cam233
     name: cam233
     username: ha
     password: !secret camera_pass
     authentication: basic
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/cam3
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/cam3
     name: cam3
     username: ha
     password: !secret camera_pass
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/p230
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/p230
     name: p230
     username: ha
     password: !secret camera_pass
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/fp
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/fp
     name: front_porch
     username: ha
     password: !secret camera_pass
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/BD
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/BD
     name: back_deck
     username: ha
     password: !secret camera_pass
   - platform: mjpeg
-    mjpeg_url: http://192.168.47.90/mjpg/cam8
+    mjpeg_url: https://iris.lilold.westmd.info/mjpg/cam8
     name: driveway
     username: ha
     password: !secret camera_pass

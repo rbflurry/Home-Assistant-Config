@@ -219,6 +219,18 @@ camera:
   - platform: local_file
     name: deepstack_driveway_latest
     file_path: /config/www/deepstack_object_images/object_detection_driveway_latest.jpg
+  - platform: generic
+    name: driveway_latest
+    still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_driveway_ann.jpg
+  - platform: generic
+    name: latest_person_fp
+    still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_fp_ann.jpg
+  - platform: generic
+    still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_bd_ann.jpg
+    name: latest_person_bd
+  - platform: generic
+    still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_coop_ann.jpg
+    name: latest_person_coop
 
 google:
   client_id: !secret google_client_id

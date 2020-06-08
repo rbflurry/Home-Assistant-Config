@@ -87,3 +87,8 @@ switch:
       - light.wink_bed_room
       - light.wink_hallway
       - light.wink_led_strip_bed
+  - platform: circadian_lighting
+    name: chicken
+    lights_rgb:
+      - light.wink_ge_link_bulb
+      - light.ge_daylight_b1510014_level_on_off

@@ -106,10 +106,6 @@
                                     }
                                 ]
                             },
-                            "sort": {
-                                "method": "state",
-                                "reverse": "yes"
-                            },
                             "type": "custom:auto-entities"
                         },
                         {
@@ -171,19 +167,19 @@
                         },
                         {
                             "aspect_ratio": "0%",
-                            "camera_image": "camera.deepstack_driveway_latest",
+                            "camera_image": "camera.latest_person_fp",
                             "entities": [],
                             "type": "picture-glance"
                         },
                         {
                             "aspect_ratio": "0%",
-                            "camera_image": "camera.deepstack_latest_person_bd",
+                            "camera_image": "camera.driveway_latest",
                             "entities": [],
                             "type": "picture-glance"
                         },
                         {
                             "aspect_ratio": "0%",
-                            "camera_image": "camera.deepstack_latest_person_fp",
+                            "camera_image": "camera.latest_person_bd",
                             "entities": [],
                             "type": "picture-glance"
                         }
