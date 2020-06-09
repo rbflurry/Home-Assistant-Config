@@ -204,33 +204,42 @@ telegram_bot:
 shopping_list:
 
 camera:
-  - platform: local_file
-    file_path: /config/www/deepstack_person_images/deepstack_latest_person.jpg
-    name: deepstack_latest_person
-  - platform: local_file
-    file_path: /config/www/gettyimage.jpg
-    name: deepstack_test
-  - platform: local_file
-    file_path: /config/www/deepstack_person_images/person_detector_bd_latest.jpg
-    name: deepstack_latest_person_bd
-  - platform: local_file
-    file_path: /config/www/deepstack_person_images/person_detector_fp_latest.jpg
-    name: deepstack_latest_person_fp
-  - platform: local_file
-    name: deepstack_driveway_latest
-    file_path: /config/www/deepstack_object_images/object_detection_driveway_latest.jpg
+#  - platform: local_file
+#    file_path: /config/www/deepstack_person_images/deepstack_latest_person.jpg
+#    name: deepstack_latest_person
+#  - platform: local_file
+#    file_path: /config/www/gettyimage.jpg
+#    name: deepstack_test
+#  - platform: local_file
+#    file_path: /config/www/deepstack_person_images/person_detector_bd_latest.jpg
+#    name: deepstack_latest_person_bd
+#  - platform: local_file
+#    file_path: /config/www/deepstack_person_images/person_detector_fp_latest.jpg
+#    name: deepstack_latest_person_fp
+#  - platform: local_file
+#    name: deepstack_driveway_latest
+#    file_path: /config/www/deepstack_object_images/object_detection_driveway_latest.jpg
   - platform: generic
     name: driveway_latest
     still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_driveway_ann.jpg
+    framerate: 1
   - platform: generic
     name: latest_person_fp
     still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_fp_ann.jpg
+    framerate: 1    
   - platform: generic
     still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_bd_ann.jpg
     name: latest_person_bd
+    framerate: 1
   - platform: generic
     still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_coop_ann.jpg
     name: latest_person_coop
+    framerate: 1
+  - platform: push
+    name: My Push Camera
+    webhook_id: "1234567890"
+    timeout: 10
+    buffer: 5
 
 google:
   client_id: !secret google_client_id

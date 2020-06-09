@@ -149,6 +149,9 @@
                                     "entity": "input_boolean.image_processing_alerts"
                                 },
                                 {
+                                    "entity": "input_boolean.image_processing_coop"
+                                },
+                                {
                                     "entity": "input_boolean.image_processing_coop_alerts"
                                 },
                                 {
@@ -180,6 +183,12 @@
                         {
                             "aspect_ratio": "0%",
                             "camera_image": "camera.latest_person_bd",
+                            "entities": [],
+                            "type": "picture-glance"
+                        },
+                        {
+                            "aspect_ratio": "0%",
+                            "camera_image": "camera.my_push_camera",
                             "entities": [],
                             "type": "picture-glance"
                         }
