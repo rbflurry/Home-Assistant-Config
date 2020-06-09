@@ -248,7 +248,7 @@ google:
 image_processing:
   - platform: sighthound
     api_key: !secret sighthound
-    save_file_folder: /config/www/sighthound
+    save_file_folder: /config/www/sighthound/
     save_timestamped_file: True
     source:
       - entity_id: camera.deepstack_driveway_latest
