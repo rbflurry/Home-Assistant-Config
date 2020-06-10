@@ -50,3 +50,7 @@
     platform: group
     services:
       - service: mobile_app_ryan_iphone
+  - name: mobile_app_ryan_iphone
+    platform: group
+    services:
+      - service: telegram_ryan
