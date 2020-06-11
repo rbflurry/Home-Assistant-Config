@@ -48,6 +48,12 @@
   trigger:
     - platform: state
       entity_id: cover.chicken_door
+      from: "open"
+      to: "closed"
+    - platform: state
+      entity_id: cover.chicken_door
+      from: "closed"
+      to: "open"
   condition:
     - condition: state
       entity_id: input_boolean.chicken_door_automations
