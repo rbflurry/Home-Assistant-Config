@@ -55,7 +55,9 @@
   action:
    -  service: notify.ios_group
       data_template:
-        title: '{{ "\ud83d\udc14" }}Chicken Coop{{ "\ud83d\udc14" }}'
+ #       title: '{{ "\ud83d\udc14" }}Chicken Coop{{ "\ud83d\udc14" }}'
+        title: "\U0001F414 Chicken Coop \U0001F414" 
+ 
         message: >
           {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
         data:
