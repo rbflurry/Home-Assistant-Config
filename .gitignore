@@ -1,5 +1,6 @@
 secrets.yaml
 known_devices.yaml
+*.html
 .homekit.state
 *.conf
 *.db
