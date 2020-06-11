@@ -78,30 +78,52 @@ camera:
 #  - platform: local_file
 #    name: deepstack_driveway_latest
 #    file_path: /config/www/deepstack_object_images/object_detection_driveway_latest.jpg
-  - platform: generic
-    name: driveway_latest
-    still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_driveway_ann.jpg
-    framerate: 1
-  - platform: generic
-    name: latest_person_fp
-    still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_fp_ann.jpg
-    framerate: 1    
-  - platform: generic
-    still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_bd_ann.jpg
-    name: latest_person_bd
-    framerate: 1
-  - platform: generic
-    still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_coop_ann.jpg
-    name: latest_person_coop
-    framerate: 1
+#  - platform: generic
+#    name: driveway_latest
+#    still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_driveway_ann.jpg
+#    framerate: 1
+#  - platform: generic
+#    name: latest_person_fp
+#    still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_fp_ann.jpg
+#    framerate: 1    
+#  - platform: generic
+#    still_image_url: https://node.lilold.westmd.info/files/image_processing.person_detector_bd_ann.jpg
+#    name: latest_person_bd
+#    framerate: 1
+#  - platform: generic
+#    still_image_url: https://node.lilold.westmd.info/files/image_processing.object_detection_coop_ann.jpg
+#    name: latest_person_coop
+#    framerate: 1
   - platform: push
-    name: My Push Camera
+    name: Test
     webhook_id: "1234567890"
     timeout: 10
     buffer: 5
-
-
-
+  - platform: push
+    name: person_detector_bd
+    webhook_id: "person_detector_bd"
+    timeout: 10
+    buffer: 5
+  - platform: push
+    name: person_detector_fp
+    webhook_id: "person_detector_fp"
+    timeout: 10
+    buffer: 5
+  - platform: push
+    name: object_detection_driveway
+    webhook_id: "object_detection_driveway"
+    timeout: 10
+    buffer: 5
+  - platform: push
+    name: object_detection_side
+    webhook_id: "object_detection_side"
+    timeout: 10
+    buffer: 5
+  - platform: push
+    name: object_detection_coop
+    webhook_id: "object_detection_coop"
+    timeout: 10
+    buffer: 5
 
 #image_processing:
 # - platform: openalpr_cloud
