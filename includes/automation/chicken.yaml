@@ -445,24 +445,24 @@
 #     entity_id: light.wink_chicken_light
 
 
-- alias: Chicken - Afterdark, turn off light
-  initial_state: false
-  trigger:
-   platform: state
-   entity_id: switch.esp4
-   to: 'on'
-   for: 
-     minutes: 1
-  condition:
+#- alias: Chicken - Afterdark, turn off light
+#  initial_state: false
+#  trigger:
+#   platform: state
+#   entity_id: switch.esp4
+#   to: 'on'
+#   for: 
+#     minutes: 1
+#  condition:
 #    - condition: state
 #      entity_id: sun.sun
 #      state: 'below_horizon'
-    - condition: state
-      entity_id: switch.esp4
-      state: 'on'
-  action:
-   - service: homeassistant.turn_off
-     entity_id: switch.esp4
+#    - condition: state
+#      entity_id: switch.esp4
+#      state: 'on'
+#  action:
+#   - service: homeassistant.turn_off
+#     entity_id: switch.esp4
 #  - service: homeassistant.turn_on
 #     entity_id: light.wink_chicken_light
 #     data:

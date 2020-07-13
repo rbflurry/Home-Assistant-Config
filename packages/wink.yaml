@@ -48,7 +48,7 @@ sensor:
       total_wink_lights_on:
         entity_id: sensor.time
         value_template: >-
-          {% for state in states.light if state.state == 'on' and "wink" in state.entity_id and "strip" not in state.entity_id and "wink_wink" not in state.entity_id %}
+          {% for state in states.light if state.state == 'on' and "wink" in state.entity_id and "wink_wink" not in state.entity_id %}
           {% if loop.last %}
           {{ loop.index|int }}
           {% endif %}
@@ -58,7 +58,7 @@ sensor:
       total_wink_lights_off:
         entity_id: sensor.time
         value_template: >-
-          {% for state in states.light if state.state == 'off' and "wink" in state.entity_id and "strip" not in state.entity_id and "wink_wink" not in state.entity_id %}
+          {% for state in states.light if state.state == 'off' and "wink" in state.entity_id and "wink_wink" not in state.entity_id %}
           {% if loop.last %}
           {{ loop.index|int }}
           {% endif %}
@@ -68,7 +68,7 @@ sensor:
       total_wink_lights:
         entity_id: sensor.time
         value_template: >-
-          {% for state in states.light if state.state != 'unavailable' and "wink" in state.entity_id and "strip" not in state.entity_id and "wink_wink" not in state.entity_id %}
+          {% for state in states.light if state.state != 'unavailable' and "wink" in state.entity_id and "wink_wink" not in state.entity_id %}
           {% if loop.last %}
           {{ loop.index|int }}
           {% endif %}

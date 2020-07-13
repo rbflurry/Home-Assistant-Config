@@ -9,7 +9,7 @@
   trigger:
   - above: '90'
     entity_id: sensor.bathroom_humid
-    for: 00:05:00
+    for: 00:03:00
     platform: numeric_state
   condition: []
   action:

@@ -105,8 +105,7 @@ switch.esp6:
   friendly_name: Upstairs Fan
   icon: mdi:fan
 switch.esp4:
-  friendly_name: Bug Zapper
-  icon: mdi:bug
+  friendly_name: Garage Attic Fan
 input_boolean.chicken_water_automations:
   icon: mdi:water
 switch.side_spigot:

@@ -5,7 +5,7 @@ image_processing:
     ip_address: 192.168.47.205
     port: 5000
     save_file_folder: /config/www/deepstack_person_images
-    target: 
+    targets: 
       - person
       - car
       - truck
@@ -23,7 +23,7 @@ image_processing:
     ip_address: 192.168.47.205
     port: 5000
     save_file_folder: /config/www/deepstack_person_images
-    target: 
+    targets: 
       - person
     confidence: 85
     source:
@@ -33,7 +33,7 @@ image_processing:
     ip_address: 192.168.47.205
     port: 5000
     save_file_folder: /config/www/deepstack_object_images
-    target: 
+    targets: 
       - person
       - car
       - truck
@@ -47,12 +47,12 @@ image_processing:
         name: object_detection_side
       - entity_id: camera.camz238
         name: object_detection_coop
-  - platform: sighthound
-    api_key: !secret sighthound
-    save_file_folder: /config/www/sighthound
-    save_timestamped_file: True
-    source:
-      - entity_id: camera.deepstack_driveway_latest
+#  - platform: sighthound
+#    api_key: !secret sighthound
+#    save_file_folder: /config/www/sighthound
+#    save_timestamped_file: True
+#    source:
+#      - entity_id: camera.deepstack_driveway_latest
 
 circadian_lighting:
   

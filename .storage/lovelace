@@ -115,21 +115,6 @@
                         {
                             "entities": [
                                 {
-                                    "entity": "group.device_family"
-                                },
-                                {
-                                    "entity": "person.ryan"
-                                },
-                                {
-                                    "entity": "person.chelsea"
-                                }
-                            ],
-                            "show_header_toggle": false,
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                {
                                     "entity": "sun.sun"
                                 },
                                 {
@@ -169,26 +154,41 @@
                             "type": "entities"
                         },
                         {
+                            "entities": [
+                                {
+                                    "entity": "group.device_family"
+                                },
+                                {
+                                    "entity": "person.ryan"
+                                },
+                                {
+                                    "entity": "person.chelsea"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "type": "entities"
+                        },
+                        {
                             "aspect_ratio": "0%",
-                            "camera_image": "camera.latest_person_fp",
+                            "camera_image": "camera.object_detection_driveway",
                             "entities": [],
                             "type": "picture-glance"
                         },
                         {
                             "aspect_ratio": "0%",
-                            "camera_image": "camera.driveway_latest",
+                            "camera_image": "camera.person_detector_bd",
                             "entities": [],
                             "type": "picture-glance"
                         },
                         {
                             "aspect_ratio": "0%",
-                            "camera_image": "camera.latest_person_bd",
+                            "camera_image": "camera.object_detection_coop",
                             "entities": [],
                             "type": "picture-glance"
                         },
                         {
                             "aspect_ratio": "0%",
-                            "camera_image": "camera.my_push_camera",
+                            "camera_image": "camera.person_detector_fp",
                             "entities": [],
                             "type": "picture-glance"
                         }
@@ -665,13 +665,7 @@
                                     "entity": "binary_sensor.garage_entry_door"
                                 },
                                 {
-                                    "entity": "cover.wink_first_bay"
-                                },
-                                {
-                                    "entity": "cover.wink_second_bay"
-                                },
-                                {
-                                    "entity": "cover.wink_third_bay"
+                                    "entity": "switch.esp4"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -696,22 +690,7 @@
                                     "entity": "switch.traffic_light_red"
                                 }
                             ],
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                {
-                                    "entity": "cover.wink_first_bay"
-                                },
-                                {
-                                    "entity": "cover.wink_second_bay"
-                                },
-                                {
-                                    "entity": "cover.wink_third_bay"
-                                }
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Garage Controls",
+                            "title": "Traffic Light",
                             "type": "entities"
                         }
                     ],

@@ -185,6 +185,8 @@ sensor:
       - precip_type
       - temperature_low
       - temperature_high
+    forecast:
+      - 1
       
 
 
