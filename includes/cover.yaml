@@ -3,34 +3,6 @@
     password: !secret myq_pass
     type: chamberlain
     entity_namespace: myq
-#  - platform: command_line
-#    covers:
-#      chicken_door:
-#        command_open: chicken_door 
-#        command_close: chicken_door
-#        command_state: chicken_status
-#        value_template: >
-#          {% if is_state('sensor.sn1_reed', 'open') %}
-#          100
-#          {% elif is_state('sensor.sn1_reed', 'closed') %}
-#          0
-#          {% endif %}
-  - platform: mqtt
-    state_topic: "home/sensornode2"  
-    command_topic: "home/sensornode2/relay2/set/"
-    name: chicken_door
-    qos: 0
-    retain: true
-    payload_open: "1"
-    payload_close: "1"
-    payload_stop: "0"
-    state_open: "open"
-    state_closed: "closed"
-    optimistic: false
-    value_template: '{{ value_json.reed }}'
-    availability_topic: "home/sensornode2/availability"  
-    payload_available: "online"
-    payload_not_available: "offline"    
   - platform: mqtt
     state_topic: "home/windows"  
     command_topic: "home/windows"

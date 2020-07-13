@@ -104,22 +104,6 @@
   qos: 1
   retain: true
 - platform: mqtt
-  name: "sensornode2_relay1"
-  state_topic: "home/sensornode2/relay1"
-  command_topic: "home/sensornode2/relay1/set/"
-  payload_on: "1"
-  payload_off: "0"
-  qos: 1
-  retain: true
-- platform: mqtt
-  name: "sensornode2_relay2"
-  state_topic: "home/sensornode2/relay2"
-  command_topic: "home/sensornode2/relay2/set/"
-  payload_on: "1"
-  payload_off: "0"
-  qos: 1
-  retain: true
-- platform: mqtt
   name: "On/Off Sonoff"
   state_topic: "stat/sonoffdual/RESULT"
   value_template: '{{ value_json["POWER1"] }}'

@@ -45,7 +45,18 @@
       data:
         topic: "cmnd/sonoff4chpro/POWER4"
         payload: ""
-      
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sensornode2/POWER1"
+        payload: ""
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sensornode2/POWER2"
+        payload: ""
+    - service: mqtt.publish
+      data:
+        topic: "cmnd/sensornode2/POWER3"
+        payload: ""
 
 - alias: HA Stop - Send Message stop timers
   trigger:
