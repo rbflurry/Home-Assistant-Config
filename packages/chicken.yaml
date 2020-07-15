@@ -49,7 +49,7 @@ sensor:
       state_topic: "tele/sensornode2/SENSOR"  
       name: "SN2 Temperature"
       icon: 'mdi:temperature-fahrenheit'
-      value_template: "{{ value_json['AM2301'].Temperature | int }}"
+      value_template: "{{ value_json['AM2301'].Temperature | float }}"
       unit_of_measurement: "°F"
       availability_topic: "tele/sensornode2/LWT"
       qos: 1
@@ -60,7 +60,7 @@ sensor:
       state_topic: "tele/sensornode2/SENSOR"  
       name: "SN2 Humidity"
       icon: mdi:water-percent
-      value_template: "{{ value_json['AM2301'].Humidity | int }}"
+      value_template: "{{ value_json['AM2301'].Humidity | float }}"
       unit_of_measurement: "%"
       availability_topic: "tele/sensornode2/LWT"
       qos: 1

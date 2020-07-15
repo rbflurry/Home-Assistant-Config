@@ -1,4 +1,5 @@
 - alias: House armed - door open
+  initial_state: off
   trigger:
     - platform: state
       entity_id: binary_sensor.garage_motion_sensor_motion, binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door
@@ -25,6 +26,7 @@
         
         
 - alias: House armed - Make the panel beep
+  initial_state: off
   trigger:
     - platform: time_pattern
       seconds: 10

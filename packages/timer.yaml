@@ -60,6 +60,7 @@ automation:
 
 # on boot, compile list of items to have as options for ui
   - alias: '[HA] Timer - Load entity ids on boot'
+    initial_state: off
     trigger:
     - platform: homeassistant
       event: start

@@ -19,7 +19,7 @@
 
 
 - alias: Chicken - Turn off chicken coop door switch after 13 seconds
-  initial_state: true
+  initial_state: false
   trigger:
    platform: state
    entity_id: switch.sensornode2_relay2
@@ -31,7 +31,7 @@
       entity_id: switch.sensornode2_relay2
       
 - alias: Chicken - Turn off chicken pen door switch after 13 seconds
-  initial_state: true
+  initial_state: false
   trigger:
    platform: state
    entity_id: switch.sensornode2_relay1
