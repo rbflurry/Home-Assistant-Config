@@ -43,7 +43,7 @@
     name: Chicken Sensor Pod is down
     done_message: Chicken Sensor Pod is up
     entity_id: sensor.sn2_availablilty
-    state: offline
+    state: "Offline"
     repeat: 10
     can_acknowledge: True
     skip_first: True
