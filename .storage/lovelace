@@ -213,7 +213,9 @@
                                 "switch.4chpro_3",
                                 "switch.4chpro_4",
                                 "light.wink_ge_link_bulb",
+                                "input_boolean.chicken_light_dimming",
                                 "input_boolean.chicken_water_automations",
+                                "automation.chicken_pen_door_lockout",
                                 "switch.sensornode2_relay1",
                                 "light.ge_daylight_b1510014_level_on_off"
                             ],

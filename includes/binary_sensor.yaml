@@ -95,8 +95,8 @@
   availability_topic: "tele/sonoff_basement/LWT"
   payload_available: "Online"
   payload_not_available: "Offline"
-  payload_on: "OFF"
-  payload_off: "ON"
+  payload_on: "ON"
+  payload_off: "OFF"
   
 - platform: mqtt
   name: "OpenMQTTGateway"

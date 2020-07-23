@@ -1,3 +1,8 @@
+homeassistant:
+  customize:
+    packages.chicken: &customize
+      package: 'chicken'
+
 switch:
     - platform: mqtt
       name: "sensornode2_relay1"
@@ -10,7 +15,7 @@ switch:
       payload_off: "OFF"
       payload_available: "Online"
       payload_not_available: "Offline"
-#      retain: true
+      retain: true
     - platform: mqtt
       name: "sensornode2_relay2"
       state_topic: "stat/sensornode2/RESULT"
@@ -22,7 +27,7 @@ switch:
       payload_off: "OFF"
       payload_available: "Online"
       payload_not_available: "Offline"
-#      retain: true
+      retain: true
       
       
 cover:
@@ -31,7 +36,7 @@ cover:
       command_topic: "cmnd/sensornode2/POWER2"
       name: chicken_door
       qos: 1
-#      retain: true
+      retain: true
       payload_open: "ON"
       payload_close: "ON"
       payload_stop: "OFF"
