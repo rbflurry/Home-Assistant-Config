@@ -140,3 +140,5 @@ switch.sensornode2_relay1:
   friendly_name: Chicken Pen Door Switch
 switch.sensornode2_relay2:
   friendly_name: Chicken Coop Door Switch
+binary_sensor.sn2_reed:
+  device_class: door

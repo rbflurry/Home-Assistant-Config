@@ -48,7 +48,16 @@ cover:
       payload_available: "Online"
       payload_not_available: "Offline"
       
-      
+
+binary_sensor:
+    - platform: mqtt  
+      state_topic: "tele/sensornode2/SENSOR"  
+      name: "SN2 Reed"  
+      value_template: '{{ value_json.Switch3 }}'
+      availability_topic: "tele/sensornode2/LWT"  
+      payload_available: "Online"
+      payload_not_available: "Offline"
+
 sensor:
     - platform: mqtt  
       state_topic: "tele/sensornode2/SENSOR"  
@@ -71,18 +80,6 @@ sensor:
       qos: 1
       payload_available: "Online"
       payload_not_available: "Offline"
-            
-    - platform: mqtt  
-      state_topic: "home/sensornode2"  
-      name: "SN2 Reed"  
-      value_template: '{{ value_json.reed }}'
-    #  icon_template: >-
-    #    {% if is_state('sensor.sn2_reed', 'open') %}
-    #       mdi:door-open
-    #    {% else %}
-    #      mdi:door-closed
-    #    {% endif %}
-      
       
     - platform: mqtt  
       state_topic: "tele/sensornode2/LWT"  
