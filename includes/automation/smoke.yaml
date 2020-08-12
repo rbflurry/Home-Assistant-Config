@@ -4,10 +4,15 @@
       entity_id: binary_sensor.wink_hallway_smoke_detector_smoke_detected, binary_sensor.wink_hallway_smoke_detector_co_detected
       from: 'off'
       to: 'on'
-#    - platform: state
-#      entity_id: binary_sensor.wink_hallway_smoke_detector_co_detected
-#      from: 'off'
-#      to: 'on'
+    - platform: state
+      entity_id: sensor.smoke_status
+      to: 'smoke'
+    - platform: state
+      entity_id: sensor.smoke_status
+      to: 'co'
+    - platform: state
+      entity_id: sensor.smoke_status
+      to: 'test'
   action:
     - service: shell_command.call_ryan
     - service: shell_command.call_chelsea
@@ -15,7 +20,7 @@
       data:
         event: smoke_detected
         key: chelsea, ryan
-    - service: notify.ios_group
+    - service: notify.everyone_group
       data_template:
         title: 'CO or Smoke Detected'
         message: >

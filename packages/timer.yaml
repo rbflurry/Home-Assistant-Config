@@ -67,7 +67,6 @@ automation:
     condition: []
     action:
     - service: python_script.populate_timer_entity_id
-    initial_state: 'on'
 
   # timer finished - perform recorded action from ui
   - alias: '[HA] Timer X'

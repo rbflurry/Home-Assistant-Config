@@ -622,3 +622,35 @@
           {% else %}
             no
           {% endif %}
+
+
+    smoke_status:
+        friendly_name: 'Zwave Smoke Status'
+        value_template: >
+            {% set alarm = states('sensor.first_alert_brk_brands_inc_zcombo_smoke_and_carbon_monoxide_detector_alarm_type') | float %}
+            {% set level = states('sensor.first_alert_brk_brands_inc_zcombo_smoke_and_carbon_monoxide_detector_alarm_level') | float %}
+            {% if alarm == 13 and level == 255 %}
+              OK
+            {% elif alarm == 1 and level == 255 %}
+              Smoke
+            {% elif alarm == 2 and level == 255 %}
+              CO
+            {% elif alarm == 12 and level == 0 %}
+              Test
+            {% else %}
+              Unknown
+            {% endif %}
+        icon_template: >
+            {% set alarm = states('sensor.first_alert_brk_brands_inc_zcombo_smoke_and_carbon_monoxide_detector_alarm_type') | float %}
+            {% set level = states('sensor.first_alert_brk_brands_inc_zcombo_smoke_and_carbon_monoxide_detector_alarm_level') | float %}
+            {% if alarm == 13 and level == 255 %}
+                mdi:smoke-detector
+            {% elif alarm == 1 and level == 255 %}
+                mdi:fire
+            {% elif alarm == 2 and level == 255 %}
+            mdi:cloud-alert
+            {% elif alarm == 12 and level == 0 %}
+                mdi:smoke-detector
+            {% else %}
+                mdi:cloud-question
+            {% endif %}

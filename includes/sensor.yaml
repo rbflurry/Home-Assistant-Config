@@ -15,35 +15,35 @@
   origin: device_tracker.fry
   destination: zone.thales
   
-- platform: google_travel_time
-  name: device_ryan_to_home
-  api_key: !secret google_api_dist
-  origin: device_tracker.fry
-  destination: zone.home
-  scan_interval: 15
+#- platform: google_travel_time
+#  name: device_ryan_to_home
+#  api_key: !secret google_api_dist
+#  origin: device_tracker.fry
+#  destination: zone.home
+#  scan_interval: 30
 
-- platform: google_travel_time
-  name: device_ryan_to_work
-  api_key: !secret google_api_dist
-  origin: device_tracker.fry
-  destination: zone.thales
-  scan_interval: 15
+#- platform: google_travel_time
+#  name: device_ryan_to_work
+#  api_key: !secret google_api_dist
+#  origin: device_tracker.fry
+#  destination: zone.thales
+#  scan_interval: 30
   
   ### Chelsea ###
   # device_tracker.pixel_3
-- platform: google_travel_time
-  name: chelsea_to_home
-  api_key: !secret google_api_dist
-  origin: zone.waterloo
-  destination: zone.home
-  scan_interval: 15
+#- platform: google_travel_time
+#  name: chelsea_to_home
+#  api_key: !secret google_api_dist
+#  origin: zone.waterloo
+#  destination: zone.home
+#  scan_interval: 30
   
-- platform: google_travel_time
-  name: chelsea_to_work
-  api_key: !secret google_api_dist
-  origin: zone.home
-  destination: zone.waterloo
-  scan_interval: 15
+#- platform: google_travel_time
+#  name: chelsea_to_work
+#  api_key: !secret google_api_dist
+#  origin: zone.home
+#  destination: zone.waterloo
+#  scan_interval: 30
   
 - platform: waze_travel_time
   origin: zone.waterloo
