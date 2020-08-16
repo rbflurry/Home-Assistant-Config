@@ -140,7 +140,11 @@ automation:
               value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
     action:
       - service: homeassistant.turn_on
-        entity_id: light.wink_led_strip_bed
+        entity_id: light.bed_wled
         data:
          brightness_pct: 100
          color_name: orange
+      - service: wled.effect
+        entity_id: light.bed_wled
+        data: 
+          effect: twinklefox

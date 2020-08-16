@@ -63,7 +63,7 @@
 
 ######################################################
 
-- platform: mqtt  
+- platform: mqtt
   state_topic: "stat/sonoff_basement/POWER1"  
   name: "front_door" 
   device_class: door

@@ -35,6 +35,7 @@ core.*
 OZW_Log.txt
 home-assistant.log
 home-assistant_v2.db
+android/*
 *.db-journal
 *.db-shm
 *.db-wal
