@@ -81,7 +81,7 @@
     - type: load_15m
     - type: disk_use
       arg: /
-  scan_interval: 60
+  scan_interval: 120
 
 - platform: time_date
   display_options:

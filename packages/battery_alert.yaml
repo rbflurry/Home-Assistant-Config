@@ -435,7 +435,7 @@ automation:
       data:
         entity_id: input_boolean.low_batteries
     - service: persistent_notification.create
-      data_template:
+      data:
         title: "Low Battery Levels"
         notification_id: low_battery_alert
         message: &message >
@@ -520,13 +520,13 @@ automation:
       value_template: *low_battery_check
     - condition: template
       value_template: "{{ states.input_select.notifier_format.state == 'Default' }}"
-    - service_template: >
+    - service: >
         {% if states.input_text.notifier_name.state != "" %}
           {{ states.input_text.notifier_name.state }}
         {% else %}
           notify.notify
         {% endif %}
-      data_template:
+      data:
         title: "Low Battery Levels"
         message: *message
 
@@ -546,13 +546,13 @@ automation:
       value_template: *low_battery_check
     - condition: template
       value_template: "{{ states.input_select.notifier_format.state == 'Slack' }}"
-    - service_template: >
+    - service: >
         {% if states.input_text.notifier_name.state != "" %}
           {{ states.input_text.notifier_name.state }}
         {% else %}
           notify.notify
         {% endif %}
-      data_template:
+      data:
         message: "Low Battery Levels"
         data:
           attachments:
@@ -592,7 +592,7 @@ automation:
           value_template: "{{ trigger.event.data.new_state.attributes['Battery numeric'] is defined }}"
   action:
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "homeassistant/sensor/{{ trigger.event.data.entity_id.split('.')[1] }}_battery/config"
         retain: true
         payload: &config_payload >-
@@ -635,7 +635,7 @@ automation:
             "json_attributes_topic": "homeassistant/sensor/{{ trigger.event.data.entity_id.split('.')[1] }}_battery/attributes"
           }
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "homeassistant/sensor/{{ trigger.event.data.entity_id.split('.')[1] }}_battery/state"
         retain: true
         payload: >-
@@ -660,7 +660,7 @@ automation:
             {%- endif %}
           }
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "homeassistant/sensor/{{ trigger.event.data.entity_id.split('.')[1] }}_battery/attributes"
         retain: true
         payload: >-
@@ -692,7 +692,7 @@ automation:
       seconds: 00
   action:
     - service: group.set
-      data_template:
+      data:
         object_id: "battery_status"
         entities: >-
           {%- for item in states.sensor if (
@@ -728,18 +728,18 @@ automation:
       value_template: "{{ 'homeassistant/sensor/' in states.input_text.delete_battery_sensor.state }}"
   action:
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "{{ states.input_text.delete_battery_sensor.state }}"
         retain: true
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "{{ states.input_text.delete_battery_sensor.state }}/attributes"
         retain: true
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "{{ states.input_text.delete_battery_sensor.state }}/state"
         retain: true
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "{{ states.input_text.delete_battery_sensor.state }}/config"
         retain: true

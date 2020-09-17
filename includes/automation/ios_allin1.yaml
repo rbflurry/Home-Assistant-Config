@@ -6,7 +6,7 @@
    condition: template
    value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'ALLINONE')}}"
   action:
-    - service_template: >-
+    - service: >-
         {% set domain = (trigger.event.data['action_data']['entity_id'].split('.')[0]) %}
         {% set function = (trigger.event.data.actionName.split('_')[1]) %}
         {% set entity_id = (trigger.event.data['action_data']['entity_id']) %}
@@ -33,11 +33,11 @@
         {% else -%}
         Invalid Domain:{{domain}} Function: {{function}} or entity:{{entity_id}}
         {% endif -%}
-      data_template:
+      data:
        entity_id: "{{trigger.event.data['action_data']['entity_id']}}"
 
     - service: persistent_notification.create
-      data_template:
+      data:
         title: 5
         message: >
          {{trigger.event.data['action_data']['entity_id']}}

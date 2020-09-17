@@ -94,7 +94,7 @@ automation:
     condition: []
     action:
     - service: script.timer_x_execute
-      data_template:
+      data:
         timer: '{{trigger.event.data.entity_id}}'
         
 script:
@@ -104,7 +104,7 @@ script:
     - service: script.timer_x_update_task_message
     # start timer
     - service: timer.start
-      data_template:
+      data:
         entity_id: >-
           {{-"timer."-}}{{- states("input_select.timer_list") -}}
         duration: >-
@@ -113,7 +113,7 @@ script:
   timer_x_execute:
     sequence:
     # execute recorded action
-    - service_template: >-
+    - service: >-
         {%- if not timer -%}
           {%- set timer = 'timer.timer_1' -%}
         {%- endif -%}
@@ -122,7 +122,7 @@ script:
         {%- set action = states(read_action).split(' ') -%}
         {% set domain_name = action[1].split('.') %}
         {{- domain_name[0] -}} {{-'.'-}} {{- action[0] -}}
-      data_template:
+      data:
         entity_id: >-
           {%- if not timer -%}
             {%- set timer = 'timer.timer_0' -%}
@@ -133,7 +133,7 @@ script:
           {{-ent_id[1]-}}
     # clear stored action
     - service: input_text.set_value
-      data_template:
+      data:
           entity_id: >-
             {%- if not timer -%}
               {%- set timer = 'timer.timer_0' -%}
@@ -146,12 +146,12 @@ script:
     sequence:
       # cancel timer
     - service: timer.cancel
-      data_template:
+      data:
         entity_id: >-
           {{-"timer."-}}{{- states("input_select.timer_list") -}}
     # clear stored action
     - service: input_text.set_value
-      data_template:
+      data:
           entity_id: >-
             {%- if not timer -%}
               {%- set timer = 'timer.timer_0' -%}
@@ -164,6 +164,6 @@ script:
     sequence:
     # read action to perform at end of timer
     - service: input_text.set_value
-      data_template:
+      data:
           entity_id: '{{"input_text."}}{{ states("input_select.timer_list") }}{{"_task"}}'
           value: '{{states("input_select.timer_to_state")}}{{" "}}{{ states("input_select.timer_entity_id") }}'

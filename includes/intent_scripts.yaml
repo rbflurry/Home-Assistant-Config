@@ -11,7 +11,7 @@ WhereAreWeIntent:
 LocateIntent:
   action:
     service: notify.notify
-    data_template:
+    data:
      message: The location of {{ User }} has been queried via Alexa.
   speech:
    text: >
@@ -31,7 +31,7 @@ LocateIntent:
 ActivateSceneIntent:
   action:
     service: scene.turn_on
-    data_template:
+    data:
      entity_id: scene.{{ Scene | replace(" ", "_") }}
   speech:
     text: !include alexa_confirm.yamll

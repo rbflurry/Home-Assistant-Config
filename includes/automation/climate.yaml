@@ -14,7 +14,7 @@
        state: 'closed'
   action:
     - service: notify.mobile_app_ryan_iphone
-      data_template:
+      data:
         title: 'Colder outside than inside set temp.'
         message: >
           Outside temp is {{ states.sensor.dark_sky_temperature.state }} and inside set temp is {{ states.input_number.climate_set_temp.state }} Cool is off
@@ -41,7 +41,7 @@
        state: 'closed'
   action:
     - service: notify.mobile_app_ryan_iphone
-      data_template:
+      data:
         title: 'Hotter outside than inside set temp.'
         message: >
           Outside temp is {{ states.sensor.dark_sky_temperature.state }} and inside set temp is {{ states.input_number.climate_set_temp.state }} Cool is on
@@ -61,7 +61,7 @@
     value_template: "{{ states.sensor.climate_set_temp.state != 'None' }}"
   action:
     service: input_number.set_value
-    data_template:
+    data:
       entity_id: input_number.climate_set_temp
       value: '{{  states.sensor.climate_set_temp.state  }}'
       

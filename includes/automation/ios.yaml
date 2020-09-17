@@ -15,17 +15,17 @@
 #        value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
     - service: notify.file
-      data_template:
+      data:
         message: >
          {{trigger.from_state}}
         title: "from"
     - service: notify.file
-      data_template:
+      data:
         message: >
          {{trigger.to_state}}
         title: "to"
     - service: notify.ios_ryans_iphone_app2
-      data_template:
+      data:
         title: "You are arriving home!"
         message: >
           {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
@@ -69,13 +69,13 @@
    value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
 #    -  service: persistent_notification.create
-#       data_template:
+#       data:
 #         message: >
 #          {{trigger.from_state}}
 #          {{trigger.to_state}}
 #         title: "Custom subject"
     - service: notify.ios_ryans_iphone_app2
-      data_template:
+      data:
         title: "You are leaving the house!"
         message: >
           {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
@@ -110,14 +110,14 @@
    condition: template
    value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'GARAGE')}}"
   action:
-   service_template: >-
+   service: >-
      {% if (trigger.event.data.actionName.split('_')[1] == 'OPEN') %}
        cover.open_cover
      {% elif (trigger.event.data.actionName.split('_')[1] == 'CLOSE') %}
        cover.close_cover
      {% else %}
      {% endif %}
-   data_template:
+   data:
     entity_id: >-
      {% if (trigger.event.data.actionName.split('_')[2] == 'FIRST') %}
       cover.myq_first_bay, cover.wink_first_bay
@@ -142,12 +142,9 @@
     entity_id: device_tracker.chelseas_iphone_app
     from: 'not_home'
     to: 'home'
-#  condition:
-#   condition: template
-#   value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
     service: notify.ios_chelseas_iphone_app
-    data_template:
+    data:
       title: "You are arriving home!"
       message: >
         {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
@@ -184,7 +181,7 @@
    value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
     service: notify.ios_chelseas_iphone_app
-    data_template:
+    data:
       title: "You are leaving the house!"
       message: >
         {% for entity in states.group.garage.attributes.entity_id if is_state(entity, 'closed')-%}
@@ -220,7 +217,7 @@
 #   value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'GARAGE')}}"
   action:
     -  service: persistent_notification.create
-       data_template:
+       data:
          message: >
           {{(trigger.event.data.actionName)}}
           {{(trigger.event.data)}}

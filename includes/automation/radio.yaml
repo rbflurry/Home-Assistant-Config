@@ -4,7 +4,7 @@
       entity_id: input_select.radio_station
   action:
     - service: media_player.play_media
-      data_template:
+      data:
         entity_id: >
          {% if is_state("input_select.speakers", "Garage") %}
             media_player.kodi_garage

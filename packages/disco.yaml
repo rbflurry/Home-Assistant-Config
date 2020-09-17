@@ -22,7 +22,7 @@
 #        set_speed: #Optional
 #          service: script.turn_on
 #          entity_id: script.tv_disco
-#          data_template:
+#          data:
 #            variables:
 #              speed: "{{ speed }}"
 #        speeds: #Optional
@@ -36,7 +36,7 @@ script:
     alias: tv disco
     sequence:
       - service: light.turn_on
-        data_template:
+        data:
           entity_id: light.wink_led_strip_tv
           brightness_pct: 50
           color_name: >

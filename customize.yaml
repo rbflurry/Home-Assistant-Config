@@ -101,11 +101,6 @@ automation.persistence_subscribe_select_option:
   persistent: false
 automation.persistence_subscribe_select_value:
   persistent: false
-switch.esp6:
-  friendly_name: Upstairs Fan
-  icon: mdi:fan
-switch.esp4:
-  friendly_name: Garage Attic Fan
 input_boolean.chicken_water_automations:
   icon: mdi:water
 switch.side_spigot:

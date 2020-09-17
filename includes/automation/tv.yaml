@@ -46,7 +46,7 @@
     state: 'on'
   action:
     - service: light.turn_on
-      data_template:
+      data:
         entity_id: light.wink_led_strip_tv
         brightness_pct: 50
         color_name: >

@@ -28,7 +28,7 @@
      data:
        tone: alert
    - service: notify.hallway
-     data_template:
+     data:
        message: > 
         {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
 

@@ -40,7 +40,7 @@
       state: 'off'
   action:
    -  service: notify.ios_group
-      data_template:
+      data:
  #       title: '{{ "\ud83d\udc14" }}Chicken Coop{{ "\ud83d\udc14" }}'
         title: "\U0001F414 Chicken Coop \U0001F414" 
  
@@ -81,7 +81,7 @@
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
       timeout: 00:00:15
     - service: notify.telegram_group
-      data_template:
+      data:
         title: "\U0001F414 Chicken Door Trigger \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
@@ -114,12 +114,14 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_automations
+    - service: homeassistant.turn_off
+      entity_id: automation.chicken_coop_door_lockout
     - service: cover.close_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
       timeout: 00:00:15
     - service: notify.telegram_group
-      data_template:
+      data:
         title: "\U0001F414 Chicken Door Closed \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
@@ -151,7 +153,7 @@
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
       timeout: 00:00:15
     - service: notify.telegram_group
-      data_template:
+      data:
         title: "\U0001F414 Last Call - Chicken Door \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'open') %}
@@ -169,7 +171,7 @@
 #      entity_id: cover.chicken_door
 #      state: 'open'
     - service: notify.telegram_group
-      data_template:
+      data:
         title: "\U0001F414 Last Call - Chicken Door \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
@@ -182,7 +184,7 @@
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - service: homeassistant.turn_off
-      data_template: 
+      data: 
         entity_id: >-
           {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.4chpro_2, input_boolean.chicken_door_automations
           {% else %} light.null
@@ -191,7 +193,7 @@
       entity_id: cover.chicken_door
       state: 'open'  
     - service: cover.close_cover
-      data_template: 
+      data: 
         entity_id: >
           {% if ( states.cover.chicken_door.state == 'open') -%}
             cover.chicken_door
@@ -203,7 +205,7 @@
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
       timeout: 00:00:15
     - service: notify.telegram_group
-      data_template:
+      data:
         title: "\U0001F414 Last Call - Chicken Door \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
@@ -239,7 +241,7 @@
       state: 'above_horizon'
   action:
     - service: notify.ios_group
-      data_template:
+      data:
         title: 'Warning - Chicken Door'
         message: >
           "The chicken door did not open"
@@ -295,7 +297,7 @@
    condition: template
    value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'CHICKEN')}}"
   action:
-   service_template: >-
+   service: >-
      {% if (trigger.event.data.actionName.split('_')[1] == 'OPEN' ) and ( states.cover.chicken_door.state == 'closed')   %}
        cover.open_cover
      {% elif (trigger.event.data.actionName.split('_')[1] == 'CLOSE' ) and ( states.cover.chicken_door.state == 'open')  %}
@@ -333,7 +335,7 @@
       event: start
   action:
     - service: climate.set_temperature
-      data_template:
+      data:
         entity_id: climate.brooder
         temperature: '{{states.sensor.brooder_target_temp.state | int }}'
 

@@ -8,7 +8,7 @@
         service: create
   action:
     - service: notify.telegram_ryan
-      data_template:
+      data:
         message: >-
           {% set message = trigger.event.data.service_data.message %}
           {% if 'login attempt' in message|lower %}
@@ -28,15 +28,15 @@
    value_template: "{{(trigger.event.data.data.split('_')[0] == '/CHICKEN')}}"
   action:
   - service: telegram_bot.answer_callback_query
-    data_template:
+    data:
       callback_query_id: '{{ trigger.event.data.id }}'
       message: 'OK'
   - service: telegram_bot.edit_replymarkup
-    data_template:
+    data:
       message_id: '{{ trigger.event.data.message.message_id }}'
       chat_id: '{{ trigger.event.data.user_id }}'
       inline_keyboard: []
-  - service_template: >-
+  - service: >-
      {% if (trigger.event.data.data.split('_')[1] == 'OPEN' ) and ( states.cover.chicken_door.state == 'closed')   %}
        cover.open_cover
      {% elif (trigger.event.data.data.split('_')[1] == 'CLOSE' ) and ( states.cover.chicken_door.state == 'open')  %}
@@ -57,7 +57,7 @@
    value_template: "{{(trigger.event.data.data.split('_')[0] == '/CHICKEN')}}"
   action:
     -  service: persistent_notification.create
-       data_template:
+       data:
          message: >
           {{(trigger.event.data.data)}}
 #          {{(trigger.event.data)}}
@@ -76,7 +76,7 @@
       to: 'on'
   action:
     - service: notify.telegram_ryan
-      data_template:
+      data:
         title: "\U0001F414 Last Call - Chicken Door Closed \U0001F414"
         message: >
           {% if is_state('cover.chicken_door', 'closed') %}
@@ -110,10 +110,10 @@
       {%- endfor -%}
   action:
     - service: conversation.process
-      data_template:
+      data:
         text: '{{ trigger.event.data.text|lower }}'
     - service: telegram_bot.send_message
-      data_template:
+      data:
         message: >-
           {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
           OK, {{ trigger.event.data.text|lower|replace('turn','turning') }}.

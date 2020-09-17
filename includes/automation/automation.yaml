@@ -32,7 +32,7 @@
 #    event_type: ios.notification_action_fired
 #  action:
 #   service: notify.ios_ryans_iphone_app
-#   data_template:
+#   data:
 #      title: 'A state changed'
 #      message: >
 #        {{ trigger.event.data.actionName }}.

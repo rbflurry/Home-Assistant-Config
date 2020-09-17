@@ -53,6 +53,6 @@ automation:
       entity_id: input_number.fan_min_on_time
     action:
     - service: ecobee.set_fan_min_on_time
-      data_template:
+      data:
          fan_min_on_time: '{{ states.input_number.fan_min_on_time.state | int }}'
          

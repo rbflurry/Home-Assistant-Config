@@ -9,7 +9,7 @@
    state: 'not_home'
   action:
     - service: notify.everyone_group
-      data_template:
+      data:
          title: 'Something happened at home'
          message: >
            No one is home and {{ trigger.to_state.name }} was opened
@@ -29,7 +29,7 @@
        {{ is_state(new, 'off') }}
       timeout: 00:00:05
     - service: notify.everyone_group
-      data_template:
+      data:
         title: Something happened at home
         message: >
           {% set new = trigger.entity_id %}
@@ -46,7 +46,7 @@
        {% set new = trigger.entity_id %}
        {{ is_state(new, 'off') }}
     - service: notify.everyone_group
-      data_template:
+      data:
        title: Something happened at home
        message: >
          No one is home and {{ trigger.to_state.name }} was closed
@@ -60,13 +60,13 @@
      minutes: 5
   action:
     - service: notify.everyone_group
-      data_template:
+      data:
         title: 'Door Left Open'
         message: >
           {{ trigger.to_state.name }} is open for more than 5 minutes
     - wait_template: "{{ is_state(trigger.entity_id, 'off') }}"
     - service: notify.everyone_group
-      data_template:
+      data:
         title: 'Door Now closed'
         message: >
           {{ trigger.to_state.name }} is now closed
@@ -82,7 +82,7 @@
 #   state: 'on'
 #  action:
 #   service: notify.ios_ryans_iphone_app
-#   data_template:
+#   data:
 #          message: >
 #            {% if is_state('binary_sensor.wink_hub', 'on') %}
 #              Wink Hub is On
@@ -115,7 +115,7 @@
       above: 90
   action:
    service: notify.telegram_ryan
-   data_template:
+   data:
       title: 'A state changed'
       message: >
         {{ trigger.to_state.name }} is {{ trigger.to_state.state }}

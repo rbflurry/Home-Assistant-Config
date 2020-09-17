@@ -16,7 +16,7 @@
       state: 'armed_away'
   action:
    service: notify.telegram_ryan
-   data_template:
+   data:
       title: 'Something happened at home'
       message: >
         {% set door = trigger.entity_id.split('.')[1] | capitalize %}

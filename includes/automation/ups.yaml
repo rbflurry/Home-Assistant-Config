@@ -4,7 +4,7 @@
       entity_id: sensor.syno_status_data
   action:
    service: notify.telegram_group
-   data_template:
+   data:
           message: >
             {% if is_state('sensor.syno_status_data', 'OL') %}
               UPS is On

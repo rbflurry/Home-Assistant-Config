@@ -4,7 +4,7 @@
 #    entity_id: device_tracker.ryans_iphone_app2
 #  action:
 #    service: notify.ios_ryans_iphone_app
-#    data_template:
+#    data:
 #      message: >
 #        {{trigger.from_state}}
 #        {{trigger.to_state}}
@@ -26,7 +26,7 @@
     entity_id: device_tracker.ryans_iphone_app2
   action:
     service: notify.ios_ryans_iphone_app
-    data_template:
+    data:
       message: >
          "your location"
 #        {{trigger.from_state}}
@@ -50,7 +50,7 @@
     entity_id: device_tracker.ryans_iphone_app2
   action:
     service: notify.ios_ryans_iphone_app
-    data_template:
+    data:
       message: >
         {{trigger.from_state}}
         {{trigger.to_state}}

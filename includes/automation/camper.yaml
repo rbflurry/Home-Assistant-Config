@@ -12,7 +12,7 @@
      for:
        minutes: 1
 #  action:
-#    service_template: >
+#    service: >
 #      {% if (states.sensor.camper_temp.state ) >= '80' %}
 #      homeassistant.turn_on
 #      {% else %}
@@ -22,7 +22,7 @@
 #      - switch.esp3
   action:
    -  service: notify.telegram_group
-      data_template:
+      data:
         title: 'Camper'
         message: >
           {{ trigger.to_state.name }} is {{ trigger.to_state.state }} and {{states.sensor.camper_humid.state}} humidity 

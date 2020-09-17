@@ -21,7 +21,7 @@
         event: smoke_detected
         key: chelsea, ryan
     - service: notify.everyone_group
-      data_template:
+      data:
         title: 'CO or Smoke Detected'
         message: >
           {% set door = trigger.entity_id.split('.')[1] | capitalize %}

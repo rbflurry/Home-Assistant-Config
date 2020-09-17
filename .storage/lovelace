@@ -96,7 +96,7 @@
                                     "entity": "switch.bathroom_fan"
                                 },
                                 {
-                                    "entity": "switch.esp6"
+                                    "entity": "switch.round_3"
                                 }
                             ],
                             "filter": {
@@ -207,6 +207,7 @@
                             },
                             "entities": [
                                 "cover.chicken_door",
+                                "automation.chicken_coop_door_lockout",
                                 "switch.4chpro_1",
                                 "input_boolean.chicken_bug_automations",
                                 "switch.4chpro_3",
@@ -216,9 +217,9 @@
                                 "input_boolean.chicken_light_dimming",
                                 "automation.chicken_sunset_light_on",
                                 "automation.chicken_pen_door_lockout",
-                                "input_boolean.chicken_water_automations",
                                 "switch.sensornode2_relay1",
-                                "light.ge_daylight_b1510014_level_on_off"
+                                "light.ge_daylight_b1510014_level_on_off",
+                                "input_boolean.chicken_water_automations"
                             ],
                             "filter": {
                                 "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
@@ -337,6 +338,55 @@
                     "title": "Chicken"
                 },
                 {
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "cover.myq_first_bay_2"
+                                },
+                                {
+                                    "entity": "cover.myq_second_bay_2"
+                                },
+                                {
+                                    "entity": "cover.myq_third_bay_2"
+                                },
+                                {
+                                    "entity": "binary_sensor.garage_entry_door"
+                                },
+                                {
+                                    "entity": "switch.esp6"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Garage Controls",
+                            "type": "entities"
+                        },
+                        {
+                            "entity": "camera.cam234",
+                            "show_name": false,
+                            "show_state": false,
+                            "type": "picture-entity"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "switch.traffic_light_green"
+                                },
+                                {
+                                    "entity": "switch.traffic_light_yellow"
+                                },
+                                {
+                                    "entity": "switch.traffic_light_red"
+                                }
+                            ],
+                            "title": "Traffic Light",
+                            "type": "entities"
+                        }
+                    ],
+                    "path": "garage_room",
+                    "title": "Garage"
+                },
+                {
                     "badges": [],
                     "cards": [
                         {
@@ -418,6 +468,19 @@
                             ],
                             "show_header_toggle": false,
                             "title": "Input number",
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "light.sengled_e11_g13_035c3bc7_1"
+                                },
+                                {
+                                    "entity": "light.sengled_e11_g13_035cb3f8_1"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Upstairs",
                             "type": "entities"
                         }
                     ],
@@ -650,55 +713,6 @@
                     ],
                     "path": "doors_view",
                     "title": "Doors"
-                },
-                {
-                    "cards": [
-                        {
-                            "entities": [
-                                {
-                                    "entity": "cover.myq_first_bay_2"
-                                },
-                                {
-                                    "entity": "cover.myq_second_bay_2"
-                                },
-                                {
-                                    "entity": "cover.myq_third_bay_2"
-                                },
-                                {
-                                    "entity": "binary_sensor.garage_entry_door"
-                                },
-                                {
-                                    "entity": "switch.esp4"
-                                }
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Garage Controls",
-                            "type": "entities"
-                        },
-                        {
-                            "entity": "camera.cam234",
-                            "show_name": false,
-                            "show_state": false,
-                            "type": "picture-entity"
-                        },
-                        {
-                            "entities": [
-                                {
-                                    "entity": "switch.traffic_light_green"
-                                },
-                                {
-                                    "entity": "switch.traffic_light_yellow"
-                                },
-                                {
-                                    "entity": "switch.traffic_light_red"
-                                }
-                            ],
-                            "title": "Traffic Light",
-                            "type": "entities"
-                        }
-                    ],
-                    "path": "garage_room",
-                    "title": "Garage"
                 },
                 {
                     "badges": [],

@@ -71,7 +71,7 @@
             value_template: "{{ trigger.event.data.entity_id.split('.')[0] == 'switch' }}"
     action:
       - service: mqtt.publish
-        data_template:
+        data:
           topic: "home-assistant/{{ trigger.event.data.entity_id|replace('.', '/') }}"
           payload: "{{ trigger.event.data.new_state.state }}"
           retain: true
@@ -98,8 +98,8 @@
       - condition: template
         value_template: "{{ not is_state(trigger.topic|replace('home-assistant/', '')|replace('/', '.'), trigger.payload) }}"
     action: &subscribe_action
-      - service_template: "{{ trigger.topic.split('/')[1] }}.turn_{{ trigger.payload|lower }}"
-        data_template:
+      - service: "{{ trigger.topic.split('/')[1] }}.turn_{{ trigger.payload|lower }}"
+        data:
           entity_id: "{{ trigger.topic|replace('home-assistant/', '')|replace('/', '.') }}"
 
   - alias: persistence_subscribe_select_option
@@ -110,8 +110,8 @@
         topic: home-assistant/input_select/+
     condition: *subscribe_condition
     action:
-      - service_template: "{{ trigger.topic.split('/')[1] }}.select_option"
-        data_template:
+      - service: "{{ trigger.topic.split('/')[1] }}.select_option"
+        data:
           entity_id: "{{ trigger.topic|replace('home-assistant/', '')|replace('/', '.') }}"
           option: "{{ trigger.payload }}"
 
@@ -123,7 +123,7 @@
         topic: home-assistant/input_number/+
     condition: *subscribe_condition
     action:
-      - service_template: "{{ trigger.topic.split('/')[1] }}.set_value"
-        data_template:
+      - service: "{{ trigger.topic.split('/')[1] }}.set_value"
+        data:
           entity_id: "{{ trigger.topic|replace('home-assistant/', '')|replace('/', '.') }}"
           value: "{{ trigger.payload }}"
