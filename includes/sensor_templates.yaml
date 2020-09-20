@@ -28,8 +28,8 @@
 - platform: template
   sensors:
     current_week:
-      entity_id: sensor.time
       value_template: >-
+        {% set dummy = states("sensor.date") %}
         {%- if (as_timestamp(now()) | timestamp_custom('%W', true) | int ) % 2 == 0 -%}
           Even Week (Week# {{ as_timestamp(now()) | timestamp_custom('%W', true) }})
         {%- else -%}
@@ -43,8 +43,8 @@
 - platform: template
   sensors:
     trash_day:
-      entity_id: sensor.time
       value_template: >-
+        {% set dummy = states("sensor.date") %}
         {%- set pickupDay = monday | lower -%}
         {%- macro day_of_week(timestamp) -%}
           {{ as_timestamp(timestamp)| timestamp_custom('%A', true) | lower }}
@@ -62,8 +62,8 @@
 - platform: template
   sensors:
     recycle_day:
-      entity_id: sensor.time
       value_template: >-
+        {% set dummy = states("sensor.date") %}
         {%- set pickupDay = monday | lower -%}
         {%- set evenWeekPickup = false %}
         {%- macro day_of_week(timestamp) -%}
@@ -159,9 +159,9 @@
       friendly_name: 'Sun Elevation'
       value_template: '{{states.sun.sun.attributes.elevation}}'
     chicken_age_batch1:
-      entity_id: sensor.time
       icon_template: 'mdi:calendar-clock'
       value_template: >-
+          {% set dummy = states("sensor.date") %}
           {%  set value = as_timestamp(utcnow()) - as_timestamp("2017-05-01T00:00:00-05:00")      %}
           {% set uptime = value | int %}
               {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -212,9 +212,9 @@
                 {%- endif -%}
               {%- endif -%}
     chicken_age_batch2:
-        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2017-11-09T00:00:00-05:00")      %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -268,9 +268,9 @@
                 {%- endif -%}
 
     chicken_age_batch3:
-        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2018-04-16T00:00:00-05:00")      %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -324,10 +324,10 @@
                 {%- endif -%}
                 
     chicken_age_batch4:
-        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         friendly_name: 'Guineas'
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2018-08-10T00:00:00-05:00")      %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -381,10 +381,10 @@
                 {%- endif -%}
 
     chicken_age_batch5:
-        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         friendly_name: 'Chicks 5'
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2018-12-10T00:00:00-05:00")      %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -438,10 +438,10 @@
                 {%- endif -%}
                 
     chicken_age_batch6:
-        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         friendly_name: 'Chicks 6'
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2019-02-04T00:00:00-05:00")      %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -495,10 +495,10 @@
                 {%- endif -%}
                 
     chicken_age_batch7:
-        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         friendly_name: 'Chicks 7'
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2019-04-15T00:00:00-05:00")      %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -552,10 +552,10 @@
                 {%- endif -%}
 
     chicken_age_batch8:
-        entity_id: sensor.time
         icon_template: 'mdi:calendar-clock'
         friendly_name: 'Chicks 8'
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {%  set value = as_timestamp(utcnow()) - as_timestamp("2019-06-19T00:00:00-05:00")      %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
@@ -610,9 +610,9 @@
 
     brooder_target_temp:
         friendly_name: 'Brooder Target Temp'
-        entity_id: sensor.time
         unit_of_measurement: °F
         value_template: >-
+            {% set dummy = states("sensor.date") %}
             {{(95-((as_timestamp(utcnow()) - as_timestamp("2019-04-15T00:00:00-05:00")) / 604800)|int * 5 )}}
             
     car_wash_clean:

@@ -86,6 +86,7 @@
 - platform: time_date
   display_options:
     - 'time'
+    - 'date'
 
 - platform: cert_expiry
   host: !secret ha_cert 

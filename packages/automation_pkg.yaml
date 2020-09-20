@@ -30,7 +30,6 @@ sensor:
   - platform: template
     sensors:
       total_automations_on:
-        entity_id: group.all_automations
         value_template: >-
           {% for state in states.automation if state.state == 'on' %}
           {% if loop.last %}
@@ -38,7 +37,6 @@ sensor:
           {% endif %}
           {% endfor %}
       total_automations_off:
-        entity_id: group.all_automations
         value_template: >-
           {% for state in states.automation if state.state == 'off' %}
           {% if loop.last %}
@@ -46,7 +44,6 @@ sensor:
           {% endif %}
           {% endfor %}
       total_automations:
-        entity_id: group.all_automations
         value_template: >-
           {% for state in states.automation %}
           {% if loop.last %}

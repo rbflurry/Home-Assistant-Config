@@ -38,8 +38,8 @@
 #    - platform: time
 #      seconds: '/10'
     - platform: time_pattern
-      minutes: 00
-      seconds: 00
+      minutes: 0
+      seconds: 0
   condition: 
     condition: state
     entity_id: light.wink_led_strip_tv

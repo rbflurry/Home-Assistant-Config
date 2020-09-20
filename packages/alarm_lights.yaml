@@ -2,19 +2,19 @@
 input_number:
   alarm_hour:
     name: Hour
-    icon: mdi:timer
+    icon: mdi:timer-outline
     min: 1
     max: 10
     step: 1
   alarm_minutes:
     name: Minutes
-    icon: mdi:timer
+    icon: mdi:timer-outline
     min: 0
     max: 59
     #step: 15
   alarm_second_alarm:
     name: Hallway Delay
-    icon: mdi:timer
+    icon: mdi:timer-outline
     min: 0
     max: 59
     #step: 15

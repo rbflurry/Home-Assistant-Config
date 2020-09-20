@@ -4,14 +4,14 @@
 input_number:
   auto_light_minutes:
     name: Minutes after sunset
-    icon: mdi:timer
+    icon: mdi:timer-outline
     initial: 30
     min: 0
     max: 120
     step: 10
   auto_light_duration:
     name: Duration hours
-    icon: mdi:timer
+    icon: mdi:timer-outline
     initial: 4
     min: 0
     max: 8

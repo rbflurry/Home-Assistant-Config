@@ -34,7 +34,7 @@ notify:
 input_number:
   fan_min_on_time:
     name: Fan On Time / Hour
-    icon: mdi:timer
+    icon: mdi:timer-outline
     initial: 15
     min: 0
     max: 55

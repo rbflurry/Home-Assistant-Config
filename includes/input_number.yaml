@@ -1,12 +1,12 @@
 chicken_hour:
   name: Hour Open
-  icon: mdi:timer
+  icon: mdi:timer-outline
   min: 5
   max: 20
   step: 1
 chicken_minutes:
   name: Minutes Open
-  icon: mdi:timer
+  icon: mdi:timer-outline
   min: 0
   max: 59
   step: 15
@@ -17,25 +17,25 @@ climate_set_temp:
   step: 1
 chicken_minutes_after_sunset:
   name: Sunset Offset
-  icon: mdi:timer
+  icon: mdi:timer-outline
   min: 0
   max: 59
   step: 1
 chicken_last_call_after_close:
   name: Last Call
-  icon: mdi:timer
+  icon: mdi:timer-outline
   min: 1
   max: 20
   step: 1
 chicken_minutes_before_sunrise:
   name: Sunrise Offset
-  icon: mdi:timer
+  icon: mdi:timer-outline
   min: -30
   max: 30
   step: 1
 bathroom_outlet_minutes:
   name: Bathroom Outlet Minutes
-  icon: mdi:timer
+  icon: mdi:timer-outline
   min: 0
   max: 59
   step: 1

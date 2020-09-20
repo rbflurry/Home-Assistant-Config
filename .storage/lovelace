@@ -1,4 +1,6 @@
 {
+    "version": 1,
+    "key": "lovelace",
     "data": {
         "config": {
             "title": "LilOld",
@@ -45,6 +47,9 @@
                                 },
                                 {
                                     "entity": "switch.wink_kitchen"
+                                },
+                                {
+                                    "entity": "light.jasco_products_14294_in_wall_smart_dimmer_level"
                                 },
                                 {
                                     "entity": "switch.wink_back_flood"
@@ -1340,7 +1345,5 @@
                 }
             ]
         }
-    },
-    "key": "lovelace",
-    "version": 1
+    }
 }
