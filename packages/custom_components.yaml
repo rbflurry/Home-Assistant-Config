@@ -53,8 +53,6 @@ image_processing:
 #    save_timestamped_file: True
 #    source:
 #      - entity_id: camera.deepstack_driveway_latest
-
-circadian_lighting:
   
 sensor:
   - platform: google_geocode
@@ -87,12 +85,19 @@ binary_sensor:
   - platform: car_wash
     weather: weather.dark_sky
 
+
+circadian_lighting:
 switch:
   - platform: circadian_lighting
+    name: hallway
     lights_rgb:
-      - light.wink_bed_room
       - light.wink_hallway
-      - light.wink_led_strip_bed
+  - platform: circadian_lighting
+    name: bedroom
+    lights_rgb:
+      - light.bed_room_overhead_2_07825c03_level_on_off
+      - light.bed_room_overhead_1_0359a396
+      - light.bed_room_overhead_3_08385c03_level_on_off
   - platform: circadian_lighting
     name: chicken
     lights_rgb:

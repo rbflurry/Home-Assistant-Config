@@ -86,7 +86,7 @@
                                     "entity": "switch.side_spigot"
                                 },
                                 {
-                                    "entity": "switch.circadian_lighting_circadian_lighting"
+                                    "entity": "switch.circadian_lighting_hallway"
                                 },
                                 {
                                     "entity": "light.ge_daylight_140015df_1"
@@ -99,9 +99,6 @@
                                 },
                                 {
                                     "entity": "switch.bathroom_fan"
-                                },
-                                {
-                                    "entity": "switch.round_3"
                                 }
                             ],
                             "filter": {
@@ -451,15 +448,6 @@
                         },
                         {
                             "entities": [
-                                "binary_sensor.wink_hallway_smoke_detector_smoke_detected",
-                                "binary_sensor.wink_hallway_smoke_detector_co_detected"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Smoke Detector",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
                                 "sensor.vent_temp",
                                 "sensor.vent_humidity"
                             ],
@@ -487,6 +475,23 @@
                             "show_header_toggle": false,
                             "title": "Upstairs",
                             "type": "entities"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "light.bed_room_overhead_zha_group_0x0003"
+                                },
+                                {
+                                    "entity": "light.bed_room_overhead_3_08385c03_level_on_off"
+                                },
+                                {
+                                    "entity": "light.bed_room_overhead_2_07825c03_level_on_off"
+                                },
+                                {
+                                    "entity": "light.bed_room_overhead_1_0359a396"
+                                }
+                            ]
                         }
                     ],
                     "path": "rooms",

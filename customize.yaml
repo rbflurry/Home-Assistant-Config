@@ -137,3 +137,7 @@ switch.sensornode2_relay2:
   friendly_name: Chicken Coop Door Switch
 binary_sensor.sn2_reed:
   device_class: door
+light.sengled_e11_g13_035c3bc7_1:
+  power_reset: 'true'
+light.wink_bed_room:
+  power_reset: 'true'
