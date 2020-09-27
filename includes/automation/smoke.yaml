@@ -20,6 +20,14 @@
       data:
         event: smoke_detected
         key: chelsea, ryan
+    - service: notify.twilio_call
+      data:
+        target:
+          - +12406728691
+          - +14105996687
+        message: >
+          {% set door = trigger.entity_id.split('.')[1] | capitalize %}
+          {{ door }} Triggered at Home, Repeat, {{ door }} Triggered at Home, Repeat, {{ door }} Triggered at Home
     - service: notify.everyone_group
       data:
         title: 'CO or Smoke Detected'

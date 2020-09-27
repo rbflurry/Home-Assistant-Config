@@ -2,8 +2,7 @@
   trigger:
     platform: time_pattern
     # You can also match on interval. This will match every 5 minutes
-    minutes: '/59'
-    seconds: 0
+    minutes: "1"
   condition:
     condition: state
     entity_id: device_tracker.livingroomtv

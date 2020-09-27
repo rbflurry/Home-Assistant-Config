@@ -54,3 +54,7 @@
     platform: group
     services:
       - service: telegram_ryan
+  - name: twilio_call
+    platform: twilio_call
+    from_number: +14123142057
+    
