@@ -334,7 +334,7 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
- - platform: mqtt
+- platform: mqtt
   name: "esp8"
   unique_id: esp8
   state_topic: "stat/esp8/RESULT"
