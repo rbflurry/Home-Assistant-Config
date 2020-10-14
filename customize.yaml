@@ -125,8 +125,6 @@ switch.4chpro_4:
   icon: mdi:light-switch
 switch.powerpivot1_1:
   friendly_name: Carriage Lights
-switch.esp5:
-  friendly_name: Christmas Tree
 person.ryan:
   entity_picture: https://graph.facebook.com/1228860068/picture?type=normal
 person.chelsea:

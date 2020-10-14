@@ -393,10 +393,15 @@
                     "cards": [
                         {
                             "entities": [
-                                "device_tracker.livingroomtv",
-                                "light.wink_living_room",
-                                "device_tracker.xboxsystemosliloldwestmdinfo",
-                                "device_tracker.rb360liloldwestmdinfo"
+                                {
+                                    "entity": "device_tracker.livingroomtv"
+                                },
+                                {
+                                    "entity": "device_tracker.xboxsystemosliloldwestmdinfo"
+                                },
+                                {
+                                    "entity": "device_tracker.rb360liloldwestmdinfo"
+                                }
                             ],
                             "show_header_toggle": false,
                             "title": "Living Room",
@@ -417,11 +422,18 @@
                         },
                         {
                             "entities": [
-                                "light.wink_hallway",
-                                "light.wink_living_room",
-                                "light.wink_bed_room",
-                                "light.wink_office",
-                                "light.wink_led_strip_bed"
+                                {
+                                    "entity": "light.wink_hallway"
+                                },
+                                {
+                                    "entity": "light.wink_bed_room"
+                                },
+                                {
+                                    "entity": "light.wink_office"
+                                },
+                                {
+                                    "entity": "light.wink_led_strip_bed"
+                                }
                             ],
                             "show_header_toggle": false,
                             "title": "Indoor Lights",
@@ -430,7 +442,7 @@
                         {
                             "entities": [
                                 {
-                                    "entity": "light.wink_front_porch"
+                                    "entity": "switch.wink_front_porch_switch"
                                 },
                                 {
                                     "entity": "switch.wink_back_flood"
