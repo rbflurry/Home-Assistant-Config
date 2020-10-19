@@ -347,3 +347,16 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
+- platform: mqtt
+  name: "esp9"
+  unique_id: esp9
+  state_topic: "stat/esp9/RESULT"
+  value_template: '{{ value_json["POWER"] }}'
+  command_topic: "cmnd/esp9/POWER"
+  availability_topic: "tele/esp8/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
