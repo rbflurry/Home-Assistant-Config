@@ -7,7 +7,7 @@
   alias: Bathroom Vent
   description: ''
   trigger:
-  - above: '90'
+  - above: '95'
     entity_id: sensor.bathroom_humid
     for: 00:03:00
     platform: numeric_state
@@ -16,6 +16,7 @@
   - data: {}
     entity_id: switch.bathroom_fan
     service: switch.turn_on
+  mode: single
 - id: '1584914187902'
   alias: Bathroom Vent Off
   description: ''
