@@ -139,3 +139,11 @@ light.sengled_e11_g13_035c3bc7_1:
   power_reset: 'true'
 light.wink_bed_room:
   power_reset: 'true'
+switch.esp6: {}
+switch.esp5: {}
+wink.siren1:
+  tags: outside, inside, other
+switch.wink_siren1:
+  tag: '[bittner, cow, dog]'
+wink.siren2:
+  tags: outside, inside

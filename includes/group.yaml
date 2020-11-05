@@ -53,4 +53,11 @@ processes:
   entities:
     - binary_sensor.template_wink_hub
     - switch.wink_zwaveoutlet
+    
+tuya:
+  name: tuya
+  entities:
+    - switch.07146036500291064c91
+    - switch.707034445002911dc0db
+    - switch.071460365002911e81da
 
