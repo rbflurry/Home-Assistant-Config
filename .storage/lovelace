@@ -99,6 +99,9 @@
                                 },
                                 {
                                     "entity": "switch.bathroom_fan"
+                                },
+                                {
+                                    "entity": "input_boolean.fox_hunt"
                                 }
                             ],
                             "filter": {

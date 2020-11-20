@@ -25,6 +25,9 @@
     - condition: state
       entity_id: timer.back_flood
       state: 'active'
+    - condition: state
+      entity_id: input_boolean.fox_hunt
+      state: 'off'
   action:
 #    - service: homeassistant.turn_off
 #      entity_id: script.timer_flood_off
@@ -49,15 +52,18 @@
       from: 'on'
       to: 'off'
   condition:
-     - condition: state
-       entity_id: sun.sun
-       state: 'below_horizon'
-     - condition: state
-       entity_id: switch.wink_back_flood
-       state: 'off'
-     - condition: state
-       entity_id: binary_sensor.still_dark
-       state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: state
+      entity_id: switch.wink_back_flood
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.still_dark
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.fox_hunt
+      state: 'off'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.wink_back_flood
@@ -66,8 +72,8 @@
       data:
         duration: '00:10:00'
       
-      
-      
+   
+   
 - alias: Garage open turn flood light on for 10 minutes unless it is already on
   trigger:
     - platform: state
@@ -75,15 +81,18 @@
       from: 'closed'
       to: 'open'
   condition:
-     - condition: state
-       entity_id: sun.sun
-       state: 'below_horizon'
-     - condition: state
-       entity_id: switch.wink_back_flood
-       state: 'off'
-     - condition: state
-       entity_id: binary_sensor.still_dark
-       state: 'on'
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: state
+      entity_id: switch.wink_back_flood
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.still_dark
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.fox_hunt
+      state: 'off'
   action:
     - service: homeassistant.turn_on
       entity_id: switch.wink_back_flood
@@ -91,20 +100,3 @@
       entity_id: timer.back_flood
       data:
         duration: '00:10:00'
-      
-      
-      
-      
-#- alias: Fix the back flood light switch
-#  trigger:
-#    - platform: state
-#      entity_id: switch.wink_back_flood
-#      from: 'on'
-#      to: 'off'
-#  condition:
-#     - condition: state
-#       entity_id: script.timer_flood_off
-#       state: 'on'
-#  action:
-#     - service: homeassistant.turn_on
-#       entity_id: switch.wink_back_flood
