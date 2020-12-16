@@ -11,7 +11,7 @@
     target_sensor: sensor.sn2_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0
-    initial_hvac_mode: "cool"
+    initial_hvac_mode: "off"
     ac_mode: true
     target_temp: 80
     min_cycle_duration:
@@ -22,7 +22,7 @@
     target_sensor: sensor.sn2_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0
-    initial_hvac_mode: "off"
+    initial_hvac_mode: "heat"
     target_temp: 36
     min_temp: -2
     min_cycle_duration:

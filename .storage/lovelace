@@ -101,6 +101,9 @@
                                     "entity": "switch.bathroom_fan"
                                 },
                                 {
+                                    "entity": "switch.centralite_3210_l_0ca5e10a_1"
+                                },
+                                {
                                     "entity": "input_boolean.fox_hunt"
                                 }
                             ],
