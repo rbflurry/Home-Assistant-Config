@@ -143,8 +143,10 @@ automation:
         entity_id: light.bed_wled
         data:
          brightness_pct: 100
-         color_name: orange
+#         color_name: orange
       - service: wled.effect
         entity_id: light.bed_wled
         data: 
-          effect: twinklefox
+          effect: sunrise
+          intensity: 1
+          speed: 150

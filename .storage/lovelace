@@ -105,6 +105,12 @@
                                 },
                                 {
                                     "entity": "input_boolean.fox_hunt"
+                                },
+                                {
+                                    "entity": "switch.esp7"
+                                },
+                                {
+                                    "entity": "input_number.woodstove_timer"
                                 }
                             ],
                             "filter": {
@@ -585,14 +591,6 @@
                             "entity": "climate.woodstove",
                             "name": "Wood Stove",
                             "type": "thermostat"
-                        },
-                        {
-                            "entities": [
-                                {
-                                    "entity": "switch.esp6"
-                                }
-                            ],
-                            "type": "entities"
                         }
                     ],
                     "path": "climates",
