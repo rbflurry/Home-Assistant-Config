@@ -148,5 +148,5 @@ automation:
         entity_id: light.bed_wled
         data: 
           effect: sunrise
-          intensity: 1
-          speed: 150
+          intensity: 120
+          speed: 5
