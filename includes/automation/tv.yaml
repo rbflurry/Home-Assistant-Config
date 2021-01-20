@@ -27,7 +27,7 @@
       entity_id: sun.sun
       state: 'below_horizon'
     - condition: state
-      entity_id: light.wink_living_room
+      entity_id: light.osram_lightify_a19_tunable_white_00094db0_3
       state: 'on'
   action:
    service: homeassistant.turn_on

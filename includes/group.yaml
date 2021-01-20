@@ -29,7 +29,8 @@ indoor_lights:
   name: Indoor Lights
   entities:
     - light.wink_hallway
-    - light.wink_living_room
+    - light.ge_daylight_140015df_1
+    - light.osram_lightify_a19_tunable_white_00094db0_3
     - light.wink_bed_room
     - light.wink_office
     - light.wink_led_strip_bed
@@ -38,7 +39,7 @@ indoor_lights:
 outdoor_lights:
   name: Outdoor Lights
   entities:
-    - light.wink_front_porch
+    - switch.wink_front_porch_switch
     - switch.wink_back_flood
     - switch.on_off_sonoff2
   

@@ -19,11 +19,11 @@
   - platform: generic_thermostat
     name: Chicken Water Heater
     heater: switch.4chpro_3
-    target_sensor: sensor.sn2_temperature
+    target_sensor: sensor.dark_sky_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0
     initial_hvac_mode: "heat"
-    target_temp: 36
+    target_temp: 38
     min_temp: -2
     min_cycle_duration:
       minutes: 5

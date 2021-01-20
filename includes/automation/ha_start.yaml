@@ -79,7 +79,7 @@
       event: start
   condition:
      - condition: state
-       entity_id: light.wink_front_porch
+       entity_id: switch.wink_front_porch_switch
        state: 'on'
   action:
     - service: timer.start

@@ -30,3 +30,24 @@
   - data: {}
     entity_id: switch.bathroom_fan
     service: switch.turn_off
+- id: '1611147472037'
+  alias: Snooze Alarm
+  description: ''
+  trigger:
+  - platform: event
+    event_type: shortcut_event
+    event_data:
+      actionname: snooze-alarm
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    data:
+      brightness_pct: 100
+    entity_id: light.bed_wled
+  - service: wled.effect
+    data:
+      effect: sunrise
+      intensity: 120
+      speed: 5
+    entity_id: light.bed_wled
+  mode: single

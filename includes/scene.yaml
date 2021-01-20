@@ -3,7 +3,7 @@
   entities:
     light.wink_hallway: off
     light.wink_bed_room: off
-    light.wink_front_porch: off
+    switch.wink_front_porch_switch: off
     switch.wink_back_flood: off
     light.wink_led_strip_bed: off
     input_boolean.good_night: on
@@ -22,13 +22,19 @@
 - id: tv_time
   name: tv_time
   entities:
-    light.wink_living_room:
+    light.ge_daylight_140015df_1:
+      state: on
+      brightness: 1
+    light.osram_lightify_a19_tunable_white_00094db0_3:
       state: on
       brightness: 1
 - id: tv_time_over
   name: tv_time_over
   entities:
-    light.wink_living_room:
+    light.ge_daylight_140015df_1:
+      state: on
+      brightness: 255
+    light.osram_lightify_a19_tunable_white_00094db0_3:
       state: on
       brightness: 255
 - id: leaving_home
@@ -38,10 +44,10 @@
 - id: every_one_inside
   name: every_one_inside
   entities:
-    light.wink_front_porch: off
+    switch.wink_front_porch_switch: off
     switch.wink_back_flood: off
 - id: trash_time
   name: trash_time
   entities:
-    light.wink_front_porch: on
+    switch.wink_front_porch_switch: on
     switch.wink_back_flood: on

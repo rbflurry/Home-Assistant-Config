@@ -181,9 +181,9 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true 
-  
 - platform: mqtt
   name: "4chpro 1"
+  unique_id: 4chpro-1
   state_topic: "stat/sonoff4chpro/RESULT"
   value_template: '{{ value_json["POWER1"] }}'
   command_topic: "cmnd/sonoff4chpro/POWER1"
@@ -196,6 +196,7 @@
   retain: true
 - platform: mqtt
   name: "4chpro 2"
+  unique_id: 4chpro-2
   state_topic: "stat/sonoff4chpro/RESULT"
   value_template: '{{ value_json["POWER2"] }}'
   command_topic: "cmnd/sonoff4chpro/POWER2"
@@ -208,6 +209,7 @@
   retain: true
 - platform: mqtt
   name: "4chpro 3"
+  unique_id: 4chpro-3
   state_topic: "stat/sonoff4chpro/RESULT"
   value_template: '{{ value_json["POWER3"] }}'
   command_topic: "cmnd/sonoff4chpro/POWER3"
@@ -219,6 +221,7 @@
   payload_not_available: "Offline"
   retain: true
 - platform: mqtt
+  unique_id: 4chpro-4
   name: "4chpro 4"
   state_topic: "stat/sonoff4chpro/RESULT"
   value_template: '{{ value_json["POWER4"] }}'

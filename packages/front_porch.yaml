@@ -31,7 +31,7 @@ automation:
         entity_id: timer.front_porch
     action:
     - service: homeassistant.turn_off
-      entity_id: light.wink_front_porch
+      entity_id: switch.wink_front_porch_switch
 
 
 

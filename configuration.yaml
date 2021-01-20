@@ -101,20 +101,11 @@ shell_command:
   update_config: /root/.homeassistant/bin/pull_from_github.sh
 
 media_player:
-  - platform: androidtv
-    name: Fire TV 1
-    host: 192.168.47.215
-    adbkey: !secret adbkey
-#  - platform: alexa
-#    email: nevar
-#    password: never
-#    url: amazon.com
-#  - platform: cast
-#  - platform: kodi
-#    host: kodi-garage.
-#    username: kodi
-#    password: never
-#    name: kodi_garage
+#  - platform: androidtv
+#    name: Fire TV 1
+#    host: 192.168.47.215
+#    adbkey: !secret adbkey
+
 
 system_health:
 

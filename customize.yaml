@@ -117,9 +117,7 @@ switch.4chpro_2:
 switch.4chpro_1:
   friendly_name: Chicken Fan
   icon: mdi:fan
-switch.4chpro_3:
-  friendly_name: Bug Zapper
-  icon: mdi:bug
+switch.4chpro_3: {}
 switch.4chpro_4:
   friendly_name: Chicken Other Switch
   icon: mdi:light-switch
