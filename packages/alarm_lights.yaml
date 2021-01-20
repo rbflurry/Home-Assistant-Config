@@ -18,12 +18,7 @@ input_number:
     min: 0
     max: 59
     #step: 15
-    
-input_datetime:
-  only_time:
-    name: Alarm Time
-    has_date: false
-    has_time: true
+
 
 input_boolean:
   alarm_on:

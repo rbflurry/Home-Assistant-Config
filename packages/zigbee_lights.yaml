@@ -1,0 +1,92 @@
+################################################################
+## Packages / Wink
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    packages.zigbee-lights: &customize
+      package: 'zigbee-lights'
+
+
+################################################
+## Group
+################################################
+
+
+
+################################################
+## Sensor
+################################################
+
+
+  
+  
+  
+sensor:
+  - platform: template
+    sensors:
+      total_wink_lights_on:
+        value_template: >-
+          {% set dummy = states("sensor.date") %}
+          {% for state in states.light if state.state == 'on' and state.attributes.power_reset == 'true' %}
+          {% if loop.last %}
+          {{ loop.index|int }}
+          {% endif %}
+          {% else %}
+          0
+          {% endfor %}
+      total_wink_lights_off:
+        value_template: >-
+          {% set dummy = states("sensor.date") %}
+          {% for state in states.light if state.state == 'off' and state.attributes.power_reset == 'true' %}
+          {% if loop.last %}
+          {{ loop.index|int }}
+          {% endif %}
+          {% else %}
+          0
+          {% endfor %}
+      total_wink_lights:
+        value_template: >-
+          {% set dummy = states("sensor.date") %}
+          {% for state in states.light if state.state != 'unavailable' and state.attributes.power_reset == 'true' %}
+          {% if loop.last %}
+          {{ loop.index|int }}
+          {% endif %}
+          {% else %}
+          0
+          {% endfor %}
+
+    
+    
+automation:
+  - alias: wink - Send Message when all the wink lights are on.
+  #  initial_to: False
+    trigger:
+      - platform: template
+        value_template: '{{ states.sensor.total_wink_lights_on.state == states.sensor.total_wink_lights.state }}'
+    action:
+      - service: notify.mobile_app_ryan_iphone
+        data:
+           title: 'All wink lights are on'
+           message: 'All the wink lights are on {{ states.sensor.total_wink_lights_on.state | int }} of {{ states.sensor.total_wink_lights.state }}'
+           data:
+             push:
+               category: 'wink_lights'
+#      - service: homeassistant.turn_off
+#        entity_id: light.wink_all_lights
+             
+  - alias: IOS - Wink Lights
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+    condition:
+     condition: template
+     value_template: "{{(trigger.event.data.actionName == 'TURN_OFF_WINK_LIGHTS')}}"
+    action:
+      service: homeassistant.turn_off
+      entity_id: light.wink_wink_all_lights
+    
