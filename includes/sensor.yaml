@@ -58,16 +58,6 @@
   destination: zone.waterloo
 
 ###
-
-- platform: nut
-  name: syno
-  host: 192.168.47.60
-  username: ups
-  resources:
-    - ups.load
-    - ups.status
-    - battery.charge
-    - battery.runtime
     
 - platform: systemmonitor
   resources:

@@ -1,8 +1,3 @@
-  - platform: myq
-    username: !secret myq_user
-    password: !secret myq_pass
-    type: chamberlain
-    entity_namespace: myq
   - platform: mqtt
     state_topic: "home/windows"  
     command_topic: "home/windows"

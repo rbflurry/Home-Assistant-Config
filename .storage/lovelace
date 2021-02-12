@@ -516,6 +516,28 @@
                                     "entity": "light.bed_room_overhead_1_0359a396"
                                 }
                             ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "switch.bathroom_fan"
+                                },
+                                {
+                                    "entity": "automation.bathroom_vent"
+                                },
+                                {
+                                    "entity": "sensor.bathroom_humid"
+                                },
+                                {
+                                    "entity": "sensor.bathroom_temp"
+                                },
+                                {
+                                    "entity": "automation.bath_room_vent_off"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Bathrrom"
                         }
                     ],
                     "path": "rooms",
