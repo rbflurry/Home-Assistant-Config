@@ -1261,6 +1261,24 @@
                     "icon": "mdi:battery-alert",
                     "path": "battery_view",
                     "title": "Batteries"
+                },
+                {
+                    "title": "BLE",
+                    "path": "ble",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.nodered_e312233a_c3b64"
+                                },
+                                {
+                                    "entity": "sensor.nodered_e57cd52c_8eceb8"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }

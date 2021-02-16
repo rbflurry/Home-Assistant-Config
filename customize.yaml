@@ -83,10 +83,6 @@ input_boolean.vacation_mode:
   friendly_name: Vacation Mode
   hidden: false
   icon: mdi:beach
-input_number.internet_traffic_delta_in:
-  persistent: false
-input_number.internet_traffic_delta_out:
-  persistent: false
 binary_sensor.wink_hallway_smoke_detector_co_detected:
   friendly_name: CO Detector
 binary_sensor.wink_hallway_smoke_detector_smoke_detected:
@@ -124,7 +120,7 @@ switch.4chpro_4:
 switch.powerpivot1_1:
   friendly_name: Carriage Lights
 person.ryan:
-  entity_picture: https://graph.facebook.com/1228860068/picture?type=normal
+  entity_picture: https://graph.facebook.com/v9.0/10212143670126852/picture?type=normal
 person.chelsea:
   entity_picture: https://graph.facebook.com/639513494/picture?type=normal
 switch.sensornode2_relay1:

@@ -28,8 +28,6 @@
       - binary_sensor.blue_iris_camp235
       - group.blueiris
       - automation.tv_led_random
-      - input_number.internet_traffic_delta_in
-      - input_number.internet_traffic_delta_out
       - automation.persistence_publish
       - automation.persistence_subscribe_select_value
       - automation.persistence_publish
