@@ -40,9 +40,12 @@
       actionname: snooze-alarm
   condition: []
   action:
-  - service: homeassistant.turn_on
+  - service: wled.effect
     data:
-      brightness_pct: 100
+      effect: Rainbow
+    entity_id: light.bed_wled
+  - service: light.turn_on
+    data: {}
     entity_id: light.bed_wled
   - service: wled.effect
     data:

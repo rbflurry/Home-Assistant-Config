@@ -83,20 +83,20 @@
     notifiers:
       - telegram_group
 
-  zwave:
-    name: Zwave Down
-    done_message: Zwave is now up
-    entity_id:  binary_sensor.zwave_online
-    state: 'off'
-    repeat: 10
-    can_acknowledge: True
-    skip_first: False
-    notifiers:
-      - telegram_group
+  # zwave:
+    # name: Zwave Down
+    # done_message: Zwave is now up
+    # entity_id:  binary_sensor.zwave_online
+    # state: 'off'
+    # repeat: 10
+    # can_acknowledge: True
+    # skip_first: False
+    # notifiers:
+      # - telegram_group
       
   zigbee:
-    name: Zwave Down
-    done_message: Zwave is now up
+    name: Zigbee Down
+    done_message: Zigbee is now up
     entity_id:  binary_sensor.zigbee_online
     state: 'off'
     repeat: 10
