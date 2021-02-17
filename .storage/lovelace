@@ -1212,28 +1212,12 @@
                     "cards": [
                         {
                             "entities": [
-                                "sensor.back_door_battery",
-                                "sensor.back_door_opened_battery",
-                                "sensor.basement_door_battery",
-                                "sensor.chelseas_iphone_app_battery",
-                                "sensor.chelseas_iphone_battery_level",
-                                "sensor.co_detector_battery",
-                                "sensor.dome_battery",
-                                "sensor.front_door_battery",
-                                "sensor.garage_entry_battery",
-                                "sensor.garage_entry_opened_battery",
-                                "sensor.md1_motion_battery",
-                                "sensor.md1_motion_battery_2",
-                                "sensor.md1_temperature_battery",
-                                "sensor.md1_temperature_battery_2",
-                                "sensor.rbittners_ipad_battery_level",
-                                "sensor.ryan_iphone_battery_level",
-                                "sensor.ryans_ipad_battery_level",
-                                "sensor.ryans_iphone_app_battery",
-                                "sensor.siren2_battery",
-                                "sensor.smoke_detector_battery",
-                                "sensor.tdsi_it_loaner_battery",
-                                "sensor.tdsi_it_loaner_battery_level_2"
+                                {
+                                    "entity": "sensor.co_detector_battery"
+                                },
+                                {
+                                    "entity": "sensor.smoke_detector_battery"
+                                }
                             ],
                             "show_header_toggle": false,
                             "title": "Battery Status",
@@ -1241,17 +1225,12 @@
                         },
                         {
                             "entities": [
-                                "input_number.battery_alert_threshold_min",
-                                "input_number.battery_alert_threshold_max",
-                                "input_text.clear_mqtt_topic",
-                                "automation.battery_notification",
-                                "automation.battery_notification_clear",
-                                "automation.battery_notification_slack",
-                                "automation.battery_notification_telegram",
-                                "automation.battery_notification_pushover",
-                                "automation.battery_sensor_from_attributes",
-                                "automation.update_battery_status_group_members",
-                                "automation.clear_mqtt_topic"
+                                {
+                                    "entity": "input_number.battery_alert_threshold_min"
+                                },
+                                {
+                                    "entity": "input_number.battery_alert_threshold_max"
+                                }
                             ],
                             "show_header_toggle": false,
                             "title": "Battery Alert",
