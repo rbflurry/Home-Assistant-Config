@@ -78,11 +78,6 @@ history:
 
 # Track the sun
 sun:
-
-ifttt:
-  key: 
-    ryan: !secret ifttt_key
-    chelsea: !secret ifttt_key2
     
 mqtt:
   broker: !secret mqtt_url
@@ -94,11 +89,8 @@ mqtt:
   discovery: true
   discovery_prefix: homeassistant
 
-shell_command:
-  call_chelsea: /root/.homeassistant/scripts/call_chelsea.sh
-  call_ryan: /root/.homeassistant/scripts/.sh
-  restart_drivewaycam: /root/port_bounce.sh
-  update_config: /root/.homeassistant/bin/pull_from_github.sh
+#shell_command:
+
 
 media_player:
 #  - platform: androidtv

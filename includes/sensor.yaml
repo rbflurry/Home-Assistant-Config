@@ -357,3 +357,25 @@
   qos: 1
   payload_available: "Online"
   payload_not_available: "Offline"
+  
+- platform: mqtt  
+  state_topic: "monitor/gate_ble/C3:BF:FC:E9:CE:87"  
+  name: "Tile BLE"
+  #icon: 'mdi:temperature-fahrenheit'
+  value_template: "{{ value_json['confidence'] | int }}"
+  unit_of_measurement: "%"
+  availability_topic: "monitor/gate_ble/status"
+  qos: 1
+  payload_available: "online"
+  payload_not_available: "offline"
+  
+- platform: mqtt  
+  state_topic: "monitor/gate_ble/CB:12:E1:05:58:9A"  
+  name: "Deeks BLE"
+  #icon: 'mdi:temperature-fahrenheit'
+  value_template: "{{ value_json['confidence'] | int }}"
+  unit_of_measurement: "%"
+  availability_topic: "monitor/gate_ble/status"
+  qos: 1
+  payload_available: "online"
+  payload_not_available: "offline"

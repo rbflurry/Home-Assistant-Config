@@ -75,7 +75,7 @@
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_automations, automation.chicken_door_last_call_v2
     - service: homeassistant.turn_off
-      entity_id: automation.chicken_coop_door_lockout 
+      entity_id: automation.chicken_coop_door_lockout, input_boolean.cancel_last_call
     - service: cover.open_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
@@ -145,6 +145,9 @@
     - condition: state
       entity_id: cover.chicken_door
       state: 'closed'
+    - condition: state
+      entity_id: input_boolean.cancel_last_call
+      state: 'off'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_last_call, input_boolean.chicken_door_automations

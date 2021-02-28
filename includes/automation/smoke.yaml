@@ -14,12 +14,6 @@
       entity_id: sensor.smoke_status
       to: 'test'
   action:
-    - service: shell_command.call_ryan
-    - service: shell_command.call_chelsea
-    - service: ifttt.trigger
-      data:
-        event: smoke_detected
-        key: chelsea, ryan
     - service: notify.twilio_call
       data:
         target:

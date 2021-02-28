@@ -221,19 +221,38 @@
                             },
                             "entities": [
                                 "cover.chicken_door",
-                                "automation.chicken_coop_door_lockout",
                                 "switch.4chpro_1",
-                                "input_boolean.chicken_bug_automations",
                                 "switch.4chpro_3",
                                 "switch.4chpro_4",
                                 "switch.4chpro_2",
                                 "light.wink_ge_link_bulb",
                                 "input_boolean.chicken_light_dimming",
-                                "automation.chicken_sunset_light_on",
                                 "automation.chicken_pen_door_lockout",
                                 "switch.sensornode2_relay1",
                                 "light.ge_daylight_b1510014_level_on_off",
-                                "input_boolean.chicken_water_automations"
+                                "input_boolean.cancel_last_call"
+                            ],
+                            "filter": {
+                                "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
+                            },
+                            "show_empty": true,
+                            "sort": "none",
+                            "type": "custom:auto-entities"
+                        },
+                        {
+                            "card": {
+                                "show_header_toggle": false,
+                                "title": "Chicken Automations",
+                                "type": "entities"
+                            },
+                            "entities": [
+                                "automation.chicken_coop_door_lockout",
+                                "automation.chicken_pen_door_lockout",
+                                "input_boolean.chicken_bug_automations",
+                                "input_boolean.chicken_light_dimming",
+                                "automation.chicken_sunset_light_on",
+                                "input_boolean.chicken_water_automations",
+                                "input_boolean.cancel_last_call"
                             ],
                             "filter": {
                                 "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
@@ -317,19 +336,7 @@
                             "type": "picture-entity"
                         },
                         {
-                            "aspect_ratio": "50%",
-                            "entity": "camera.camz238",
-                            "show_name": false,
-                            "show_state": false,
-                            "type": "picture-entity"
-                        },
-                        {
                             "entity": "climate.chicken_fan",
-                            "step_size": 1,
-                            "type": "custom:simple-thermostat"
-                        },
-                        {
-                            "entity": "climate.chicken_water_heater",
                             "step_size": 1,
                             "type": "custom:simple-thermostat"
                         },
@@ -346,6 +353,11 @@
                             ],
                             "image": "camera.camz238",
                             "type": "picture-glance"
+                        },
+                        {
+                            "entity": "climate.chicken_water_heater",
+                            "step_size": 1,
+                            "type": "custom:simple-thermostat"
                         }
                     ],
                     "path": "chicken_coop_view",

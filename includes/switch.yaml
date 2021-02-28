@@ -337,6 +337,8 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
+  json_attributes_topic: "tele/esp7/SENSOR"
+  json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
 - platform: mqtt
   name: "esp8"
   unique_id: esp8
@@ -376,6 +378,8 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
+  json_attributes_topic: "tele/esp10/SENSOR"
+  json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
 - platform: mqtt
   name: "esp11"
   unique_id: esp11
@@ -389,6 +393,8 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
+  json_attributes_topic: "tele/esp11/SENSOR"
+  json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
 - platform: mqtt
   name: "esp12"
   unique_id: esp12
@@ -402,6 +408,8 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
+  json_attributes_topic: "tele/esp12/SENSOR"
+  json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
 - platform: mqtt
   name: "esp13"
   unique_id: esp13
@@ -415,3 +423,6 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: true
+  json_attributes_topic: "tele/esp13/SENSOR"
+  json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+
