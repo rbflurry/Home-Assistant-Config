@@ -80,10 +80,48 @@ sensor:
     monitored_conditions:
       - sunrise
       - sunset
+      
+      
+  - platform: wundergroundpws
+    api_key: !secret wu_secret
+    pws_id: KMDWESTM78
+    numeric_precision: none
+    monitored_conditions:
+    #  - humidity
+      - temp
+      - dewpt
+      - heatIndex
+      - windChill
+      - precipRate
+      - precipTotal
+    #  - pressure
+    #  - windGust
+    #  - windSpeed
+      - weather_1d
+      - weather_1n
+      - weather_2d
+      - weather_2n
+      - weather_3d
+      - weather_3n
+      - weather_4d
+      - weather_4n
+      - weather_5d
+      - weather_5n
+      - temp_high_1d
+      - temp_low_1d
+      - wind_1d
+      - precip_1d
+      - precip_chance_1d
+   #   - winddir
+   #   - neighborhood
+   #   - obsTimeLocal
+   #   - stationID
+   #   - elev
+      - today_summary
 
 binary_sensor: 
   - platform: car_wash
-    weather: weather.dark_sky
+    weather: weather.home
 
 
 circadian_lighting:

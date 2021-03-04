@@ -54,3 +54,19 @@
       speed: 5
     entity_id: light.bed_wled
   mode: single
+- id: '1614888725831'
+  alias: record cumulative rain to midnight
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '00'
+    minutes: '00'
+    seconds: '01'
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ha/cum_rain_prior
+      retain: true
+      payload_template: '{{ states(''sensor.5in1_total_rain'') }}'
+  mode: single

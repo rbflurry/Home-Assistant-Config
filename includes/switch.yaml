@@ -1,8 +1,8 @@
-- platform: orvibo
-  discovery: false
-  switches:
-    - host: 192.168.47.208
-      name: "Wifi Switch1"
+# - platform: orvibo
+  # discovery: false
+  # switches:
+    # - host: 192.168.47.208
+      # name: "Wifi Switch1"
 
 - platform: mqtt
   name: "esp1"

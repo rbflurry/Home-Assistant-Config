@@ -422,3 +422,48 @@
   unit_of_measurement: "°"
   icon: "mdi:compass-rose"
   value_template: "{{(value)}}"
+  
+- platform: mqtt
+  state_topic: 'ha/cum_rain_prior'
+  name: "rain at midnight"
+  unit_of_measurement: "in"
+ ## icon: "mdi:compass-rose"
+  value_template: "{{(value)}}"
+  
+  
+  
+- platform: statistics
+  name: Local Rain 24 Hours Statistics
+  entity_id: sensor.5in1_total_rain
+  sampling_size: 4320 # Enough for 3 readings a minute
+  max_age:
+    hours: 24
+- platform: statistics
+  name: Local Rain 1 Hours Statistics
+  entity_id: sensor.5in1_total_rain
+  sampling_size: 60 # Enough for 3 readings a minute
+  max_age:
+    hours: 1
+
+- platform: template
+  sensors:
+    template_rain_last_24_hours:
+      friendly_name: "Rain last 24 Hours"
+      unit_of_measurement: 'in'
+      value_template: "{{ state_attr('sensor.local_rain_24_hours_statistics', 'change') }}" 
+    template_rain_last_1_hour:
+      friendly_name: "Rain last 1 Hour"
+      unit_of_measurement: 'in'
+      value_template: >-
+        {% if state_attr('sensor.local_rain_1_hours_statistics', 'change') != "unknown" %}   
+            {{state_attr('sensor.local_rain_1_hours_statistics', 'change')}}
+        {% else %}
+            {{0.00|float}}
+        {% endif %}  
+    template_rain_since_midnight:
+      friendly_name: "Rain since midnight"
+      unit_of_measurement: 'in'
+      value_template: "{{ ((states('sensor.rain_at_midnight') | float) - (states('sensor.5in1_Total_Rain') | float)) | round(2) }}"   
+
+
+

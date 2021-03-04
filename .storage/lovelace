@@ -123,7 +123,7 @@
                             "type": "custom:auto-entities"
                         },
                         {
-                            "entity": "weather.dark_sky",
+                            "entity": "weather.my_ws",
                             "type": "weather-forecast"
                         },
                         {

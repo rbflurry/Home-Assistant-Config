@@ -196,3 +196,13 @@ stream:
 twilio:
   account_sid: !secret ACCOUNT_SID_FROM_TWILIO
   auth_token: !secret AUTH_TOKEN_FROM_TWILIO
+  
+# Example configuration.yaml entry
+weather:
+  - platform: template
+    name: "my ws"
+    condition_template: "{{ states('weather.home')}}"
+    temperature_template: "{{ states('sensor.5in1_temperature') | float}}" 
+    humidity_template: "{{ states('sensor.5in1_humidity')| float }}"
+    forecast_template: "{{ states.weather.home.attributes.forecast }}"
+    wind_speed_template: "{{ states('sensor.5in1_wind')| float }}"

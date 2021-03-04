@@ -162,31 +162,31 @@ homeassistant:
 ## Sensor
 ################################################
 
-weather:
-  - platform: darksky
-    api_key: !secret forecast_key
-    mode: daily
+# weather:
+  # - platform: darksky
+    # api_key: !secret forecast_key
+    # mode: daily
 
 
-sensor:
-  - platform: darksky
-    api_key: !secret forecast_key
-    monitored_conditions:
-      - summary
-      - icon
-      - temperature
-      - humidity
-      - precip_probability
-      - precip_intensity
-      - wind_speed
-      - pressure
-      - wind_bearing
-      - apparent_temperature
-      - precip_type
-      - temperature_low
-      - temperature_high
-    forecast:
-      - 1
+# sensor:
+  # - platform: darksky
+    # api_key: !secret forecast_key
+    # monitored_conditions:
+      # - summary
+      # - icon
+      # - temperature
+      # - humidity
+      # - precip_probability
+      # - precip_intensity
+      # - wind_speed
+      # - pressure
+      # - wind_bearing
+      # - apparent_temperature
+      # - precip_type
+      # - temperature_low
+      # - temperature_high
+    # forecast:
+      # - 1
       
 
 
@@ -207,20 +207,20 @@ sensor:
 #      - precipitation
 #      - temperature
 
-  - platform: template
-    sensors:
-      template_season:
-        value_template: >-
-          {% set temp_entity = 'sensor.dark_sky_temperature' %}
-          {% set temp = states(temp_entity)|float(none) %}
-          {% set temp_min = states.input_number.season_winter.state|default(68)|float %}
-          {% set temp_max = states.input_number.season_summer.state|default(84)|float %}
-          {% if temp is none %}
-            {{ states(temp_entity) }}
-          {% elif temp < temp_min %}
-            Winter
-          {% elif temp > temp_max %}
-            Summer
-          {% else %}
-            Awesome
-          {% endif %}
+  # - platform: template
+    # sensors:
+      # template_season:
+        # value_template: >-
+          # {% set temp_entity = 'sensor.dark_sky_temperature' %}
+          # {% set temp = states(temp_entity)|float(none) %}
+          # {% set temp_min = states.input_number.season_winter.state|default(68)|float %}
+          # {% set temp_max = states.input_number.season_summer.state|default(84)|float %}
+          # {% if temp is none %}
+            # {{ states(temp_entity) }}
+          # {% elif temp < temp_min %}
+            # Winter
+          # {% elif temp > temp_max %}
+            # Summer
+          # {% else %}
+            # Awesome
+          # {% endif %}
