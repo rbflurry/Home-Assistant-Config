@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.7"
+  - "3.8.7"
 before_install:
   - echo -e "hello" > /tmp/adbkey
   - echo -e "hello" > /tmp/adbkey.pub
