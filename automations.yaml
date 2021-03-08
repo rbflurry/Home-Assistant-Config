@@ -68,5 +68,5 @@
     data:
       topic: ha/cum_rain_prior
       retain: true
-      payload_template: '{{ states(''sensor.5in1_total_rain'') }}'
+      payload_template: '{{ states(''sensor.pws_5in1_total_rain'') }}'
   mode: single

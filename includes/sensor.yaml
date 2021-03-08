@@ -388,37 +388,37 @@
 
 - platform: mqtt
   state_topic: 'rtl_433/815/battery_ok'
-  name: "5in1 Battery"
+  name: "PWS 5in1 Battery"
   device_class: "battery"
   value_template: "{{value | int * 100}}"
 - platform: mqtt
   state_topic: 'rtl_433/815/temperature_F'
-  name: "5in1 Temperature"
+  name: "PWS 5in1 Temperature"
   device_class: "temperature"
   value_template: "{{(value | float)}}"
   unit_of_measurement: "°F"
 - platform: mqtt
   state_topic: 'rtl_433/815/humidity'
-  name: "5in1 Humidity"
+  name: "PWS 5in1 Humidity"
   device_class: "humidity"
   unit_of_measurement: "%"
   value_template: "{{(value | float)}}"
 - platform: mqtt
   state_topic: 'rtl_433/815/rain_in'
-  name: "5in1 Total Rain"
+  name: "PWS 5in1 Total Rain"
   unit_of_measurement: "in"
   value_template: "{{(value | float)}}"
   icon: "mdi:water"
   expire_after: 360
 - platform: mqtt
   state_topic: 'rtl_433/815/wind_avg_km_h'
-  name: "5in1 Wind"
+  name: "PWS 5in1 Wind"
   unit_of_measurement: "mph"
   icon: "mdi:weather-windy-variant"
   value_template: "{{((value | float / 1.609) | round(0))}}"
 - platform: mqtt
   state_topic: 'rtl_433/815/wind_dir_deg'
-  name: "5in1 Wind Direction"
+  name: "PWS 5in1 Wind Direction"
   unit_of_measurement: "°"
   icon: "mdi:compass-rose"
   value_template: "{{(value)}}"
@@ -434,13 +434,13 @@
   
 - platform: statistics
   name: Local Rain 24 Hours Statistics
-  entity_id: sensor.5in1_total_rain
+  entity_id: sensor.pws_5in1_total_rain
   sampling_size: 4320 # Enough for 3 readings a minute
   max_age:
     hours: 24
 - platform: statistics
   name: Local Rain 1 Hours Statistics
-  entity_id: sensor.5in1_total_rain
+  entity_id: sensor.pws_5in1_total_rain
   sampling_size: 60 # Enough for 3 readings a minute
   max_age:
     hours: 1
@@ -463,7 +463,7 @@
     template_rain_since_midnight:
       friendly_name: "Rain since midnight"
       unit_of_measurement: 'in'
-      value_template: "{{ ((states('sensor.rain_at_midnight') | float) - (states('sensor.5in1_Total_Rain') | float)) | round(2) }}"   
+      value_template: "{{ ((states('sensor.rain_at_midnight') | float) - (states('sensor.pws_5in1_Total_Rain') | float)) | round(2) }}"   
 
 
 
