@@ -8,7 +8,7 @@
        entity_id: climate.home
        state: 'cool'
      - condition: template
-       value_template: '{{ states.sensor.dark_sky_temperature.state < states.input_number.climate_set_temp.state }}'
+       value_template: "{{ states('sensor.5in1_temperature') < states('input_number.climate_set_temp') }}"
      - condition: state
        entity_id: cover.windows
        state: 'closed'
@@ -17,7 +17,7 @@
       data:
         title: 'Colder outside than inside set temp.'
         message: >
-          Outside temp is {{ states.sensor.dark_sky_temperature.state }} and inside set temp is {{ states.input_number.climate_set_temp.state }} Cool is off
+          Outside temp is {{ states('sensor.5in1_temperature') }} and inside set temp is {{ states('sensor.input_number.climate_set_temp') }} Cool is off
     - service: climate.set_operation_mode
       data:
         entity_id: climate.home
@@ -35,7 +35,7 @@
        entity_id: climate.home
        state: 'off'
      - condition: template
-       value_template: '{{ states.sensor.dark_sky_temperature.state > states.input_number.climate_set_temp.state }}'
+       value_template: "{{ states('sensor.5in1_temperature') > states('input_number.climate_set_temp') }}"
      - condition: state
        entity_id: cover.windows
        state: 'closed'
@@ -44,12 +44,11 @@
       data:
         title: 'Hotter outside than inside set temp.'
         message: >
-          Outside temp is {{ states.sensor.dark_sky_temperature.state }} and inside set temp is {{ states.input_number.climate_set_temp.state }} Cool is on
+          Outside temp is {{ states('sensor.5in1_temperature') }} and inside set temp is {{ states('input_number.climate_set_temp') }} Cool is on
     - service: climate.set_operation_mode
       data:
         entity_id: climate.home
         operation_mode: 'cool'
-
 
 - alias: Climate - Set backdrop slider
 #  initial_state:: True
@@ -63,10 +62,8 @@
     service: input_number.set_value
     data:
       entity_id: input_number.climate_set_temp
-      value: '{{  states.sensor.climate_set_temp.state  }}'
-      
-      
-      
+      value: "{{  states('sensor.climate_set_temp')  }}"
+
 - alias: Climate - windows open turn off climate
 #  initial_to: True
   trigger:
