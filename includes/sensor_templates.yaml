@@ -631,11 +631,11 @@
             {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel') | float %}
             {% if alarm == 13 and level == 255 %}
               OK
-            {% elif alarm == 1 and level == 255 %}
+            {% elif alarm == 1 %}
               Smoke
-            {% elif alarm == 2 and level == 255 %}
+            {% elif alarm == 2 %}
               CO
-            {% elif alarm == 12 and level == 0 %}
+            {% elif alarm == 12 %}
               Test
             {% else %}
               Unknown
@@ -645,11 +645,11 @@
             {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel') | float %}
             {% if alarm == 13 and level == 255 %}
                 mdi:smoke-detector
-            {% elif alarm == 1 and level == 255 %}
+            {% elif alarm == 1 %}
                 mdi:fire
-            {% elif alarm == 2 and level == 255 %}
+            {% elif alarm == 2 %}
             mdi:cloud-alert
-            {% elif alarm == 12 and level == 0 %}
+            {% elif alarm == 12 %}
                 mdi:smoke-detector
             {% else %}
                 mdi:cloud-question

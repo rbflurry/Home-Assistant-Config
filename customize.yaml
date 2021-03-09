@@ -83,10 +83,6 @@ input_boolean.vacation_mode:
   friendly_name: Vacation Mode
   hidden: false
   icon: mdi:beach
-binary_sensor.wink_hallway_smoke_detector_co_detected:
-  friendly_name: CO Detector
-binary_sensor.wink_hallway_smoke_detector_smoke_detected:
-  friendly_name: Smoke Detector
 automation.persistence_enable_automations:
   persistent: false
 automation.persistence_publish:

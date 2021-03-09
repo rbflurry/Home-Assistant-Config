@@ -162,31 +162,31 @@ homeassistant:
 ## Sensor
 ################################################
 
-# weather:
-  # - platform: darksky
-    # api_key: !secret forecast_key
-    # mode: daily
+weather:
+  - platform: darksky
+    api_key: !secret forecast_key
+    mode: daily
 
 
-# sensor:
-  # - platform: darksky
-    # api_key: !secret forecast_key
-    # monitored_conditions:
-      # - summary
-      # - icon
-      # - temperature
-      # - humidity
-      # - precip_probability
-      # - precip_intensity
-      # - wind_speed
-      # - pressure
-      # - wind_bearing
-      # - apparent_temperature
-      # - precip_type
-      # - temperature_low
-      # - temperature_high
-    # forecast:
-      # - 1
+sensor:
+  - platform: darksky
+    api_key: !secret forecast_key
+    monitored_conditions:
+      - summary
+      - icon
+      - temperature
+      - humidity
+      - precip_probability
+      - precip_intensity
+      - wind_speed
+      - pressure
+      - wind_bearing
+      - apparent_temperature
+      - precip_type
+      - temperature_low
+      - temperature_high
+    forecast:
+      - 1
       
 
 

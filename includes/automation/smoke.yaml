@@ -1,10 +1,6 @@
 - alias: Smoke Detected
   trigger:
     - platform: state
-      entity_id: binary_sensor.wink_hallway_smoke_detector_smoke_detected, binary_sensor.wink_hallway_smoke_detector_co_detected
-      from: 'off'
-      to: 'on'
-    - platform: state
       entity_id: sensor.smoke_status
       to: 'smoke'
     - platform: state
@@ -13,6 +9,10 @@
     - platform: state
       entity_id: sensor.smoke_status
       to: 'test'
+    - platform: state
+      entity_id: sensor.smoke_status
+      to: 'unknown'
+      from: 'OK'
   action:
     - service: notify.twilio_call
       data:

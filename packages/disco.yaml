@@ -31,39 +31,39 @@
 #          - '3'
 
 
-script:
-  tv_disco:
-    alias: tv disco
-    sequence:
-      - service: light.turn_on
-        data:
-          entity_id: light.wink_led_strip_tv
-          brightness_pct: 50
-          color_name: >
-            {{['aqua','seagreen','mediumslateblue','teal','blue','darkgreen','deepskyblue','green','indigo','magenta','midnightblue','orangered','hotpink','purple','red','violet','yellow']|random}}
-      - service: script.turn_on
-        data:
-          entity_id: script.tv_disco_loop
-#          data:
-#            variables:
-#              speed: "{{ speed }}"
-  tv_disco_loop:
-    alias: tv disco loop
-    sequence:
-#      - delay: '00:00:{{ speed | int }}'
-      - delay: '00:00:10'
-      - service: script.turn_on
-        data:
-          entity_id: script.tv_disco
-#          data:
-#            variables:
-#              speed: "{{ speed }}"
-  tv_disco_off:
-    sequence:
-      - service: script.turn_off
-        data:
-          entity_id: tv_disco_loop
-      - service: script.turn_off
-        data:
-          entity_id: script.tv_disco
+# script:
+  # tv_disco:
+    # alias: tv disco
+    # sequence:
+      # - service: light.turn_on
+        # data:
+          # entity_id: light.wink_led_strip_tv
+          # brightness_pct: 50
+          # color_name: >
+            # {{['aqua','seagreen','mediumslateblue','teal','blue','darkgreen','deepskyblue','green','indigo','magenta','midnightblue','orangered','hotpink','purple','red','violet','yellow']|random}}
+      # - service: script.turn_on
+        # data:
+          # entity_id: script.tv_disco_loop
+# #          data:
+# #            variables:
+# #              speed: "{{ speed }}"
+  # tv_disco_loop:
+    # alias: tv disco loop
+    # sequence:
+# #      - delay: '00:00:{{ speed | int }}'
+      # - delay: '00:00:10'
+      # - service: script.turn_on
+        # data:
+          # entity_id: script.tv_disco
+# #          data:
+# #            variables:
+# #              speed: "{{ speed }}"
+  # tv_disco_off:
+    # sequence:
+      # - service: script.turn_off
+        # data:
+          # entity_id: tv_disco_loop
+      # - service: script.turn_off
+        # data:
+          # entity_id: script.tv_disco
   

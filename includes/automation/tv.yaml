@@ -33,25 +33,25 @@
    service: homeassistant.turn_on
    entity_id: scene.tv_time_over
    
-- alias: 'TV LED Random'
-  trigger: 
-#    - platform: time
-#      seconds: '/10'
-    - platform: time_pattern
-      minutes: 0
-      seconds: 0
-  condition: 
-    condition: state
-    entity_id: light.wink_led_strip_tv
-    state: 'on'
-  action:
-    - service: light.turn_on
-      data:
-        entity_id: light.wink_led_strip_tv
-        brightness_pct: 50
-        color_name: >
-          {{['aqua','seagreen','mediumslateblue','teal','blue','darkgreen','deepskyblue','green','indigo','magenta','midnightblue','orangered','hotpink','purple','red','violet','yellow']|random}}
-#        rgb_color: ['{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}']
+# - alias: 'TV LED Random'
+  # trigger: 
+# #    - platform: time
+# #      seconds: '/10'
+    # - platform: time_pattern
+      # minutes: 0
+      # seconds: 0
+  # condition: 
+    # condition: state
+    # entity_id: light.wink_led_strip_tv
+    # state: 'on'
+  # action:
+    # - service: light.turn_on
+      # data:
+        # entity_id: light.wink_led_strip_tv
+        # brightness_pct: 50
+        # color_name: >
+          # {{['aqua','seagreen','mediumslateblue','teal','blue','darkgreen','deepskyblue','green','indigo','magenta','midnightblue','orangered','hotpink','purple','red','violet','yellow']|random}}
+# #        rgb_color: ['{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}']
 
 - alias: 'TV reset tc_time_delay'
   trigger:
