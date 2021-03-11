@@ -24,7 +24,7 @@
 - alias: Hotwater -  Came home early
   trigger:
     platform: state
-    entity_id: device_tracker.ryans_iphone_app2
+    entity_id: person.chelsea, person.ryan
     from: 'not_home'
     to: 'home'
     for:
@@ -33,8 +33,8 @@
      - condition: state
        entity_id: switch.wink_zwaveoutlet
        state: 'off'
-     - condition: template
-       value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
+     # - condition: template
+       # value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
     -  service: notify.telegram_ryan
        data:

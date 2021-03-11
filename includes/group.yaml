@@ -1,29 +1,26 @@
 ### VIEWS ###
 
-default_view:
-  name: Home
-  entities:
-    - group.all_lights_w_switches
-    - group.garage_brief
+# default_view:
+  # name: Home
+  # entities:
+    # - group.all_lights_w_switches
+    # - group.garage_brief
 
 #Groups#
 
 garage:
   name: Garage Doors
   entities:
-    - cover.myq_first_bay
-    - cover.myq_second_bay
-    - cover.myq_third_bay
+    - cover.myq_first_bay_2
+    - cover.myq_second_bay_2
+    - cover.myq_third_bay_2
 
 all_garage_doors:
   name: All Garage Doors
   entities:
-    - cover.myq_first_bay
-    - cover.myq_second_bay
-    - cover.myq_third_bay
-    - cover.wink_first_bay
-    - cover.wink_second_bay
-    - cover.wink_third_bay
+    - cover.myq_first_bay_2
+    - cover.myq_second_bay_2
+    - cover.myq_third_bay_2
 
 indoor_lights:
   name: Indoor Lights
@@ -33,8 +30,8 @@ indoor_lights:
     - light.osram_lightify_a19_tunable_white_00094db0_3
     - light.wink_bed_room
     - light.wink_office
-    - light.wink_led_strip_bed
     - switch.wink_hallway_switch
+    - light.bed_wled
   
 outdoor_lights:
   name: Outdoor Lights
@@ -52,7 +49,6 @@ device_family:
 processes:
   name: Processes
   entities:
-    - binary_sensor.template_wink_hub
     - switch.wink_zwaveoutlet
     
 tuya:
