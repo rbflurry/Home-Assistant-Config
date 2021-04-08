@@ -40,7 +40,6 @@ homeassistant:
 default_config:
 zeroconf:
 mobile_app:
-cast: 
 
 # Enables the frontend
 frontend:
