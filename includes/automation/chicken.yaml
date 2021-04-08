@@ -1,4 +1,5 @@
 - alias: Chicken - Turn off chicken coop door switch after 13 seconds
+  id: bb4bc7f9-1f7e-45ce-a8eb-1f94b1eb5235
   initial_state: true
   trigger:
    platform: state
@@ -11,6 +12,7 @@
       entity_id: switch.sensornode2_relay2
       
 - alias: Chicken - Turn off chicken pen door switch after 13 seconds
+  id: 0637c1fb-67da-43d9-8071-cc5e9524bbf4
   initial_state: true
   trigger:
    platform: state
@@ -24,6 +26,7 @@
           
           
 - alias: Chicken -  Send Message on chicken state changes
+  id: 50287845-e107-4a6e-8637-61f3e1d55491
   initial_state: true
   trigger:
     - platform: state
@@ -52,6 +55,7 @@
            
            
 - alias: Chicken -  Chicken Door Timer V2
+  id: 22d5fa60-9f85-4132-a3a8-96f541057e17
   initial_state: true
   trigger:
     - platform: template
@@ -98,6 +102,7 @@
       
 
 - alias: Chicken - Sunset close door V2
+  id: 0ee5b3a6-f7cb-4511-9788-1f0254b4af17
   initial_state: true
   trigger:
     - platform: template
@@ -137,6 +142,7 @@
       entity_id: input_boolean.chicken_door_automations
 
 - alias: Chicken - Door - Last Call V2
+  id: 4e0e9bf7-f036-4679-b7c7-47ee2094eeb4
   initial_state: true
   trigger:
     - platform: template
@@ -228,6 +234,7 @@
       
       
 - alias: Chicken -  Chicken Door Timer Disabled
+  id: 949efa87-22da-40c3-876d-5bc39e4ad554
   initial_state: true
   trigger:
     platform: template
@@ -252,7 +259,10 @@
           push:
             category: 'chicken_door'
 
+
+
 - alias: Chicken - Sunset Light on
+  id: 35f80bde-51be-4655-a198-fc6483588c62
   trigger:
     - platform: sun
       event: sunset
@@ -277,6 +287,7 @@
 #      brightness: 1
 
 - alias: Chicken - Afterdark, door closed turn off light
+  id: 14eab32e-5951-4896-b1a7-b057a20c7178
   trigger:
    platform: state
    entity_id: cover.chicken_door
@@ -292,7 +303,10 @@
    - service: homeassistant.turn_off
      entity_id: switch.4chpro_2
 
+
+
 - alias: Chicken - IOS Handler
+  id: b19580f7-b0aa-47c0-ab0b-005180f251bd
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -310,7 +324,10 @@
    data:
     entity_id: cover.chicken_door
 
+
+
 - alias: Chicken -  Boorder turn on light at sunrise
+  id: da0f61d5-2c87-49ef-9eca-bcff25a49086
   trigger:
    platform: sun
    event: sunrise
@@ -319,7 +336,10 @@
    service: homeassistant.turn_on
    entity_id: light.ge_daylight_b1510014_level_on_off
    
+   
+   
 - alias: Chicken -  Brooder turn off light at sunset
+  id: 513c0b0d-4f5e-43f0-a931-c68dc18698a2
   trigger:
    - platform: sun
      event: sunset
@@ -330,6 +350,7 @@
       
 
 - alias: Chicken - Brooder Thermostat
+  id: 045a5268-6b17-4e56-aa8a-2b3de7ce64c0
   initial_state: True
   trigger:
     - platform: state
@@ -343,7 +364,9 @@
         temperature: '{{states.sensor.brooder_target_temp.state | int }}'
 
 
+
 - alias: Chicken - Pen Door Lockout
+  id: edcc037f-c491-4d16-8187-56192252e05d
   initial_state: true
   trigger:
    platform: state
@@ -353,7 +376,10 @@
     - service: homeassistant.turn_off
       entity_id: switch.sensornode2_relay1
       
+      
+      
 - alias: Chicken - Coop Door Lockout
+  id: f20b67ec-ecb9-4a6c-9b78-f2f958c1afdc
   initial_state: true
   trigger:
    platform: state

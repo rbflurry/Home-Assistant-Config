@@ -1,4 +1,5 @@
 - alias: House armed - door open
+  id: 5abced82-a1c4-4369-b71e-c614ffe7d067
   initial_state: off
   trigger:
     - platform: state
@@ -26,6 +27,7 @@
         
         
 - alias: House armed - Make the panel beep
+  id: b5194a45-9aaf-4d30-9784-2c02d44af9fa
   initial_state: off
   trigger:
     - platform: time_pattern

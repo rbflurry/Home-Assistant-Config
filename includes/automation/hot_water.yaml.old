@@ -1,4 +1,5 @@
 - alias: Send Message when hot water changes
+  id: 19f658d9-3884-4cc3-afcd-a0a879bf8394
   trigger:
     - platform: state
       entity_id: switch.hot_water

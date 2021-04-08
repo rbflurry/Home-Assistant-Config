@@ -1,4 +1,5 @@
 - alias: Ios All In one  True - IOS
+  id: cce93be9-33ee-4af6-949e-74030340e827
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -44,6 +45,7 @@
 
  
 - alias: Ios Notify iOS app test
+  id: c442aa21-02ee-4016-96ea-741a60fe4434
   trigger:
     platform: event
     event_type: ios.notification_action_fired2

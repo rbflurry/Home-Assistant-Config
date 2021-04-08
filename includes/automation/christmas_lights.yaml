@@ -1,4 +1,5 @@
 - alias: Turn on light Christmas lights at sunset
+  id: a4e80ffb-27cf-45b4-a2cb-4ae2c9249434
   trigger:
    platform: sun
    event: sunset
@@ -13,6 +14,7 @@
    
    
 - alias: Turn off christmas lights at 10
+  id: c1abd305-d666-4375-94c0-7aa8e6ba05ba
   trigger:
    platform: time_pattern
    hours: 22

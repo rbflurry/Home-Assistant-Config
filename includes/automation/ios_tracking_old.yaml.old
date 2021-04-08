@@ -1,4 +1,5 @@
 - alias: name entered zone
+  id: c9648328-45c1-44bf-be3d-9774eb20d018
   trigger:
     platform: state
     entity_id: device_tracker.ryans_iphone_app2, device_tracker.chelseas_iphone_app

@@ -1,4 +1,5 @@
 - alias: HA Starts - Send Message
+  id: 2ad9f3ab-24bb-44ef-bfdf-5d7455fcadb2
   trigger:
     - platform: homeassistant
       event: start
@@ -59,6 +60,7 @@
         payload: ""
 
 - alias: HA Stop - Send Message stop timers
+  id: 4e6ad19b-2eec-4427-99d8-e61b7a3787fe
   trigger:
     - platform: homeassistant
       event: shutdown
@@ -74,6 +76,7 @@
 
 
 - alias: HA Start - Set front timers if lights on
+  id: 97ad0c55-7e81-4b55-9c5c-abb421c8337b
   trigger:
     - platform: homeassistant
       event: start
@@ -89,6 +92,7 @@
         
         
 - alias: HA Start - Set flood timers if lights on
+  id: 355e16b3-2146-4783-8a78-39eda993840e
   trigger:
     - platform: homeassistant
       event: start

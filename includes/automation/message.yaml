@@ -1,4 +1,5 @@
 - alias: Send Message when no one is home but a door was opened
+  id: a482d0a5-78e6-4388-9267-7f26c7df7af4
   trigger:
     - platform: state
       entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
@@ -15,6 +16,7 @@
            No one is home and {{ trigger.to_state.name }} was opened
 
 - alias: Send Message when no one is home but a door was opened v2
+  id: 902b8d70-d603-4c09-9226-4824f9376f5f
   trigger:
     - platform: state
       entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
@@ -52,6 +54,7 @@
          No one is home and {{ trigger.to_state.name }} was closed
       
 - alias: Send Message when a door is left open
+  id: 9f490ae1-d70b-409d-bbc8-eafe562db4e8
   trigger:
    platform: state
    entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.basement_door, binary_sensor.front_door
@@ -91,6 +94,7 @@
 #            {% endif %}
 
 - alias: Send Message on state changes
+  id: 775a4c37-f772-4d76-920e-c802e27cb232
 #  initial_to: False
   trigger:
     - platform: state

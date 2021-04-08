@@ -1,4 +1,5 @@
 - alias: Smoke Detected
+  id: 7f02c5a4-d063-4a97-8dc8-a80b6efbd086
   trigger:
     - platform: state
       entity_id: sensor.smoke_status

@@ -1,4 +1,5 @@
 - alias: 'Speed test'
+  id: 0755c936-554f-4ceb-b9fa-5af9ff10e2a7
   trigger:
     platform: time_pattern
     # You can also match on interval. This will match every 5 minutes

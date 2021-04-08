@@ -1,4 +1,5 @@
 - alias: Camper - temp
+  id: ff3636c4-49d1-4088-a92d-5642c7292f6f
 #  initial_state: false
   trigger:
    - platform: numeric_state

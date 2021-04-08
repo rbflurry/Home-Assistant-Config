@@ -1,4 +1,5 @@
 - alias: 'Ryan Away'
+  id: 595826cf-71de-4d82-a4a0-5ca13c94a565
   condition:
     condition: state
     entity_id: input_boolean.device_ryan
@@ -21,6 +22,7 @@
       
       
 - alias: 'Ryan Home'
+  id: ffe454a3-871a-4343-810b-1547b1b98961
   condition:
     condition: state
     entity_id: input_boolean.device_ryan
@@ -39,6 +41,7 @@
  
 
 - alias: 'Chelsea Away'
+  id: d9404d8b-a216-4077-9e41-ecb191338a23
   condition:
     condition: state
     entity_id: input_boolean.device_chelsea
@@ -61,6 +64,7 @@
       
       
 - alias: 'Chelsea Home'
+  id: 7ed632f2-dbbe-4c0b-b19a-5e3ada25e4cf
   condition:
     condition: state
     entity_id: input_boolean.device_chelsea

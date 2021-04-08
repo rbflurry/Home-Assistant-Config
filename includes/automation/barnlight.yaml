@@ -1,4 +1,5 @@
 - alias: Back Door open turn barn light on
+  id: 1ecb87a2-8006-46a1-ad3f-66239cdd6755
   trigger:
     - platform: state
       entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door

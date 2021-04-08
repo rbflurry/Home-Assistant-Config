@@ -1,4 +1,5 @@
 - alias: 1. Turn on light when sun sets and noone is home
+  id: 0f6be21c-e08e-4250-b982-bfe5119acda6
   trigger:
    - platform: sun
      event: sunset

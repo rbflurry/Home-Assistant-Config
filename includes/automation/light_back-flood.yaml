@@ -1,4 +1,5 @@
 - alias: Back Door open and light is already on via door open keep light on for another 10.
+  id: bf33ec5c-d404-4ac6-b69a-fba25893365a
   trigger:
     - platform: state
       entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door
@@ -42,6 +43,7 @@
 
 
 - alias: Back Door open turn flood light on for 10 minutes unless it is already on.
+  id: 35ca564d-03d3-4fde-92ae-edd69e90b3b2
   trigger:
     - platform: state
       entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door
@@ -75,6 +77,7 @@
    
    
 - alias: Garage open turn flood light on for 10 minutes unless it is already on
+  id: 77e3f77e-ab8c-4bdb-9ee7-16fe685686cd
   trigger:
     - platform: state
       entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay

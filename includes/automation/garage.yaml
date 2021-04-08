@@ -1,4 +1,5 @@
 - alias: Garage Send Message when chelsea left but garage door is still open
+  id: c0237af6-5122-4830-930c-14540144d635
   trigger:
    platform: state
    entity_id: person.chelsea
@@ -26,6 +27,7 @@
  
 #this causes multiple lines, we should update this to show all door states.
 - alias: Garage Send Message when everyone left and a door is open.
+  id: 446f9d1f-c2bd-490e-9abd-c0b71b6af8ab
   trigger:
    platform: state
    entity_id: group.device_family
@@ -57,6 +59,7 @@
 
 
 - alias: Garage Send Message when no one is home but a garage door was open was opened
+  id: d799e871-57fd-4b74-abc2-a495bdf022b3
   trigger:
     - platform: state
       entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay

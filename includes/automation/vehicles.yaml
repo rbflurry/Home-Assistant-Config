@@ -1,4 +1,5 @@
 - alias: Vehicle - Mazda is Home
+  id: c21b16a7-623d-4e21-8c10-cc52d6d34ae6
 #  initial_to: True
   trigger:
     - platform: state
@@ -19,6 +20,7 @@
 
 
 - alias: Vehicle - Jeep is home
+  id: b70103db-2c7f-4e14-8959-ffcc396f7d13
 #  initial_to: True
   trigger:
     - platform: state

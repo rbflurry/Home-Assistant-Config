@@ -1,4 +1,5 @@
 - alias: forward_persistent_notifications
+  id: 5a452ee7-5c40-4986-893c-ef22bb7fdab7
   initial_state: 'off'
   trigger:
     - platform: event
@@ -19,6 +20,7 @@
             
 
 - alias: Chicken - Telegram Handler
+  id: 22a0d78d-251c-440b-b2c5-5678cc475ea2
   initial_state: 'on'
   trigger:
     platform: event
@@ -48,6 +50,7 @@
     
     
 - alias: Telegram Event TroubleShoot
+  id: e93ee228-16b8-4760-a11f-bb18cf04201d
   initial_state: 'off'
   trigger:
     platform: event
@@ -68,6 +71,7 @@
          
          
 - alias: Telegram - Test - Send Message when input boolean change
+  id: a367cf34-2b0b-4ec1-bc6d-2f6ed341d455
   initial_state: 'off'
   trigger:
     - platform: state
@@ -91,6 +95,7 @@
                 
           
 - alias: 'Conversation'
+  id: 8a07bd52-86ef-4640-a4c7-176e22781a18
   initial_state: 'on'
   trigger:
     platform: event

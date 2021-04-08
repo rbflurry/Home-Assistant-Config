@@ -37,6 +37,7 @@
   ################################################
 
   - alias: persistence_publish
+    id: 4ba6158c-ccd4-4d0e-8619-296d80fb7f97
     initial_state: 'off'
 #    hide_entity: true
     trigger:
@@ -81,6 +82,7 @@
   ################################################
 
   - alias: persistence_subscribe_binary
+    id: 897f1406-1d5e-4f0d-b342-40a4311b49b5
     initial_state: 'off'
 #    hide_entity: true
     trigger:
@@ -103,6 +105,7 @@
           entity_id: "{{ trigger.topic|replace('home-assistant/', '')|replace('/', '.') }}"
 
   - alias: persistence_subscribe_select_option
+    id: 59c3d0c5-cec4-4f6e-9862-0bb4654b19d1
     initial_state: 'off'
 #    hide_entity: true
     trigger:
@@ -116,6 +119,7 @@
           option: "{{ trigger.payload }}"
 
   - alias: persistence_subscribe_select_value
+    id: fc3ce2db-790d-47cf-9c6a-232733a68e1b
     initial_state: 'off'
  #   hide_entity: true
     trigger:

@@ -1,4 +1,5 @@
 - alias: Send Message when UPS on Batt
+  id: e49fa1a6-a2a5-4e71-9059-277ff98c3075
   trigger:
     - platform: state
       entity_id: sensor.syno_status_data

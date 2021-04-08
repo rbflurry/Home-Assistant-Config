@@ -1,4 +1,5 @@
 - alias: Notify iOS app Coming
+  id: d51e3429-3b10-4792-8be3-691ced9407fb
   trigger:
     - platform: state
       entity_id: device_tracker.ryans_iphone_app2
@@ -55,6 +56,7 @@
  
 
 - alias: Notify iOS app Leaving
+  id: 26f93ef8-c928-4c7a-817d-8bda021121b2
   trigger:
     - platform: state
       entity_id: device_tracker.ryans_iphone_app2
@@ -103,6 +105,7 @@
 
 
 - alias: iOS app replace one big
+  id: 5d6c0d73-a289-498f-9115-0bfe0fe86a24
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -136,6 +139,7 @@
      
      
 - alias: Chelsea Notify iOS app Coming
+  id: 37f9bb48-8e66-422d-9c6a-728c20b2eaec
   initial_state: false
   trigger:
     platform: state
@@ -170,6 +174,7 @@
  
 
 - alias: Chelsea Notify iOS app Leaving
+  id: f787d3d5-7622-4957-955e-d87e1d1f014b
   initial_state: false
   trigger:
     platform: state
@@ -208,6 +213,7 @@
           
           
 - alias: iOS Event TroubleShoot
+  id: 4f0055ae-99ec-46d9-bb84-bbf1d8321088
   initial_state: 'off'
   trigger:
     platform: event

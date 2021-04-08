@@ -1,4 +1,5 @@
 - alias: pubnub_update
+  id: a5ccd5e1-34b1-4c60-b033-019a151da9c7
   trigger:
    platform: time_pattern
    minutes: 25

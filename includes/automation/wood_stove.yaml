@@ -1,4 +1,5 @@
 - alias: "Wood Stove - Set Fan On Time"
+  id: ac3b5cad-d26e-4303-8308-9ecd475be4bf
   initial_state: 'off'
   trigger:
     platform: state
@@ -10,7 +11,11 @@
      - service: climate.ecobee_set_fan_min_on_time
        data:
          fan_min_on_time: 30
+         
+         
+         
 - alias: "Wood Stove - Turn off fan off"
+  id: 3444a32c-f3bd-4d7e-a7ff-67171e9de584
   initial_state: 'off'
   trigger:
     platform: state

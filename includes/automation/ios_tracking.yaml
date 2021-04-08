@@ -20,6 +20,7 @@
 
 
 - alias: Notify iOS moving
+  id: 6877d84a-da73-48c7-97fe-6f0b1d6a553c
   initial_state: 'off'
   trigger:
     platform: state
@@ -44,6 +45,7 @@
 
 
 - alias: Notify iOS moving test
+  id: 651594e2-4d0c-47d6-a7c1-e47a545e2a30
   initial_state: 'off'
   trigger:
     platform: state

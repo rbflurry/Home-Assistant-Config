@@ -1,4 +1,5 @@
 - alias: Test - Send Message when input boolean change
+  id: 9ffb4966-5cc2-4eb3-b559-fe9a6597e51c
   initial_state: 'on'
   trigger:
     - platform: state
@@ -53,6 +54,7 @@
 #        message: "after wait is state"
 
 - alias: test wait state
+  id: 2884a864-4c88-4acd-bce7-4fea1c8e148c
   initial_state: 'off'
   trigger:
     platform: state
@@ -68,6 +70,7 @@
         message: "after wait states"
 
 - alias: test badge2
+  id: f2f3a3a9-14a7-4354-9c3f-fc863897d18e
   initial_state: 'off'
   trigger:
     platform: state
@@ -81,6 +84,7 @@
             badge: 1
         
 - alias: test badge
+  id: 20dc3acc-8430-48a3-8ff8-0b0b1a4729f2
   initial_state: 'off'
   trigger:
     platform: state
@@ -95,6 +99,7 @@
             
             
 - alias: discord_test1
+  id: 6b0f20db-5698-450d-90d1-af46b8b2a695
   initial_state: 'off'
   trigger:
     platform: state
@@ -110,6 +115,7 @@
           {%- endif -%}
             
 - alias: discord_test2
+  id: 8ab85e97-02ae-4401-b651-fe6eb6ca29c9
   initial_state: 'off'
   trigger:
     platform: state
@@ -125,6 +131,7 @@
           {%- endif -%}
 
 - alias: discord_test3
+  id: 3557c328-30d3-417a-b96d-04d303fef36b
   initial_state: 'off'
   trigger:
     platform: state
@@ -138,6 +145,7 @@
           {%- endif -%}
           
 - alias: discord_test4
+  id: b3d21950-5838-408f-8502-a27587e289a4
   initial_state: 'off'
   trigger:
     platform: state

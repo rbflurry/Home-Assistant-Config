@@ -1,4 +1,5 @@
 - alias: Door Chime - Door Open
+  id: f7b10118-8722-41a3-8f6f-7f8bb58fc9fe
   trigger:
     - platform: state
       entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
@@ -14,6 +15,7 @@
      tone: alert
      
 - alias: Door Chime - Garage - Door Open
+  id: 38d2d5db-21ab-4aa7-abdb-0de3d481aebc
   trigger:
     - platform: state
       entity_id: binary_sensor.garage_entry_door, cover.myq_first_bay, cover.myq_second_bay ,cover.myq_third_bay
@@ -34,6 +36,7 @@
 
 
 - alias: No one is home - Door Chime
+  id: 77f174de-f86e-4359-8860-8f4d503eae73
   trigger:
     - platform: state
       entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door

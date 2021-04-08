@@ -1,4 +1,5 @@
 - alias: Play Radio based on Station
+  id: 96014483-99ad-4372-b0eb-23c555304db6
   trigger:
     - platform: state
       entity_id: input_select.radio_station

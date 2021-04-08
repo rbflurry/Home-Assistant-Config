@@ -1,4 +1,5 @@
 - alias: iOS message test
+  id: 2d55a55d-6f32-4716-a17b-32f4c9eae5ea
   initial_state: 'off'
   trigger:
     platform: state

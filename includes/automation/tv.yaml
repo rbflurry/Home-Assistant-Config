@@ -1,4 +1,5 @@
 - alias: 'TV on dim the light'
+  id: 9d1b965a-47f8-48fe-a24e-abb50a4b96f8
   trigger:
     - platform: state
       entity_id: device_tracker.livingroomtv
@@ -18,6 +19,7 @@
      
      
 - alias: 'TV off light the light'
+  id: 9ef474a0-9fc3-465b-b059-90491945c822
   trigger:
     - platform: state
       entity_id: device_tracker.livingroomtv
@@ -54,6 +56,7 @@
 # #        rgb_color: ['{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}', '{{ (range(0, 255, 25)|random) }}']
 
 - alias: 'TV reset tc_time_delay'
+  id: 57d0e706-ddb5-486f-bc1f-c8738e96aa30
   trigger:
     - platform: state
       entity_id: input_boolean.tv_time_delay

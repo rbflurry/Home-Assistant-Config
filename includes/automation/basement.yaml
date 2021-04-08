@@ -1,4 +1,5 @@
 - alias: Basement door open and light is already on via door open keep light on for another 10.
+  id: cdf55c57-1a3c-4e11-b19a-f1bc95517891
   trigger:
     - platform: state
       entity_id: binary_sensor.basement_door
@@ -39,6 +40,7 @@
 
 
 - alias: Basement door open turn basement_light on for 10 minutes unless it is already on.
+  id: 685e00fb-26de-42be-b071-22fde9b43bf5
   trigger:
     - platform: state
       entity_id: binary_sensor.basement_door

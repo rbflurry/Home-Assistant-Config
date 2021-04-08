@@ -1,4 +1,5 @@
 - alias: Turn lights off at sunrise
+  id: e4ef6f42-7b1c-4366-b186-6a0c9d14d773
   trigger:
    platform: sun
    event: sunrise

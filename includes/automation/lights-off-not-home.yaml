@@ -1,4 +1,5 @@
 - alias: Turn Off flood if no one is home for five minutes.
+  id: 6f754e85-3f0a-4f59-ab8e-05cb4003da59
   trigger:
    platform: state
    entity_id: group.device_family
@@ -20,6 +21,7 @@
       entity_id: switch.wink_back_flood
 
 - alias: Turn Off outside lights if no one is home for five minutes and sun is up.
+  id: 97fbd57c-3c3b-4db2-9ba5-bcbd81d85876
   trigger:
    platform: state
    entity_id: group.device_family

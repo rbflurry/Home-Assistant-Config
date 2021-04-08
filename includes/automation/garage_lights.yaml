@@ -1,4 +1,5 @@
 - alias: Garage open turn garage light on for 10 minutes unless it is already on
+  id: 2c920f27-ff6c-435d-97f8-8b44075e72db
   trigger:
 #    - platform: state
 #      entity_id: binary_sensor.garage_entry_door
