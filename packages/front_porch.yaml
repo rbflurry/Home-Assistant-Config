@@ -24,6 +24,7 @@ timer:
 
 automation:
   - alias: "timer - front porch"
+    id: c747ba7e-825e-4705-b676-3b8f197440c0
     trigger:
       platform: event
       event_type:  timer.finished

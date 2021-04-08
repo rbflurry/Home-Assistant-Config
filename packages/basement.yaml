@@ -24,6 +24,7 @@ timer:
 
 automation:
   - alias: "timer - basement_light"
+    id: f0140401-4086-48e2-9bcd-cdc91c34fa62
     trigger:
       platform: event
       event_type:  timer.finished

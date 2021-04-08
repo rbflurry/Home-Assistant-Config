@@ -59,6 +59,7 @@ sensor:
 
 automation:
   - alias: Wake up Alarm - turn on lights
+    id: c395ea35-0369-4567-aaad-addf647294ac
     initial_state: True
     trigger:
       - platform: template
@@ -98,6 +99,7 @@ automation:
 #         color_name: yellow
          
   - alias: Wake up Alarm - turn on second lights
+    id: b4520907-5b0f-40f5-9de2-e99ed45c871a
     initial_state: True
     trigger:
       - platform: template

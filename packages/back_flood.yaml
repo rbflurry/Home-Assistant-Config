@@ -38,6 +38,7 @@ timer:
 
 automation:
   - alias: "timer - back flood"
+    id: e334a061-6c08-4132-ab8b-b1d9a6a6adf2
     trigger:
       platform: event
       event_type:  timer.finished

@@ -64,6 +64,7 @@ sensor:
     
 automation:
   - alias: wink - Send Message when all the wink lights are on.
+    id: 84266477-138f-435c-9529-c7fa0b1b85e5
   #  initial_to: False
     trigger:
       - platform: template
@@ -80,6 +81,7 @@ automation:
 #        entity_id: light.wink_all_lights
              
   - alias: IOS - Wink Lights
+    id: acc4ae8d-a4f7-4a9f-b345-209afee815b3
     trigger:
       platform: event
       event_type: ios.notification_action_fired

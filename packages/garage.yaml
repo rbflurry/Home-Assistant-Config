@@ -24,6 +24,7 @@ timer:
 
 automation:
   - alias: "timer - garage lights"
+    id: 55f96c79-e01c-4d18-b9d9-3a5693fca323
     trigger:
       platform: event
       event_type:  timer.finished
