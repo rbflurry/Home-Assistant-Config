@@ -1270,6 +1270,24 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "title": "Weather",
+                    "path": "weather",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.pws_5in1_wind_direction",
+                                "sensor.pws_5in1_wind",
+                                "sensor.pws_5in1_total_rain",
+                                "sensor.pws_5in1_temperature",
+                                "sensor.pws_5in1_humidity",
+                                "sensor.5in1_wind_gust"
+                            ]
+                        }
+                    ]
                 }
             ]
         }
