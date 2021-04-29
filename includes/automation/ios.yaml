@@ -123,11 +123,11 @@
    data:
     entity_id: >-
      {% if (trigger.event.data.actionName.split('_')[2] == 'FIRST') %}
-      cover.myq_first_bay, cover.wink_first_bay
+      cover.myq_first_bay_2
      {% elif (trigger.event.data.actionName.split('_')[2] == 'SECOND') %}
-      cover.myq_second_bay,cover.wink_second_bay
+      cover.myq_second_bay_2
      {% elif (trigger.event.data.actionName.split('_')[2] == 'THIRD') %}
-      cover.myq_third_bay, cover.wink_third_bay
+      cover.myq_third_bay_2
      {% elif (trigger.event.data.actionName.split('_')[2] == 'ALL') %}
       group.garage
      {% else %}

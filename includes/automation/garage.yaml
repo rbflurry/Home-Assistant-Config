@@ -10,10 +10,7 @@
    condition: or
    conditions:
    - condition: state
-     entity_id: cover.wink_first_bay
-     state: 'open'
-   - condition: state
-     entity_id: cover.myq_first_bay
+     entity_id: cover.myq_first_bay_2
      state: 'open'
   action:
    service: notify.telegram_ryan
@@ -43,13 +40,13 @@
    data:
           title: 'Garage Door Left Open'
           message: >
-            {% if is_state('cover.wink_first_bay', 'open') -%}
+            {% if is_state('cover.myq_first_bay_2', 'open') -%}
               First Bay is open.
             {% endif -%}
-            {% if is_state('cover.wink_second_bay', 'open') -%}
+            {% if is_state('cover.myq_second_bay_2', 'open') -%}
               Second Bay is open.
             {% endif -%}
-            {%- if is_state('cover.wink_third_bay', 'open') -%}
+            {%- if is_state('cover.myq_third_bay_2', 'open') -%}
               Third Bay is open
             {% endif -%}
           data:
@@ -62,7 +59,7 @@
   id: d799e871-57fd-4b74-abc2-a495bdf022b3
   trigger:
     - platform: state
-      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      entity_id: cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2
       to: 'open'
       for:
         minutes: 1

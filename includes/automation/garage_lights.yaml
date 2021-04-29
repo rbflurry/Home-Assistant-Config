@@ -6,7 +6,7 @@
 #      from: 'off'
 #      to 'on'
     - platform: state
-      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2, cover.wink_first_bay_2, cover.wink_second_bay_2, cover.wink_third_bay_2
+      entity_id: cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2
       from: 'closed'
       to: 'opening'
   condition:

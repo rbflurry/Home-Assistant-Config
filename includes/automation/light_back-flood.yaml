@@ -10,7 +10,7 @@
       from: 'on'
       to: 'off'
     - platform: state
-      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      entity_id: cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2
       from: 'closed'
       to: 'open'
   condition:
@@ -80,7 +80,7 @@
   id: 77e3f77e-ab8c-4bdb-9ee7-16fe685686cd
   trigger:
     - platform: state
-      entity_id: cover.wink_first_bay, cover.wink_second_bay, cover.wink_third_bay, cover.myq_first_bay, cover.myq_second_bay, cover.myq_third_bay
+      entity_id: cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2
       from: 'closed'
       to: 'open'
   condition:
