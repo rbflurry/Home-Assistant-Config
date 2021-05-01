@@ -23,6 +23,8 @@
   action:
     - service: homeassistant.turn_off
       entity_id: switch.sensornode2_relay1
+    - service: homeassistant.toggle
+      entity_id: input_boolean.chicken_pen_door_status
           
           
 - alias: Chicken -  Send Message on chicken state changes

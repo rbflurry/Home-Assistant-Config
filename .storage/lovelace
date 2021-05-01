@@ -221,14 +221,15 @@
                             },
                             "entities": [
                                 "cover.chicken_door",
+                                "automation.chicken_coop_door_lockout",
+                                "cover.chicken_pen",
+                                "automation.chicken_pen_door_lockout",
                                 "switch.4chpro_1",
                                 "switch.4chpro_3",
                                 "switch.4chpro_4",
                                 "switch.4chpro_2",
                                 "light.wink_ge_link_bulb",
                                 "input_boolean.chicken_light_dimming",
-                                "automation.chicken_pen_door_lockout",
-                                "switch.sensornode2_relay1",
                                 "light.ge_daylight_b1510014_level_on_off",
                                 "input_boolean.cancel_last_call"
                             ],

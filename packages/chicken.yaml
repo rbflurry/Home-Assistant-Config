@@ -47,6 +47,23 @@ cover:
       availability_topic: "tele/sensornode2/LWT"  
       payload_available: "Online"
       payload_not_available: "Offline"
+    - platform: template
+      covers:
+        chicken_pen:
+          friendly_name: "Chicken Pen"
+          value_template: "{{ is_state('input_boolean.chicken_pen_door_status', 'on')  }}"
+          open_cover:
+            service: switch.turn_on
+            target:
+              entity_id: switch.sensornode2_relay1
+          close_cover:
+            service: switch.turn_on
+            target:
+              entity_id: switch.sensornode2_relay1
+          stop_cover:
+            service: homeassistant.toggle
+            target:
+              entity_id: input_boolean.chicken_pen_door_status
       
 
 binary_sensor:
