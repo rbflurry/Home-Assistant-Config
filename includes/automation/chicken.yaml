@@ -27,7 +27,7 @@
       entity_id: input_boolean.chicken_pen_door_status
           
           
-- alias: Chicken -  Send Message on chicken state changes
+- alias: Chicken -  Send Message on chicken coop state changes
   id: 50287845-e107-4a6e-8637-61f3e1d55491
   initial_state: true
   trigger:
@@ -54,6 +54,32 @@
         data:
           push:
            category: 'chicken_door'
+           
+- alias: Chicken -  Send Message on chicken pen state changes
+  id: cf426ebc-bd65-4982-b2bf-ef465e2447ba
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: cover.chicken_pen
+      from: "open"
+      to: "closed"
+    - platform: state
+      entity_id: cover.chicken_pen
+      from: "closed"
+      to: "open"
+  # condition:
+    # - condition: state
+      # entity_id: input_boolean.chicken_door_automations
+      # state: 'off'
+  action:
+   -  service: notify.ios_group
+      data:
+        title: "\U0001F414 Chicken Coop \U0001F414" 
+        message: >
+          {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+        # data:
+          # push:
+           # category: 'chicken_door'
            
            
 - alias: Chicken -  Chicken Door Timer V2
@@ -335,20 +361,36 @@
    event: sunrise
    offset: '-00:20:00'
   action:
-   service: homeassistant.turn_on
+   service: light.turn_on
    entity_id: light.ge_daylight_b1510014_level_on_off
+   data:
+     brightness: 255
    
    
    
 - alias: Chicken -  Brooder turn off light at sunset
   id: 513c0b0d-4f5e-43f0-a931-c68dc18698a2
+  initial_state: False
   trigger:
    - platform: sun
      event: sunset
      offset: '+00:20:00'
   action:
-   service: homeassistant.turn_off
+   service: light.turn_off
    entity_id: light.ge_daylight_b1510014_level_on_off
+    
+    
+- alias: Chicken -  Brooder dim light at sunset
+  id: 1236011e-c798-4a78-a65a-e0b3b7c7cc90
+  trigger:
+   - platform: sun
+     event: sunset
+     offset: '+00:20:00'
+  action:
+   service: light.turn_on
+   entity_id: light.ge_daylight_b1510014_level_on_off
+   data:
+     brightness: 1
       
 
 - alias: Chicken - Brooder Thermostat

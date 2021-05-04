@@ -8,6 +8,16 @@
     notifiers:
       - telegram_group
       
+  chicken_pen:
+    name: Chicken Pen is open after dark
+    done_message: 'Alert Clear: Chicken Pen is closed'
+    entity_id: binary_sensor.chicken_pen_after_dark
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    notifiers:
+      - telegram_group
+      
   chicken_door_still_closed:
     name: Chicken Door is still closed
     done_message: Chicken Door Is now Open

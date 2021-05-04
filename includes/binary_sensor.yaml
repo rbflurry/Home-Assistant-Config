@@ -8,6 +8,8 @@
       friendly_name: 'Fan'
     chicken_door_after_dark:
       value_template: '{{ (is_state("cover.chicken_door", "open") or is_state("cover.chicken_door", "unknown")) and states.sensor.time.state > states.sensor.chicken_door_last_call_time_dirty.state and is_state("input_boolean.chicken_door_last_call", "off") }}'
+    chicken_pen_after_dark:
+      value_template: '{{ (is_state("cover.chicken_pen", "open") or is_state("cover.chicken_pen", "unknown")) and states.sensor.time.state > states.sensor.chicken_door_last_call_time_dirty.state and is_state("input_boolean.chicken_door_last_call", "off") }}'
     still_dark:
       value_template: '{{ states.sun.sun.attributes.elevation < -3 }}'
     chicken_door_after_open:
