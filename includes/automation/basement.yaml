@@ -9,10 +9,6 @@
       entity_id: binary_sensor.basement_door
       from: 'on'
       to: 'off'
-    - platform: state
-      entity_id: binary_sensor.wink_md1_motion
-      from: 'off'
-      to: 'on'
   condition:
 #     - condition: state
 #       entity_id: sun.sun
