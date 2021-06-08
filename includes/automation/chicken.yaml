@@ -432,3 +432,20 @@
   action:
     - service: homeassistant.turn_off
       entity_id: switch.sensornode2_relay2
+      
+      
+- alias: Chicken Pen - Lockout Enable
+  id: 7bb93c46-7385-4032-9d0f-1b7a45b6d03d
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: cover.chicken_pen
+      from: "open"
+      to: "closed"
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_door_automations
+      state: 'off'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: automation.chicken_pen_door_lockout

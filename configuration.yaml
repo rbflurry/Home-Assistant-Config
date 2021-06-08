@@ -162,17 +162,6 @@ tts:
     service_name: google_say
   
 alexa:
- 
-speedtestdotnet:
-  manual: true
-
-#homekit:
-#  auto_start: False
-#  filter:
-#    include_domains:
-#      - light
-#      - cover
-#      - switch
   
 telegram_bot:
   - platform: polling
