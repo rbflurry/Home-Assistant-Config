@@ -1,0 +1,42 @@
+esphome:
+  name: basement-node
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Basement-Node Fallback Hotspot"
+    password: !secret wifi_pass
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+
+binary_sensor:
+
+  - platform: gpio
+    pin:
+      number: D5
+      mode: INPUT_PULLUP
+    name: “Front Door”
+    device_class: door
+  - platform: gpio
+    pin: 
+       number: D6
+       mode: INPUT_PULLUP
+    name: “Basement Door”
+    device_class: door
+switch:
+  - platform: restart
+    name: "ESP Basement Restart"

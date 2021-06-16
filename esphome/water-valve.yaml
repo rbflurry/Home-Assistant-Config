@@ -1,0 +1,77 @@
+esphome:
+  name: water-valve
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Water-Valve Fallback Hotspot"
+    password: !secret wifi_pass
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+  
+  
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO13
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Button"
+    id: button
+    internal: True
+    on_press:
+      - switch.toggle: relay_template
+
+status_led:
+  pin:
+    number: GPIO4
+
+light:
+  - platform: binary
+    id: valve_status_light
+    name: "Side Spigot Status"
+    output: valve_gpio5
+
+output:
+  - platform: gpio
+    id: valve_gpio5
+    pin:
+      number: GPIO5
+      inverted: False
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    id: relay
+  - platform: template
+    name: Side Spigot
+    id: relay_template
+    icon: 'mdi:pipe'
+    lambda: |-
+      if (id(relay).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - light.turn_on: valve_status_light
+      - switch.turn_on: relay
+    turn_off_action:
+      - light.turn_off: valve_status_light
+      - switch.turn_off: relay
+  - platform: restart
+    name: "Side Spigot Restart"

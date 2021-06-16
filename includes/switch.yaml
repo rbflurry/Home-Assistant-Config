@@ -169,18 +169,19 @@
   payload_not_available: "Offline"
   retain: true
 
-- platform: mqtt
-  name: "Side Spigot"
-  state_topic: "stat/Jinvoo/RESULT"
-  value_template: '{{ value_json["POWER"] }}'
-  command_topic: "cmnd/Jinvoo/POWER"
-  availability_topic: "tele/Jinvoo/LWT"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  retain: true 
+# - platform: mqtt
+  # name: "Side Spigot"
+  # state_topic: "stat/Jinvoo/RESULT"
+  # value_template: '{{ value_json["POWER"] }}'
+  # command_topic: "cmnd/Jinvoo/POWER"
+  # availability_topic: "tele/Jinvoo/LWT"
+  # qos: 1
+  # payload_on: "ON"
+  # payload_off: "OFF"
+  # payload_available: "Online"
+  # payload_not_available: "Offline"
+  # retain: true 
+  
 - platform: mqtt
   name: "4chpro 1"
   unique_id: 4chpro-1

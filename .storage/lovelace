@@ -485,32 +485,10 @@
                         },
                         {
                             "entities": [
-                                "sensor.vent_temp",
-                                "sensor.vent_humidity"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "House",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
                                 "input_number.fan_min_on_time"
                             ],
                             "show_header_toggle": false,
                             "title": "Input number",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                {
-                                    "entity": "light.sengled_e11_g13_035c3bc7_1"
-                                },
-                                {
-                                    "entity": "light.sengled_e11_g13_035cb3f8_1"
-                                }
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Upstairs",
                             "type": "entities"
                         },
                         {
@@ -555,6 +533,34 @@
                     ],
                     "path": "rooms",
                     "title": "Rooms"
+                },
+                {
+                    "title": "Upstairs",
+                    "path": "upstairs",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "light.sengled_e11_g13_035c3bc7_1"
+                                },
+                                {
+                                    "entity": "light.sengled_e11_g13_035cb3f8_1"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Upstairs",
+                            "type": "entities"
+                        },
+                        {
+                            "type": "thermostat",
+                            "entity": "climate.craft_room"
+                        },
+                        {
+                            "type": "thermostat",
+                            "entity": "climate.bed_room"
+                        }
+                    ]
                 },
                 {
                     "badges": [],
@@ -637,22 +643,10 @@
                         {
                             "entities": [
                                 {
-                                    "entity": "sensor.device_ryan_to_home"
-                                },
-                                {
-                                    "entity": "sensor.device_ryan_to_work"
-                                },
-                                {
                                     "entity": "sensor.waze_device_ryan_to_home"
                                 },
                                 {
                                     "entity": "sensor.waze_device_ryan_to_work"
-                                },
-                                {
-                                    "entity": "sensor.device_chelsea_to_home"
-                                },
-                                {
-                                    "entity": "sensor.device_chelsea_to_work"
                                 },
                                 {
                                     "entity": "sensor.waze_device_chelsea_to_home"
@@ -665,12 +659,6 @@
                                 },
                                 {
                                     "entity": "sensor.geocode_chelsea"
-                                },
-                                {
-                                    "entity": "sensor.chelsea_to_home"
-                                },
-                                {
-                                    "entity": "sensor.chelsea_to_work"
                                 }
                             ],
                             "show_header_toggle": false,

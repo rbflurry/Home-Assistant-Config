@@ -64,31 +64,31 @@
 
 ######################################################
 
-- platform: mqtt
-  state_topic: "stat/sonoff_basement/POWER1"  
-  name: "front_door" 
-  device_class: door
-  availability_topic: "tele/sonoff_basement/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
+# - platform: mqtt
+  # state_topic: "stat/sonoff_basement/POWER1"  
+  # name: "front_door" 
+  # device_class: door
+  # availability_topic: "tele/sonoff_basement/LWT"
+  # payload_available: "Online"
+  # payload_not_available: "Offline"
 
-- platform: mqtt  
-  state_topic: "stat/garage/POWER"  
-  name: "garage_entry_door" 
-  device_class: door
-  availability_topic: "tele/garage/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
+# - platform: mqtt  
+  # state_topic: "stat/garage/POWER"  
+  # name: "garage_entry_door" 
+  # device_class: door
+  # availability_topic: "tele/garage/LWT"
+  # payload_available: "Online"
+  # payload_not_available: "Offline"
   
-- platform: mqtt  
-  state_topic: "stat/sonoff_basement/POWER2"  
-  name: "basement_door" 
-  device_class: door
-  availability_topic: "tele/sonoff_basement/LWT"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  payload_on: "ON"
-  payload_off: "OFF"
+# - platform: mqtt  
+  # state_topic: "stat/sonoff_basement/POWER2"  
+  # name: "basement_door" 
+  # device_class: door
+  # availability_topic: "tele/sonoff_basement/LWT"
+  # payload_available: "Online"
+  # payload_not_available: "Offline"
+  # payload_on: "ON"
+  # payload_off: "OFF"
   
 - platform: mqtt
   name: "OpenMQTTGateway"
