@@ -45,7 +45,7 @@
       - service: telegram_chelsea
   - name: firetv
     platform: nfandroidtv
-    host: 192.168.47.134
+    host: !secret firestick
   - name: ios_ryans_iphone_app2
     platform: group
     services:
