@@ -273,8 +273,8 @@
 - platform: scrape
   name: hcps_status
   resource: https://status.hcpss.org/
-  select: "span"
-#  select: "span.status-code"
+#  select: "span"
+  select: "span.status-code"
   
 - platform: mqtt  
   state_topic: "tele/esp_bathroom/SENSOR"  

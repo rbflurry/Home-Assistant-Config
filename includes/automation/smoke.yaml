@@ -6,7 +6,13 @@
       to: 'smoke'
     - platform: state
       entity_id: sensor.smoke_status
+      to: 'Smoke'
+    - platform: state
+      entity_id: sensor.smoke_status
       to: 'co'
+    - platform: state
+      entity_id: sensor.smoke_status
+      to: 'CO'
     - platform: state
       entity_id: sensor.smoke_status
       to: 'test'
