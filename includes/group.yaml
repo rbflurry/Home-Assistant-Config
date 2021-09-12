@@ -37,8 +37,8 @@ outdoor_lights:
   name: Outdoor Lights
   entities:
     - switch.wink_front_porch_switch
-    - switch.wink_back_flood
-    - switch.on_off_sonoff2
+    - switch.powerpivot1_1
+    - switch.powerpivot1_2
   
 device_family:
   name: Family

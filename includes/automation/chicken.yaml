@@ -125,6 +125,7 @@
           inline_keyboard:
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
+    - delay: "00:00:15"
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_automations, input_boolean.chicken_door_last_call
       
