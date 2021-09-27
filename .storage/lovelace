@@ -857,45 +857,6 @@
                             "show_header_toggle": false,
                             "title": "Timer Light",
                             "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                "sensor.sn1_temperature",
-                                "sensor.sn1_humidity",
-                                "sensor.sn1_ldr",
-                                "sensor.sn2_pir",
-                                "sensor.sn1_reed",
-                                "sensor.sn1_real_feel",
-                                "light.sn1_led"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Sensor 1",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                "sensor.sn3_temperature",
-                                "sensor.sn3_humidity",
-                                "sensor.sn3_ldr",
-                                "sensor.sn3_pir",
-                                "sensor.sn3_reed",
-                                "sensor.sn3_real_feel",
-                                "light.sn2_led"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Sensor 3",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                "sensor.internet_speed_in",
-                                "sensor.internet_speed_out",
-                                "sensor.wan_traffic_in_mean",
-                                "sensor.wan_traffic_out_mean"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Bandwith Monitoring",
-                            "type": "entities"
                         }
                     ],
                     "path": "bits",
@@ -1089,34 +1050,6 @@
                     ],
                     "path": "all",
                     "title": "ALL"
-                },
-                {
-                    "badges": [],
-                    "cards": [
-                        {
-                            "card": {
-                                "show_header_toggle": false,
-                                "title": "All Automation",
-                                "type": "entities"
-                            },
-                            "filter": {
-                                "exclude": [
-                                    {
-                                        "state": "unavailable"
-                                    }
-                                ],
-                                "include": [
-                                    {
-                                        "domain": "automation"
-                                    }
-                                ]
-                            },
-                            "show_empty": true,
-                            "type": "custom:auto-entities"
-                        }
-                    ],
-                    "path": "automations",
-                    "title": "auto"
                 },
                 {
                     "badges": [],

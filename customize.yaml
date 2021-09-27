@@ -56,8 +56,6 @@ switch.garage_lights:
   hidden: true
 switch.second_garage_switch:
   hidden: true
-switch.esp2:
-  friendly_name: Outside Outlets
 switch.on_off_sonoff2:
   friendly_name: Garage Lights
 switch.powerpivot1_2:
@@ -77,16 +75,6 @@ input_boolean.vacation_mode:
   friendly_name: Vacation Mode
   hidden: false
   icon: mdi:beach
-automation.persistence_enable_automations:
-  persistent: false
-automation.persistence_publish:
-  persistent: false
-automation.persistence_subscribe_binary:
-  persistent: false
-automation.persistence_subscribe_select_option:
-  persistent: false
-automation.persistence_subscribe_select_value:
-  persistent: false
 input_boolean.chicken_water_automations:
   icon: mdi:water
 switch.side_spigot:

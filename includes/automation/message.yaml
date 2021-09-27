@@ -1,19 +1,19 @@
-- alias: Send Message when no one is home but a door was opened
-  id: a482d0a5-78e6-4388-9267-7f26c7df7af4
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
-      to: 'on'
-  condition:
-   condition: state
-   entity_id: group.device_family
-   state: 'not_home'
-  action:
-    - service: notify.everyone_group
-      data:
-         title: 'Something happened at home'
-         message: >
-           No one is home and {{ trigger.to_state.name }} was opened
+# - alias: Send Message when no one is home but a door was opened
+  # id: a482d0a5-78e6-4388-9267-7f26c7df7af4
+  # trigger:
+    # - platform: state
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+      # to: 'on'
+  # condition:
+   # condition: state
+   # entity_id: group.device_family
+   # state: 'not_home'
+  # action:
+    # - service: notify.everyone_group
+      # data:
+         # title: 'Something happened at home'
+         # message: >
+           # No one is home and {{ trigger.to_state.name }} was opened
 
 - alias: Send Message when no one is home but a door was opened v2
   id: 902b8d70-d603-4c09-9226-4824f9376f5f
@@ -53,26 +53,26 @@
        message: >
          No one is home and {{ trigger.to_state.name }} was closed
       
-- alias: Send Message when a door is left open
-  id: 9f490ae1-d70b-409d-bbc8-eafe562db4e8
-  trigger:
-   platform: state
-   entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.basement_door, binary_sensor.front_door
-   to: 'on'
-   for:
-     minutes: 5
-  action:
-    - service: notify.everyone_group
-      data:
-        title: 'Door Left Open'
-        message: >
-          {{ trigger.to_state.name }} is open for more than 5 minutes
-    - wait_template: "{{ is_state(trigger.entity_id, 'off') }}"
-    - service: notify.everyone_group
-      data:
-        title: 'Door Now closed'
-        message: >
-          {{ trigger.to_state.name }} is now closed
+# - alias: Send Message when a door is left open
+  # id: 9f490ae1-d70b-409d-bbc8-eafe562db4e8
+  # trigger:
+   # platform: state
+   # entity_id: binary_sensor.wink_back_door_opened, binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+   # to: 'on'
+   # for:
+     # minutes: 5
+  # action:
+    # - service: notify.everyone_group
+      # data:
+        # title: 'Door Left Open'
+        # message: >
+          # {{ trigger.to_state.name }} is open for more than 5 minutes
+    # - wait_template: "{{ is_state(trigger.entity_id, 'off') }}"
+    # - service: notify.everyone_group
+      # data:
+        # title: 'Door Now closed'
+        # message: >
+          # {{ trigger.to_state.name }} is now closed
           
           
 #- alias: Send Message when wink hub changes
