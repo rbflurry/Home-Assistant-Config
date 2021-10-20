@@ -121,3 +121,5 @@ wink.siren2:
   tags: outside, inside
 light.sengled_e11_g13_035cb3f8_1:
   power_reset: 'true'
+input_boolean.fox_hunt:
+  icon: mdi:dog-side

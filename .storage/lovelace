@@ -457,7 +457,7 @@
                                     "entity": "light.wink_office"
                                 },
                                 {
-                                    "entity": "light.wink_led_strip_bed"
+                                    "entity": "light.bed_wled"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -525,6 +525,9 @@
                                 },
                                 {
                                     "entity": "automation.bath_room_vent_off"
+                                },
+                                {
+                                    "entity": "light.wink_led_strip_bath"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -1174,24 +1177,6 @@
                     "icon": "mdi:battery-alert",
                     "path": "battery_view",
                     "title": "Batteries"
-                },
-                {
-                    "title": "BLE",
-                    "path": "ble",
-                    "badges": [],
-                    "cards": [
-                        {
-                            "type": "entities",
-                            "entities": [
-                                {
-                                    "entity": "sensor.nodered_e312233a_c3b64"
-                                },
-                                {
-                                    "entity": "sensor.nodered_e57cd52c_8eceb8"
-                                }
-                            ]
-                        }
-                    ]
                 },
                 {
                     "title": "Weather",

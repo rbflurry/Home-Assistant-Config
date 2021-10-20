@@ -275,6 +275,7 @@
   resource: https://status.hcpss.org/
 #  select: "span"
   select: "span.status-code"
+  scan_interval: 60
   
 - platform: mqtt  
   state_topic: "tele/esp_bathroom/SENSOR"  

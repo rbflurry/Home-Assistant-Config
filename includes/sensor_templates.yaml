@@ -45,7 +45,7 @@
     trash_day:
       value_template: >-
         {% set dummy = states("sensor.date") %}
-        {%- set pickupDay = monday | lower -%}
+        {%- set pickupDay = "thursday" | lower -%}
         {%- macro day_of_week(timestamp) -%}
           {{ as_timestamp(timestamp)| timestamp_custom('%A', true) | lower }}
         {%- endmacro -%}
@@ -64,7 +64,7 @@
     recycle_day:
       value_template: >-
         {% set dummy = states("sensor.date") %}
-        {%- set pickupDay = monday | lower -%}
+        {%- set pickupDay = "thursday" | lower -%}
         {%- set evenWeekPickup = false %}
         {%- macro day_of_week(timestamp) -%}
           {{ as_timestamp(timestamp)| timestamp_custom('%A', true) | lower }}
@@ -654,3 +654,7 @@
             {% else %}
                 mdi:cloud-question
             {% endif %}
+    # dashboard_time:
+        # friendly_name: 'DashBoardTime'
+        # value_template: >
+            # {{ as_timestamp(strptime(states.sensor.date_time_iso.state, "%Y-%m-%d")) | timestamp_custom("%A %B %d, %-I:%M%p") }}

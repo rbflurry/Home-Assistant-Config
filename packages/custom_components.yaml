@@ -141,3 +141,7 @@ switch:
     lights_rgb:
       - light.wink_ge_link_bulb
       - light.ge_daylight_b1510014_level_on_off
+  - platform: circadian_lighting
+    name: bathroom
+    lights_rgb:
+      - light.wink_led_strip_bath

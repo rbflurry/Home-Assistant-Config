@@ -72,6 +72,7 @@ history:
     domains:
       - automation
       - group
+      - alert
     entities:
       - sensor.time
 
