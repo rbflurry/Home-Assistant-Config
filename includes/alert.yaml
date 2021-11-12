@@ -4,7 +4,7 @@
     entity_id: binary_sensor.chicken_door_after_dark
     repeat: 10
     can_acknowledge: True
-    skip_first: False
+    skip_first: True
     notifiers:
       - telegram_group
       

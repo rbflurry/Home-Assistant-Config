@@ -4,6 +4,7 @@
       - light.bed_room_overhead*
       - sensor.chicken_age*
       - sensor.dark_sky_*
+      - switch.*_do_not_disturb_switch
     entities:
       - sensor.since_last_boot
       - switch.wink_switch

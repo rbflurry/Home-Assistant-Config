@@ -68,6 +68,9 @@
                                     "name": "Led Bed Strip"
                                 },
                                 {
+                                    "entity": "light.wink_led_strip_bath"
+                                },
+                                {
                                     "entity": "switch.wink_basement"
                                 },
                                 {

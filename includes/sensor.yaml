@@ -404,7 +404,7 @@
     template_rain_since_midnight:
       friendly_name: "Rain since midnight"
       unit_of_measurement: 'in'
-      value_template: "{{ ((states('sensor.pws_5in1_Total_Rain') | float) - (states('sensor.rain_at_midnight') | float)) | round(2) }}"   
+      value_template: "{{ ((states('sensor.pws_5in1_Total_Rain') | float(0)) - (states('sensor.rain_at_midnight') | float)) | round(2) }}"   
 
 
 
