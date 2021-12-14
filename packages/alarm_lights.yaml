@@ -140,10 +140,16 @@ automation:
         entity_id: light.bed_wled
         data:
          brightness_pct: 100
-#         color_name: orange
-      - service: wled.effect
+      - service: light.turn_on
+        data: {}
         entity_id: light.bed_wled
-        data: 
-          effect: sunrise
-          intensity: 120
-          speed: 5
+      - service: number.set_value
+        target:
+          entity_id: number.bed_wled_intensity
+        data:
+          value: '120'
+      - service: number.set_value
+        target:
+          entity_id: number.bed_wled_speed
+        data:
+          value: '5'

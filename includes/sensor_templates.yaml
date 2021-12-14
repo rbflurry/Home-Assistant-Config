@@ -20,7 +20,7 @@
          {% endif %}
      template_cert_internal:
        value_template: >-
-         {{ states.sensor.cert_url.state |int(0) <= 10 }}
+         {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_lilold_westmd_info')) - now().timestamp()) / 86400) | int(100) < 10 }}
          
 ###############################################################################
 # Sensor to hold info about current week is an odd week or an even week of the year

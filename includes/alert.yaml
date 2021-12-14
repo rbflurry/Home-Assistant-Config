@@ -93,6 +93,18 @@
     notifiers:
       - telegram_group
 
+  chores:
+    name: Chore Alert
+    entity_id: calendar.us_chores
+    state: 'on'
+    repeat: 10
+    can_acknowledge: True
+    skip_first: False
+    title: "{{states.calendar.us_chores.attributes.message}}"
+    message: "{{states.calendar.us_chores.attributes.message}}"
+    notifiers:
+      - telegram_group
+
   # zwave:
     # name: Zwave Down
     # done_message: Zwave is now up

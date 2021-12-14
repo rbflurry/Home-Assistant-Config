@@ -40,19 +40,32 @@
       actionname: snooze-alarm
   condition: []
   action:
-  - service: wled.effect
+  - service: light.turn_on
     data:
-      effect: Rainbow
-    entity_id: light.bed_wled
+      effect: rainbow
+    target:
+      entity_id: light.bed_wled
   - service: light.turn_on
     data: {}
     entity_id: light.bed_wled
-  - service: wled.effect
+  - service: number.set_value
+    target:
+      entity_id: number.bed_wled_intensity
     data:
-      effect: sunrise
-      intensity: 120
-      speed: 5
-    entity_id: light.bed_wled
+      value: '120'
+  - service: number.set_value
+    target:
+      entity_id: number.bed_wled_speed
+    data:
+      value: '5'
+  # - service: light.turn_on
+    # data:
+      # effect: sunrise
+    # target:
+      # entity_id: light.bed_wled
+      # intensity: 120
+      # speed: 5
+    # entity_id: light.bed_wled
   mode: single
 - id: '1614888725831'
   alias: record cumulative rain to midnight
@@ -69,4 +82,30 @@
       topic: ha/cum_rain_prior
       retain: true
       payload_template: '{{ states(''sensor.pws_5in1_total_rain'') }}'
+  mode: single
+- id: '1639314659508'
+  alias: outside christmas tree on
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: '0'
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    target:
+      entity_id: switch.esp11
+  mode: single
+- id: '1639314713123'
+  alias: outside christmas tree off
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: '0'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    target:
+      entity_id: switch.esp11
   mode: single
