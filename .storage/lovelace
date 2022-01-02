@@ -1,5 +1,6 @@
 {
     "version": 1,
+    "minor_version": 1,
     "key": "lovelace",
     "data": {
         "config": {
@@ -1192,12 +1193,33 @@
                         {
                             "type": "entities",
                             "entities": [
-                                "sensor.pws_5in1_wind_direction",
-                                "sensor.pws_5in1_wind",
-                                "sensor.pws_5in1_total_rain",
-                                "sensor.pws_5in1_temperature",
-                                "sensor.pws_5in1_humidity",
-                                "sensor.5in1_wind_gust"
+                                {
+                                    "entity": "sensor.pws_5in1_wind_direction"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_wind"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_temperature"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_humidity"
+                                },
+                                {
+                                    "entity": "sensor.5in1_wind_gust"
+                                },
+                                {
+                                    "entity": "sensor.local_rain_1_hours_statistics"
+                                },
+                                {
+                                    "entity": "sensor.local_rain_24_hours_statistics"
+                                },
+                                {
+                                    "entity": "sensor.template_rain_since_midnight"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_total_rain"
+                                }
                             ]
                         }
                     ]

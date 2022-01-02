@@ -126,3 +126,15 @@
     skip_first: False
     notifiers:
       - telegram_group
+      
+      
+  chicken_sensorpod:
+    name: Blue Iris Is not running
+    done_message: Blue Iris Is not running
+    entity_id: binary_sensor.template_blue_iris_running
+    state: "off"
+    repeat: 10
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - telegram_group

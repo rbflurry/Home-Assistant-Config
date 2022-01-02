@@ -9,7 +9,10 @@
   trigger:
   - above: '95'
     entity_id: sensor.bathroom_humid
-    for: 00:03:00
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
     platform: numeric_state
   condition: []
   action:
@@ -58,14 +61,6 @@
       entity_id: number.bed_wled_speed
     data:
       value: '5'
-  # - service: light.turn_on
-    # data:
-      # effect: sunrise
-    # target:
-      # entity_id: light.bed_wled
-      # intensity: 120
-      # speed: 5
-    # entity_id: light.bed_wled
   mode: single
 - id: '1614888725831'
   alias: record cumulative rain to midnight
