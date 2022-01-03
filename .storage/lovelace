@@ -1194,16 +1194,25 @@
                             "type": "entities",
                             "entities": [
                                 {
+                                    "entity": "sensor.pws_5in1_temperature"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_humidity"
+                                },
+                                {
                                     "entity": "sensor.pws_5in1_wind_direction"
+                                },
+                                {
+                                    "entity": "sensor.template_pws_5in1_weather_wind_dir"
                                 },
                                 {
                                     "entity": "sensor.pws_5in1_wind"
                                 },
                                 {
-                                    "entity": "sensor.pws_5in1_temperature"
+                                    "entity": "sensor.average_wind_speed"
                                 },
                                 {
-                                    "entity": "sensor.pws_5in1_humidity"
+                                    "entity": "sensor.peak_wind_speed"
                                 },
                                 {
                                     "entity": "sensor.5in1_wind_gust"

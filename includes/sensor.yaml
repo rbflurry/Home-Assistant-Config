@@ -273,7 +273,6 @@
 - platform: scrape
   name: hcps_status
   resource: https://status.hcpss.org/
-#  select: "span"
   select: "span.status-code"
   scan_interval: 60
   
@@ -336,18 +335,21 @@
   state_topic: 'rtl_433/815/temperature_F'
   name: "PWS 5in1 Temperature"
   device_class: "temperature"
+  state_class: "measurement"
   value_template: "{{(value | float)}}"
   unit_of_measurement: "°F"
 - platform: mqtt
   state_topic: 'rtl_433/815/humidity'
   name: "PWS 5in1 Humidity"
   device_class: "humidity"
+  state_class: "measurement"
   unit_of_measurement: "%"
   value_template: "{{(value | float)}}"
 - platform: mqtt
   state_topic: 'rtl_433/815/rain_in'
   name: "PWS 5in1 Total Rain"
   unit_of_measurement: "in"
+  state_class: "total"
   value_template: "{{(value | float)}}"
   icon: "mdi:water"
   expire_after: 360
@@ -355,6 +357,7 @@
   state_topic: 'rtl_433/815/wind_avg_km_h'
   name: "PWS 5in1 Wind"
   unit_of_measurement: "mph"
+  state_class: "measurement"
   icon: "mdi:weather-windy-variant"
   value_template: "{{((value | float / 1.609) | round(0))}}"
 - platform: mqtt
@@ -386,13 +389,33 @@
   sampling_size: 60 # Enough for 3 readings a minute
   max_age:
     hours: 1
+- platform: statistics
+  name: Peak Wind Speed
+  entity_id: sensor.pws_5in1_wind
+  state_characteristic: value_max
+  sampling_size: 60 # Enough for 3 readings a minute
+  max_age:
+    hours: 1
+- platform: statistics
+  name: Average Wind Speed
+  entity_id: sensor.pws_5in1_wind
+  state_characteristic: mean
+  sampling_size: 60 # Enough for 3 readings a minute
+  max_age:
+    minutes: 2
 
 - platform: template
   sensors:
     template_rain_since_midnight:
       friendly_name: "Rain since midnight"
       unit_of_measurement: 'in'
-      value_template: "{{ ((states('sensor.pws_5in1_Total_Rain') | float(0)) - (states('sensor.rain_at_midnight') | float(0))) | round(2) }}"   
+      value_template: "{{ ((states('sensor.pws_5in1_Total_Rain') | float(0)) - (states('sensor.rain_at_midnight') | float(0))) | round(2) }}"
+    template_pws_5in1_weather_wind_dir:
+      friendly_name: PWS 5in1 Wind Direction True
+      value_template: >
+        {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
+        {% set degree = states('sensor.pws_5in1_wind_direction')|float %}
+        {{ direction[((degree+11.25)/22.5)|int] }}
 
 
 
