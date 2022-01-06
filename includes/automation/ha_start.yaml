@@ -16,7 +16,7 @@
             {%- if closed_loop.first %}Running:  {% elif closed_loop.last %} and {% else %} {% endif -%}
               {{state_attr(entity, 'friendly_name')}}
             {%- endif %}
-          {%- endfor %}
+          {%- endfor -%}
        
           {% for entity in states.group.processes.attributes.entity_id if is_state(entity, 'off')-%}
           {% set open_loop = loop %}

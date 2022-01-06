@@ -30,12 +30,12 @@ uart:
   baud_rate: 9600
 
 # Optional (if you want modify settings)
-midea_dongle:
+#midea_dongle:
 
 
 # Main settings
 climate:
-  - platform: midea_ac
+  - platform: midea
     name: "Bed Room"
     visual:
       min_temperature: 60 °F

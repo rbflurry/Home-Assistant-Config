@@ -128,11 +128,22 @@
       - telegram_group
       
       
-  chicken_sensorpod:
+  blue_iris_running:
     name: Blue Iris Is not running
-    done_message: Blue Iris Is not running
+    done_message: Blue Iris Is running
     entity_id: binary_sensor.template_blue_iris_running
     state: "off"
+    repeat: 10
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - telegram_group
+      
+  weather_station:
+    name: Weather station is down
+    done_message: weather station is up
+    entity_id: sensor.pws_5in1_temperature
+    state: "unavailable"
     repeat: 10
     can_acknowledge: True
     skip_first: True
