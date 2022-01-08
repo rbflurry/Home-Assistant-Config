@@ -23,7 +23,7 @@
     template_disk_space:
       value_template: '{{states.sensor.disk_use_percent.state |int > 90}}'
     template_blue_iris_running:
-      value_template: '{{ is_state("sensor.blueiris", "running")}}'
+      value_template: '{{ is_state("sensor.blueiris", "running") or is_state("sensor.blueiris", "starting")}}'
 - platform: trend
   sensors:
     house_temperature_up:
