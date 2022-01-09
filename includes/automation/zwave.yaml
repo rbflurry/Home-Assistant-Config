@@ -1,0 +1,10 @@
+- alias: Time - Refresh Z-wave Devices
+  id: ba62970a-c2d8-4c0a-af0c-99645b62029f
+  trigger:
+    - platform: time_pattern
+      minutes: /5
+  condition: []
+  action:
+    - service: zwave_js.refresh_value
+      data:
+        entity_id: switch.wink_basement

@@ -1,0 +1,110 @@
+alert_ack_delay:
+  sequence:
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: alert.turn_on
+    data:
+      entity_id: '{{ states.alert|selectattr(''state'',''eq'',''off'')|map(attribute=''entity_id'')|join('','')
+        }}
+
+        '
+  mode: single
+  alias: alert-ack-delay
+alert_ack_all:
+  alias: alert-ack-all
+  sequence:
+  - service: alert.turn_off
+    data:
+      entity_id: '{{ states.alert|selectattr(''state'',''eq'',''on'')|map(attribute=''entity_id'')|join('','')
+        }}
+
+        '
+  mode: single
+test_light:
+  alias: testlight
+  sequence:
+  - service: homeassistant.turn_on
+    entity_id: light.basement
+    data:
+      brightness: 250
+  - service: homeassistant.turn_on
+    entity_id: light.basement
+    data:
+      brightness: 200
+  - service: homeassistant.turn_on
+    entity_id: light.basement
+    data:
+      brightness: 150
+  - service: homeassistant.turn_on
+    entity_id: light.basement
+    data:
+      brightness: 100
+  - service: homeassistant.turn_on
+    entity_id: light.basement
+    data:
+      brightness: 50
+  - service: homeassistant.turn_on
+    entity_id: light.basement
+    data:
+      brightness: 1
+request_location:
+  alias: Request iOS location
+  sequence:
+  - service: notify.mobile_app_ryan_iphone
+    data:
+      message: request_location_update
+test_script:
+  alias: test wait
+  sequence:
+  - service: notify.mobile_app_ryan_iphone
+    data:
+      message: before wait is state
+  - wait_template: '{{is_state(''input_boolean.test'', ''on'')}}'
+    timeout: 00:01:00
+  - service: notify.mobile_app_ryan_iphone
+    data:
+      message: after wait is state
+timed_basement_lamp:
+  alias: Turn on basement and set timer
+  sequence:
+  - service: homeassistant.turn_on
+    entity_id: switch.wink_basement
+  - service: script.turn_off
+    entity_id: script.timer_basement_off
+  - service: script.turn_on
+    entity_id: script.timer_basement_off
+timer_basement_off:
+  alias: Turn off basement after 10 minutes
+  sequence:
+  - delay:
+      minutes: 10
+  - service: homeassistant.turn_off
+    entity_id: switch.wink_basement
+create_every_light_group:
+  sequence:
+  - service: group.set
+    data:
+      object_id: 'group.all_lights:'
+      entities: '{{ states.light |  map(attribute=''entity_id'') | join('','') }}
+
+        '
+create_every_automation_group:
+  sequence:
+  - service: group.set
+    data:
+      object_id: 'group.all_automations:'
+      entities: '{{ states.automation |  map(attribute=''entity_id'') | join('','')
+        }}
+
+        '
+create_every_switch_group:
+  sequence:
+  - service: group.set
+    data:
+      object_id: group.switches
+      entities: '{{ states.switch |  map(attribute=''entity_id'') | join('','') }}
+
+        '

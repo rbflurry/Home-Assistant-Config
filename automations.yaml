@@ -104,3 +104,47 @@
     target:
       entity_id: switch.esp11
   mode: single
+- id: '1641653770665'
+  alias: alert-ack-home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: person.ryan
+    from: not_home
+    to: home
+  condition: []
+  action:
+  - service: alert.turn_on
+    data:
+      entity_id: '{{ states.alert|selectattr(''state'',''eq'',''off'')|map(attribute=''entity_id'')|join('','')
+        }}
+
+        '
+  - service: automation.turn_off
+    target:
+      entity_id:
+      - automation.alert_ack_home
+  mode: single
+- id: '1641654143724'
+  alias: alert-ack-morn
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.fry_battery_state
+    from: Charging
+    to: Not Charging
+  condition:
+  - condition: time
+    after: 05:00:00
+    before: '11:00:00'
+  action:
+  - service: alert.turn_on
+    data:
+      entity_id: '{{ states.alert|selectattr(''state'',''eq'',''off'')|map(attribute=''entity_id'')|join('','')
+        }}
+
+        '
+  - service: automation.turn_off
+    target:
+      entity_id: automation.alert_ack_morn
+  mode: single

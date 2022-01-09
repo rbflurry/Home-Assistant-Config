@@ -149,7 +149,7 @@ notify: !include includes/notify.yaml
 panel_iframe: !include includes/iframe.yaml
 recorder: !include includes/recorder.yaml
 scene: !include includes/scene.yaml
-script: !include includes/scripts.yaml
+script: !include scripts.yaml
 sensor templates: !include includes/sensor_templates.yaml
 sensor: !include includes/sensor.yaml
 switch: !include includes/switch.yaml

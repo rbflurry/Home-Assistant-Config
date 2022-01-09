@@ -25,6 +25,19 @@
       entity_id: switch.sensornode2_relay1
     - service: homeassistant.toggle
       entity_id: input_boolean.chicken_pen_door_status
+      
+- alias: Chicken - Turn off Chicken door last call after 2 minute
+  id: b191c1f7-c3df-43c0-a3b5-b42494664c78
+  initial_state: true
+  trigger:
+   platform: state
+   entity_id: input_boolean.chicken_door_last_call, input_boolean.chicken_door_automations
+   to: 'on'
+   for:
+     minutes: 2
+  action:
+    - service: homeassistant.turn_off
+      entity_id: "{{ trigger.entity_id }}"    
           
           
 - alias: Chicken -  Send Message on chicken coop state changes
@@ -226,7 +239,8 @@
       data: 
         entity_id: >-
           {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.4chpro_2, input_boolean.chicken_door_automations
-          {% else %} light.null
+          {% else %} input_boolean.fake
+          # dont put none here, it doesnt work.
           {% endif %}
     - condition: state
       entity_id: cover.chicken_door
@@ -436,7 +450,7 @@
     - service: homeassistant.turn_off
       entity_id: switch.sensornode2_relay2
       
-      
+
 - alias: Chicken Pen - Lockout Enable
   id: 7bb93c46-7385-4032-9d0f-1b7a45b6d03d
   initial_state: true

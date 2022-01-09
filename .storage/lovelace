@@ -218,6 +218,56 @@
                     "title": "Home"
                 },
                 {
+                    "icon": "mdi:fire",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.pws_5in1_temperature"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_humidity"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.home_temperature"
+                                },
+                                {
+                                    "entity": "sensor.home_humidity"
+                                },
+                                {
+                                    "entity": "binary_sensor.house_temperature_up"
+                                },
+                                {
+                                    "entity": "binary_sensor.house_temperature_down"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "switch.esp7"
+                                },
+                                {
+                                    "entity": "input_number.woodstove_timer"
+                                }
+                            ]
+                        },
+                        {
+                            "entity": "climate.woodstove",
+                            "name": "Wood Stove",
+                            "type": "thermostat"
+                        }
+                    ]
+                },
+                {
                     "badges": [],
                     "cards": [
                         {
@@ -238,7 +288,8 @@
                                 "light.wink_ge_link_bulb",
                                 "input_boolean.chicken_light_dimming",
                                 "light.ge_daylight_b1510014_level_on_off",
-                                "input_boolean.cancel_last_call"
+                                "input_boolean.cancel_last_call",
+                                "input_boolean.chickens_need_watering"
                             ],
                             "filter": {
                                 "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
@@ -446,6 +497,9 @@
                                 },
                                 {
                                     "entity": "sensor.basement_humidity"
+                                },
+                                {
+                                    "entity": "switch.wink_basement"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -538,7 +592,7 @@
                                 }
                             ],
                             "show_header_toggle": false,
-                            "title": "Bathrrom"
+                            "title": "Bathroom"
                         }
                     ],
                     "path": "rooms",
@@ -637,11 +691,6 @@
                         {
                             "entity": "climate.home",
                             "type": "thermostat"
-                        },
-                        {
-                            "entity": "climate.woodstove",
-                            "name": "Wood Stove",
-                            "type": "thermostat"
                         }
                     ],
                     "path": "climates",
@@ -677,9 +726,6 @@
                         },
                         {
                             "entities": [
-                                {
-                                    "entity": "device_tracker.ryans_iphone_wifi"
-                                },
                                 {
                                     "entity": "device_tracker.fry"
                                 }
@@ -1228,6 +1274,17 @@
                                 },
                                 {
                                     "entity": "sensor.pws_5in1_total_rain"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.lowest_temp_last_12_hr"
+                                },
+                                {
+                                    "entity": "sensor.highest_temp_last_12_hr"
                                 }
                             ]
                         }

@@ -389,23 +389,37 @@
   name: Local Rain 1 Hours Statistics
   entity_id: sensor.pws_5in1_total_rain
   state_characteristic: change
-  sampling_size: 60 # Enough for 3 readings a minute
+  sampling_size: 2000 # Enough for 3 readings a minute
   max_age:
     hours: 1
 - platform: statistics
   name: Peak Wind Speed
   entity_id: sensor.pws_5in1_wind
   state_characteristic: value_max
-  sampling_size: 60 # Enough for 3 readings a minute
+  sampling_size: 2000 # Enough for 3 readings a minute
   max_age:
     hours: 1
 - platform: statistics
   name: Average Wind Speed
   entity_id: sensor.pws_5in1_wind
   state_characteristic: mean
-  sampling_size: 60 # Enough for 3 readings a minute
+  sampling_size: 2000 # Enough for 3 readings a minute
   max_age:
     minutes: 2
+- platform: statistics
+  name: Lowest temp last 12 hr
+  entity_id: sensor.pws_5in1_temperature
+  state_characteristic: value_min
+  sampling_size: 20000 # Enough for 3 readings a minute
+  max_age:
+    hours: 12
+- platform: statistics
+  name: Highest Temp Last 12 hr
+  entity_id: sensor.pws_5in1_temperature
+  state_characteristic: value_max
+  sampling_size: 20000 # Enough for 3 readings a minute
+  max_age:
+    hours: 12
 
 - platform: template
   sensors:

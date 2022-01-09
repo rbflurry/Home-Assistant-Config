@@ -50,13 +50,20 @@
 #     - condition: state
 #       entity_id: sun.sun
 #       state: 'below_horizon'
-     - condition: state
-       entity_id: switch.wink_basement
-       state: 'off'
+    - condition: state
+      entity_id: switch.wink_basement
+      state: 'off'
 #     - condition: state
 #       entity_id: binary_sensor.still_dark
 #       state: 'on'
   action:
+    - service: zwave_js.refresh_value
+      data:
+        entity_id: switch.wink_basement
+    - delay: 0:00:10
+    - condition: state
+      entity_id: switch.wink_basement
+      state: 'off'
     - service: homeassistant.turn_on
       entity_id: switch.wink_basement
     - service: timer.start
