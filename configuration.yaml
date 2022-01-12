@@ -13,9 +13,9 @@ homeassistant:
   temperature_unit: F
   customize: !include customize.yaml
   customize_domain: {}
-  customize_glob:
-    "automation.*":
-       persistent: true
+  #customize_glob:
+    #"automation.*":
+    #   persistent: true
     # "group.*":
     # "switch.*":
     # "cover.*":
@@ -23,10 +23,10 @@ homeassistant:
     # "script.*":
     # "scene.*":
     # "device_tracker.*":
-    "input_boolean.*":
-      persistent: true
-    "input_number.*":
-      persistent: true
+    #"input_boolean.*":
+    #  persistent: true
+    #"input_number.*":
+    #  persistent: true
   packages: !include_dir_named packages
   auth_providers:
     - type: homeassistant

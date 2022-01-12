@@ -1,0 +1,44 @@
+esphome:
+  name: stove-sensor
+
+esp8266:
+  board: d1_mini
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "fb1e0233bf2e72d3b5b14672ce340ae2"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Stove-Sensor Fallback Hotspot"
+    password: "w3LeA1Fx3Iwt"
+
+captive_portal:
+
+dallas:
+   pin: D4
+   update_interval: 30s
+  
+sensor:
+  - platform: dallas
+    address: 0xF50517A19A43FF28
+    name: "Stove Air Sensor"
+    filters:
+    - lambda: return x * (9.0/5.0) + 32.0;
+    unit_of_measurement: "°F"
+    device_class: "temperature"
+    state_class: "measurement"
+
+  
+switch:
+  - platform: restart
+    name: "ESP Stove Restart"

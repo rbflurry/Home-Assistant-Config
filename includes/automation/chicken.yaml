@@ -37,7 +37,8 @@
      minutes: 2
   action:
     - service: homeassistant.turn_off
-      entity_id: "{{ trigger.entity_id }}"    
+      data_template:
+        entity_id: '{{ trigger.entity_id }}'
           
           
 - alias: Chicken -  Send Message on chicken coop state changes
@@ -240,8 +241,8 @@
         entity_id: >-
           {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.4chpro_2, input_boolean.chicken_door_automations
           {% else %} input_boolean.fake
-          # dont put none here, it doesnt work.
           {% endif %}
+# dont put none here, it doesnt work.
     - condition: state
       entity_id: cover.chicken_door
       state: 'open'  

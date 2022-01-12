@@ -324,7 +324,7 @@
   
 #####################################
 #####################################
-###Weather Sastast
+###Weather Station
 
 - platform: mqtt
   state_topic: 'rtl_433/815/battery_ok'
@@ -355,7 +355,6 @@
   state_class: "total"
   value_template: "{{(value | float)}}"
   icon: "mdi:water"
-  expire_after: 360
 - platform: mqtt
   state_topic: 'rtl_433/815/wind_avg_km_h'
   name: "PWS 5in1 Wind"

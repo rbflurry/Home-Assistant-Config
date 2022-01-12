@@ -29,7 +29,7 @@
       minutes: 5
   - platform: generic_thermostat
     name: woodstove
-    heater: switch.esp6
+    heater: switch.esp7
     target_sensor: sensor.home_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0

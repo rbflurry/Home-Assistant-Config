@@ -7,6 +7,9 @@
             "title": "LilOld",
             "views": [
                 {
+                    "path": "default_view",
+                    "title": "Home",
+                    "icon": "mdi:home",
                     "badges": [
                         {
                             "entity": "sensor.last_successful_authentication"
@@ -112,12 +115,6 @@
                                 },
                                 {
                                     "entity": "input_boolean.fox_hunt"
-                                },
-                                {
-                                    "entity": "switch.esp7"
-                                },
-                                {
-                                    "entity": "input_number.woodstove_timer"
                                 }
                             ],
                             "filter": {
@@ -213,61 +210,12 @@
                             "entities": [],
                             "type": "picture-glance"
                         }
-                    ],
-                    "path": "default_view",
-                    "title": "Home"
-                },
-                {
-                    "icon": "mdi:fire",
-                    "badges": [],
-                    "cards": [
-                        {
-                            "type": "entities",
-                            "entities": [
-                                {
-                                    "entity": "sensor.pws_5in1_temperature"
-                                },
-                                {
-                                    "entity": "sensor.pws_5in1_humidity"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "entities",
-                            "entities": [
-                                {
-                                    "entity": "sensor.home_temperature"
-                                },
-                                {
-                                    "entity": "sensor.home_humidity"
-                                },
-                                {
-                                    "entity": "binary_sensor.house_temperature_up"
-                                },
-                                {
-                                    "entity": "binary_sensor.house_temperature_down"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "entities",
-                            "entities": [
-                                {
-                                    "entity": "switch.esp7"
-                                },
-                                {
-                                    "entity": "input_number.woodstove_timer"
-                                }
-                            ]
-                        },
-                        {
-                            "entity": "climate.woodstove",
-                            "name": "Wood Stove",
-                            "type": "thermostat"
-                        }
                     ]
                 },
                 {
+                    "path": "chicken_coop_view",
+                    "title": "Chicken",
+                    "icon": "mdi:food-drumstick",
                     "badges": [],
                     "cards": [
                         {
@@ -417,10 +365,157 @@
                             "entity": "climate.chicken_water_heater",
                             "step_size": 1,
                             "type": "custom:simple-thermostat"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "automation.chicken_brooder_dim_light_at_sunset"
+                                },
+                                {
+                                    "entity": "automation.chicken_brooder_thermostat"
+                                },
+                                {
+                                    "entity": "automation.chicken_brooder_turn_off_light_at_sunset"
+                                }
+                            ],
+                            "title": "Brooder"
                         }
-                    ],
-                    "path": "chicken_coop_view",
-                    "title": "Chicken"
+                    ]
+                },
+                {
+                    "title": "Weather",
+                    "path": "weather",
+                    "icon": "mdi:sun-snowflake",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.pws_5in1_temperature"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_humidity"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_wind_direction"
+                                },
+                                {
+                                    "entity": "sensor.template_pws_5in1_weather_wind_dir"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_wind"
+                                },
+                                {
+                                    "entity": "sensor.average_wind_speed"
+                                },
+                                {
+                                    "entity": "sensor.peak_wind_speed"
+                                },
+                                {
+                                    "entity": "sensor.5in1_wind_gust"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.lowest_temp_last_12_hr"
+                                },
+                                {
+                                    "entity": "sensor.highest_temp_last_12_hr"
+                                },
+                                {
+                                    "entity": "sensor.trend_outside_temp"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.local_rain_1_hours_statistics"
+                                },
+                                {
+                                    "entity": "sensor.local_rain_24_hours_statistics"
+                                },
+                                {
+                                    "entity": "sensor.template_rain_since_midnight"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_total_rain"
+                                }
+                            ],
+                            "title": "Rain"
+                        },
+                        {
+                            "type": "statistics-graph",
+                            "entities": [
+                                "sensor.pws_5in1_wind",
+                                "sensor.peak_wind_speed"
+                            ],
+                            "days_to_show": 1,
+                            "stat_types": [
+                                "mean"
+                            ],
+                            "chart_type": "line"
+                        }
+                    ]
+                },
+                {
+                    "icon": "mdi:fire",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.pws_5in1_temperature"
+                                },
+                                {
+                                    "entity": "sensor.pws_5in1_humidity"
+                                },
+                                {
+                                    "entity": "sensor.trend_outside_temp"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "sensor.home_temperature"
+                                },
+                                {
+                                    "entity": "sensor.home_humidity"
+                                },
+                                {
+                                    "entity": "sensor.trend_inside_temp"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "switch.esp7"
+                                },
+                                {
+                                    "entity": "input_number.woodstove_timer"
+                                },
+                                {
+                                    "entity": "sensor.stove_air_sensor"
+                                }
+                            ]
+                        },
+                        {
+                            "entity": "climate.woodstove",
+                            "name": "Wood Stove",
+                            "type": "thermostat"
+                        }
+                    ]
                 },
                 {
                     "cards": [
@@ -644,12 +739,6 @@
                                     "entity": "binary_sensor.climate_fan"
                                 },
                                 {
-                                    "entity": "sensor.lil_bee_temperature"
-                                },
-                                {
-                                    "entity": "binary_sensor.lil_bee_occupancy"
-                                },
-                                {
                                     "entity": "sensor.home_temperature"
                                 },
                                 {
@@ -657,6 +746,12 @@
                                 },
                                 {
                                     "entity": "sensor.home_humidity"
+                                },
+                                {
+                                    "entity": "sensor.lil_bee_temperature"
+                                },
+                                {
+                                    "entity": "binary_sensor.lil_bee_occupancy"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -678,10 +773,7 @@
                                     "entity": "sensor.history_climate_aux_heat_on_today"
                                 },
                                 {
-                                    "entity": "binary_sensor.house_temperature_up"
-                                },
-                                {
-                                    "entity": "binary_sensor.house_temperature_down"
+                                    "entity": "sensor.trend_inside_temp"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -798,9 +890,6 @@
                                 },
                                 {
                                     "entity": "binary_sensor.lil_bee_occupancy"
-                                },
-                                {
-                                    "entity": "binary_sensor.wink_md1_motion"
                                 }
                             ],
                             "show_header_toggle": false,
@@ -820,6 +909,8 @@
                     "title": "Doors"
                 },
                 {
+                    "title": "Camper",
+                    "icon": "mdi:rv-truck",
                     "badges": [],
                     "cards": [
                         {
@@ -842,8 +933,7 @@
                             ],
                             "type": "entities"
                         }
-                    ],
-                    "title": "Camper"
+                    ]
                 },
                 {
                     "badges": [
@@ -899,19 +989,6 @@
                             ],
                             "show_header_toggle": false,
                             "title": "Trash & Recycle",
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                "input_number.auto_light_minutes",
-                                "sensor.auto_light_minutes",
-                                "input_number.auto_light_duration",
-                                "sensor.auto_light_duration",
-                                "sensor.auto_light_start",
-                                "sensor.auto_light_stop"
-                            ],
-                            "show_header_toggle": false,
-                            "title": "Timer Light",
                             "type": "entities"
                         }
                     ],
@@ -1230,65 +1307,6 @@
                     "icon": "mdi:battery-alert",
                     "path": "battery_view",
                     "title": "Batteries"
-                },
-                {
-                    "title": "Weather",
-                    "path": "weather",
-                    "badges": [],
-                    "cards": [
-                        {
-                            "type": "entities",
-                            "entities": [
-                                {
-                                    "entity": "sensor.pws_5in1_temperature"
-                                },
-                                {
-                                    "entity": "sensor.pws_5in1_humidity"
-                                },
-                                {
-                                    "entity": "sensor.pws_5in1_wind_direction"
-                                },
-                                {
-                                    "entity": "sensor.template_pws_5in1_weather_wind_dir"
-                                },
-                                {
-                                    "entity": "sensor.pws_5in1_wind"
-                                },
-                                {
-                                    "entity": "sensor.average_wind_speed"
-                                },
-                                {
-                                    "entity": "sensor.peak_wind_speed"
-                                },
-                                {
-                                    "entity": "sensor.5in1_wind_gust"
-                                },
-                                {
-                                    "entity": "sensor.local_rain_1_hours_statistics"
-                                },
-                                {
-                                    "entity": "sensor.local_rain_24_hours_statistics"
-                                },
-                                {
-                                    "entity": "sensor.template_rain_since_midnight"
-                                },
-                                {
-                                    "entity": "sensor.pws_5in1_total_rain"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "entities",
-                            "entities": [
-                                {
-                                    "entity": "sensor.lowest_temp_last_12_hr"
-                                },
-                                {
-                                    "entity": "sensor.highest_temp_last_12_hr"
-                                }
-                            ]
-                        }
-                    ]
                 }
             ]
         }

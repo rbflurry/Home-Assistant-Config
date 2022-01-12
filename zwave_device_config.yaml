@@ -1,6 +1,0 @@
-switch.kitchen_extra:
-  ignored: false
-  polling_intensity: 0
-switch.wink_back_flood:
-  ignored: false
-  polling_intensity: 0

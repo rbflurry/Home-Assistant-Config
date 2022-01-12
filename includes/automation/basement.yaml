@@ -60,7 +60,7 @@
     - service: zwave_js.refresh_value
       data:
         entity_id: switch.wink_basement
-    - delay: 0:00:10
+    - delay: 0:00:05
     - condition: state
       entity_id: switch.wink_basement
       state: 'off'

@@ -658,3 +658,42 @@
         # friendly_name: 'DashBoardTime'
         # value_template: >
             # {{ as_timestamp(strptime(states.sensor.date_time_iso.state, "%Y-%m-%d")) | timestamp_custom("%A %B %d, %-I:%M%p") }}
+            
+            
+            
+- platform: template
+  sensors:
+    trend_outside_temp:
+      value_template: >-
+          {% if is_state('binary_sensor.trend_outside_temperature_down', 'on') %}
+            Cooling
+          {% elif is_state('binary_sensor.trend_outside_temperature_up', 'on') %}
+            Warming
+          {% else %}
+            Steady
+          {% endif %}
+      icon_template: >
+          {% if is_state('binary_sensor.trend_outside_temperature_down', 'on') %}
+            mdi:snowflake-alert
+          {% elif is_state('binary_sensor.trend_outside_temperature_up', 'on') %}
+            mdi:sun-thermometer-outline
+          {% else %}
+            mdi:lightning-bolt-outline
+          {% endif %}
+    trend_inside_temp:
+      value_template: >-
+          {% if is_state('binary_sensor.trend_house_temperature_down', 'on') %}
+            Cooling
+          {% elif is_state('binary_sensor.trend_house_temperature_up', 'on') %}
+            Warming
+          {% else %}
+            Steady
+          {% endif %}
+      icon_template: >
+          {% if is_state('binary_sensor.trend_house_temperature_down', 'on') %}
+            mdi:snowflake-alert
+          {% elif is_state('binary_sensor.trend_house_temperature_up', 'on') %}
+            mdi:sun-thermometer-outline
+          {% else %}
+            mdi:lightning-bolt-outline
+          {% endif %}
