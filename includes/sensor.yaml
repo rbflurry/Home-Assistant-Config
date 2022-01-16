@@ -331,7 +331,7 @@
   name: "PWS 5in1 Battery"
   device_class: "battery"
   value_template: "{{value | int * 100}}"
-  expire_after: 1800
+  expire_after: 3600
 - platform: mqtt
   state_topic: 'rtl_433/815/temperature_F'
   name: "PWS 5in1 Temperature"
@@ -339,7 +339,7 @@
   state_class: "measurement"
   value_template: "{{(value | float)}}"
   unit_of_measurement: "°F"
-  expire_after: 1800
+  expire_after: 3600
 - platform: mqtt
   state_topic: 'rtl_433/815/humidity'
   name: "PWS 5in1 Humidity"
@@ -347,7 +347,7 @@
   state_class: "measurement"
   unit_of_measurement: "%"
   value_template: "{{(value | float)}}"
-  expire_after: 1800
+  expire_after: 3600
 - platform: mqtt
   state_topic: 'rtl_433/815/rain_in'
   name: "PWS 5in1 Total Rain"

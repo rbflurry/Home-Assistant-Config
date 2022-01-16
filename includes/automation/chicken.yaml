@@ -29,6 +29,7 @@
 - alias: Chicken - Turn off Chicken door last call after 2 minute
   id: b191c1f7-c3df-43c0-a3b5-b42494664c78
   initial_state: true
+  mode: parallel
   trigger:
    platform: state
    entity_id: input_boolean.chicken_door_last_call, input_boolean.chicken_door_automations

@@ -45,7 +45,7 @@
   action:
   - service: light.turn_on
     data:
-      effect: rainbow
+      effect: Sunrise
     target:
       entity_id: light.bed_wled
   - service: light.turn_on

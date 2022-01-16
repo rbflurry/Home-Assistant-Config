@@ -1,6 +1,6 @@
   chicken_door:
     name: Chicken Door is open after dark
-    message: Chicken Door is open after dark /ack_hour /ack_home /ack_morn
+    message: Chicken Door is open after dark /ack
     done_message: 'Alert Clear: Chicken Door is closed'
     entity_id: binary_sensor.chicken_door_after_dark
     repeat: 
@@ -13,7 +13,7 @@
       
   chicken_pen:
     name: Chicken Pen is open after dark
-    message: Chicken Pen is open after dark /ack_hour /ack_home /ack_morn
+    message: Chicken Pen is open after dark /ack
     done_message: 'Alert Clear: Chicken Pen is closed'
     entity_id: binary_sensor.chicken_pen_after_dark
     repeat: 
@@ -26,7 +26,7 @@
       
   chicken_door_still_closed:
     name: Chicken Door is still closed
-    message: Chicken Door is still closed /ack_hour /ack_home /ack_morn
+    message: Chicken Door is still closed /ack
     done_message: Chicken Door Is now Open
     entity_id: binary_sensor.chicken_door_after_open
     repeat: 10
@@ -37,7 +37,7 @@
       
   garage_ap:
     name: Garage AP is down
-    message: Garage AP is down /ack_hour /ack_home /ack_morn
+    message: Garage AP is down /ack
     done_message: Garage AP is up
     entity_id: device_tracker.0418d64e51d2
     state: 'not_home'
@@ -49,7 +49,7 @@
       
   disk_space:
     name: Disk is full
-    message: Disk is full /ack_hour /ack_home /ack_morn
+    message: Disk is full /ack
     done_message: Disk is clear
     entity_id: binary_sensor.template_disk_space
     repeat: 10
@@ -60,7 +60,7 @@
       
   chicken_sensorpod:
     name: Chicken Sensor Pod is down
-    message: Chicken Sensor Pod is down /ack_hour /ack_home /ack_morn
+    message: Chicken Sensor Pod is down /ack
     done_message: Chicken Sensor Pod is up
     entity_id: sensor.sn2_availablilty
     state: "Offline"
@@ -72,7 +72,7 @@
       
   sensorpod_3:
     name: Sensor Pod 3 is down
-    message: Sensor Pod 3 is down /ack_hour /ack_home /ack_morn
+    message: Sensor Pod 3 is down /ack
     done_message: Sensor Pod 3 is up
     entity_id: sensor.sn3_availablilty
     state: 'offline'
@@ -84,7 +84,7 @@
       
   certificate:
     name: Cert is expiring
-    message: Cert is expiring /ack_hour /ack_home /ack_morn
+    message: Cert is expiring /ack
     entity_id: sensor.template_cert_internal
     state: 'on'
     repeat: 180
@@ -101,7 +101,7 @@
     can_acknowledge: True
     skip_first: False
     title: "{{states.calendar.us_dogs.attributes.message}}"
-    message: "{{states.calendar.us_dogs.attributes.message}} /ack_hour /ack_home /ack_morn "
+    message: "{{states.calendar.us_dogs.attributes.message}} /ack "
     notifiers:
       - telegram_group
 
@@ -113,7 +113,7 @@
     can_acknowledge: True
     skip_first: False
     title: "{{states.calendar.us_chores.attributes.message}}"
-    message: "{{states.calendar.us_chores.attributes.message}} /ack_hour /ack_home /ack_morn"
+    message: "{{states.calendar.us_chores.attributes.message}} /ack"
     notifiers:
       - telegram_group
 
@@ -130,7 +130,7 @@
       
   zigbee:
     name: Zigbee Down
-    message: Zigbee Down /ack_hour /ack_home /ack_morn
+    message: Zigbee Down /ack
     done_message: Zigbee is now up
     entity_id:  binary_sensor.zigbee_online
     state: 'off'
@@ -143,7 +143,7 @@
       
   blue_iris_running:
     name: Blue Iris Is not running
-    message: Blue Iris Is not running /ack_hour /ack_home /ack_morn
+    message: Blue Iris Is not running /ack
     done_message: Blue Iris Is running
     entity_id: binary_sensor.template_blue_iris_running
     state: "off"
@@ -155,11 +155,11 @@
       
   weather_station:
     name: Weather station is down
-    message: Weather station is down /ack_hour /ack_home /ack_morn
+    message: Weather station is down /ack
     done_message: weather station is up
     entity_id: sensor.pws_5in1_temperature
     state: "unavailable"
-    repeat: 10
+    repeat: 30
     can_acknowledge: True
     skip_first: True
     notifiers:
@@ -167,7 +167,7 @@
     
   water_chickens:
     name: Chickens need watering
-    message: Chickens need watering /ack_hour /ack_home /ack_morn
+    message: Chickens need watering /ack
     done_message: Thank you for watering the chickens
     entity_id: input_boolean.chickens_need_watering
     state: "on"
