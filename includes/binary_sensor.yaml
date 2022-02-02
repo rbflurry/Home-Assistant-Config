@@ -45,6 +45,15 @@
       entity_id: sensor.pws_5in1_temperature
       device_class: cold
       invert: Yes
+    trend_stove_temperature_up:
+      friendly_name: 'Stove Temp increasing'
+      entity_id: sensor.stove_air_sensor
+      device_class: heat
+    trend_stove_temperature_down:
+      friendly_name: 'Stove Temp decreasing'
+      entity_id: sensor.stove_air_sensor
+      device_class: cold
+      invert: Yes
       
 #######################################################
 ## blue iris
@@ -93,3 +102,40 @@
   payload_on: 1
   payload_off: 0
   
+
+
+- platform: bayesian
+  prior: 0.5
+  name: 'Bayesian Sleeping'
+  probability_threshold: 0.85
+  observations:
+      - entity_id: 'group.device_family'
+        prob_given_true: 0.99
+        prob_given_false: 0.5
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'sun.sun'
+        prob_given_true: 0.9
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'below_horizon'
+      - entity_id: 'group.indoor_lights'
+        prob_given_true: 0.9
+        prob_given_false: 0.4
+        platform: 'state'
+        to_state: 'off'
+      # - entity_id: 'sensor.coffeemaker'
+        # prob_given_true: 0.8
+        # prob_given_false: 0.4
+        # platform: 'state'
+        # to_state: 'Ready'
+      # - entity_id: 'variable.last_motion'
+        # prob_given_true: 0.9
+        # prob_given_false: 0.3
+        # platform: 'state'
+        # to_state: 'Bathroom Motion'
+      - entity_id: 'sensor.fry_battery_state'
+        prob_given_true: 0.95
+        prob_given_false: 0.5
+        platform: 'state'
+        to_state: 'charging'

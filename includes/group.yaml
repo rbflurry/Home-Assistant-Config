@@ -34,6 +34,11 @@ indoor_lights:
     - light.bed_wled
     - light.sengled_e11_g13_035cb3f8_1
     - light.sengled_e11_g13_035c3bc7_1
+    - light.jasco_products_14294_in_wall_smart_dimmer_level
+    - light.bed_room_overhead_1_0359a396
+    - light.bed_room_overhead_2_07825c03_level_on_off
+    - light.bed_room_overhead_3_08385c03_level_on_off
+    - light.bed_room_overhead_zha_group_0x0003
   
 outdoor_lights:
   name: Outdoor Lights

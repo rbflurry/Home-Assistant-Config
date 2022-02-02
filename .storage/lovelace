@@ -219,6 +219,56 @@
                     "badges": [],
                     "cards": [
                         {
+                            "type": "markdown",
+                            "content": "Last Water: {{   relative_time(as_datetime((state_attr('input_datetime.chicken_last_water', 'timestamp')))) }}\nLast Fed: {{   relative_time(as_datetime((state_attr('input_datetime.chicken_last_feed', 'timestamp')))) }}\nLast Eggs: {{   relative_time(as_datetime((state_attr('input_datetime.chicken_last_eggs', 'timestamp')))) }}"
+                        },
+                        {
+                            "type": "horizontal-stack",
+                            "cards": [
+                                {
+                                    "type": "button",
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "automation.trigger",
+                                        "service_data": {},
+                                        "target": {
+                                            "entity_id": "automation.tag_chicken_water_is_scanned"
+                                        }
+                                    },
+                                    "name": "Water the Chickens",
+                                    "icon": "mdi:cup-water"
+                                },
+                                {
+                                    "type": "button",
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "automation.trigger",
+                                        "service_data": {},
+                                        "target": {
+                                            "entity_id": "automation.tag_chicken_eggs_is_scanned"
+                                        }
+                                    },
+                                    "show_state": false,
+                                    "show_icon": true,
+                                    "name": "Egg the Chickens",
+                                    "icon": "mdi:egg"
+                                },
+                                {
+                                    "type": "button",
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "automation.trigger",
+                                        "service_data": {},
+                                        "target": {
+                                            "entity_id": "automation.tag_chicken_feed_is_scanned"
+                                        }
+                                    },
+                                    "name": "Feed the Chickens",
+                                    "icon": "mdi:food-apple"
+                                }
+                            ]
+                        },
+                        {
                             "card": {
                                 "show_header_toggle": false,
                                 "title": "Chicken Controls",
@@ -243,7 +293,13 @@
                                 "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
                             },
                             "show_empty": true,
-                            "sort": "none",
+                            "sort": {
+                                "0": "n",
+                                "1": "o",
+                                "2": "n",
+                                "3": "e",
+                                "method": "none"
+                            },
                             "type": "custom:auto-entities"
                         },
                         {

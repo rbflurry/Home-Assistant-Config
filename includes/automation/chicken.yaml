@@ -389,7 +389,7 @@
    
 - alias: Chicken -  Brooder turn off light at sunset
   id: 513c0b0d-4f5e-43f0-a931-c68dc18698a2
-  initial_state: False
+#  initial_state: False
   trigger:
    - platform: sun
      event: sunset
@@ -414,7 +414,7 @@
 
 - alias: Chicken - Brooder Thermostat
   id: 045a5268-6b17-4e56-aa8a-2b3de7ce64c0
-  initial_state: True
+#  initial_state: True
   trigger:
     - platform: state
       entity_id: sensor.brooder_target_temp

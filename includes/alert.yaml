@@ -176,3 +176,16 @@
     #skip_first: True
     notifiers:
       - telegram_group
+      
+  node_red_dead:
+    name: Node Red is Dead
+    message: Node Red is Dead /ack
+    done_message: Node Red is Alive
+    entity_id: input_boolean.node_red_dead
+    state: "on"
+    repeat: 30
+    can_acknowledge: True
+    #skip_first: True
+    notifiers:
+      - telegram_group
+      

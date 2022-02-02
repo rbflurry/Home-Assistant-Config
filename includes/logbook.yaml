@@ -42,3 +42,4 @@
       - sensor.template_pws_5in1_weather_wind_dir
       - binary_sensor.sn2_reed
       - automation.time_refresh_z_wave_devices
+      - input_boolean.node_red_status

@@ -44,13 +44,19 @@
   condition: []
   action:
   - service: light.turn_on
+    target:
+      entity_id: light.bed_wled
+    data:
+      effect: solid
+      rgb_color:
+      - 0
+      - 0
+      - 0
+  - service: light.turn_on
     data:
       effect: Sunrise
     target:
       entity_id: light.bed_wled
-  - service: light.turn_on
-    data: {}
-    entity_id: light.bed_wled
   - service: number.set_value
     target:
       entity_id: number.bed_wled_intensity
@@ -148,3 +154,87 @@
     target:
       entity_id: automation.alert_ack_morn
   mode: single
+- id: '1643123848197'
+  alias: Node Red is dead
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.node_red_status
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.node_red_dead
+  mode: single
+- id: '1643221820085'
+  alias: Tag chicken_feed is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 0921efce-ba6f-424a-a388-8980017719fc
+  condition: []
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.chicken_last_feed
+    data:
+      timestamp: '{{ now().timestamp() }}'
+  mode: single
+- id: '1643221841875'
+  alias: Tag chicken_eggs is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: f0cd9b85-9025-47f9-b951-b0710160b686
+  condition: []
+  action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.chicken_last_eggs
+    data:
+      timestamp: '{{ now().timestamp() }}'
+  mode: single
+- id: '1643221855990'
+  alias: Tag chicken_water is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 488a6b96-4fe3-4521-a63e-d40b9b552e33
+  condition: []
+  action:
+  - service: input_datetime.set_datetime
+    data:
+      timestamp: '{{ now().timestamp() }}'
+    target:
+      entity_id: input_datetime.chicken_last_water
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.chickens_need_watering
+  mode: single
+- id: '1643722988108'
+  alias: Turn off upstairs heat after 2 hours
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ is_state(''climate.bed_room'', ''heat'') or is_state(''climate.bed_room'',
+      ''unavailable'') }}'
+    for:
+      hours: 2
+  - platform: template
+    value_template: '{{ is_state(''climate.craft_room'', ''heat'') or is_state(''climate.craft_room'',
+      ''unavailable'') }}'
+    for:
+      hours: 2
+  condition: []
+  action:
+  - service: climate.turn_off
+    target:
+      entity_id:
+      - climate.bed_room
+      - climate.craft_room
+  mode: parallel
+  max: 10
