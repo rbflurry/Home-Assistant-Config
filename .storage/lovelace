@@ -10,11 +10,7 @@
                     "path": "default_view",
                     "title": "Home",
                     "icon": "mdi:home",
-                    "badges": [
-                        {
-                            "entity": "sensor.last_successful_authentication"
-                        }
-                    ],
+                    "badges": [],
                     "cards": [
                         {
                             "card": {
@@ -78,9 +74,6 @@
                                     "entity": "switch.wink_basement"
                                 },
                                 {
-                                    "entity": "switch.wink_zwaveoutlet"
-                                },
-                                {
                                     "entity": "switch.esp2"
                                 },
                                 {
@@ -88,9 +81,6 @@
                                 },
                                 {
                                     "entity": "switch.on_off_sonoff"
-                                },
-                                {
-                                    "entity": "switch.side_spigot"
                                 },
                                 {
                                     "entity": "switch.circadian_lighting_hallway"
@@ -106,12 +96,6 @@
                                 },
                                 {
                                     "entity": "switch.bathroom_fan"
-                                },
-                                {
-                                    "entity": "switch.centralite_3210_l_0ca5e10a_1"
-                                },
-                                {
-                                    "entity": "switch.esp11"
                                 },
                                 {
                                     "entity": "input_boolean.fox_hunt"
@@ -209,6 +193,32 @@
                             "camera_image": "camera.person_detector_fp",
                             "entities": [],
                             "type": "picture-glance"
+                        },
+                        {
+                            "card": {
+                                "show_header_toggle": false,
+                                "title": "Utilities",
+                                "type": "entities"
+                            },
+                            "entities": [
+                                {
+                                    "entity": "switch.wink_zwaveoutlet"
+                                },
+                                {
+                                    "entity": "switch.side_spigot"
+                                },
+                                {
+                                    "entity": "input_boolean.fox_hunt"
+                                }
+                            ],
+                            "filter": {
+                                "exclude": [
+                                    {
+                                        "state": "una*"
+                                    }
+                                ]
+                            },
+                            "type": "custom:auto-entities"
                         }
                     ]
                 },
@@ -563,6 +573,9 @@
                                 },
                                 {
                                     "entity": "sensor.stove_air_sensor"
+                                },
+                                {
+                                    "entity": "sensor.trend_stove_temp"
                                 }
                             ]
                         },
