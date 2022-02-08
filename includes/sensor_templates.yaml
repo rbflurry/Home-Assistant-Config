@@ -20,7 +20,7 @@
          {% endif %}
      template_cert_internal:
        value_template: >-
-         {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_lilold_westmd_info')) - now().timestamp()) / 86400) | int(100) < 10 }}
+         {{ ((as_timestamp(states('sensor.cert_expiry_timestamp_lilold_westmd_info'),None) - now().timestamp()) / 86400) | int(100) < 10 }}
          
 ###############################################################################
 # Sensor to hold info about current week is an odd week or an even week of the year
@@ -627,8 +627,8 @@
     smoke_status:
         friendly_name: 'Zwave Smoke Status'
         value_template: >
-            {% set alarm = states('sensor.smoke_and_carbon_monoxide_alarm_alarmtype') | float %}
-            {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel') | float %}
+            {% set alarm = states('sensor.smoke_and_carbon_monoxide_alarm_alarmtype') | float(0) %}
+            {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel') | float(0) %}
             {% if alarm == 13 and level == 255 %}
               OK
             {% elif alarm == 1 %}
@@ -641,8 +641,8 @@
               Unknown
             {% endif %}
         icon_template: >
-            {% set alarm = states('sensor.smoke_and_carbon_monoxide_alarm_alarmtype') | float %}
-            {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel') | float %}
+            {% set alarm = states('sensor.smoke_and_carbon_monoxide_alarm_alarmtype') | float(0) %}
+            {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel') | float(0) %}
             {% if alarm == 13 and level == 255 %}
                 mdi:smoke-detector
             {% elif alarm == 1 %}

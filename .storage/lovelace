@@ -111,6 +111,32 @@
                             "type": "custom:auto-entities"
                         },
                         {
+                            "card": {
+                                "show_header_toggle": false,
+                                "title": "Utilities",
+                                "type": "entities"
+                            },
+                            "entities": [
+                                {
+                                    "entity": "switch.wink_zwaveoutlet"
+                                },
+                                {
+                                    "entity": "switch.side_spigot"
+                                },
+                                {
+                                    "entity": "input_boolean.fox_hunt"
+                                }
+                            ],
+                            "filter": {
+                                "exclude": [
+                                    {
+                                        "state": "una*"
+                                    }
+                                ]
+                            },
+                            "type": "custom:auto-entities"
+                        },
+                        {
                             "entity": "weather.my_ws",
                             "type": "weather-forecast"
                         },
@@ -169,56 +195,6 @@
                             ],
                             "show_header_toggle": false,
                             "type": "entities"
-                        },
-                        {
-                            "aspect_ratio": "0%",
-                            "camera_image": "camera.object_detection_driveway",
-                            "entities": [],
-                            "type": "picture-glance"
-                        },
-                        {
-                            "aspect_ratio": "0%",
-                            "camera_image": "camera.person_detector_bd",
-                            "entities": [],
-                            "type": "picture-glance"
-                        },
-                        {
-                            "aspect_ratio": "0%",
-                            "camera_image": "camera.object_detection_coop",
-                            "entities": [],
-                            "type": "picture-glance"
-                        },
-                        {
-                            "aspect_ratio": "0%",
-                            "camera_image": "camera.person_detector_fp",
-                            "entities": [],
-                            "type": "picture-glance"
-                        },
-                        {
-                            "card": {
-                                "show_header_toggle": false,
-                                "title": "Utilities",
-                                "type": "entities"
-                            },
-                            "entities": [
-                                {
-                                    "entity": "switch.wink_zwaveoutlet"
-                                },
-                                {
-                                    "entity": "switch.side_spigot"
-                                },
-                                {
-                                    "entity": "input_boolean.fox_hunt"
-                                }
-                            ],
-                            "filter": {
-                                "exclude": [
-                                    {
-                                        "state": "una*"
-                                    }
-                                ]
-                            },
-                            "type": "custom:auto-entities"
                         }
                     ]
                 },
@@ -512,6 +488,9 @@
                                 },
                                 {
                                     "entity": "sensor.pws_5in1_total_rain"
+                                },
+                                {
+                                    "entity": "sensor.rain_at_midnight"
                                 }
                             ],
                             "title": "Rain"

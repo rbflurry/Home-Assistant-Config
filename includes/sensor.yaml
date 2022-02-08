@@ -352,7 +352,7 @@
   state_topic: 'rtl_433/815/rain_in'
   name: "PWS 5in1 Total Rain"
   unit_of_measurement: "in"
-  state_class: "total"
+  state_class: "total_increasing"
   value_template: "{{(value | float)}}"
   icon: "mdi:water"
 - platform: mqtt

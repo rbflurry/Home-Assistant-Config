@@ -103,7 +103,7 @@ system_health:
 
 
 logger:
- default: info
+ default: warn
  logs:
 #   urllib3.connectionpool: fatal
 #   homeassistant.components.http: debug
@@ -113,15 +113,8 @@ logger:
 #   homeassistant.components.wink: debug
 #   homeassistant.components.notify.ios: debug
    requests.packages.urllib3.connectionpool: fatal
-#  pyicloud.base: debug
-#  homeassistant.components.device_tracker.icloud: debug
    homeassistant.components.camera: error
-#   homeassistant.components.image_processing.openalpr_cloud: debug
-#   homeassistant.components.http.view: warn
-# for v 1.0.0
-#   custom_components.alexa_media: debug  
-# for API debugging (verbose and intended for service debugging)
-#   alexapy: debug
+
 
 ################################################
 ## Component Includes (Merge List)
