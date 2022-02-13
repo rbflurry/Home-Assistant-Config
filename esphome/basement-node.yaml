@@ -31,12 +31,18 @@ binary_sensor:
       mode: INPUT_PULLUP
     name: “Front Door”
     device_class: door
+    filters:
+      - delayed_on: 10ms
+      - delayed_off: 10ms
   - platform: gpio
     pin: 
        number: D6
        mode: INPUT_PULLUP
     name: “Basement Door”
     device_class: door
+    filters:
+      - delayed_on: 10ms
+      - delayed_off: 10ms
 switch:
   - platform: restart
     name: "ESP Basement Restart"

@@ -1,0 +1,125 @@
+esphome:
+  name: traffic-light
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "d83abbba83664d2b1fb66e2ca0c19757"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Traffic-Light Fallback Hotspot"
+    password: "dlTQq387IQUs"
+
+captive_portal:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_1
+    on_press:
+      then:
+        - switch.toggle: green
+
+  - platform: gpio
+    pin:
+      number: GPIO9
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_2
+    on_press:
+      then:
+        - switch.toggle: yellow
+
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_3
+    on_press:
+      then:
+        - switch.toggle: red
+
+  - platform: status
+    name: "T3 Status"
+
+output:
+  - platform: gpio
+    pin: GPIO12
+    id: relay_1
+
+  - platform: gpio
+    pin: GPIO5
+    id: relay_2
+
+  - platform: gpio
+    pin: GPIO4
+    id: relay_3
+
+switch:
+  - platform: output
+    name: "Traffic Light Green"
+    id: green
+    output: relay_1
+
+  - platform: output
+    name: "Traffic Light Yellow"
+    id: yellow
+    output: relay_2
+
+  - platform: output
+    name: "Traffic Light Red"
+    id: red
+    output: relay_3
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: yes
+    
+  
+  
+time:
+  - platform: sntp
+    servers:
+      - 192.168.47.60
+      - 192.168.47.1
+    on_time:
+      # Every Hour on the hour
+      - seconds: 0
+        minutes: 0
+        then:
+          - switch.turn_off: red
+          - switch.turn_off: green
+          - switch.turn_off: yellow
+          - delay: 1s
+          - switch.turn_on: red
+          - delay: 1s
+          - switch.turn_on: yellow
+          - delay: 1s
+          - switch.turn_on: green
+          - delay: 1s
+          - switch.turn_off: red
+          - switch.turn_off: green
+          - switch.turn_off: yellow

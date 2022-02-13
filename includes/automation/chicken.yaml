@@ -1,30 +1,30 @@
-- alias: Chicken - Turn off chicken coop door switch after 13 seconds
-  id: bb4bc7f9-1f7e-45ce-a8eb-1f94b1eb5235
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: switch.sensornode2_relay2
-   to: 'on'
-   for:
-     seconds: 13
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.sensornode2_relay2
+# - alias: Chicken - Turn off chicken coop door switch after 13 seconds
+  # id: bb4bc7f9-1f7e-45ce-a8eb-1f94b1eb5235
+  # initial_state: true
+  # trigger:
+   # platform: state
+   # entity_id: switch.sensornode2_relay2
+   # to: 'on'
+   # for:
+     # seconds: 13
+  # action:
+    # - service: homeassistant.turn_off
+      # entity_id: switch.sensornode2_relay2
       
-- alias: Chicken - Turn off chicken pen door switch after 13 seconds
-  id: 0637c1fb-67da-43d9-8071-cc5e9524bbf4
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: switch.sensornode2_relay1
-   to: 'on'
-   for:
-     seconds: 13
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.sensornode2_relay1
-    - service: homeassistant.toggle
-      entity_id: input_boolean.chicken_pen_door_status
+# - alias: Chicken - Turn off chicken pen door switch after 13 seconds
+  # id: 0637c1fb-67da-43d9-8071-cc5e9524bbf4
+  # initial_state: true
+  # trigger:
+   # platform: state
+   # entity_id: switch.sensornode2_relay1
+   # to: 'on'
+   # for:
+     # seconds: 13
+  # action:
+    # - service: homeassistant.turn_off
+      # entity_id: switch.sensornode2_relay1
+    # - service: homeassistant.toggle
+      # entity_id: input_boolean.chicken_pen_door_status
       
 - alias: Chicken - Turn off Chicken door last call after 2 minute
   id: b191c1f7-c3df-43c0-a3b5-b42494664c78
@@ -433,24 +433,23 @@
   initial_state: true
   trigger:
    platform: state
-   entity_id: switch.sensornode2_relay1
+   entity_id: switch.chicken_pen_switch
    to: 'on'
   action:
     - service: homeassistant.turn_off
-      entity_id: switch.sensornode2_relay1
-      
-      
-      
+      entity_id: switch.chicken_pen_switch
+
+
 - alias: Chicken - Coop Door Lockout
   id: f20b67ec-ecb9-4a6c-9b78-f2f958c1afdc
   initial_state: true
   trigger:
    platform: state
-   entity_id: switch.sensornode2_relay2
+   entity_id: switch.chicken_door_switch
    to: 'on'
   action:
     - service: homeassistant.turn_off
-      entity_id: switch.sensornode2_relay2
+      entity_id: switch.chicken_door_switch
       
 
 - alias: Chicken Pen - Lockout Enable

@@ -313,19 +313,13 @@
                         {
                             "entities": [
                                 {
-                                    "entity": "sensor.sn2_temperature"
+                                    "entity": "sensor.chicken_coop_temperature"
                                 },
                                 {
-                                    "entity": "sensor.sn2_humidity"
+                                    "entity": "sensor.chicken_coop_humidity"
                                 },
                                 {
                                     "entity": "sensor.sn2_real_feel"
-                                },
-                                {
-                                    "entity": "sensor.sn2_availablilty"
-                                },
-                                {
-                                    "entity": "binary_sensor.sn2_reed"
                                 }
                             ],
                             "show_header_toggle": false,

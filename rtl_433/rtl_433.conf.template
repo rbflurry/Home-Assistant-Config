@@ -7,6 +7,7 @@ frequency 433.92M
 report_meta time:tz
 output mqtt://192.168.47.204,retain=1,devices=rtl_433[/id],events=rtl_433/events[/id]
 
+
 # Uncomment the following line to also enable the default "table" output to the
 # addon logs.
 output kv

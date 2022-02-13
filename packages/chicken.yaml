@@ -4,105 +4,105 @@ homeassistant:
       package: 'chicken'
 
 switch:
-    - platform: mqtt
-      name: "sensornode2_relay1"
-      state_topic: "stat/sensornode2/RESULT"
-      value_template: '{{ value_json["POWER1"] }}'
-      command_topic: "cmnd/sensornode2/POWER1"
-      availability_topic: "tele/sensornode2/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
-    - platform: mqtt
-      name: "sensornode2_relay2"
-      state_topic: "stat/sensornode2/RESULT"
-      value_template: '{{ value_json["POWER2"] }}'
-      command_topic: "cmnd/sensornode2/POWER2"
-      availability_topic: "tele/sensornode2/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
+    # - platform: mqtt
+      # name: "sensornode2_relay1"
+      # state_topic: "stat/sensornode2/RESULT"
+      # value_template: '{{ value_json["POWER1"] }}'
+      # command_topic: "cmnd/sensornode2/POWER1"
+      # availability_topic: "tele/sensornode2/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
+    # - platform: mqtt
+      # name: "sensornode2_relay2"
+      # state_topic: "stat/sensornode2/RESULT"
+      # value_template: '{{ value_json["POWER2"] }}'
+      # command_topic: "cmnd/sensornode2/POWER2"
+      # availability_topic: "tele/sensornode2/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
       
       
 cover:
-    - platform: mqtt
-      state_topic: "stat/sensornode2/RESULT"  
-      command_topic: "cmnd/sensornode2/POWER2"
-      name: chicken_door
-      qos: 1
-      retain: true
-      payload_open: "ON"
-      payload_close: "ON"
-      payload_stop: "OFF"
-      state_open: "OFF"
-      state_closed: "ON"
-      optimistic: false
-      value_template: '{{ value_json["POWER3"] }}'
-      availability_topic: "tele/sensornode2/LWT"  
-      payload_available: "Online"
-      payload_not_available: "Offline"
+    # - platform: mqtt
+      # state_topic: "stat/sensornode2/RESULT"  
+      # command_topic: "cmnd/sensornode2/POWER2"
+      # name: chicken_door
+      # qos: 1
+      # retain: true
+      # payload_open: "ON"
+      # payload_close: "ON"
+      # payload_stop: "OFF"
+      # state_open: "OFF"
+      # state_closed: "ON"
+      # optimistic: false
+      # value_template: '{{ value_json["POWER3"] }}'
+      # availability_topic: "tele/sensornode2/LWT"  
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
     - platform: template
       covers:
         chicken_pen:
           friendly_name: "Chicken Pen"
-          value_template: "{{ is_state('input_boolean.chicken_pen_door_status', 'on')  }}"
+          value_template: "{{ is_state('switch.chicken_pen_door_status', 'on')  }}"
           open_cover:
             service: switch.turn_on
             target:
-              entity_id: switch.sensornode2_relay1
+              entity_id: switch.chicken_pen_switch
           close_cover:
             service: switch.turn_on
             target:
-              entity_id: switch.sensornode2_relay1
+              entity_id: switch.chicken_pen_switch
           stop_cover:
             service: homeassistant.toggle
             target:
-              entity_id: input_boolean.chicken_pen_door_status
+              entity_id: switch.chicken_pen_door_status
       
 
 binary_sensor:
-    - platform: mqtt  
-      state_topic: "tele/sensornode2/SENSOR"  
-      name: "SN2 Reed"  
-      value_template: '{{ value_json.Switch3 }}'
-      availability_topic: "tele/sensornode2/LWT"  
-      payload_available: "Online"
-      payload_not_available: "Offline"
+    # - platform: mqtt  
+      # state_topic: "tele/sensornode2/SENSOR"  
+      # name: "SN2 Reed"  
+      # value_template: '{{ value_json.Switch3 }}'
+      # availability_topic: "tele/sensornode2/LWT"  
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
 
 sensor:
-    - platform: mqtt  
-      state_topic: "tele/sensornode2/SENSOR"  
-      name: "SN2 Temperature"
-      icon: 'mdi:temperature-fahrenheit'
-      value_template: "{{ value_json['AM2301'].Temperature | float }}"
-      unit_of_measurement: "°F"
-      availability_topic: "tele/sensornode2/LWT"
-      qos: 1
-      payload_available: "Online"
-      payload_not_available: "Offline"
+    # - platform: mqtt  
+      # state_topic: "tele/sensornode2/SENSOR"  
+      # name: "SN2 Temperature"
+      # icon: 'mdi:temperature-fahrenheit'
+      # value_template: "{{ value_json['AM2301'].Temperature | float }}"
+      # unit_of_measurement: "°F"
+      # availability_topic: "tele/sensornode2/LWT"
+      # qos: 1
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
 
-    - platform: mqtt  
-      state_topic: "tele/sensornode2/SENSOR"  
-      name: "SN2 Humidity"
-      icon: mdi:water-percent
-      value_template: "{{ value_json['AM2301'].Humidity | float }}"
-      unit_of_measurement: "%"
-      availability_topic: "tele/sensornode2/LWT"
-      qos: 1
-      payload_available: "Online"
-      payload_not_available: "Offline"
+    # - platform: mqtt  
+      # state_topic: "tele/sensornode2/SENSOR"  
+      # name: "SN2 Humidity"
+      # icon: mdi:water-percent
+      # value_template: "{{ value_json['AM2301'].Humidity | float }}"
+      # unit_of_measurement: "%"
+      # availability_topic: "tele/sensornode2/LWT"
+      # qos: 1
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
       
-    - platform: mqtt  
-      state_topic: "tele/sensornode2/LWT"  
-      name: "SN2 Availablilty"  
-      payload_available: "Online"
-      payload_not_available: "Offline"
+    # - platform: mqtt  
+      # state_topic: "tele/sensornode2/LWT"  
+      # name: "SN2 Availablilty"  
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
       
       
     - platform: template
@@ -111,8 +111,8 @@ sensor:
           friendly_name: 'SN2 Real Feel'
           unit_of_measurement: '°F'
           value_template: >-
-            {% set T = ((states.sensor.sn2_temperature.state|float(0))) %}
-            {% set RH = states.sensor.sn2_humidity.state|float(0) %}
+            {% set T = ((states.sensor.chicken_coop_temperature.state|float(0))) %}
+            {% set RH = states.sensor.chicken_coop_humidity|float(0) %}
             {% set STEADMAN_HI = 0.5 * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094)) %}
             {% if STEADMAN_HI >= 80 %}
               {% set ROTHFUSZ_HI = -42.379 + 2.04901523*T + 10.14333127*RH - 0.22475541*T*RH - 0.00683783*T*T - 0.05481717*RH*RH + 0.00122874*T*T*RH + 0.00085282*T*RH*RH - 0.00000199*T*T*RH*RH %}
