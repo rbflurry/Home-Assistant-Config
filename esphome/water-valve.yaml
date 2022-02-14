@@ -1,28 +1,11 @@
+substitutions:
+  devicename: water-valve
+  upper_devicename: Water-Valve
+
 esphome:
-  name: water-valve
+  name: ${devicename}
   platform: ESP8266
   board: esp01_1m
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_pass
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Water-Valve Fallback Hotspot"
-    password: !secret wifi_pass
-
-captive_portal:
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-
-ota:
-
-  
   
 binary_sensor:
   - platform: gpio
@@ -73,5 +56,5 @@ switch:
     turn_off_action:
       - light.turn_off: valve_status_light
       - switch.turn_off: relay
-  - platform: restart
-    name: "Side Spigot Restart"
+    
+<<: !include common.yaml

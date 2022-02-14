@@ -1,27 +1,11 @@
+substitutions:
+  devicename: midea-ac-craft
+  upper_devicename: Craft Room
+
 esphome:
-  name: midea-ac-craft
+  name: ${devicename}
   platform: ESP8266
   board: d1_mini
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_pass
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Midea-Ac-Craft Fallback Hotspot"
-    password: !secret wifi_pass
-
-captive_portal:
-
-# Enable Home Assistant API
-api:
-
-ota:
-
-
-
-# Example configuration entry
 
 # Disable logging over UART (required)
 logger:
@@ -33,10 +17,6 @@ uart:
   rx_pin: 1
   baud_rate: 9600
 
-# Optional (if you want modify settings)
-#midea_dongle:
-
-
 # Main settings
 climate:
   - platform: midea
@@ -45,6 +25,4 @@ climate:
       min_temperature: 60 °F
       max_temperature: 80 °F
 
-switch:
-  - platform: restart
-    name: "ESP Midea Craft Restart"
+<<: !include common.yaml

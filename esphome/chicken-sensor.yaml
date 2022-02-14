@@ -1,32 +1,15 @@
+substitutions:
+  devicename: chicken-sensor
+  upper_devicename: Chicken-Sensor
+
 esphome:
-  name: chicken-sensor
-
-esp8266:
+  name: ${devicename}
+  platform: ESP8266
   board: nodemcuv2
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-
-ota:
-  password: "68e6859753bdbf4cb3c04bf5cc311846"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Chicken-Sensor Fallback Hotspot"
-    password: "tRJEeOOclmr9"
-
-captive_portal:
 
 cover:
   - platform: template
-    name: "Chicken Door"
+    name: Chicken Door
     lambda: |-
       if (id(door_status).state) {
         return COVER_OPEN;
@@ -40,13 +23,12 @@ cover:
     stop_action:
       - switch.turn_off: door
 
-
 switch:
   - platform: gpio
     pin:
       number: D1
       inverted: true
-    name: "Chicken Door Switch"
+    name: Chicken Door Switch
     id: door
     on_turn_on:
     - delay: 15000ms
@@ -55,19 +37,16 @@ switch:
     pin:
       number: D5
       inverted: true
-    name: "Chicken Pen Switch"
+    name: Chicken Pen Switch
     id: pen
     on_turn_on:
     - delay: 15000ms
     - switch.turn_off: pen
     - switch.toggle: pen_door_status
-  - platform: restart
-    name: "ESP Chicken Restart"
   - platform: template
-    name: "Chicken Pen Door Status"
+    name: Chicken Pen Door Status
     id: pen_door_status
     optimistic: true
-
 
 binary_sensor:
   - platform: gpio
@@ -75,7 +54,7 @@ binary_sensor:
     pin:
       number: D6
       mode: INPUT_PULLUP
-    name: “Chicken Door”
+    name: Chicken Door
     device_class: door
     filters:
       - delayed_on: 1000ms
@@ -86,20 +65,18 @@ binary_sensor:
       number: D3
       mode: INPUT_PULLUP
       inverted: true
-    name: “Chicken Door Button”
+    name: Chicken Door Button
   - platform: gpio
     pin:
       number: D2
       mode: INPUT_PULLUP
       inverted: true
-    name: “Chicken Pen Button”
-  - platform: status
-    name: "Chicken Sensor"
-
+    name: Chicken Pen Button
 
 sensor:
   - platform: dht
     pin: D4
+    model: AM2302
     temperature:
       name: "Chicken Coop Temperature"
       filters:
@@ -108,7 +85,5 @@ sensor:
     humidity:
       name: "Chicken Coop Humidity"
     update_interval: 60s
-    
-web_server:
-  port: 80
-    
+
+<<: !include common.yaml
