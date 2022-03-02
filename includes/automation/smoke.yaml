@@ -37,15 +37,7 @@
           {{ door }} Triggered at Home
     - service: homeassistant.turn_on
       entity_id: group.indoor_lights
-    - service: climate.set_operation_mode
-      data:
-        entity_id: climate.wink_home, climate.home
-        operation_mode: off
-    - service: climate.set_fan_mode
-      data:
-        entity_id: climate.wink_home, climate.home
-        fan_mode: 'off'
-    - service: climate.set_operation_mode
+    - service: climate.set_hvac_mode
       data:
         entity_id: climate.wink_home, climate.home
         operation_mode: off

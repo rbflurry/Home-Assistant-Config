@@ -7,6 +7,9 @@ esphome:
   platform: ESP8266
   board: d1_mini
 
+packages:
+  device_base: !include common.yaml
+
 binary_sensor:
   - platform: gpio
     pin:
@@ -16,5 +19,3 @@ binary_sensor:
     device_class: door
     filters:
       - invert:
-   
-<<: !include common.yaml

@@ -33,4 +33,5 @@ binary_sensor:
     name: ESP ${upper_devicename} Status
 
 
-#<<: !include common.yaml
+#packages:
+  #device_base: !include common.yaml

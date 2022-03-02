@@ -6,6 +6,9 @@ esphome:
   name: ${devicename}
   platform: ESP8266
   board: d1_mini
+  
+packages:
+  device_base: !include common.yaml
 
 # Disable logging over UART (required)
 logger:
@@ -24,5 +27,3 @@ climate:
     visual:
       min_temperature: 60 °F
       max_temperature: 80 °F
-
-<<: !include common.yaml

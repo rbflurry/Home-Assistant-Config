@@ -6,6 +6,9 @@ esphome:
   name: ${devicename}
   platform: ESP8266
   board: nodemcuv2
+  
+packages:
+  device_base: !include common.yaml
 
 binary_sensor:
   - platform: gpio
@@ -27,4 +30,3 @@ binary_sensor:
       - delayed_on: 10ms
       - delayed_off: 10ms
     
-<<: !include common.yaml

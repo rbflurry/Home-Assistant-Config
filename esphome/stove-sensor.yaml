@@ -6,6 +6,9 @@ esphome:
   name: ${devicename}
   platform: ESP8266
   board: d1_mini
+  
+packages:
+  device_base: !include common.yaml
 
 dallas:
    pin: D4
@@ -20,5 +23,3 @@ sensor:
     unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
-    
-<<: !include common.yaml

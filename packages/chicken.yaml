@@ -3,53 +3,11 @@ homeassistant:
     packages.chicken: &customize
       package: 'chicken'
 
-switch:
-    # - platform: mqtt
-      # name: "sensornode2_relay1"
-      # state_topic: "stat/sensornode2/RESULT"
-      # value_template: '{{ value_json["POWER1"] }}'
-      # command_topic: "cmnd/sensornode2/POWER1"
-      # availability_topic: "tele/sensornode2/LWT"
-      # qos: 1
-      # payload_on: "ON"
-      # payload_off: "OFF"
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      # retain: true
-    # - platform: mqtt
-      # name: "sensornode2_relay2"
-      # state_topic: "stat/sensornode2/RESULT"
-      # value_template: '{{ value_json["POWER2"] }}'
-      # command_topic: "cmnd/sensornode2/POWER2"
-      # availability_topic: "tele/sensornode2/LWT"
-      # qos: 1
-      # payload_on: "ON"
-      # payload_off: "OFF"
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      # retain: true
-      
-      
 cover:
-    # - platform: mqtt
-      # state_topic: "stat/sensornode2/RESULT"  
-      # command_topic: "cmnd/sensornode2/POWER2"
-      # name: chicken_door
-      # qos: 1
-      # retain: true
-      # payload_open: "ON"
-      # payload_close: "ON"
-      # payload_stop: "OFF"
-      # state_open: "OFF"
-      # state_closed: "ON"
-      # optimistic: false
-      # value_template: '{{ value_json["POWER3"] }}'
-      # availability_topic: "tele/sensornode2/LWT"  
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
     - platform: template
       covers:
         chicken_pen:
+          unique_id: template_chicken_pen
           friendly_name: "Chicken Pen"
           value_template: "{{ is_state('switch.chicken_pen_door_status', 'on')  }}"
           open_cover:
@@ -64,6 +22,24 @@ cover:
             service: homeassistant.toggle
             target:
               entity_id: switch.chicken_pen_door_status
+    - platform: template
+      covers:
+        chicken_door:
+          unique_id: template_chicken_door
+          friendly_name: "Chicken Door"
+          value_template: "{{ is_state('switch.chicken_door_status', 'on')  }}"
+          open_cover:
+            service: switch.turn_on
+            target:
+              entity_id: switch.chicken_door_switch
+          close_cover:
+            service: switch.turn_on
+            target:
+              entity_id: switch.chicken_door_switch
+          stop_cover:
+            service: homeassistant.toggle
+            target:
+              entity_id: switch.chicken_door_status
       
 
 binary_sensor:

@@ -37,7 +37,7 @@
       device_class: cold
       invert: Yes
     trend_outside_temperature_up:
-      friendly_name: 'Outdside Temp increasing'
+      friendly_name: 'Outside Temp increasing'
       entity_id: sensor.pws_5in1_temperature
       device_class: heat
     trend_outside_temperature_down:
@@ -135,7 +135,7 @@
         # platform: 'state'
         # to_state: 'Bathroom Motion'
       - entity_id: 'sensor.fry_battery_state'
-        prob_given_true: 0.75
-        prob_given_false: 0.25
+        prob_given_true: 0.25
+        prob_given_false: 0.75
         platform: 'state'
-        to_state: 'charging'
+        to_state: 'Not Charging'

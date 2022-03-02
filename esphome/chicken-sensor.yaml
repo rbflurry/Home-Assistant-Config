@@ -7,21 +7,24 @@ esphome:
   platform: ESP8266
   board: nodemcuv2
 
-cover:
-  - platform: template
-    name: Chicken Door
-    lambda: |-
-      if (id(door_status).state) {
-        return COVER_OPEN;
-      } else {
-        return COVER_CLOSED;
-      }
-    open_action:
-      - switch.turn_on: door
-    close_action:
-      - switch.turn_on: door
-    stop_action:
-      - switch.turn_off: door
+packages:
+  device_base: !include common.yaml
+
+#cover:
+#  - platform: template
+#    name: Chicken Door
+#    lambda: |-
+#      if (id(door_status).state) {
+#        return COVER_OPEN;
+#      } else {
+#        return COVER_CLOSED;
+#      }
+#    open_action:
+#      - switch.turn_on: door
+#    close_action:
+#      - switch.turn_on: door
+#    stop_action:
+#      - switch.turn_off: door
 
 switch:
   - platform: gpio
@@ -31,6 +34,7 @@ switch:
     name: Chicken Door Switch
     id: door
     on_turn_on:
+    - switch.toggle: coop_door_status
     - delay: 15000ms
     - switch.turn_off: door
   - platform: gpio
@@ -40,20 +44,26 @@ switch:
     name: Chicken Pen Switch
     id: pen
     on_turn_on:
+    - switch.toggle: pen_door_status
     - delay: 15000ms
     - switch.turn_off: pen
-    - switch.toggle: pen_door_status
   - platform: template
     name: Chicken Pen Door Status
     id: pen_door_status
+    restore_state: true
     optimistic: true
+  - platform: template
+    name: Chicken Door Status
+    id: coop_door_status
+    optimistic: true
+    restore_state: true
 
 binary_sensor:
   - platform: gpio
     id: door_status
     pin:
       number: D6
-      mode: INPUT_PULLUP
+    #  mode: INPUT_PULLUP
     name: Chicken Door
     device_class: door
     filters:
@@ -86,4 +96,3 @@ sensor:
       name: "Chicken Coop Humidity"
     update_interval: 60s
 
-<<: !include common.yaml
