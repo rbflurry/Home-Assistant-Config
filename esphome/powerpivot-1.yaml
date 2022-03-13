@@ -1,0 +1,66 @@
+substitutions:
+  devicename: powerpivot-1
+  upper_devicename: Power-Pivot-1
+
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: esp01_1m
+
+packages:
+  device_base: !include common.yaml
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO5
+      mode: INPUT_PULLUP
+    name: "Button 1"
+    id: button1
+    internal: True
+    on_press:
+      - switch.toggle: relay_template1
+  - platform: gpio
+    pin:
+      number: GPIO4
+      mode: INPUT_PULLUP
+    name: "Button 2"
+    id: button2
+    internal: True
+    on_press:
+      - switch.toggle: relay_template2
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    id: relay1
+  - platform: template
+    name: PowerPivot1 1
+    id: relay_template1
+    lambda: |-
+      if (id(relay1).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - switch.turn_on: relay1
+    turn_off_action:
+      - switch.turn_off: relay1
+  - platform: gpio
+    pin: GPIO0
+    id: relay2
+  - platform: template
+    name: PowerPivot1 2
+    id: relay_template2
+    lambda: |-
+      if (id(relay2).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - switch.turn_on: relay2
+    turn_off_action:
+      - switch.turn_off: relay2
+    

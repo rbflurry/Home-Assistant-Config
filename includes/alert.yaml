@@ -157,11 +157,11 @@
     name: Weather station is down
     message: Weather station is down /ack
     done_message: weather station is up
-    entity_id: sensor.pws_5in1_temperature
-    state: "unavailable"
-    repeat: 30
+    entity_id: binary_sensor.template_weather_down
+    state: "on"
+    repeat: 60
     can_acknowledge: True
-    skip_first: True
+    #skip_first: True
     notifiers:
       - telegram_group
     

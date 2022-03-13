@@ -34,8 +34,9 @@ switch:
     name: Chicken Door Switch
     id: door
     on_turn_on:
+    - delay: 5000ms
     - switch.toggle: coop_door_status
-    - delay: 15000ms
+    - delay: 10000ms
     - switch.turn_off: door
   - platform: gpio
     pin:
@@ -44,8 +45,9 @@ switch:
     name: Chicken Pen Switch
     id: pen
     on_turn_on:
+    - delay: 5000ms
     - switch.toggle: pen_door_status
-    - delay: 15000ms
+    - delay: 10000ms
     - switch.turn_off: pen
   - platform: template
     name: Chicken Pen Door Status

@@ -19,8 +19,8 @@
 #      value_template: '{{states.alarm_control_panel.ha_alarm.attributes.post_pending_state == "triggered" }}'
 #    alarm_is_pending:
 #      value_template: '{{states.alarm_control_panel.ha_alarm.state == "pending" }}'
-    template_wink_hub:
-      value_template: '{{ is_state("binary_sensor.wink_hub", "on")}}'
+    template_weather_down:
+      value_template: '{{ is_state("sensor.pws_5in1_temperature", "unavailable") and (now() > today_at("07:00") and now() < today_at("22:00")) }}'
     template_disk_space:
       value_template: '{{states.sensor.disk_use_percent.state |int > 90}}'
     template_blue_iris_running:

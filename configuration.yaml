@@ -47,9 +47,6 @@ frontend:
 
 map:
 
-# Checks for available updates
-updater:
-
 # Discover some devices automatically
 discovery:
 
@@ -78,16 +75,6 @@ history:
 
 # Track the sun
 sun:
-    
-mqtt:
-  broker: !secret mqtt_url
-  port: 1883
-  username: homeassistant-broker
-  password: !secret http_password
-  client_id: home-assistant-1
-  keepalive: 60
-  discovery: true
-  discovery_prefix: homeassistant
 
 #shell_command:
 
