@@ -1,32 +1,14 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
   name: LilOld
-  # Location required to calculate the time the sun rises and sets
   latitude: !secret lat
   longitude: !secret long
-  # Impacts weather/sunrise data
+  currency: USD
   elevation: 186
-  # metric for Metric, imperial for Imperial
   unit_system: imperial
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
   temperature_unit: F
   customize: !include customize.yaml
   customize_domain: {}
-  #customize_glob:
-    #"automation.*":
-    #   persistent: true
-    # "group.*":
-    # "switch.*":
-    # "cover.*":
-    # "light.*":
-    # "script.*":
-    # "scene.*":
-    # "device_tracker.*":
-    #"input_boolean.*":
-    #  persistent: true
-    #"input_number.*":
-    #  persistent: true
   packages: !include_dir_named packages
   auth_providers:
     - type: homeassistant
@@ -50,18 +32,14 @@ map:
 # Discover some devices automatically
 discovery:
 
-
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
   intents:
     turnonoff:
     - Turn [on] [off] [the] {light} [light] [switch]
-    
 
 # enables the config panel
 config:
-
-# Records states to the database
    
 # This is the history tab (Graphs) you can hide certain components.
 history:

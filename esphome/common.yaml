@@ -12,7 +12,7 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   ap:
-    ssid: ${upper_devicename} Fallback Hotspot
+    ssid: ${devicename} Fallback
     password: !secret wifi_pass
 
 captive_portal:
@@ -31,6 +31,11 @@ switch:
 binary_sensor:
   - platform: status
     name: ESP ${upper_devicename} Status
+    
+sensor:
+  - platform: wifi_signal
+    name: ${upper_devicename} WiFi Signal
+    update_interval: 60s
 
 
 #packages:

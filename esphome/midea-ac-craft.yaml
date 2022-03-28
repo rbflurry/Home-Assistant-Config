@@ -1,6 +1,6 @@
 substitutions:
   devicename: midea-ac-craft
-  upper_devicename: Craft Room
+  upper_devicename: Craft Room MiniSplit
 
 esphome:
   name: ${devicename}

@@ -1,6 +1,6 @@
 substitutions:
   devicename: midea-ac-bed
-  upper_devicename: Bed Room
+  upper_devicename: Bedroom MiniSplit
 
 esphome:
   name: ${devicename}
