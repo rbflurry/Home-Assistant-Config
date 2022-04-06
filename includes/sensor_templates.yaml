@@ -714,3 +714,18 @@
           {% else %}
             mdi:lightning-bolt-outline
           {% endif %}
+- platform: template
+  sensors:
+    ups_power_usage:
+        device_class: power
+        unit_of_measurement: W
+        value_template: >-
+          {% if states('sensor.syno_status_data') in ['OL', 'OL CHRG'] -%}
+            {{ (states('sensor.ups_output_current') | float) * (states('sensor.ups_nominal_output_voltage') | float) }}
+          {%- else -%}
+            0
+          {%- endif %}
+- platform: integration
+  name: Closet Energy
+  source: sensor.ups_power_usage
+  unit_prefix: k
