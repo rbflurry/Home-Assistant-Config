@@ -92,8 +92,8 @@
   scan_interval: 60
  
 - platform: snmp
-  name: Vent Temp
-  host: 192.168.47.162
+  name: Garage Temp
+  host: 192.168.47.183
   port: 161
 #  accept_errors: true
   community: public
@@ -101,8 +101,8 @@
   unit_of_measurement: "°F"
   
 - platform: snmp   
-  name: Vent Humidity
-  host: 192.168.47.162
+  name: Garage Humidity
+  host: 192.168.47.183
   port: 161
  # accept_errors: true
   community: public

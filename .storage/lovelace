@@ -77,10 +77,10 @@
                                     "entity": "switch.esp2"
                                 },
                                 {
-                                    "entity": "switch.on_off_sonoff2"
+                                    "entity": "light.garage_lights_front"
                                 },
                                 {
-                                    "entity": "switch.on_off_sonoff"
+                                    "entity": "light.garage_lights_rear"
                                 },
                                 {
                                     "entity": "switch.circadian_lighting_hallway"
@@ -577,6 +577,12 @@
                                 },
                                 {
                                     "entity": "switch.esp6"
+                                },
+                                {
+                                    "entity": "light.garage_lights_front"
+                                },
+                                {
+                                    "entity": "light.garage_lights_rear"
                                 }
                             ],
                             "show_header_toggle": false,

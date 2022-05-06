@@ -80,18 +80,16 @@ status_led:
     inverted: yes
 
 time:
-  - platform: sntp
-    servers:
-      - 192.168.47.60
-      - 192.168.47.1
+  - platform: homeassistant
+    id: homeassistant_time
     on_time:
       # Every Hour on the hour
       - seconds: 0
         minutes: 0
         then:
           - switch.turn_off: red
-          - switch.turn_off: green
           - switch.turn_off: yellow
+          - switch.turn_off: green
           - delay: 1s
           - switch.turn_on: red
           - delay: 1s
@@ -100,5 +98,40 @@ time:
           - switch.turn_on: green
           - delay: 1s
           - switch.turn_off: red
-          - switch.turn_off: green
           - switch.turn_off: yellow
+          - switch.turn_off: green
+          - delay: 1s
+          - repeat:
+              count: !lambda |-
+                auto time = id(homeassistant_time).now();       
+                int curhour = time.hour;
+                ESP_LOGD("Automation","Hour is: %d", curhour);
+                if (curhour > 12) { 
+                  curhour = curhour - 12; }
+                return curhour;
+              then:
+                - delay: 1s
+                - switch.turn_on: red
+                - delay: 1s
+                - switch.turn_off: red
+      # Every Hour on the half-hour
+      - seconds: 0
+        minutes: 30
+        then:
+          - switch.turn_off: red
+          - switch.turn_off: yellow
+          - switch.turn_off: green
+          - delay: 1s
+          - switch.turn_on: red
+          - delay: 1s
+          - switch.turn_on: yellow
+          - delay: 1s
+          - switch.turn_on: green
+          - delay: 1s
+          - switch.turn_off: red
+          - switch.turn_off: yellow
+          - switch.turn_off: green
+
+
+            
+          

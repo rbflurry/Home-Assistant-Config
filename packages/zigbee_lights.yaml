@@ -68,7 +68,7 @@ automation:
   #  initial_to: False
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.total_wink_lights_on.state == states.sensor.total_wink_lights.state }}'
+        value_template: '{{ states.sensor.total_wink_lights_on.state == states.sensor.total_wink_lights.state and states.sensor.total_wink_lights.state != 0 }}'
     action:
       - service: notify.mobile_app_ryan_iphone
         data:

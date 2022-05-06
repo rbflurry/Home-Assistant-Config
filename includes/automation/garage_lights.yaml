@@ -17,11 +17,11 @@
        entity_id: binary_sensor.still_dark
        state: 'on'
 #     - condition: state
-#       entity_id: switch.on_off_sonoff2
+#       entity_id: light.garage_lights_front
 #       state: 'off'
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.on_off_sonoff2
+      entity_id: light.garage_lights_front
     - service: timer.start
       entity_id: timer.back_flood, timer.garage_lights, switch.powerpivot1_2
       data:
@@ -37,7 +37,7 @@
 #    - wait_template: "{{is_state('group.all_garage_doors', 'closed')}}"
       timeout: 00:10:00
     - service: homeassistant.turn_off
-      entity_id: switch.on_off_sonoff2
+      entity_id: light.garage_lights_front
       
       
 

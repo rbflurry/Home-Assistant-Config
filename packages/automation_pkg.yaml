@@ -52,21 +52,18 @@ sensor:
           {% endfor %}
    
     
-automation:
-  - alias: automaion - Send Message about automations.
-  #  initial_to: False
-    trigger:
-      - platform: template
-        value_template: '{{ states.sensor.total_automations_on.state == states.sensor.total_automations.state }}'
-    action:
-      - service: notify.mobile_app_ryan_iphone
-        data:
-           title: 'All automations are on'
-           message: 'All the wink lights are on {{ states.sensor.total_automations_on.state | int }} of {{ states.sensor.total_automations.state }}'
-           data:
-             push:
-               category: 'wink_lights'
-#      - service: homeassistant.turn_off
-#        entity_id: light.wink_all_lights
+# automation:
+  # - alias: automaion - Send Message about automations.
+  # #  initial_to: False
+    # trigger:
+      # - platform: template
+        # value_template: '{{ states.sensor.total_automations_on.state == states.sensor.total_automations.state }}'
+    # action:
+      # - service: notify.mobile_app_ryan_iphone
+        # data:
+           # title: 'All automations are on'
+           # message: 'All automations are on {{ states.sensor.total_automations_on.state | int }} of {{ states.sensor.total_automations.state }}'
+# #      - service: homeassistant.turn_off
+# #        entity_id: light.wink_all_lights
              
     

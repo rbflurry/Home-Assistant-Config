@@ -32,4 +32,4 @@ automation:
         entity_id: timer.garage_lights
     action:
     - service: homeassistant.turn_off
-      entity_id: switch.on_off_sonoff2
+      entity_id: light.garage_lights_front

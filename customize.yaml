@@ -56,8 +56,6 @@ switch.garage_lights:
   hidden: true
 switch.second_garage_switch:
   hidden: true
-switch.on_off_sonoff2:
-  friendly_name: Garage Lights
 switch.powerpivot1_2:
   friendly_name: Barn Light
 switch.wink_zwaveoutlet:
@@ -83,8 +81,6 @@ sensor.camper_temp_2:
   friendly_name: Bullet Camper Temp
 sensor.camper_humid_2:
   friendly_name: Bullet Camper Humidity
-switch.on_off_sonoff:
-  friendly_name: Garage Lights 2
 switch.4chpro_2:
   friendly_name: Chicken Light Switch
   icon: mdi:light-switch
