@@ -560,6 +560,68 @@
                     ]
                 },
                 {
+                    "theme": "Backend-selected",
+                    "title": "Bed Room",
+                    "path": "bed-room",
+                    "icon": "mdi:bed",
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "light.bed_wled"
+                                },
+                                {
+                                    "entity": "light.wink_bed_room"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "switch.3d_printer_power"
+                                },
+                                {
+                                    "entity": "switch.hp_printer_power"
+                                },
+                                {
+                                    "entity": "switch.outlet_3"
+                                },
+                                {
+                                    "entity": "switch.outlet_4"
+                                },
+                                {
+                                    "entity": "switch.usb_outlets"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "light.bed_room_overhead_zha_group_0x0003"
+                                },
+                                {
+                                    "entity": "light.bed_room_overhead_3_08385c03_level_on_off"
+                                },
+                                {
+                                    "entity": "light.bed_room_overhead_2_07825c03_level_on_off"
+                                },
+                                {
+                                    "entity": "light.bed_room_overhead_1_0359a396"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "theme": "Backend-selected",
+                    "path": "garage_room",
+                    "title": "Garage",
+                    "icon": "mdi:garage-variant",
+                    "badges": [],
                     "cards": [
                         {
                             "entities": [
@@ -610,9 +672,7 @@
                             "title": "Traffic Light",
                             "type": "entities"
                         }
-                    ],
-                    "path": "garage_room",
-                    "title": "Garage"
+                    ]
                 },
                 {
                     "badges": [],
@@ -675,12 +735,6 @@
                                 },
                                 {
                                     "entity": "switch.wink_back_flood"
-                                },
-                                {
-                                    "entity": "switch.esp1"
-                                },
-                                {
-                                    "entity": "switch.esp5"
                                 }
                             ],
                             "show_header_toggle": false,
