@@ -54,45 +54,6 @@
       entity_id: sensor.stove_air_sensor
       device_class: cold
       invert: Yes
-      
-#######################################################
-## blue iris
-#######################################################
-
-- platform: mqtt
-  state_topic: "BlueIris/fp_motion"
-  name: "blueiris_front_porch_motion"
-  payload_on: "ON"
-  payload_off: "OFF"
-  device_class: motion
-- platform: mqtt
-  state_topic: "BlueIris/bp_motion"
-  name: "blueiris_back_porch_motion"
-  payload_on: "ON"
-  payload_off: "OFF"
-  device_class: motion
-- platform: mqtt
-  state_topic: "BlueIris/driveway_motion"
-  name: "blueiris_driveway_motion"
-  payload_on: "ON"
-  payload_off: "OFF"
-  device_class: motion
-- platform: mqtt
-  state_topic: "BlueIris/coop_motion"
-  name: "blueiris_coop_motion"
-  payload_on: "ON"
-  payload_off: "OFF"
-  device_class: motion
-
-######################################################
-
-
-- platform: mqtt
-  name: "OpenMQTTGateway"
-  state_topic: "home/OpenMQTTGateway/LWT"
-  payload_on: "Online"
-  payload_off: "Offline"
-  device_class: "connectivity"
 
 
 - platform: command_line

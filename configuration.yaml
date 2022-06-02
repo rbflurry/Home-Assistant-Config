@@ -94,7 +94,6 @@ automation: !include automations.yaml
 binary_sensor: !include includes/binary_sensor.yaml
 climate: !include includes/climates.yaml
 cloud: !include includes/cloud.yaml
-cover: !include includes/cover.yaml
 device_tracker: !include includes/device_tracker.yaml
 group: !include includes/group.yaml
 input_boolean: !include includes/input_boolean.yaml

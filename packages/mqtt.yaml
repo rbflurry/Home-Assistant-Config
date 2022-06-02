@@ -1,2 +1,496 @@
 mqtt:
+  cover:
+    - name: Windows
+      state_topic: "home/windows"  
+      command_topic: "home/windows"
+      qos: 0
+      retain: true
+      payload_open: "on"
+      payload_close: "off"
+      state_open: "on"
+      state_closed: "off"
+      optimistic: false
+  binary_sensor:
+   #######################################################
+   ## blue iris
+   #######################################################
+    - name: "blueiris_front_porch_motion"
+      state_topic: "BlueIris/fp_motion"
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
+    - name: "blueiris_back_porch_motion"
+      state_topic: "BlueIris/bp_motion"
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
+    - name: "blueiris_driveway_motion"
+      state_topic: "BlueIris/driveway_motion"
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
+    - name: "blueiris_coop_motion"
+      state_topic: "BlueIris/coop_motion"
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
+
+######################################################
+
+  #- name: "OpenMQTTGateway"
+  #  state_topic: "home/OpenMQTTGateway/LWT"
+  #  payload_on: "Online"
+  #  payload_off: "Offline"
+  #  device_class: "connectivity"
+  
   sensor:
+    - name: "SN1 Humidity"
+      state_topic: "home/sensornode1"  
+      icon: mdi:water-percent
+      unit_of_measurement: "%"  
+      value_template: '{{ value_json.humidity | round(1) }}'  
+      
+    - name: "SN1 LDR"
+      state_topic: "home/sensornode1"  
+      ##This sensor is not calibrated to actual LUX. Rather, this a map of the input voltage ranging from 0 - 1023.
+      unit_of_measurement: "LUX"  
+      value_template: '{{ value_json.ldr }}'  
+      
+    - name: "SN1 PIR"  
+      state_topic: "home/sensornode1"  
+      value_template: '{{ value_json.motion }}'  
+      
+    - name: "SN1 Reed"
+      state_topic: "home/sensornode1"    
+      value_template: '{{ value_json.reed }}'
+      
+    - name: "SN1 Temperature" 
+      state_topic: "home/sensornode1"  
+      unit_of_measurement: "°F"
+      icon: 'mdi:temperature-fahrenheit'
+      value_template: '{{ value_json.temperature | round(1) }}' 
+
+    - name: "SN3 Humidity"  
+      state_topic: "home/sensornode3"  
+      icon: mdi:water-percent
+      unit_of_measurement: "%"  
+      value_template: '{{ value_json.humidity | round(1) }}'  
+      
+    - name: "SN3 LDR"
+      state_topic: "home/sensornode3"  
+      unit_of_measurement: "LUX"  
+      value_template: '{{ value_json.ldr }}'  
+      
+    - name: "SN3 PIR"
+      state_topic: "home/sensornode3"  
+      value_template: '{{ value_json.motion }}'  
+      
+    - name: "SN3 Reed"  
+      state_topic: "home/sensornode3"   
+      value_template: '{{ value_json.reed }}'  
+
+    - name: "SN3 Availablilty" 
+      state_topic: "home/sensornode3/availability"   
+      payload_available: "online"
+      payload_not_available: "offline"
+      
+    - name: "SN3 Temperature" 
+      state_topic: "home/sensornode3"   
+      icon: 'mdi:temperature-fahrenheit'
+      unit_of_measurement: "°F"  
+      value_template: '{{ value_json.temperature | round(1) }}'  
+      
+    - name: "SN3 Real Feel"
+      state_topic: "home/sensornode3"
+      unit_of_measurement: "°F"
+      value_template: '{{ value_json.heatIndex | round(1) }}'
+
+    - name: "Camper Temp" 
+      state_topic: "tele/Camper/SENSOR"  
+      icon: 'mdi:temperature-fahrenheit'
+      value_template: "{{ value_json['AM2301'].Temperature | int }}"
+      unit_of_measurement: "°F"
+      availability_topic: "tele/Camper/LWT"
+      qos: 1
+      payload_available: "Online"
+      payload_not_available: "Offline"
+
+    - name: "Camper Humid"
+      state_topic: "tele/Camper/SENSOR"  
+      icon: mdi:water-percent
+      value_template: "{{ value_json['AM2301'].Humidity | int }}"
+      unit_of_measurement: "%"
+      availability_topic: "tele/Camper/LWT"
+      qos: 1
+      payload_available: "Online"
+      payload_not_available: "Offline"
+
+    - name: "Camper Temp 2"
+      state_topic: "tele/TempSensor2/SENSOR"  
+      icon: 'mdi:temperature-fahrenheit'
+      value_template: "{{ value_json['AM2301'].Temperature | int }}"
+      unit_of_measurement: "°F"
+      availability_topic: "tele/TempSensor2/LWT"
+      qos: 1
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      
+    - name: "Camper Humid 2" 
+      state_topic: "tele/TempSensor2/SENSOR"  
+      icon: mdi:water-percent
+      value_template: "{{ value_json['AM2301'].Humidity | int }}"
+      unit_of_measurement: "%"
+      availability_topic: "tele/TempSensor2/LWT"
+      qos: 1
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      
+    # - name: "deeks_collar_state"
+      # state_topic: "home/OpenMQTTGateway/BTtoMQTT/123B6A1B58C9"  
+      # unit_of_measurement: "rssi"  
+      # expire_after: 120
+      
+    - name: "Bathroom Temp" 
+      state_topic: "tele/esp_bathroom/SENSOR"  
+      icon: 'mdi:temperature-fahrenheit'
+      value_template: "{{ value_json['AM2301'].Temperature | int }}"
+      unit_of_measurement: "°F"
+      availability_topic: "tele/esp_bathroom/LWT"
+      qos: 1
+      payload_available: "Online"
+      payload_not_available: "Offline"
+
+    - name: "Bathroom Humid" 
+      state_topic: "tele/esp_bathroom/SENSOR"  
+      icon: mdi:water-percent
+      value_template: "{{ value_json['AM2301'].Humidity | int }}"
+      unit_of_measurement: "%"
+      availability_topic: "tele/esp_bathroom/LWT"
+      qos: 1
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      
+    - name: "Tile BLE"
+      state_topic: "monitor/gate_ble/C3:BF:FC:E9:CE:87"  
+      #icon: 'mdi:temperature-fahrenheit'
+      value_template: "{{ value_json['confidence'] | int }}"
+      unit_of_measurement: "%"
+      availability_topic: "monitor/gate_ble/status"
+      qos: 1
+      payload_available: "online"
+      payload_not_available: "offline"
+      
+    - name: "Deeks BLE"
+      state_topic: "monitor/gate_ble/CB:12:E1:05:58:9A"  
+      value_template: "{{ value_json['confidence'] | int }}"
+      unit_of_measurement: "%"
+      availability_topic: "monitor/gate_ble/status"
+      qos: 1
+      payload_available: "online"
+      payload_not_available: "offline"
+      
+      
+      
+    #####################################
+    #####################################
+    ###Weather Station
+
+    - name: "PWS 5in1 Battery"
+      state_topic: 'rtl_433/815/battery_ok'
+      device_class: "battery"
+      value_template: "{{value | int * 100}}"
+      expire_after: 3600
+    - name: "PWS 5in1 Temperature"
+      state_topic: 'rtl_433/815/temperature_F'
+      device_class: "temperature"
+      state_class: "measurement"
+      value_template: "{{(value | float)}}"
+      unit_of_measurement: "°F"
+      expire_after: 3600
+    - name: "PWS 5in1 Humidity"
+      state_topic: 'rtl_433/815/humidity'
+      device_class: "humidity"
+      state_class: "measurement"
+      unit_of_measurement: "%"
+      value_template: "{{(value | float)}}"
+      expire_after: 3600
+    - name: "PWS 5in1 Total Rain"
+      state_topic: 'rtl_433/815/rain_in'
+      unit_of_measurement: "in"
+      state_class: "total_increasing"
+      value_template: "{{(value | float)}}"
+      icon: "mdi:water"
+    - name: "PWS 5in1 Wind"
+      state_topic: 'rtl_433/815/wind_avg_km_h'
+      unit_of_measurement: "mph"
+      state_class: "measurement"
+      icon: "mdi:weather-windy-variant"
+      value_template: "{{((value | float / 1.609) | round(0))}}"
+    - name: "PWS 5in1 Wind Direction"
+      state_topic: 'rtl_433/815/wind_dir_deg'
+      unit_of_measurement: "°"
+      icon: "mdi:compass-rose"
+      value_template: "{{(value)}}"
+    - name: "rain at midnight"
+      state_topic: 'ha/cum_rain_prior'
+      unit_of_measurement: "in"
+      value_template: "{{(value)}}"
+      
+  switch:
+    - name: "esp1"
+      unique_id: esp1
+      state_topic: "home/sonoff/1/1/stat"
+      command_topic: "home/sonoff/1/1"
+      payload_on: "on"
+      payload_off: "off"
+      qos: 1
+      retain: true
+    - name: "esp2"
+      unique_id: esp2
+      state_topic: "home/sonoff/2/1/stat"
+      command_topic: "home/sonoff/2/1"
+      payload_on: "on"
+      payload_off: "off"
+      qos: 1
+      retain: true
+    - name: "esp3"
+      unique_id: esp3
+      state_topic: "stat/esp3/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp3/POWER"
+      availability_topic: "tele/esp3/LWT"
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      qos: 1
+      retain: true
+    - name: "esp4"
+      unique_id: esp4
+      state_topic: "stat/esp4/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp4/POWER"
+      availability_topic: "tele/esp4/LWT"
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      qos: 1
+      retain: true
+    - name: "esp5"
+      unique_id: esp5
+      state_topic: "home/sonoff/5/1/stat"
+      command_topic: "home/sonoff/5/1"
+      payload_on: "on"
+      payload_off: "off"
+      qos: 1
+      retain: true
+      unique_id: esp6
+    - name: "esp6"
+      state_topic: "home/sonoff/6/1/stat"
+      command_topic: "home/sonoff/6/1"
+      payload_on: "on"
+      payload_off: "off"
+      qos: 1
+      retain: true
+    - name: "PowerPivot2-1"
+      state_topic: "stat/powerpivot2/RESULT"
+      value_template: '{{ value_json["POWER1"] }}'
+      command_topic: "cmnd/powerpivot2/POWER1"
+      availability_topic: "tele/powerpivot2/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true 
+    - name: "PowerPivot2-2"
+      state_topic: "stat/powerpivot2/RESULT"
+      value_template: '{{ value_json["POWER2"] }}'
+      command_topic: "cmnd/powerpivot2/POWER2"
+      availability_topic: "tele/powerpivot2/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "4chpro 1"
+      unique_id: 4chpro-1
+      state_topic: "stat/sonoff4chpro/RESULT"
+      value_template: '{{ value_json["POWER1"] }}'
+      command_topic: "cmnd/sonoff4chpro/POWER1"
+      availability_topic: "tele/sonoff4chpro/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "4chpro 2"
+      unique_id: 4chpro-2
+      state_topic: "stat/sonoff4chpro/RESULT"
+      value_template: '{{ value_json["POWER2"] }}'
+      command_topic: "cmnd/sonoff4chpro/POWER2"
+      availability_topic: "tele/sonoff4chpro/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "4chpro 3"
+      unique_id: 4chpro-3
+      state_topic: "stat/sonoff4chpro/RESULT"
+      value_template: '{{ value_json["POWER3"] }}'
+      command_topic: "cmnd/sonoff4chpro/POWER3"
+      availability_topic: "tele/sonoff4chpro/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "4chpro 4"
+      unique_id: 4chpro-4
+      state_topic: "stat/sonoff4chpro/RESULT"
+      value_template: '{{ value_json["POWER4"] }}'
+      command_topic: "cmnd/sonoff4chpro/POWER4"
+      availability_topic: "tele/sonoff4chpro/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "Bathroom Fan"
+      state_topic: "stat/esp_bathroom/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp_bathroom/POWER"
+      availability_topic: "tele/esp_bathroom/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      #retain: true 
+      optimistic: true
+    #################################################
+    #### ROUND
+    #################################################
+    - name: "Round 1"
+      state_topic: "stat/round/RESULT"
+      value_template: '{{ value_json["POWER1"] }}'
+      command_topic: "cmnd/round/POWER1"
+      availability_topic: "tele/round/LWT"
+      unique_id: round1
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "Round 2"
+      unique_id: round2
+      state_topic: "stat/round/RESULT"
+      value_template: '{{ value_json["POWER2"] }}'
+      command_topic: "cmnd/round/POWER2"
+      availability_topic: "tele/round/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "Round 3"
+      unique_id: round3
+      state_topic: "stat/round/RESULT"
+      value_template: '{{ value_json["POWER3"] }}'
+      command_topic: "cmnd/round/POWER3"
+      availability_topic: "tele/round/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "esp7"
+      unique_id: esp7
+      state_topic: "stat/esp7/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp7/POWER"
+      availability_topic: "tele/esp7/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+      json_attributes_topic: "tele/esp7/SENSOR"
+      json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+    - name: "esp8"
+      unique_id: esp8
+      state_topic: "stat/esp8/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp8/POWER"
+      availability_topic: "tele/esp8/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "esp9"
+      unique_id: esp9
+      state_topic: "stat/esp9/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp9/POWER"
+      availability_topic: "tele/esp9/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+    - name: "esp11"
+      unique_id: esp11
+      state_topic: "stat/esp11/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp11/POWER"
+      availability_topic: "tele/esp11/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+      json_attributes_topic: "tele/esp11/SENSOR"
+      json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+    - name: "esp12"
+      unique_id: esp12
+      state_topic: "stat/esp12/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp12/POWER"
+      availability_topic: "tele/esp12/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+      json_attributes_topic: "tele/esp12/SENSOR"
+      json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+    - name: "esp13"
+      unique_id: esp13
+      state_topic: "stat/esp13/RESULT"
+      value_template: '{{ value_json["POWER"] }}'
+      command_topic: "cmnd/esp13/POWER"
+      availability_topic: "tele/esp13/LWT"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      payload_available: "Online"
+      payload_not_available: "Offline"
+      retain: true
+      json_attributes_topic: "tele/esp13/SENSOR"
+      json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"

@@ -19,12 +19,12 @@ cover:
             target:
               entity_id: switch.chicken_pen_switch
           stop_cover:
-            service: switch.turn_off
-            target:
-              entity_id: switch.chicken_pen_switch
-            service: homeassistant.toggle
-            target:
-              entity_id: switch.chicken_pen_door_status
+           - service: switch.turn_off
+             target:
+               entity_id: switch.chicken_pen_switch
+           - service: homeassistant.toggle
+             target:
+               entity_id: switch.chicken_pen_door_status
     - platform: template
       covers:
         chicken_door:
@@ -40,53 +40,14 @@ cover:
             target:
               entity_id: switch.chicken_door_switch
           stop_cover:
-            service: switch.turn_off
-            target:
-              entity_id: switch.chicken_door_switch
-            service: homeassistant.toggle
-            target:
-              entity_id: switch.chicken_door_status
-      
+           - service: switch.turn_off
+             target:
+               entity_id: switch.chicken_door_switch
+           - service: homeassistant.toggle
+             target:
+               entity_id: switch.chicken_door_status
 
-binary_sensor:
-    # - platform: mqtt  
-      # state_topic: "tele/sensornode2/SENSOR"  
-      # name: "SN2 Reed"  
-      # value_template: '{{ value_json.Switch3 }}'
-      # availability_topic: "tele/sensornode2/LWT"  
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-
-sensor:
-    # - platform: mqtt  
-      # state_topic: "tele/sensornode2/SENSOR"  
-      # name: "SN2 Temperature"
-      # icon: 'mdi:temperature-fahrenheit'
-      # value_template: "{{ value_json['AM2301'].Temperature | float }}"
-      # unit_of_measurement: "°F"
-      # availability_topic: "tele/sensornode2/LWT"
-      # qos: 1
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-
-    # - platform: mqtt  
-      # state_topic: "tele/sensornode2/SENSOR"  
-      # name: "SN2 Humidity"
-      # icon: mdi:water-percent
-      # value_template: "{{ value_json['AM2301'].Humidity | float }}"
-      # unit_of_measurement: "%"
-      # availability_topic: "tele/sensornode2/LWT"
-      # qos: 1
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      
-    # - platform: mqtt  
-      # state_topic: "tele/sensornode2/LWT"  
-      # name: "SN2 Availablilty"  
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      
-      
+sensor:      
     - platform: template
       sensors:
          sn2_real_feel:
