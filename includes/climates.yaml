@@ -8,7 +8,7 @@
   - platform: generic_thermostat
     name: Chicken Fan
     heater: switch.4chpro_1
-    target_sensor: sensor.sn2_temperature
+    target_sensor: sensor.chicken_coop_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0
     initial_hvac_mode: "cool"

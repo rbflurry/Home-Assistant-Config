@@ -33,22 +33,22 @@ switch:
       inverted: true
     name: Chicken Door Switch
     id: door
-    on_turn_on:
-    - delay: 5000ms
-    - switch.toggle: coop_door_status
-    - delay: 10000ms
-    - switch.turn_off: door
+#    on_turn_on:
+#    - delay: 5000ms
+#    - switch.toggle: coop_door_status
+#    - delay: 10000ms
+#    - switch.turn_off: door
   - platform: gpio
     pin:
       number: D5
       inverted: true
     name: Chicken Pen Switch
     id: pen
-    on_turn_on:
-    - delay: 5000ms
-    - switch.toggle: pen_door_status
-    - delay: 10000ms
-    - switch.turn_off: pen
+#    on_turn_on:
+#    - delay: 5000ms
+#    - switch.toggle: pen_door_status
+#    - delay: 10000ms
+#    - switch.turn_off: pen
   - platform: template
     name: Chicken Pen Door Status
     id: pen_door_status

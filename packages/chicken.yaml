@@ -19,6 +19,9 @@ cover:
             target:
               entity_id: switch.chicken_pen_switch
           stop_cover:
+            service: switch.turn_off
+            target:
+              entity_id: switch.chicken_pen_switch
             service: homeassistant.toggle
             target:
               entity_id: switch.chicken_pen_door_status
@@ -37,6 +40,9 @@ cover:
             target:
               entity_id: switch.chicken_door_switch
           stop_cover:
+            service: switch.turn_off
+            target:
+              entity_id: switch.chicken_door_switch
             service: homeassistant.toggle
             target:
               entity_id: switch.chicken_door_status

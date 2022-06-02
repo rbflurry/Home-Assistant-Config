@@ -134,10 +134,6 @@ telegram_bot:
      - -543668285
  
 shopping_list:
-
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_secret
       
 stream:
   

@@ -238,3 +238,20 @@
       - climate.craft_room
   mode: parallel
   max: 10
+- id: '1652207706173'
+  alias: Reset RTL
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: alert.weather_station
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  condition: []
+  action:
+  - service: hassio.addon_restart
+    data:
+      addon: 9b13b3f4_rtl433
+  mode: single

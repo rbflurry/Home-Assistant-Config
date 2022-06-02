@@ -2,6 +2,9 @@ substitutions:
   devicename: traffic-light
   upper_devicename: Traffic-Light
 
+logger:
+  level: VERY_VERBOSE
+
 esphome:
   name: ${devicename}
   platform: ESP8266
@@ -105,11 +108,17 @@ time:
               count: !lambda |-
                 auto time = id(homeassistant_time).now();       
                 int curhour = time.hour;
-                ESP_LOGD("Automation","Hour is: %d", curhour);
+                ESP_LOGD("demo","Current hour: %d", curhour);
+                if (curhour == 0) { 
+                  curhour = 1;}
                 if (curhour > 12) { 
-                  curhour = curhour - 12; }
+                  curhour = curhour - 12;}
+                  ESP_LOGD("demo","We are flashing: %d times", curhour);
                 return curhour;
               then:
+                - lambda: |-
+                   static int i = 0 ; 
+                   ESP_LOGI("demo","iteration=%d",++i);
                 - delay: 1s
                 - switch.turn_on: red
                 - delay: 1s
@@ -132,6 +141,3 @@ time:
           - switch.turn_off: yellow
           - switch.turn_off: green
 
-
-            
-          

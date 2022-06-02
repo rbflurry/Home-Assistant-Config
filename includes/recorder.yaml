@@ -26,9 +26,9 @@
       - automation.persistence_publish
       - automation.persistence_subscribe_select_value
       - automation.persistence_publish
-      - switch.traffic_light_yellow
-      - switch.traffic_light_red
-      - switch.traffic_light_green
+      # - switch.traffic_light_yellow
+      # - switch.traffic_light_red
+      # - switch.traffic_light_green
       - sensor.date_time_iso
 
       

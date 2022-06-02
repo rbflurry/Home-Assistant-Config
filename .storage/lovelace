@@ -579,10 +579,10 @@
                                     "entity": "switch.esp6"
                                 },
                                 {
-                                    "entity": "light.garage_lights_front"
+                                    "entity": "light.garage_lights_rear"
                                 },
                                 {
-                                    "entity": "light.garage_lights_rear"
+                                    "entity": "switch.esp11"
                                 }
                             ],
                             "show_header_toggle": false,
