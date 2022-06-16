@@ -40,4 +40,28 @@
       entity_id: light.garage_lights_front
       
       
-
+- alias: Garage Doors open turn garage light on for 10 minutes unless it is already on
+  id: 22de2095-dd7a-4d3e-b99d-aafcb8e40102
+  trigger:
+    - platform: state
+      entity_id: cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2
+      from: 'closed'
+      to: 'opening'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.garage_lights_front
+    - service: timer.start
+      entity_id: timer.garage_lights
+      data:
+        duration: '00:10:00'
+    - delay: 00:01:00
+    - condition: template
+      value_template: >
+        {% set new = trigger.entity_id %}
+        {{ is_state(new, 'open') }}
+    - wait_template: >
+       {% set new = trigger.entity_id %}
+       {{ is_state(new, 'closed') }}
+      timeout: 00:10:00
+    - service: homeassistant.turn_off
+      entity_id: light.garage_lights_front

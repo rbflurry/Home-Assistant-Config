@@ -300,12 +300,10 @@
                                 "input_boolean.chicken_bug_automations",
                                 "input_boolean.chicken_light_dimming",
                                 "automation.chicken_sunset_light_on",
+                                "input_boolean.cancel_last_call",
                                 "input_boolean.chicken_water_automations",
-                                "input_boolean.cancel_last_call"
+                                "switch.side_spigot"
                             ],
-                            "filter": {
-                                "template": "{% if states.input_boolean.chicken_water_automations.state == \"on\" %}\n  switch.side_spigot\n{% endif %}\n"
-                            },
                             "show_empty": true,
                             "sort": "none",
                             "type": "custom:auto-entities"
@@ -345,27 +343,6 @@
                             "entities": [
                                 {
                                     "entity": "sensor.chicken_age_batch1"
-                                },
-                                {
-                                    "entity": "sensor.chicken_age_batch2"
-                                },
-                                {
-                                    "entity": "sensor.chicken_age_batch3"
-                                },
-                                {
-                                    "entity": "sensor.chicken_age_batch4"
-                                },
-                                {
-                                    "entity": "sensor.chicken_age_batch5"
-                                },
-                                {
-                                    "entity": "sensor.chicken_age_batch6"
-                                },
-                                {
-                                    "entity": "sensor.chicken_age_batch7"
-                                },
-                                {
-                                    "entity": "sensor.chicken_age_batch8"
                                 }
                             ],
                             "show_header_toggle": false,

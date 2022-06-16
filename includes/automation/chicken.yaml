@@ -115,9 +115,10 @@
     - condition: state
       entity_id: cover.chicken_door
       state: 'closed'
-#    - condition: state
-#     entity_id: sun.sun
-#     state: 'above_horizon'
+####### Adding this to prevent free run in the morning when door wasnt closed
+    - condition: state
+      entity_id: cover.chicken_pen
+      state: 'closed'
     - condition: template
       value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_open_time_dirty.state }}'
   action:
