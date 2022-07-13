@@ -21,8 +21,10 @@ homeassistant:
 ################################################
 ## Sensor
 ################################################
+ 
+mqtt:
+  sensor:
+    - name: "BlueIris"
+      state_topic: "BlueIris/app"   
 
-sensor:
-  - platform: mqtt
-    name: "BlueIris"
-    state_topic: "BlueIris/app"    
+ 
