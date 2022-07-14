@@ -661,6 +661,10 @@
               ],
               "title": "Traffic Light",
               "type": "entities"
+            },
+            {
+              "type": "thermostat",
+              "entity": "climate.garage_attic_fan"
             }
           ]
         },
@@ -1077,6 +1081,9 @@
                 },
                 {
                   "entity": "sensor.ups_input_voltage"
+                },
+                {
+                  "entity": "sensor.ups_trap"
                 }
               ],
               "title": "UPS",

@@ -255,3 +255,112 @@
     data:
       addon: 9b13b3f4_rtl433
   mode: single
+- id: '1657802213048'
+  alias: Climate - Craft Room Cool - Off
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.craft_room.attributes.current_temperature <
+      states.climate.craft_room.attributes.temperature-1}}'
+    for:
+      minutes: 5
+  condition:
+  - condition: device
+    device_id: 1da3570264a941bbf2a20e7f133f58af
+    domain: climate
+    entity_id: climate.craft_room
+    type: is_hvac_mode
+    hvac_mode: cool
+  action:
+  - device_id: 1da3570264a941bbf2a20e7f133f58af
+    domain: climate
+    entity_id: climate.craft_room
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+- id: '1657802220868'
+  alias: Climate - Office Room Cool - Off
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}'
+    for:
+      minutes: 5
+  condition:
+  - condition: device
+    device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
+    domain: climate
+    entity_id: climate.bed_room
+    type: is_hvac_mode
+    hvac_mode: cool
+  action:
+  - device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
+    domain: climate
+    entity_id: climate.bed_room
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+- id: '1657802534737'
+  alias: Climate - Craft Room Cool - On
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.craft_room.attributes.current_temperature >
+      states.climate.craft_room.attributes.temperature+2}}'
+    for:
+      minutes: 5
+  condition:
+  - condition: device
+    device_id: 1da3570264a941bbf2a20e7f133f58af
+    domain: climate
+    entity_id: climate.craft_room
+    type: is_hvac_mode
+    hvac_mode: 'off'
+  action:
+  - device_id: 1da3570264a941bbf2a20e7f133f58af
+    domain: climate
+    entity_id: climate.craft_room
+    type: set_hvac_mode
+    hvac_mode: cool
+  mode: single
+- id: '1657802594078'
+  alias: Climate - Office Room Cool - On
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature+2}}'
+    for:
+      minutes: 5
+  condition:
+  - condition: device
+    device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
+    domain: climate
+    entity_id: climate.bed_room
+    type: is_hvac_mode
+    hvac_mode: 'off'
+  action:
+  - device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
+    domain: climate
+    entity_id: climate.bed_room
+    type: set_hvac_mode
+    hvac_mode: cool
+  mode: single
+- id: '1657809251650'
+  alias: UPS Turn Off lights after blip
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.ups_trap
+    to: '"UPS: No longer on battery power."'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.sengled_e11_g13_035cb3f8_1
+      - light.sengled_e11_g13_035c3bc7_1
+      - light.bed_wled
+      - light.wink_led_strip_bath
+  mode: single

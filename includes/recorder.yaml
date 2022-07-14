@@ -1,6 +1,6 @@
-#  db_url: postgres://hass:hass@127.0.0.1/hass?client_encoding=utf8
-  db_url: mysql://hass:hass@core-mariadb/homeassistant?charset=utf8
-#  db_url: postgres://hass:hass@127.0.0.1/hass?client_encoding=utf8
+#  db_url: postgres://hass:hass@127.0.0.1/hass?client_encoding=utf8mb4
+  db_url: mysql://hass:hass@core-mariadb/homeassistant?charset=utf8mb4
+#  db_url: postgres://hass:hass@127.0.0.1/hass?client_encoding=utf8mb4
   purge_keep_days: 20
   exclude:
     entity_globs:
@@ -26,9 +26,6 @@
       - automation.persistence_publish
       - automation.persistence_subscribe_select_value
       - automation.persistence_publish
-      # - switch.traffic_light_yellow
-      # - switch.traffic_light_red
-      # - switch.traffic_light_green
       - sensor.date_time_iso
 
       

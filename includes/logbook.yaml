@@ -44,3 +44,9 @@
       - binary_sensor.sn2_reed
       - automation.time_refresh_z_wave_devices
       - input_boolean.node_red_status
+      - sensor.trend_inside_temp
+      - sensor.trend_outside_temp
+      - binary_sensor.trend_outside_temperature_down
+      - binary_sensor.trend_outside_temperature_up
+      - binary_sensor.trend_house_temperature_up
+      - binary_sensor.trend_house_temperature_down
