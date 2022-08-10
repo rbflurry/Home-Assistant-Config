@@ -635,6 +635,9 @@
                 },
                 {
                   "entity": "sensor.garage_temp"
+                },
+                {
+                  "entity": "switch.esp9"
                 }
               ],
               "show_header_toggle": false,

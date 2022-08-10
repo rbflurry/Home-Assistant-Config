@@ -1,0 +1,66 @@
+blueprint:
+  name: ZHA - Lutron Aurora Dimmer v1.3
+  description: 'Control lights with a Lutron Aurora Dimmer Pressing in the dimmer
+    button will toggle between turning lights on to full brightness, and turning the
+    lights off. Rotating the dimmer will increase and decrease the light brightness.
+
+    Adjust the sensitivity if updates from the dimmer are being sent too quickly '
+  domain: automation
+  input:
+    remote:
+      name: Lutron Aurora Dimmer Switch
+      description: Lutron Aurora Z3-1BRL
+      selector:
+        device:
+          integration: zha
+          manufacturer: Lutron
+          model: Z3-1BRL
+          entity:
+            domain: sensor
+            device_class: battery
+          multiple: false
+    light:
+      name: Light(s)
+      description: The light(s) to control
+      selector:
+        target:
+          entity:
+            domain: light
+    sensitivity:
+      name: Sensitivity
+      description: Reducing sensitivity will reduce rate of changes being sent to
+        lights
+      default: 3
+      selector:
+        number:
+          min: 1.0
+          max: 3.0
+          mode: slider
+          step: 1.0
+  source_url: https://gist.github.com/bjpetit/42fc15731ae9b11aed0b106199954cea
+mode: restart
+max_exceeded: silent
+trigger:
+- platform: event
+  event_type: zha_event
+  event_data:
+    device_id: !input remote
+action:
+- variables:
+    sensitivity_input: !input sensitivity
+    selected_light: !input light
+    sensitivity: "{% if sensitivity_input == \"3\" %}\n  1\n{% elif sensitivity_input
+      == \"2\" %}\n  5\n{% else %}\n  15\n{% endif %}  \n"
+    prior_brightness: '{{ brightness | default }}'
+    command: '{{ trigger.event.data.command }}'
+    brightness: '{{ (trigger.event.data.args[0]|int) / (sensitivity|int) * (sensitivity|int)
+      }}'
+- choose:
+  - conditions:
+    - '{{ command == ''move_to_level_with_on_off'' }}'
+    - '{{ brightness != prior_brightness }}'
+    sequence:
+    - service: light.turn_on
+      target: '{{ selected_light }}'
+      data:
+        brightness: '{{ brightness }}'

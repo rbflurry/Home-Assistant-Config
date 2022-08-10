@@ -1,10 +1,10 @@
 homeassistant:
-  customize:
-    zone.home:
-      beacon:
-        uuid: 48de4980-968d-11e4-b4a9-0800200c9a66
-        major: 1
-        minor: 1116
+#  customize:
+#    zone.home:
+#      beacon:
+#        uuid: 48de4980-968d-11e4-b4a9-0800200c9a66
+#        major: 1
+#        minor: 1116
 
 zone:
   - name: Home

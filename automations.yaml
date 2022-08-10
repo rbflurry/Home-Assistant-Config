@@ -306,7 +306,7 @@
   trigger:
   - platform: template
     value_template: '{{states.climate.craft_room.attributes.current_temperature >
-      states.climate.craft_room.attributes.temperature+2}}'
+      states.climate.craft_room.attributes.temperature}}'
     for:
       minutes: 5
   condition:
@@ -328,7 +328,7 @@
   description: ''
   trigger:
   - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature+2}}'
+    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature}}'
     for:
       minutes: 5
   condition:
@@ -352,7 +352,7 @@
   - platform: state
     entity_id:
     - sensor.ups_trap
-    to: '"UPS: No longer on battery power."'
+    to: 'UPS: No longer on battery power.'
   condition: []
   action:
   - service: homeassistant.turn_off
@@ -364,3 +364,14 @@
       - light.bed_wled
       - light.wink_led_strip_bath
   mode: single
+- id: '1659921303028'
+  alias: dimmer up stairs
+  description: ''
+  use_blueprint:
+    path: bjpetit/zha_lutron_aurora_blueprint.yaml
+    input:
+      remote: 50b370ca9c6b4fcf91f0fee0cb747b7b
+      light:
+        entity_id:
+        - light.sengled_e11_g13_035cb3f8_1
+        - light.sengled_e11_g13_035c3bc7_1

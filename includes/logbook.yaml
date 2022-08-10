@@ -50,3 +50,5 @@
       - binary_sensor.trend_outside_temperature_up
       - binary_sensor.trend_house_temperature_up
       - binary_sensor.trend_house_temperature_down
+      - binary_sensor.trend_stove_temperature_down
+      - binary_sensor.trend_stove_temperature_up
