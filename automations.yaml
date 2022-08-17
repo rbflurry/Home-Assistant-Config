@@ -362,7 +362,6 @@
       - light.sengled_e11_g13_035cb3f8_1
       - light.sengled_e11_g13_035c3bc7_1
       - light.bed_wled
-      - light.wink_led_strip_bath
   mode: single
 - id: '1659921303028'
   alias: dimmer up stairs

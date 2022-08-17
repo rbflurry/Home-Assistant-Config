@@ -177,6 +177,18 @@
     notifiers:
       - telegram_group
       
+  water_feed:
+    name: Chickens need feesing
+    message: Chickens need feeding /ack
+    done_message: Thank you for feeding the chickens
+    entity_id: binary_sensor.template_chickens_need_feeding
+    state: "on"
+    repeat: 30
+    can_acknowledge: True
+    #skip_first: True
+    notifiers:
+      - telegram_group  
+      
   node_red_dead:
     name: Node Red is Dead
     message: Node Red is Dead /ack
