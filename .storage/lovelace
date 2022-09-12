@@ -10,11 +10,7 @@
           "path": "default_view",
           "title": "Home",
           "icon": "mdi:home",
-          "badges": [
-            {
-              "entity": "sensor.till_baby"
-            }
-          ],
+          "badges": [],
           "cards": [
             {
               "type": "entities",
@@ -806,7 +802,7 @@
                   "entity": "light.sengled_e11_g13_035cb3f8_1"
                 }
               ],
-              "show_header_toggle": false,
+              "show_header_toggle": true,
               "title": "Upstairs",
               "type": "entities"
             },

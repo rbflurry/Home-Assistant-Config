@@ -178,7 +178,7 @@
       - telegram_group
       
   water_feed:
-    name: Chickens need feesing
+    name: Chickens need feeding
     message: Chickens need feeding /ack
     done_message: Thank you for feeding the chickens
     entity_id: binary_sensor.template_chickens_need_feeding

@@ -65,3 +65,8 @@ tuya:
     - switch.707034445002911dc0db
     - switch.071460365002911e81da
 
+upstairs_lights:
+  name: Uptairs Lights
+  entities:
+    - light.sengled_e11_g13_035c3bc7_1
+    - light.sengled_e11_g13_035cb3f8_1
