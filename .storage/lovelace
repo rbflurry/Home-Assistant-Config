@@ -544,6 +544,22 @@
         },
         {
           "theme": "Backend-selected",
+          "title": "Nursery",
+          "path": "nursery",
+          "icon": "mdi:cradle",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "light.in_wall_paddle_dimmer_500s"
+              ],
+              "title": "In-Wall Paddle Dimmer, 500S"
+            }
+          ]
+        },
+        {
+          "theme": "Backend-selected",
           "title": "Bed Room",
           "path": "bed-room",
           "icon": "mdi:bed",

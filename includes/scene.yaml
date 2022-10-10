@@ -1,13 +1,13 @@
 - id: goodnight
   name: goodnight
   entities:
-    light.wink_hallway: off
+    switch.wink_hallway_switch: off
     light.wink_bed_room: off
-    switch.wink_front_porch_switch: off
     switch.wink_back_flood: off
-    light.wink_led_strip_bed: off
+    light.bed_wled: off
     input_boolean.good_night: on
     input_boolean.good_morning: off
+    switch.powerpivot1_1: off
 - id: goodmorning
   name: goodmorning
   entities:
@@ -40,7 +40,7 @@
 - id: leaving_home
   name: leaving_home
   entities:
-    light.wink_hallway: on
+    switch.wink_hallway_switch: on
 - id: every_one_inside
   name: every_one_inside
   entities:

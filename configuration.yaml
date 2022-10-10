@@ -111,6 +111,7 @@ sensor templates: !include includes/sensor_templates.yaml
 sensor: !include includes/sensor.yaml
 switch: !include includes/switch.yaml
 zone: 
+ios: !include includes/ios.yaml
 
 
 #python_script:
@@ -149,3 +150,9 @@ weather:
     humidity_template: "{{ states('sensor.pws_5in1_humidity')| float }}"
     forecast_template: "{{ states.weather.home.attributes.forecast }}"
     wind_speed_template: "{{ states('sensor.pws_5in1_wind')| float }}"
+
+
+opnsense:
+  url: !secret fw
+  api_secret: !secret fw_secret
+  api_key: !secret fw_key

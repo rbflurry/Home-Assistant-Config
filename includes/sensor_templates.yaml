@@ -611,8 +611,8 @@
         icon_template: 'mdi:baby-carriage'
         friendly_name: 'Till baby'
         value_template: >-
-            {% set dummy = states("sensor.date") %}
-            {%  set value = as_timestamp("2022-10-20T00:00:00-05:00") - as_timestamp(utcnow())      %}
+            {% set value = as_timestamp("2022-10-20T00:00:00-05:00") - as_timestamp(utcnow())%}
+            {% set uptime = value | int %}
             {% set uptime = value | int %}
                 {% set minutes = ((uptime % 3600) / 60) | int %}
                 {% set hours = ((uptime % 86400) / 3600) | int %}
@@ -625,11 +625,13 @@
                   Less than a minute
                 {%- else -%}
                   {%- if years > 0 -%}
-                      {{ ', ' }}
                     {%- if years == 1 -%}
                       1 year 
                     {%- else -%}
                       {{ years }} years 
+                    {%- endif -%}
+                    {%- if years > 0 -%}
+                      {{ ', ' }}
                     {%- endif -%}
                   {%- endif -%}
                   {%- if months > 0 -%}
@@ -639,10 +641,10 @@
                       {{ months }} months 
                     {%- endif -%}
                     {%- if months > 0 -%}
+                      {{ ', ' }}
                     {%- endif -%}
                   {%- endif -%}
-                  {%- if weeks > 0 -%}
-                      {{ ', ' }}
+             {%- if weeks > 0 -%}
                     {%- if weeks == 1 -%}
                       1 week
                     {%- else -%}
@@ -650,7 +652,10 @@
                     {%- endif -%}
                   {%- endif -%}
                   {%- if days > 0 -%}
+                    {%- if weeks > 0 -%}
+
                       {{ ', ' }}
+                    {%- endif -%}
                     {%- if days == 1 -%}
                       1 day
                     {%- else -%}

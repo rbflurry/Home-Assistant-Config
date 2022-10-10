@@ -374,3 +374,18 @@
         entity_id:
         - light.sengled_e11_g13_035cb3f8_1
         - light.sengled_e11_g13_035c3bc7_1
+- id: '1665261527952'
+  alias: New Automation
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.nodered_adb232849e46f6ef
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness: 10
+    target:
+      entity_id: light.bed_wled
+  mode: single

@@ -1,0 +1,41 @@
+esphome:
+  name: esp32-bluetooth
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "gsAx1prducgcRxA/0CoAZReQLnQgqf9Ta4e2Qlcn79g="
+
+ota:
+  password: "e569482973c9b18d0eb778e2db76a98b"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp32-Bluetooth Fallback Hotspot"
+    password: "1QZJ21nZK82m"
+
+captive_portal:
+    
+
+esp32_ble_tracker:
+
+logger:
+
+
+binary_sensor:
+  - platform: ble_presence
+    mac_address: D4:3D:39:11:C4:2C
+    name: "Deeks Collar"
+  - platform: ble_presence
+    mac_address: D4:3D:39:E1:96:10
+    name: "Nubbs Collar"

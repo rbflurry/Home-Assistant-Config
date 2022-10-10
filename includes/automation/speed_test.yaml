@@ -9,4 +9,6 @@
     entity_id: device_tracker.livingroomtv
     state: 'not_home'
   action:
-     service: speedtestdotnet.speedtest
+#     service: speedtestdotnet.speedtest
+     service: homeassistant.update_entity
+     entity_id: sensor.speedtest_download
