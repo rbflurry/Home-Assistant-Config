@@ -28,7 +28,10 @@
     entity_id: sensor.bathroom_humid
     for: 00:01:00
     platform: numeric_state
-  condition: []
+  condition:
+  - condition: state
+    entity_id: switch.bathroom_fan
+    state: 'on'
   action:
   - data: {}
     entity_id: switch.bathroom_fan
@@ -388,4 +391,186 @@
       brightness: 10
     target:
       entity_id: light.bed_wled
+  mode: single
+- id: '1665668429834'
+  alias: Door Alerts v2
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened,
+      binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.device_family
+    state: home
+  action:
+  - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
+
+      '
+    timeout: 00:00:10
+  - service: notify.telegram_ryan
+    data:
+      message: "{% set new = trigger.entity_id %} {% if is_state(new, 'off') %}\n
+        \ {{ trigger.to_state.name }} was opened and closed.\n{% else %}\n  {{ trigger.to_state.name
+        }} was opened.\n{% endif %}\n"
+  - condition: template
+    value_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''on'') }}
+
+      '
+  - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
+
+      '
+  - service: notify.telegram_ryan
+    data:
+      message: '{{ trigger.to_state.name }} was closed
+
+        '
+  mode: parallel
+  max: 10
+- id: '1665711480975'
+  alias: Climate -  Auto Craft Cool
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.craft_room.attributes.current_temperature >
+      states.climate.craft_room.attributes.temperature or states.climate.craft_room.attributes.current_temperature
+      < states.climate.craft_room.attributes.temperature-1}}
+
+      '
+    for:
+      minutes: 5
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.craft_room.attributes.current_temperature
+          < states.climate.craft_room.attributes.temperature-1}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: 'off'
+        target:
+          entity_id: climate.craft_room
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.craft_room.attributes.current_temperature
+          > states.climate.craft_room.attributes.temperature}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: cool
+        target:
+          entity_id: climate.craft_room
+  mode: single
+- id: '1665711634858'
+  alias: Climate -  Auto Office Cool
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
+      or states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}
+
+      '
+    for:
+      minutes: 5
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.bed_room.attributes.current_temperature
+          < states.climate.bed_room.attributes.temperature-1}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: 'off'
+        target:
+          entity_id:
+          - climate.bed_room
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.bed_room.attributes.current_temperature
+          > states.climate.bed_room.attributes.temperature}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: cool
+        target:
+          entity_id:
+          - climate.bed_room
+  mode: single
+- id: '1665711964366'
+  alias: Climate - Auto Office Heat
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
+      or states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}
+
+      '
+    for:
+      minutes: 5
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.bed_room.attributes.current_temperature
+          < states.climate.bed_room.attributes.temperature-1}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: heat
+        target:
+          entity_id:
+          - climate.bed_room
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.bed_room.attributes.current_temperature
+          > states.climate.bed_room.attributes.temperature}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: 'off'
+        target:
+          entity_id:
+          - climate.bed_room
+  mode: single
+- id: '1665712050949'
+  alias: Climate - Auto Craft Heat
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.craft_room.attributes.current_temperature >
+      states.climate.craft_room.attributes.temperature or states.climate.craft_room.attributes.current_temperature
+      < states.climate.craft_room.attributes.temperature-1}}
+
+      '
+    for:
+      minutes: 5
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.craft_room.attributes.current_temperature
+          < states.climate.craft_room.attributes.temperature-1}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: heat
+        target:
+          entity_id: climate.craft_room
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.craft_room.attributes.current_temperature
+          > states.climate.craft_room.attributes.temperature}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: 'off'
+        target:
+          entity_id: climate.craft_room
   mode: single
