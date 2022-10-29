@@ -1,9 +1,0 @@
-- alias: I cloud test
-  id: 55545721-c491-4f71-85e4-649cf711c4d9
-  trigger:
-    platform: template
-    value_template: '{{states.device_tracker.ryaniphone.attributes.interval != 60 }}'
-  action:
-    - service: device_tracker.icloud_set_interval
-      data:
-        interval: 60

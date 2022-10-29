@@ -1,6 +1,10 @@
 esphome:
   name: esp32-bluetooth
 
+substitutions:
+  device_name: sense-u
+  friendly_name: Sense-U Baby Tracker
+
 esp32:
   board: esp32dev
   framework:
@@ -31,11 +35,73 @@ esp32_ble_tracker:
 
 logger:
 
+external_components:
+  - source: github://andyboeh/esphome-sense-u
+    components: senseu
+
+ble_client:
+  - mac_address: e7:ca:2d:0b:0b:0f
+    id: my_senseu_ble
+
+senseu:
+  - ble_client_id: my_senseu_ble
+    id: my_senseu
+    # baby_code is optional. Needs to be retrieved during pairing phase.
+    # This allows using the Sense-U with multiple devices, e.g. at different
+    # locations.
+    
+    # baby_code: aabbccddeeff
+
+# Example configuration entry
+sensor:
+  - platform: senseu
+    id: my_senseu
+    breath_rate: 
+      name: Breath Rate
+    temperature: 
+      name: Temperature
+    humidity: 
+      name: Humidity
+    battery_level:
+      name: Battery Level
+  # Uptime sensor
+  - platform: uptime
+    name: ${friendly_name} Uptime
+  # WiFi Signal sensor
+  - platform: wifi_signal
+    name: ${friendly_name} Wifi Signal
+    update_interval: 60s
+    
+# Sync time with Home Assistant
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# Text sensors with general information
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: ${friendly_name} IP Address
+  - platform: senseu
+    id: my_senseu
+    posture:
+      name: Posture
+    status:
+      name: State
 
 binary_sensor:
-  - platform: ble_presence
-    mac_address: D4:3D:39:11:C4:2C
-    name: "Deeks Collar"
-  - platform: ble_presence
-    mac_address: D4:3D:39:E1:96:10
-    name: "Nubbs Collar"
+  - platform: senseu
+    id: my_senseu
+    breath:
+      name: Breath Alarm
+    posture:
+      name: Posture Alarm
+    temperature:
+      name: Temperature Alarm
+    battery:
+      name: Battery Alarm
+
+switch:
+  - platform: senseu
+    senseu_id: my_senseu
+    name: Power Switch

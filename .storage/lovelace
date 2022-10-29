@@ -15,7 +15,9 @@
             {
               "type": "entities",
               "entities": [
-                "sensor.till_baby"
+                {
+                  "entity": "sensor.baby_brett"
+                }
               ]
             },
             {
@@ -552,6 +554,43 @@
             {
               "type": "entities",
               "entities": [
+                {
+                  "entity": "switch.power_switch"
+                },
+                {
+                  "entity": "binary_sensor.battery_alarm"
+                },
+                {
+                  "entity": "binary_sensor.breath_alarm"
+                },
+                {
+                  "entity": "sensor.breath_rate"
+                },
+                {
+                  "entity": "sensor.humidity"
+                },
+                {
+                  "entity": "sensor.posture"
+                },
+                {
+                  "entity": "binary_sensor.posture_alarm"
+                },
+                {
+                  "entity": "sensor.state"
+                },
+                {
+                  "entity": "sensor.temperature"
+                },
+                {
+                  "entity": "binary_sensor.temperature_alarm"
+                }
+              ],
+              "title": "Brett sense-u",
+              "show_header_toggle": false
+            },
+            {
+              "type": "entities",
+              "entities": [
                 "light.in_wall_paddle_dimmer_500s"
               ],
               "title": "In-Wall Paddle Dimmer, 500S"
@@ -580,26 +619,6 @@
               "type": "entities",
               "entities": [
                 {
-                  "entity": "switch.3d_printer_power"
-                },
-                {
-                  "entity": "switch.hp_printer_power"
-                },
-                {
-                  "entity": "switch.outlet_3"
-                },
-                {
-                  "entity": "switch.outlet_4"
-                },
-                {
-                  "entity": "switch.usb_outlets"
-                }
-              ]
-            },
-            {
-              "type": "entities",
-              "entities": [
-                {
                   "entity": "light.bed_room_overhead_zha_group_0x0003"
                 },
                 {
@@ -612,6 +631,47 @@
                   "entity": "light.bed_room_overhead_1_0359a396"
                 }
               ]
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "switch.3d_printer",
+                "switch.hp_printer",
+                "switch.switch_3",
+                "switch.switch_4",
+                "switch.usb_outlets_2"
+              ],
+              "title": "esp-printer-strip"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.octoprint_current_state",
+                  "name": "Current State"
+                },
+                {
+                  "entity": "sensor.octoprint_estimated_finish_time",
+                  "name": "Estimated Finish Time"
+                },
+                {
+                  "entity": "sensor.octoprint_job_percentage",
+                  "name": "Job Percentage"
+                },
+                {
+                  "entity": "binary_sensor.octoprint_printing",
+                  "name": "Printing"
+                },
+                {
+                  "entity": "binary_sensor.octoprint_printing_error",
+                  "name": "Printing Error"
+                },
+                {
+                  "entity": "sensor.octoprint_start_time",
+                  "name": "Start Time"
+                }
+              ],
+              "title": "OctoPrint"
             }
           ]
         },
@@ -1429,6 +1489,18 @@
           "icon": "mdi:battery-alert",
           "path": "battery_view",
           "title": "Batteries"
+        },
+        {
+          "theme": "Backend-selected",
+          "title": "cam",
+          "path": "cam",
+          "badges": [],
+          "cards": [
+            {
+              "type": "picture-entity",
+              "entity": "camera.person_detector_fp"
+            }
+          ]
         }
       ]
     }

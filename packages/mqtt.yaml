@@ -336,34 +336,7 @@ mqtt:
       payload_available: "Online"
       payload_not_available: "Offline"
       retain: true
-      
-    # - name: "esp9"
-      # unique_id: esp9
-      # state_topic: "stat/esp9/RESULT"
-      # value_template: '{{ value_json["POWER"] }}'
-      # command_topic: "cmnd/esp9/POWER"
-      # availability_topic: "tele/esp9/LWT"
-      # qos: 1
-      # payload_on: "ON"
-      # payload_off: "OFF"
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      # retain: true
-      
-    # - name: "esp11"
-      # unique_id: esp11
-      # state_topic: "stat/esp11/RESULT"
-      # value_template: '{{ value_json["POWER"] }}'
-      # command_topic: "cmnd/esp11/POWER"
-      # availability_topic: "tele/esp11/LWT"
-      # qos: 1
-      # payload_on: "ON"
-      # payload_off: "OFF"
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      # retain: true
-      # json_attributes_topic: "tele/esp11/SENSOR"
-      # json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+
       
     - name: "esp12"
       unique_id: esp12
@@ -466,65 +439,7 @@ mqtt:
       payload_not_available: "Offline"
       retain: true
 #################################################  
-   
-################################################# 
-#  Printer outlet strip
-################################################# 
-    - name: "3D Printer Power"
-      state_topic: "stat/3D-printer/RESULT"
-      value_template: '{{ value_json["POWER1"] }}'
-      command_topic: "cmnd/3D-printer/POWER1"
-      availability_topic: "tele/3D-printer/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      
-    - name: "HP Printer Power"
-      state_topic: "stat/3D-printer/RESULT"
-      value_template: '{{ value_json["POWER2"] }}'
-      command_topic: "cmnd/3D-printer/POWER2"
-      availability_topic: "tele/3D-printer/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      
-    - name: "Outlet 3"
-      state_topic: "stat/3D-printer/RESULT"
-      value_template: '{{ value_json["POWER3"] }}'
-      command_topic: "cmnd/3D-printer/POWER3"
-      availability_topic: "tele/3D-printer/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      
-    - name: "Outlet 4"
-      state_topic: "stat/3D-printer/RESULT"
-      value_template: '{{ value_json["POWER4"] }}'
-      command_topic: "cmnd/3D-printer/POWER4"
-      availability_topic: "tele/3D-printer/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      
-    - name: "USB Outlets"
-      state_topic: "stat/3D-printer/RESULT"
-      value_template: '{{ value_json["POWER5"] }}'
-      command_topic: "cmnd/3D-printer/POWER5"
-      availability_topic: "tele/3D-printer/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-#################################################
+
 
 #################################################
 #### Bathroom Fan

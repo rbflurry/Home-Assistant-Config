@@ -1,9 +1,0 @@
-- alias: camera restart
-  id: 775a2ac3-ac6a-49e7-85bf-b4ba180684a1
-  trigger:
-    platform: state
-    entity_id: device_tracker.001212580606
-    from: 'home'
-    to: 'not_home'
-  action:
-    service: shell_command.restart_drivewaycam

@@ -366,17 +366,6 @@
       - light.sengled_e11_g13_035c3bc7_1
       - light.bed_wled
   mode: single
-- id: '1659921303028'
-  alias: dimmer up stairs
-  description: ''
-  use_blueprint:
-    path: bjpetit/zha_lutron_aurora_blueprint.yaml
-    input:
-      remote: 50b370ca9c6b4fcf91f0fee0cb747b7b
-      light:
-        entity_id:
-        - light.sengled_e11_g13_035cb3f8_1
-        - light.sengled_e11_g13_035c3bc7_1
 - id: '1665261527952'
   alias: New Automation
   description: ''
@@ -573,4 +562,89 @@
           hvac_mode: 'off'
         target:
           entity_id: climate.craft_room
+  mode: single
+- id: '1666117827132'
+  alias: upstairs dimmer
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: 50b370ca9c6b4fcf91f0fee0cb747b7b
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{trigger.event.data.params.level == 2}}'
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id:
+          - light.sengled_e11_g13_035cb3f8_1
+          - light.sengled_e11_g13_035c3bc7_1
+    default:
+    - service: light.turn_on
+      data:
+        brightness: '{{trigger.event.data.params.level | int}}'
+        transition: 1
+      target:
+        entity_id:
+        - light.sengled_e11_g13_035c3bc7_1
+        - light.sengled_e11_g13_035cb3f8_1
+  mode: restart
+- id: '1666123844519'
+  alias: bed light dimmer
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: ff:ff:00:0f:e7:fd:89:a4:1:0x0008
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{trigger.event.data.params.level == 2}}'
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.bed_wled
+    default:
+    - service: light.turn_on
+      data:
+        brightness: '{{trigger.event.data.params.level | int}}'
+        transition: 1
+      target:
+        entity_id:
+        - light.bed_wled
+  mode: restart
+- id: '1667065340558'
+  alias: HCPSS Status Changes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.hcps_status
+  condition: []
+  action:
+  - service: notify.telegram_group
+    data:
+      message: '✏HCPSS is: {{trigger.to_state.state}}✏'
+  mode: single
+- id: '1667065431239'
+  alias: Blue Iris Status
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.blueiris
+  condition: []
+  action:
+  - service: notify.telegram_ryan
+    data:
+      message: "\U0001F4F9Blue Iris: {{trigger.to_state.state}}\U0001F4F9"
   mode: single
