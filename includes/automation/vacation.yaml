@@ -1,89 +1,89 @@
 
-#Vacation Mode on
-- alias: Turn on vacation mode
-  id: b0dc4f26-4bfa-4798-b853-7c487f12d0df
-  trigger:
-   platform: state
-   entity_id: input_boolean.vacation_mode
-   from: 'off'
-   to: 'on'
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.wink_zwaveoutlet, automation.Turn_on_hot_water_at_5, automation.1_turn_on_light_when_sun_sets_and_noone_is_home
+# #Vacation Mode on
+# - alias: Turn on vacation mode
+  # id: b0dc4f26-4bfa-4798-b853-7c487f12d0df
+  # trigger:
+   # platform: state
+   # entity_id: input_boolean.vacation_mode
+   # from: 'off'
+   # to: 'on'
+  # action:
+    # - service: homeassistant.turn_off
+      # entity_id: switch.wink_zwaveoutlet, automation.Turn_on_hot_water_at_5, automation.1_turn_on_light_when_sun_sets_and_noone_is_home
 
-#Vacation Mode off
-- alias: Turned off Vacation Mode
-  id: fe32cdd5-b290-41ef-8380-a6686f6abe30
-  trigger:
-   platform: state
-   entity_id: input_boolean.vacation_mode
-   to: 'off'
-   from: 'on'
-  action:
-    - service: homeassistant.turn_on
-      entity_id: switch.wink_zwaveoutlet, automation.Turn_on_hot_water_at_5, automation.1_turn_on_light_when_sun_sets_and_noone_is_home
-
-
-
-# Vacation mode for Living Room light
-- alias: 'Vacation Mode for Living Room ON'
-  id: 1d55f905-78cb-439c-ae41-168e8142792e
-  trigger:
-    platform: sun
-    event: sunset
-    offset: "-00:38:00"
-  condition:
-    condition: state
-    entity_id: input_boolean.vacation_mode
-    state: 'on'
-  action:
-    service: homeassistant.turn_on
-    entity_id: light.wink_hallway
-
-# Vacation mode for Living Room light
-- alias: 'Vacation Mode for Living Room OFF'
-  id: 8de1f3ba-8f18-40b4-87cf-dff8e19b0efb
-  trigger:
-    platform: sun
-    event: sunset
-    offset: "+01:00:00"
-  condition:
-    condition: state
-    entity_id: input_boolean.vacation_mode
-    state: 'on'
-  action:
-    service: homeassistant.turn_off
-    entity_id: light.wink_hallway
+# #Vacation Mode off
+# - alias: Turned off Vacation Mode
+  # id: fe32cdd5-b290-41ef-8380-a6686f6abe30
+  # trigger:
+   # platform: state
+   # entity_id: input_boolean.vacation_mode
+   # to: 'off'
+   # from: 'on'
+  # action:
+    # - service: homeassistant.turn_on
+      # entity_id: switch.wink_zwaveoutlet, automation.Turn_on_hot_water_at_5, automation.1_turn_on_light_when_sun_sets_and_noone_is_home
 
 
-# Vacation mode for Bed Room light
-- alias: 'Vacation Mode for Bed Room ON'
-  id: 3dc2e6f9-c087-47f9-96bb-da2a5daebdcb
-  trigger:
-    platform: sun
-    event: sunset
-    offset: "+01:40:00"
-  condition:
-    condition: state
-    entity_id: input_boolean.vacation_mode
-    state: 'on'
-  action:
-    service: homeassistant.turn_on
-    entity_id: light.wink_bed_room
+
+# # Vacation mode for Living Room light
+# - alias: 'Vacation Mode for Living Room ON'
+  # id: 1d55f905-78cb-439c-ae41-168e8142792e
+  # trigger:
+    # platform: sun
+    # event: sunset
+    # offset: "-00:38:00"
+  # condition:
+    # condition: state
+    # entity_id: input_boolean.vacation_mode
+    # state: 'on'
+  # action:
+    # service: homeassistant.turn_on
+    # entity_id: light.wink_hallway
+
+# # Vacation mode for Living Room light
+# - alias: 'Vacation Mode for Living Room OFF'
+  # id: 8de1f3ba-8f18-40b4-87cf-dff8e19b0efb
+  # trigger:
+    # platform: sun
+    # event: sunset
+    # offset: "+01:00:00"
+  # condition:
+    # condition: state
+    # entity_id: input_boolean.vacation_mode
+    # state: 'on'
+  # action:
+    # service: homeassistant.turn_off
+    # entity_id: light.wink_hallway
+
+
+# # Vacation mode for Bed Room light
+# - alias: 'Vacation Mode for Bed Room ON'
+  # id: 3dc2e6f9-c087-47f9-96bb-da2a5daebdcb
+  # trigger:
+    # platform: sun
+    # event: sunset
+    # offset: "+01:40:00"
+  # condition:
+    # condition: state
+    # entity_id: input_boolean.vacation_mode
+    # state: 'on'
+  # action:
+    # service: homeassistant.turn_on
+    # entity_id: light.wink_bed_room
     
     
     
-# Vacation mode for Bed Room light
-- alias: 'Vacation Mode for Bed Room OFF'
-  id: 4ed9773e-e4b8-496a-bb8b-9668ecce9c87
-  trigger:
-    platform: sun
-    event: sunset
-    offset: "+03:25:00"
-  condition:
-    condition: state
-    entity_id: input_boolean.vacation_mode
-    state: 'on'
-  action:
-    service: homeassistant.turn_off
-    entity_id: light.wink_bed_room
+# # Vacation mode for Bed Room light
+# - alias: 'Vacation Mode for Bed Room OFF'
+  # id: 4ed9773e-e4b8-496a-bb8b-9668ecce9c87
+  # trigger:
+    # platform: sun
+    # event: sunset
+    # offset: "+03:25:00"
+  # condition:
+    # condition: state
+    # entity_id: input_boolean.vacation_mode
+    # state: 'on'
+  # action:
+    # service: homeassistant.turn_off
+    # entity_id: light.wink_bed_room

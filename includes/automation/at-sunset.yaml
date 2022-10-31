@@ -1,20 +1,20 @@
-- alias: 1. Turn on light when sun sets and noone is home
-  id: 0f6be21c-e08e-4250-b982-bfe5119acda6
-  trigger:
-   - platform: sun
-     event: sunset
-  condition:
-   - condition: state
-     entity_id: group.device_family
-     state: 'not_home'
-   - condition: state
-     entity_id: switch.wink_hallway_switch
-     state: 'off'
-  action:
-   -  service: homeassistant.turn_on
-      entity_id: switch.wink_hallway_switch, switch.wink_front_porch_switch, switch.powerpivot1_2, switch.powerpivot1_1
-   -  service: notify.telegram_group
-      data:
-        title: No one is home
-        message: >
-          No one is home so I turned on the light
+# - alias: 1. Turn on light when sun sets and noone is home
+  # id: 0f6be21c-e08e-4250-b982-bfe5119acda6
+  # trigger:
+   # - platform: sun
+     # event: sunset
+  # condition:
+   # - condition: state
+     # entity_id: group.device_family
+     # state: 'not_home'
+   # - condition: state
+     # entity_id: switch.wink_hallway_switch
+     # state: 'off'
+  # action:
+   # -  service: homeassistant.turn_on
+      # entity_id: switch.wink_hallway_switch, switch.wink_front_porch_switch, switch.powerpivot1_2, switch.powerpivot1_1
+   # -  service: notify.telegram_group
+      # data:
+        # title: No one is home
+        # message: >
+          # No one is home so I turned on the light

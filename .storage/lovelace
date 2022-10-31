@@ -104,9 +104,6 @@
                 },
                 {
                   "entity": "switch.bathroom_fan"
-                },
-                {
-                  "entity": "input_boolean.fox_hunt"
                 }
               ],
               "filter": {
@@ -203,6 +200,27 @@
               ],
               "show_header_toggle": false,
               "type": "entities"
+            },
+            {
+              "type": "conditional",
+              "conditions": [
+                {
+                  "entity": "group.device_family",
+                  "state": "not_home"
+                }
+              ],
+              "card": {
+                "type": "entities",
+                "entities": [
+                  {
+                    "entity": "input_boolean.vacation_mode"
+                  },
+                  {
+                    "entity": "input_boolean.house_guest"
+                  }
+                ],
+                "show_header_toggle": false
+              }
             }
           ]
         },
@@ -717,12 +735,6 @@
               "type": "entities"
             },
             {
-              "entity": "camera.cam234",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
               "entities": [
                 {
                   "entity": "switch.traffic_light_green"
@@ -965,22 +977,22 @@
             {
               "entities": [
                 {
+                  "entity": "sensor.geocode_ryan"
+                },
+                {
                   "entity": "sensor.waze_device_ryan_to_home"
                 },
                 {
                   "entity": "sensor.waze_device_ryan_to_work"
                 },
                 {
-                  "entity": "sensor.waze_device_chelsea_to_home"
-                },
-                {
-                  "entity": "sensor.waze_device_chelsea_to_work"
-                },
-                {
-                  "entity": "sensor.geocode_ryan"
-                },
-                {
                   "entity": "sensor.geocode_chelsea"
+                },
+                {
+                  "entity": "sensor.waze_chelsea_to_home"
+                },
+                {
+                  "entity": "sensor.waze_chelsea_to_work"
                 }
               ],
               "show_header_toggle": false,
@@ -1000,10 +1012,7 @@
             {
               "entities": [
                 {
-                  "entity": "device_tracker.chelseasiphone_wifi"
-                },
-                {
-                  "entity": "device_tracker.pixel_3"
+                  "entity": "device_tracker.chelseas_iphone"
                 }
               ],
               "show_header_toggle": false,
@@ -1397,69 +1406,6 @@
           "badges": [],
           "cards": [
             {
-              "aspect_ratio": "50%",
-              "entity": "camera.front_porch",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "aspect_ratio": "50%",
-              "entity": "camera.back_deck",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "entity": "camera.cam234",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "entity": "camera.camd239",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "entity": "camera.camp235",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "entity": "camera.camp237",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "entity": "camera.camz238",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "entity": "camera.p230",
-              "show_name": false,
-              "show_state": false,
-              "type": "picture-entity"
-            },
-            {
-              "aspect_ratio": "50%",
-              "entity": "camera.driveway",
-              "image": "https://www.home-assistant.io/images/merchandise/shirt-frontpage.png",
-              "type": "picture-entity"
-            }
-          ],
-          "path": "cameras",
-          "title": "cameras"
-        },
-        {
-          "badges": [],
-          "cards": [
-            {
               "entities": [
                 {
                   "entity": "sensor.co_detector_battery"
@@ -1492,13 +1438,16 @@
         },
         {
           "theme": "Backend-selected",
-          "title": "cam",
+          "title": "Camera",
           "path": "cam",
+          "icon": "mdi:cctv",
+          "type": "panel",
           "badges": [],
           "cards": [
             {
-              "type": "picture-entity",
-              "entity": "camera.person_detector_fp"
+              "type": "iframe",
+              "url": "https://iris.lilold.westmd.info/ui3.htm?maximize=1",
+              "aspect_ratio": "100%"
             }
           ]
         }

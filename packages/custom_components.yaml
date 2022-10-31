@@ -1,58 +1,5 @@
 ### This file does not get tested by Travis!###
 
-#image_processing:
-  # - platform: deepstack_object
-    # ip_address: 192.168.47.205
-    # port: 5000
-    # save_file_folder: /config/www/deepstack_person_images
-    # targets: 
-      # - person
-      # - car
-      # - truck
-      # - dog
-      # - cat
-    # confidence: 85
-    # source:
-      # - entity_id: camera.back_deck
-        # name: person_detector_bd
-      # - entity_id: camera.deepstack_test
-        # name: deepstack_test
-      # - entity_id: camera.p230
-        # name: person_detector_side
-  # - platform: deepstack_object
-    # ip_address: 192.168.47.205
-    # port: 5000
-    # save_file_folder: /config/www/deepstack_person_images
-    # targets: 
-      # - person
-    # confidence: 85
-    # source:
-      # - entity_id: camera.front_porch
-        # name: person_detector_fp
-  # - platform: deepstack_object
-    # ip_address: 192.168.47.205
-    # port: 5000
-    # save_file_folder: /config/www/deepstack_object_images
-    # targets: 
-      # - person
-      # - car
-      # - truck
-      # - dog
-      # - cat
-    # confidence: 80
-    # source:
-      # - entity_id: camera.driveway
-        # name: object_detection_driveway
-      # - entity_id: camera.p230
-        # name: object_detection_side
-      # - entity_id: camera.camz238
-        # name: object_detection_coop
-#  - platform: sighthound
-#    api_key: !secret sighthound
-#    save_file_folder: /config/www/sighthound
-#    save_timestamped_file: True
-#    source:
-#      - entity_id: camera.deepstack_driveway_latest
   
 sensor:
   - platform: google_geocode
@@ -61,7 +8,7 @@ sensor:
     display_zone: hide
     api_key: !secret google_geocode
   - platform: google_geocode
-    origin: device_tracker.pixel_3
+    origin: device_tracker.chelseas_iphone
     name: geocode_chelsea
     display_zone: hide
     api_key: !secret google_geocode

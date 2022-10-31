@@ -258,51 +258,6 @@
     data:
       addon: 9b13b3f4_rtl433
   mode: single
-- id: '1657802213048'
-  alias: Climate - Craft Room Cool - Off
-  description: ''
-  trigger:
-  - platform: template
-    value_template: '{{states.climate.craft_room.attributes.current_temperature <
-      states.climate.craft_room.attributes.temperature-1}}'
-    for:
-      minutes: 5
-  condition:
-  - condition: device
-    device_id: 1da3570264a941bbf2a20e7f133f58af
-    domain: climate
-    entity_id: climate.craft_room
-    type: is_hvac_mode
-    hvac_mode: cool
-  action:
-  - device_id: 1da3570264a941bbf2a20e7f133f58af
-    domain: climate
-    entity_id: climate.craft_room
-    type: set_hvac_mode
-    hvac_mode: 'off'
-  mode: single
-- id: '1657802220868'
-  alias: Climate - Office Room Cool - Off
-  description: ''
-  trigger:
-  - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}'
-    for:
-      minutes: 5
-  condition:
-  - condition: device
-    device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
-    domain: climate
-    entity_id: climate.bed_room
-    type: is_hvac_mode
-    hvac_mode: cool
-  action:
-  - device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
-    domain: climate
-    entity_id: climate.bed_room
-    type: set_hvac_mode
-    hvac_mode: 'off'
-  mode: single
 - id: '1657802534737'
   alias: Climate - Craft Room Cool - On
   description: ''
@@ -323,28 +278,6 @@
   - device_id: 1da3570264a941bbf2a20e7f133f58af
     domain: climate
     entity_id: climate.craft_room
-    type: set_hvac_mode
-    hvac_mode: cool
-  mode: single
-- id: '1657802594078'
-  alias: Climate - Office Room Cool - On
-  description: ''
-  trigger:
-  - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature}}'
-    for:
-      minutes: 5
-  condition:
-  - condition: device
-    device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
-    domain: climate
-    entity_id: climate.bed_room
-    type: is_hvac_mode
-    hvac_mode: 'off'
-  action:
-  - device_id: ef69eb5aa7a9c38beec3570b39bfc2bf
-    domain: climate
-    entity_id: climate.bed_room
     type: set_hvac_mode
     hvac_mode: cool
   mode: single
@@ -452,43 +385,6 @@
           hvac_mode: cool
         target:
           entity_id: climate.craft_room
-  mode: single
-- id: '1665711634858'
-  alias: Climate -  Auto Office Cool
-  description: ''
-  trigger:
-  - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
-      or states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}
-
-      '
-    for:
-      minutes: 5
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{states.climate.bed_room.attributes.current_temperature
-          < states.climate.bed_room.attributes.temperature-1}}'
-      sequence:
-      - service: climate.set_hvac_mode
-        data:
-          hvac_mode: 'off'
-        target:
-          entity_id:
-          - climate.bed_room
-    - conditions:
-      - condition: template
-        value_template: '{{states.climate.bed_room.attributes.current_temperature
-          > states.climate.bed_room.attributes.temperature}}'
-      sequence:
-      - service: climate.set_hvac_mode
-        data:
-          hvac_mode: cool
-        target:
-          entity_id:
-          - climate.bed_room
   mode: single
 - id: '1665711964366'
   alias: Climate - Auto Office Heat
@@ -647,4 +543,137 @@
   - service: notify.telegram_ryan
     data:
       message: "\U0001F4F9Blue Iris: {{trigger.to_state.state}}\U0001F4F9"
+  mode: single
+- id: '1667183802979'
+  alias: Hot Water
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:00:00
+    id: 'off'
+  - platform: time
+    at: '17:00:00'
+    id: 'on'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: group.device_family
+          state: not_home
+        - condition: state
+          entity_id: input_boolean.house_guest
+          state: 'off'
+        - condition: state
+          entity_id: switch.wink_zwaveoutlet
+          state: 'on'
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.wink_zwaveoutlet
+    - conditions:
+      - condition: trigger
+        id: 'on'
+      - condition: state
+        entity_id: switch.wink_zwaveoutlet
+        state: 'off'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.wink_zwaveoutlet
+  mode: single
+- id: '1667185001857'
+  alias: Vacation Lights
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:38:00
+    id: living room on
+  - platform: sun
+    event: sunset
+    offset: +01:00:00
+    id: living room off
+  - platform: sun
+    event: sunset
+    offset: +01:40:00
+    id: bed room on
+  - platform: sun
+    event: sunset
+    offset: +03:25:00
+    id: bed room off
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: living room on
+      sequence:
+      - service: homeassistant.turn_on
+        data: {}
+        target:
+          entity_id: switch.wink_hallway_switch
+    - conditions:
+      - condition: trigger
+        id: living room off
+      sequence:
+      - service: homeassistant.turn_off
+        data: {}
+        target:
+          entity_id: switch.wink_hallway_switch
+    - conditions:
+      - condition: trigger
+        id: bed room on
+      sequence:
+      - service: homeassistant.turn_on
+        data: {}
+        target:
+          entity_id: light.wink_bed_room
+    - conditions:
+      - condition: trigger
+        id: bed room off
+      sequence:
+      - service: homeassistant.turn_off
+        data: {}
+        target:
+          entity_id: light.wink_bed_room
+  mode: single
+- id: '1667185720938'
+  alias: No one is home , turn the lights on
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition:
+  - condition: state
+    entity_id: group.device_family
+    state: not_home
+  - condition: state
+    entity_id: input_boolean.house_guest
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
+  action:
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.wink_front_porch_switch
+      - switch.powerpivot1_2
+      - switch.powerpivot1_1
+      - switch.wink_hallway_switch
+  - service: notify.telegram_group
+    data:
+      message: No one is home so i turned on some lights
   mode: single
