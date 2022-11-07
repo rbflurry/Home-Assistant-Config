@@ -2,11 +2,11 @@
 #  title: 'Router'
 #  icon: 'mdi:router-wireless'
 #  url: !secret router_url 
-ip_cam:
-   title: 'Blue Iris'
-   icon: 'mdi:webcam'
-   url: !secret iris_url
-synology:
-   title: 'Synology'
-   icon: 'mdi:webcam'
-   url: !secret syno_url
+# ip_cam:
+   # title: 'Blue Iris'
+   # icon: 'mdi:webcam'
+   # url: !secret iris_url
+# synology:
+   # title: 'Synology'
+   # icon: 'mdi:webcam'
+   # url: !secret syno_url

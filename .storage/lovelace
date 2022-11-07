@@ -718,13 +718,10 @@
                   "entity": "switch.esp6"
                 },
                 {
-                  "entity": "light.garage_lights_rear"
-                },
-                {
                   "entity": "switch.esp11"
                 },
                 {
-                  "entity": "sensor.garage_temp"
+                  "entity": "switch.esp5"
                 },
                 {
                   "entity": "switch.esp9"
@@ -1446,7 +1443,7 @@
           "cards": [
             {
               "type": "iframe",
-              "url": "https://iris.lilold.westmd.info/ui3.htm?maximize=1",
+              "url": "https://iris.lilold.westmd.info",
               "aspect_ratio": "100%"
             }
           ]

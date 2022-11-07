@@ -29,7 +29,7 @@ scripts
 home-assistant.log*
 .storage/*
 !.storage/hacs.installed
-!.storage/lovelace
+#!.storage/lovelace
 .uuid
 core.*
 OZW_Log.txt
