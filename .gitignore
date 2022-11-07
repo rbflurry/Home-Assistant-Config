@@ -27,7 +27,9 @@ scripts
 *.pickle
 .cloud
 home-assistant.log*
+.storage/lovelace
 .storage/*
+.storage/lovelace
 !.storage/hacs.installed
 #!.storage/lovelace
 .uuid

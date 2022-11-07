@@ -298,6 +298,22 @@
       - light.sengled_e11_g13_035cb3f8_1
       - light.sengled_e11_g13_035c3bc7_1
       - light.bed_wled
+      - light.wink_bed_room
+      - light.wink_led_strip_bath
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.sengled_e11_g13_035cb3f8_1
+      - light.sengled_e11_g13_035c3bc7_1
+      - light.bed_wled
+      - light.wink_bed_room
+      - light.wink_led_strip_bath
   mode: single
 - id: '1665261527952'
   alias: New Automation
