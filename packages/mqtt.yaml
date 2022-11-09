@@ -400,44 +400,44 @@ mqtt:
 #################################################
 #### ROUND
 #################################################
-    - name: "Round 1"
-      state_topic: "stat/round/RESULT"
-      value_template: '{{ value_json["POWER1"] }}'
-      command_topic: "cmnd/round/POWER1"
-      availability_topic: "tele/round/LWT"
-      unique_id: round1
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
+    # - name: "Round 1"
+      # state_topic: "stat/round/RESULT"
+      # value_template: '{{ value_json["POWER1"] }}'
+      # command_topic: "cmnd/round/POWER1"
+      # availability_topic: "tele/round/LWT"
+      # unique_id: round1
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
       
-    - name: "Round 2"
-      unique_id: round2
-      state_topic: "stat/round/RESULT"
-      value_template: '{{ value_json["POWER2"] }}'
-      command_topic: "cmnd/round/POWER2"
-      availability_topic: "tele/round/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
+    # - name: "Round 2"
+      # unique_id: round2
+      # state_topic: "stat/round/RESULT"
+      # value_template: '{{ value_json["POWER2"] }}'
+      # command_topic: "cmnd/round/POWER2"
+      # availability_topic: "tele/round/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
       
-    - name: "Round 3"
-      unique_id: round3
-      state_topic: "stat/round/RESULT"
-      value_template: '{{ value_json["POWER3"] }}'
-      command_topic: "cmnd/round/POWER3"
-      availability_topic: "tele/round/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
+    # - name: "Round 3"
+      # unique_id: round3
+      # state_topic: "stat/round/RESULT"
+      # value_template: '{{ value_json["POWER3"] }}'
+      # command_topic: "cmnd/round/POWER3"
+      # availability_topic: "tele/round/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
 #################################################  
 
 

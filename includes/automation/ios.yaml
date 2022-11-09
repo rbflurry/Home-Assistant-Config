@@ -5,15 +5,6 @@
       entity_id: device_tracker.ryans_iphone_app2
       from: 'not_home'
       to: 'home'
-#    - platform: state
-#      entity_id: device_tracker.ryan_owntracks
-#      from: 'not_home'
-#      to: 'home'
-#  condition:
-#    condition: and
-#    conditions:
-#      - condition: template
-#        value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
     - service: notify.file
       data:
@@ -25,7 +16,7 @@
         message: >
          {{trigger.to_state}}
         title: "to"
-    - service: notify.ios_ryans_iphone_app2
+    - service: notify.ryan
       data:
         title: "You are arriving home!"
         message: >
@@ -49,9 +40,6 @@
         data:
           push:
             category: 'door'
-#    - service: notify.hallway
-#      data:
-#        message: Ryan is home
 
  
 
@@ -62,21 +50,11 @@
       entity_id: device_tracker.ryans_iphone_app2
       from: 'home'
       to: 'not_home'
-#    - platform: state
-#      entity_id: device_tracker.ryan_owntracks
-#      to: 'not_home'
-#      from: 'home'
   condition:
    condition: template
    value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
-#    -  service: persistent_notification.create
-#       data:
-#         message: >
-#          {{trigger.from_state}}
-#          {{trigger.to_state}}
-#         title: "Custom subject"
-    - service: notify.ios_ryans_iphone_app2
+    - service: notify.ryan
       data:
         title: "You are leaving the house!"
         message: >
@@ -134,10 +112,7 @@
       cover.test
      {% endif %}
      
-     
-     
-     
-     
+
 - alias: Chelsea Notify iOS app Coming
   id: 37f9bb48-8e66-422d-9c6a-728c20b2eaec
   initial_state: false

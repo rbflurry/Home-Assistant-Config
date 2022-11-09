@@ -34,8 +34,6 @@
       - group.sensor_node_2_card
       - binary_sensor.house_temperature_up
       - binary_sensor.house_temperature_down
-      - image_processing.person_detector_bd
-      - image_processing.person_detector_fp
       - sensor.load_15m
       - sensor.load_1m
       - sensor.load_5m

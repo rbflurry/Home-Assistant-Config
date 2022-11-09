@@ -36,7 +36,7 @@
    entity_id: group.garage
    state: 'open'
   action:
-   service: notify.ios_group
+   service: notify.ryan
    data:
           title: 'Garage Door Left Open'
           message: >
@@ -68,7 +68,7 @@
    entity_id: group.device_family
    state: 'not_home'
   action:
-   service: notify.ios_group
+   service: notify.ryan
    data:
       title: 'Something happened at home'
       message: >

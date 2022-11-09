@@ -1,21 +1,30 @@
-  - name: ios_group
+#######
+##
+#######
+  - name: ryan
     platform: group
     services:
-#      - service: ios_ryans_iphone_app
-      - service: ios_ryans_iphone_app2
-  - name: ios_group_chicken
+      - service: telegram_ryan
+  - name: chelsea
     platform: group
     services:
-      - service: ios_ryans_iphone_app2
-        data:
-          data:
-            push:
-              category: 'chicken_door'
-      - service: ios_ryans_iphone_app2
-        data:
-          data:
-            push:
-              category: 'chicken_door'
+      - service: telegram_chelsea
+  - name: everyone_group
+    platform: group
+    services:
+      - service: telegram_ryan
+      - service: telegram_chelsea
+####
+  - name: telegram_ryan
+    platform: telegram
+    chat_id: 618533989
+  - name: telegram_chelsea
+    platform: telegram
+    chat_id: 664122562
+  - name: telegram_group
+    platform: telegram
+    chat_id: -356616190
+###
   - platform: command_line
     name: Hallway
     command: "/root/.homeassistant/alexa_wrapper.sh -d 'Hallway'"
@@ -29,32 +38,9 @@
     platform: file
     filename: notify.txt
     timestamp: true
-  - name: telegram_ryan
-    platform: telegram
-    chat_id: 618533989
-  - name: telegram_chelsea
-    platform: telegram
-    chat_id: 664122562
-  - name: telegram_group
-    platform: telegram
-    chat_id: -356616190
-  - name: everyone_group
-    platform: group
-    services:
-      - service: telegram_ryan
-      - service: telegram_chelsea
   - name: firetv
     platform: nfandroidtv
     host: !secret firestick
-  - name: ios_ryans_iphone_app2
-    platform: group
-    services:
-      - service: mobile_app_ryan_iphone
-  - name: mobile_app_ryan_iphone
-    platform: group
-    services:
-      - service: telegram_ryan
   - name: twilio_call
     platform: twilio_call
     from_number: +14123142057
-    

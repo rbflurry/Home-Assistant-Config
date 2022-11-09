@@ -70,7 +70,7 @@ automation:
       - platform: template
         value_template: '{{ states.sensor.total_wink_lights_on.state == states.sensor.total_wink_lights.state and states.sensor.total_wink_lights.state != 0 }}'
     action:
-      - service: notify.mobile_app_ryan_iphone
+      - service: notify.ryan
         data:
            title: 'All wink lights are on'
            message: 'All the wink lights are on {{ states.sensor.total_wink_lights_on.state | int }} of {{ states.sensor.total_wink_lights.state }}'
