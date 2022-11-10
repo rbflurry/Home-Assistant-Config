@@ -14,7 +14,7 @@
        entity_id: cover.windows
        state: 'closed'
   action:
-    - service: notify.mobile_app_ryan_iphone
+    - service: notify.ryan
       data:
         title: 'Colder outside than inside set temp.'
         message: >
@@ -42,7 +42,7 @@
        entity_id: cover.windows
        state: 'closed'
   action:
-    - service: notify.mobile_app_ryan_iphone
+    - service: notify.ryan
       data:
         title: 'Hotter outside than inside set temp.'
         message: >

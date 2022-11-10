@@ -61,7 +61,7 @@
       entity_id: input_boolean.chicken_door_automations
       state: 'off'
   action:
-   -  service: notify.ios_group
+   -  service: notify.ryan
       data:
  #       title: '{{ "\ud83d\udc14" }}Chicken Coop{{ "\ud83d\udc14" }}'
         title: "\U0001F414 Chicken Coop \U0001F414" 
@@ -89,7 +89,7 @@
       # entity_id: input_boolean.chicken_door_automations
       # state: 'off'
   action:
-   -  service: notify.ios_group
+   -  service: notify.ryan
       data:
         title: "\U0001F414 Chicken Coop \U0001F414" 
         message: >
@@ -300,7 +300,7 @@
       entity_id: sun.sun
       state: 'above_horizon'
   action:
-    - service: notify.ios_group
+    - service: notify.ryan
       data:
         title: 'Warning - Chicken Door'
         message: >

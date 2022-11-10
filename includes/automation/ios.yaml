@@ -118,11 +118,11 @@
   initial_state: false
   trigger:
     platform: state
-    entity_id: device_tracker.chelseas_iphone_app
+    entity_id: device_tracker.chelsea
     from: 'not_home'
     to: 'home'
   action:
-    service: notify.ios_chelseas_iphone_app
+    service: notify.chelsea
     data:
       title: "You are arriving home!"
       message: >
@@ -160,7 +160,7 @@
    condition: template
    value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
-    service: notify.ios_chelseas_iphone_app
+    service: notify.chelsea
     data:
       title: "You are leaving the house!"
       message: >
