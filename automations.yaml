@@ -1,8 +1,3 @@
-- id: '1540006472019'
-  alias: New Automation
-  trigger: []
-  condition: []
-  action: []
 - id: '1584913993330'
   alias: Bathroom Vent
   description: ''
@@ -315,21 +310,6 @@
       - light.wink_bed_room
       - light.wink_led_strip_bath
   mode: single
-- id: '1665261527952'
-  alias: New Automation
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.nodered_adb232849e46f6ef
-  condition: []
-  action:
-  - service: light.turn_on
-    data:
-      brightness: 10
-    target:
-      entity_id: light.bed_wled
-  mode: single
 - id: '1665668429834'
   alias: Door Alerts v2
   description: ''
@@ -483,6 +463,7 @@
     event_type: zha_event
     event_data:
       device_id: 50b370ca9c6b4fcf91f0fee0cb747b7b
+      command: move_to_level_with_on_off
   condition: []
   action:
   - choose:
@@ -497,6 +478,10 @@
           - light.sengled_e11_g13_035cb3f8_1
           - light.sengled_e11_g13_035c3bc7_1
     default:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.outlet_1
     - service: light.turn_on
       data:
         brightness: '{{trigger.event.data.params.level | int}}'

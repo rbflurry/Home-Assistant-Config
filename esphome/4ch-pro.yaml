@@ -1,0 +1,108 @@
+esphome:
+  name: 4ch-pro
+
+esp8266:
+  board: esp8285
+
+substitutions:
+  devicename: 4ch-pro
+  upper_devicename: 4ch-Pro
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: ${devicename} Fallback
+    password: !secret wifi_pass
+
+captive_portal:
+
+ota:
+  password: !secret esp_ota_pw
+
+
+web_server:
+  port: 80
+
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: "Sonoff 4CH Button 1"
+  - platform: gpio
+    pin:
+      number: GPIO9
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: "Sonoff 4CH Button 2"
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: "Sonoff 4CH Button 3"
+  - platform: gpio
+    pin:
+      number: GPIO14
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: "Sonoff 4CH Button 4"
+  - platform: status
+    name: "Sonoff 4CH Status"
+  - platform: status
+    name: ESP ${upper_devicename} Status
+
+switch:
+  - platform: gpio
+    name: "Sonoff 4CH Relay 1"
+    pin: GPIO12
+  - platform: gpio
+    name: "Sonoff 4CH Relay 2"
+    pin: GPIO5
+  - platform: gpio
+    name: "Sonoff 4CH Relay 3"
+    pin: GPIO4
+  - platform: gpio
+    name: "Sonoff 4CH Relay 4"
+    pin: GPIO15
+  - platform: restart
+    name: ESP ${upper_devicename} Restart
+
+output:
+  # Register the blue LED as a dimmable output ....
+  - platform: esp8266_pwm
+    id: blue_led
+    pin: GPIO13
+    inverted: true
+
+light:
+  # ... and then make a light out of it.
+  - platform: monochromatic
+    name: "Sonoff 4CH Blue LED"
+    output: blue_led
+    
+sensor:
+  - platform: wifi_signal
+    name: ${upper_devicename} WiFi Signal
+    update_interval: 60s
+
+
+packages:
+  device_base: !include common.yaml

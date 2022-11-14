@@ -76,16 +76,6 @@ sensor.camper_temp_2:
   friendly_name: Bullet Camper Temp
 sensor.camper_humid_2:
   friendly_name: Bullet Camper Humidity
-switch.4chpro_2:
-  friendly_name: Chicken Light Switch
-  icon: mdi:light-switch
-switch.4chpro_1:
-  friendly_name: Chicken Fan
-  icon: mdi:fan
-switch.4chpro_3: {}
-switch.4chpro_4:
-  friendly_name: Chicken Other Switch
-  icon: mdi:light-switch
 switch.powerpivot1_1:
   friendly_name: Carriage Lights
 person.ryan:

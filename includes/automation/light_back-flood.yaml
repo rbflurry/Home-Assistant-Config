@@ -17,9 +17,6 @@
     - condition: state
       entity_id: sun.sun
       state: 'below_horizon'
-#    - condition: state
-#      entity_id: script.timer_flood_off
-#      state: 'on'
     - condition: state
       entity_id: binary_sensor.still_dark
       state: 'on'
@@ -30,10 +27,6 @@
       entity_id: input_boolean.fox_hunt
       state: 'off'
   action:
-#    - service: homeassistant.turn_off
-#      entity_id: script.timer_flood_off
-#    - service: homeassistant.turn_on
-#      entity_id: script.timer_flood_off
     - service: timer.start
       entity_id: timer.back_flood
       data:

@@ -73,53 +73,53 @@ sensor:
             {% set HI_C = (HI-32)/1.8 %}
             {{- HI|round(1) -}}
 
-mqtt:
-  switch:
-    - name: "4chpro 1"
-      unique_id: 4chpro-1
-      state_topic: "stat/sonoff4chpro/RESULT"
-      value_template: '{{ value_json["POWER1"] }}'
-      command_topic: "cmnd/sonoff4chpro/POWER1"
-      availability_topic: "tele/sonoff4chpro/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
-    - name: "4chpro 2"
-      unique_id: 4chpro-2
-      state_topic: "stat/sonoff4chpro/RESULT"
-      value_template: '{{ value_json["POWER2"] }}'
-      command_topic: "cmnd/sonoff4chpro/POWER2"
-      availability_topic: "tele/sonoff4chpro/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
-    - name: "4chpro 3"
-      unique_id: 4chpro-3
-      state_topic: "stat/sonoff4chpro/RESULT"
-      value_template: '{{ value_json["POWER3"] }}'
-      command_topic: "cmnd/sonoff4chpro/POWER3"
-      availability_topic: "tele/sonoff4chpro/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
-    - name: "4chpro 4"
-      unique_id: 4chpro-4
-      state_topic: "stat/sonoff4chpro/RESULT"
-      value_template: '{{ value_json["POWER4"] }}'
-      command_topic: "cmnd/sonoff4chpro/POWER4"
-      availability_topic: "tele/sonoff4chpro/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
+# mqtt:
+  # switch:
+    # - name: "4chpro 1"
+      # unique_id: 4chpro-1
+      # state_topic: "stat/sonoff4chpro/RESULT"
+      # value_template: '{{ value_json["POWER1"] }}'
+      # command_topic: "cmnd/sonoff4chpro/POWER1"
+      # availability_topic: "tele/sonoff4chpro/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
+    # - name: "4chpro 2"
+      # unique_id: 4chpro-2
+      # state_topic: "stat/sonoff4chpro/RESULT"
+      # value_template: '{{ value_json["POWER2"] }}'
+      # command_topic: "cmnd/sonoff4chpro/POWER2"
+      # availability_topic: "tele/sonoff4chpro/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
+    # - name: "4chpro 3"
+      # unique_id: 4chpro-3
+      # state_topic: "stat/sonoff4chpro/RESULT"
+      # value_template: '{{ value_json["POWER3"] }}'
+      # command_topic: "cmnd/sonoff4chpro/POWER3"
+      # availability_topic: "tele/sonoff4chpro/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
+    # - name: "4chpro 4"
+      # unique_id: 4chpro-4
+      # state_topic: "stat/sonoff4chpro/RESULT"
+      # value_template: '{{ value_json["POWER4"] }}'
+      # command_topic: "cmnd/sonoff4chpro/POWER4"
+      # availability_topic: "tele/sonoff4chpro/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true

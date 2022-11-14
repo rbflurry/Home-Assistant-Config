@@ -7,7 +7,7 @@
     initial_hvac_mode: "heat"
   - platform: generic_thermostat
     name: Chicken Fan
-    heater: switch.4chpro_1
+    heater: switch.sonoff_4ch_relay_1
     target_sensor: sensor.chicken_coop_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0
@@ -18,7 +18,7 @@
       minutes: 5
   - platform: generic_thermostat
     name: Chicken Water Heater
-    heater: switch.4chpro_3
+    heater: switch.sonoff_4ch_relay_3
     target_sensor: sensor.pws_5in1_temperature
     cold_tolerance: 1.0
     hot_tolerance: 1.0

@@ -11,9 +11,6 @@
       entity_id: switch.wink_back_flood
       state: 'on'
     - condition: state
-      entity_id: script.timer_flood_off
-      state: 'off'
-    - condition: state
       entity_id: input_boolean.house_guest
       state: 'off'
   action:

@@ -720,6 +720,64 @@
                     {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
+                
+        
+    baby_brett_short:
+        icon_template: 'mdi:baby-carriage'
+        friendly_name: 'Baby Brett'
+        value_template: >-
+            {% set value = as_timestamp(now()) - as_timestamp("2022-10-21T12:58:00") %}
+            {% set uptime = value | int %}
+            {% set uptime = value | int %}
+                {% set minutes = ((uptime % 3600) / 60) | int %}
+                {% set hours = ((uptime % 86400) / 3600) | int %}
+                {% set days = ((uptime % 604800) / 86400) | int %}
+                {% set weeks = ((uptime % 2629746) / 604800) | int %}
+                {% set months = ((uptime % 31557600) / 2629746) | int %}
+                {% set years = (uptime / 31557600) | int %}
+
+                {%- if uptime < 60 -%}
+                  Less than a minute
+                {%- else -%}
+                  {%- if years > 0 -%}
+                    {%- if years == 1 -%}
+                      1 y 
+                    {%- else -%}
+                      {{ years }} y
+                    {%- endif -%}
+                    {%- if years > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if months > 0 -%}
+                    {%- if months == 1 -%}
+                      1 m
+                    {%- else -%}
+                      {{ months }} m 
+                    {%- endif -%}
+                    {%- if months > 0 -%}
+                      {{ ', ' }}
+                    {%- endif -%}
+                  {%- endif -%}
+             {%- if weeks > 0 -%}
+                    {%- if weeks == 1 -%}
+                      1 w
+                    {%- else -%}
+                      {{ weeks }} w
+                    {%- endif -%}
+                  {%- endif -%}
+                  {%- if days > 0 -%}
+                    {%- if weeks > 0 -%}
+
+                      {{ ', ' }}
+                    {%- endif -%}
+                    {%- if days == 1 -%}
+                      1 d
+                    {%- else -%}
+                      {{ days }} d
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
 
     brooder_target_temp:
         friendly_name: 'Brooder Target Temp'

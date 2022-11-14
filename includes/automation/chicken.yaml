@@ -243,7 +243,7 @@
     - service: homeassistant.turn_off
       data: 
         entity_id: >-
-          {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.4chpro_2, input_boolean.chicken_door_automations
+          {% if ( states.cover.chicken_door.state == 'closed') %}input_boolean.chicken_door_last_call, switch.sonoff_4ch_relay_2, input_boolean.chicken_door_automations
           {% else %} input_boolean.fake
           {% endif %}
 # dont put none here, it doesnt work.
@@ -277,7 +277,7 @@
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
     - delay: "00:00:15"
     - service: homeassistant.turn_off
-      entity_id: input_boolean.chicken_door_last_call, switch.4chpro_2, input_boolean.chicken_door_automations
+      entity_id: input_boolean.chicken_door_last_call, switch.sonoff_4ch_relay_2, input_boolean.chicken_door_automations
     - service: homeassistant.turn_on
       entity_id: automation.chicken_pen_door_lockout, automation.chicken_coop_door_lockout  
       
@@ -328,11 +328,11 @@
       after: sunset
       after_offset: '-00:28:00'
     - condition: state
-      entity_id: switch.4chpro_2
+      entity_id: switch.sonoff_4ch_relay_2
       state: 'off'
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.4chpro_2
+      entity_id: switch.sonoff_4ch_relay_2
 #     data:
 #      brightness: 1
 
@@ -347,11 +347,11 @@
      minutes: 2
   condition:
     - condition: state
-      entity_id: switch.4chpro_2
+      entity_id: switch.sonoff_4ch_relay_2
       state: 'on'
   action:
    - service: homeassistant.turn_off
-     entity_id: switch.4chpro_2
+     entity_id: switch.sonoff_4ch_relay_2
 
 
 
