@@ -64,10 +64,7 @@ binary_sensor:
         pullup: true
       inverted: true
     name: "Sonoff 4CH Button 4"
-  - platform: status
-    name: "Sonoff 4CH Status"
-  - platform: status
-    name: ESP ${upper_devicename} Status
+
 
 switch:
   - platform: gpio
@@ -82,8 +79,6 @@ switch:
   - platform: gpio
     name: "Sonoff 4CH Relay 4"
     pin: GPIO15
-  - platform: restart
-    name: ESP ${upper_devicename} Restart
 
 output:
   # Register the blue LED as a dimmable output ....
@@ -98,10 +93,6 @@ light:
     name: "Sonoff 4CH Blue LED"
     output: blue_led
     
-sensor:
-  - platform: wifi_signal
-    name: ${upper_devicename} WiFi Signal
-    update_interval: 60s
 
 
 packages:

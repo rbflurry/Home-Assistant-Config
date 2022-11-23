@@ -1,0 +1,13 @@
+switch:
+  - platform: restart
+    name: ESP ${upper_devicename} Restart
+
+binary_sensor:
+  - platform: status
+    name: ESP ${upper_devicename} Status
+    
+sensor:
+  - platform: wifi_signal
+    name: ${upper_devicename} WiFi Signal
+    update_interval: 60s
+    

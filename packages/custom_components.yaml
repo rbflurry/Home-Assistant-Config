@@ -92,3 +92,11 @@ switch:
     name: bathroom
     lights_rgb:
       - light.wink_led_strip_bath
+    
+climate:
+  - platform: climate_group
+    name: 'Climate Upstairs Both'
+    temperature_unit: F  # default to celsius, 'C' or 'F'
+    entities:
+    - climate.craft_room
+    - climate.bed_room
