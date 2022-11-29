@@ -349,9 +349,9 @@
       binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
     to: 'on'
   condition:
-  - condition: state
-    entity_id: group.device_family
-    state: home
+  - condition: numeric_state
+    entity_id: zone.home
+    above: 0
   action:
   - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
 
@@ -595,14 +595,14 @@
       - condition: and
         conditions:
         - condition: state
-          entity_id: group.device_family
-          state: not_home
-        - condition: state
           entity_id: input_boolean.house_guest
           state: 'off'
         - condition: state
           entity_id: switch.wink_zwaveoutlet
           state: 'on'
+        - condition: state
+          entity_id: zone.home
+          state: '0'
       sequence:
       - service: switch.turn_off
         data: {}
@@ -688,14 +688,14 @@
     offset: 0
   condition:
   - condition: state
-    entity_id: group.device_family
-    state: not_home
-  - condition: state
     entity_id: input_boolean.house_guest
     state: 'off'
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
+  - condition: state
+    entity_id: zone.home
+    state: '0'
   action:
   - service: homeassistant.turn_on
     data: {}

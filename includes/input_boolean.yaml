@@ -1,12 +1,6 @@
   test:
     name: test
     initial: off
-  device_ryan:
-    name: Ryan Home
-    icon: mdi:cellphone-iphone
-  device_chelsea:
-    name: Chelsea Home
-    icon: mdi:cellphone-iphone
   alarm_ryan:
     name: Ryan Alarm
     icon: mdi:clock

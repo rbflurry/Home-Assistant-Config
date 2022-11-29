@@ -10,8 +10,8 @@
       to: 'open'
   condition:
     - condition: state
-      entity_id: group.device_family
-      state: 'not_home'
+      entity_id: zone.home
+      state: 0
     - condition: state
       entity_id: alarm_control_panel.ha_alarm
       state: 'armed_away'

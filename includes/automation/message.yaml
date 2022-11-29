@@ -6,8 +6,8 @@
       to: 'on'
   condition:
    condition: state
-   entity_id: group.device_family
-   state: 'not_home'
+   entity_id: zone.home
+   state: 0
   action:
     - wait_template: >
        {% set new = trigger.entity_id %}

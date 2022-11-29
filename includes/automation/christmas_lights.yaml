@@ -5,8 +5,8 @@
    event: sunset
 #  condition:
 #   condition: state
-#   entity_id: group.device_family
-#   to: 'not_home'
+#    entity_id: zone.home
+#    state: 0
   action:
    service: homeassistant.turn_on
    entity_id: switch.esp2

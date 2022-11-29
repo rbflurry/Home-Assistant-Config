@@ -5,8 +5,8 @@
    at: '08:00:00'
   condition:
      - condition: state
-       entity_id: group.device_family
-       state: 'not_home'
+       entity_id: zone.home
+       state: 0
      - condition: state
        entity_id: input_boolean.house_guest
        state: 'off'
@@ -36,26 +36,9 @@
      - condition: state
        entity_id: switch.wink_zwaveoutlet
        state: 'off'
-     # - condition: template
-       # value_template: "{{trigger.from_state.attributes.source_type == 'gps'}}"
   action:
-    -  service: notify.telegram_ryan
+    -  service: notify.telegram_group
        data:
          title: "You are Home and ..."
          message: >
            The Hotwater is off.
-#         data:
-#           push:
-#             category: 'hot_water'
-             
-- alias: Hotwater - IOS
-  id: 5ac7ee53-0e85-4c75-a8d1-d350d8ab234a
-  trigger:
-    platform: event
-    event_type: ios.notification_action_fired
-  condition:
-   condition: template
-   value_template: "{{(trigger.event.data.actionName == 'TURN_ON_HOT_WATER')}}"
-  action:
-   service: homeassistant.turn_on
-   entity_id: switch.wink_zwaveoutlet

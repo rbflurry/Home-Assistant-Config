@@ -43,8 +43,8 @@
       to: 'on'
   condition:
     - condition: state
-      entity_id: group.device_family
-      state: 'not_home'
+      entity_id: zone.home
+      state: 0
     - condition: state
       entity_id: input_boolean.house_guest
       state: 'off'
