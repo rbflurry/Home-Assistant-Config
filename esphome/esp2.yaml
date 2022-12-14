@@ -1,0 +1,44 @@
+esphome:
+  name: esp2
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "+wrVmsIkCghtgB/A/EfUHzUXMX6i9rXQ84rNhLUHyTw="
+
+ota:
+  password: "06ff4f9635daa5476bfa3fb0aa7421b8"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp2 Fallback Hotspot"
+    password: "IPfxhPtQeFDf"
+
+captive_portal:
+
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    name: "Driveway Outlets"
+    id: fan_relay
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: True
+    id: bathroom_fan_relay_button
+    on_press:
+      then:
+        - switch.toggle: fan_relay

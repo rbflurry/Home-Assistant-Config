@@ -11,7 +11,7 @@
   condition:
     - condition: state
       entity_id: zone.home
-      state: 0
+      state: "0"
     - condition: state
       entity_id: alarm_control_panel.ha_alarm
       state: 'armed_away'

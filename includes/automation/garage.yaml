@@ -64,9 +64,9 @@
       for:
         minutes: 1
   condition:
-   condition: state
+    condition: state
     entity_id: zone.home
-    state: 0
+    state: "0"
   action:
    service: notify.ryan
    data:

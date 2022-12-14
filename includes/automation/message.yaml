@@ -7,7 +7,7 @@
   condition:
    condition: state
    entity_id: zone.home
-   state: 0
+   state: "0"
   action:
     - wait_template: >
        {% set new = trigger.entity_id %}

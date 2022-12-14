@@ -6,7 +6,7 @@
   condition:
      - condition: state
        entity_id: zone.home
-       state: 0
+       state: "0"
      - condition: state
        entity_id: input_boolean.house_guest
        state: 'off'

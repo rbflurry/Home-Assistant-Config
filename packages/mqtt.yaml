@@ -256,15 +256,6 @@ mqtt:
       qos: 1
       retain: true
       
-    - name: "esp2"
-      unique_id: esp2
-      state_topic: "home/sonoff/2/1/stat"
-      command_topic: "home/sonoff/2/1"
-      payload_on: "on"
-      payload_off: "off"
-      qos: 1
-      retain: true
-      
     - name: "esp3"
       unique_id: esp3
       state_topic: "stat/esp3/RESULT"
