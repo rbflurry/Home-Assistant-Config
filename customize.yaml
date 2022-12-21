@@ -1,17 +1,5 @@
 sensor.garage_motion_sensor_temperature:
   friendly_name: Basement Temp_motion
-sensor.device_ryan_to_home:
-  friendly_name: Ryan To Home
-sensor.device_ryan_to_work:
-  friendly_name: Ryan To Work
-sensor.device_chelsea_to_home:
-  friendly_name: Chelsea To Home
-sensor.device_chelsea_to_work:
-  friendly_name: Chelsea To Work
-sensor.vent_temp:
-  icon: mdi:temperature-fahrenheit
-sensor.vent_humidity:
-  icon: mdi:water-percent
 sensor.basement_temp:
   icon: mdi:temperature-fahrenheit
 sensor.basement_humidity:
@@ -31,14 +19,6 @@ binary_sensor.front_door:
   friendly_name: Front Door
 binary_sensor.garage_entry_door:
   friendly_name: Garage Entry
-sensor.process_appdaemon:
-  friendly_name: Appdaemon
-binary_sensor.template_wink_hub:
-  friendly_name: Wink Hub
-sensor.process_dasher:
-  friendly_name: Dasher
-sensor.process_mosquitto:
-  friendly_name: Mosquitto
 cover.myq_First_Bay:
   friendly_name: Myq First Bay
   icon: mdi:glassdoor
@@ -50,21 +30,9 @@ cover.myq_Third_Bay:
   icon: mdi:glassdoor
 cover.chicken_door:
   friendly_name: Chicken Coop
-switch.wink_switch:
-  hidden: true
-switch.garage_lights:
-  hidden: true
-switch.second_garage_switch:
-  hidden: true
 switch.powerpivot1_2:
   friendly_name: Barn Light
-switch.wifi_switch1:
-  friendly_name: Brooder Heat Lamp
-input_boolean.device_ryan:
-  persistent: true
 input_boolean.alarm_ryan:
-  persistent: true
-input_boolean.device_chelsea:
   persistent: true
 input_boolean.vacation_mode:
   friendly_name: Vacation Mode

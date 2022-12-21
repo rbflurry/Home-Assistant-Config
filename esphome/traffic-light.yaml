@@ -3,7 +3,6 @@ substitutions:
   upper_devicename: Traffic-Light
 
 logger:
-  level: VERY_VERBOSE
 
 esphome:
   name: ${devicename}

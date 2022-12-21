@@ -557,6 +557,10 @@
   trigger:
   - platform: state
     not_from:
+    - 'null'
+    - unavailable
+    not_to:
+    - unavailale
     entity_id:
     - sensor.hcps_status
   condition: []
@@ -717,7 +721,7 @@
   use_blueprint:
     path: seamus65/wallpanel-battery-management.yaml
     input:
-      battery: sensor.gal_tab_battery_level
+      battery: sensor.galtab_browser_battery
       charger: switch.centralite_3210_l_0ca5e10a_1
 - id: '1668960233718'
   alias: wood stove blower

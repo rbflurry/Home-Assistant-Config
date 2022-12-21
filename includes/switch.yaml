@@ -4,32 +4,5 @@
     # - host: 192.168.47.208
       # name: "Wifi Switch1"
 
-- platform: template
-  switches:
-    wink_siren2:
-      value_template: "{{ is_state('wink.siren2', 'on') }}"
-      turn_on:
-        service: wink.enable_siren
-        data:
-          entity_id: wink.siren2
-          enabled: true
-      turn_off:
-        service: wink.enable_siren
-        data:
-          entity_id: wink.siren2
-          enabled: false
-    wink_siren1:
-      value_template: "{{ is_state('wink.siren1', 'on') }}"
-      turn_on:
-        service: wink.enable_siren
-        data:
-          entity_id: wink.siren1
-          enabled: true
-      turn_off:
-        service: wink.enable_siren
-        data:
-          entity_id: wink.siren1
-          enabled: false
-
 
 

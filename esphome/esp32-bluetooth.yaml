@@ -3,7 +3,7 @@ esphome:
 
 substitutions:
   device_name: sense-u
-  friendly_name: Sense-U Baby Tracker
+  friendly_name: ESP32-bluetooth
 
 esp32:
   board: esp32dev
@@ -30,10 +30,11 @@ wifi:
 
 captive_portal:
     
+logger:
+#  level: VERY_VERBOSE
 
 esp32_ble_tracker:
 
-logger:
 
 external_components:
   - source: github://andyboeh/esphome-sense-u
@@ -42,6 +43,10 @@ external_components:
 ble_client:
   - mac_address: e7:ca:2d:0b:0b:0f
     id: my_senseu_ble
+  - mac_address: F1:1F:35:49:ED:7E
+    id: pink_toy
+  - mac_address: E6:14:52:EB:3A:24
+    id: blue_toy
 
 senseu:
   - ble_client_id: my_senseu_ble
@@ -88,6 +93,56 @@ text_sensor:
       name: Posture
     status:
       name: State
+  - platform: homeassistant
+    name: "Toy Pink Speed"
+    entity_id: input_select.toy_pink_status
+    id: toy_pink_speed
+    on_value:
+          then:
+            - ble_client.ble_write:
+                id: pink_toy
+                service_uuid: 6E400001-B5A3-F393-E0A9-E50E24DCCA9E
+                characteristic_uuid: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E
+                value: !lambda |-
+                  if ( x == "high") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x32, 0x30, 0x3b};
+                  }
+                  if ( x == "med") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x31, 0x30, 0x3b};
+                  }
+                  if ( x == "low") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x31, 0x3b};
+                  }
+                  if ( x == "off") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x3b};
+                  } else {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x3b};
+                  }
+  - platform: homeassistant
+    name: "Toy Blue Speed"
+    entity_id: input_select.toy_blue_status
+    id: toy_blue_speed
+    on_value:
+          then:
+            - ble_client.ble_write:
+                id: blue_toy
+                service_uuid: 6E400001-B5A3-F393-E0A9-E50E24DCCA9E
+                characteristic_uuid: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E
+                value: !lambda |-
+                  if ( x == "high") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x32, 0x30, 0x3b};
+                  }
+                  if ( x == "med") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x31, 0x30, 0x3b};
+                  }
+                  if ( x == "low") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x31, 0x3b};
+                  }
+                  if ( x == "off") {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x3b};
+                  } else {
+                  return {0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x3b};
+                  }
 
 binary_sensor:
   - platform: senseu
@@ -105,3 +160,44 @@ switch:
   - platform: senseu
     senseu_id: my_senseu
     name: Power Switch
+  - platform: ble_client
+    ble_client_id: pink_toy
+    name: "Enable pink toy"
+  - platform: ble_client
+    ble_client_id: blue_toy
+    name: "Enable blue toy"
+  - platform: template
+    name: "Pink Toy"
+    optimistic: True
+    turn_on_action:
+      - ble_client.ble_write:
+          id: pink_toy
+          service_uuid: 6E400001-B5A3-F393-E0A9-E50E24DCCA9E
+          characteristic_uuid: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E
+          # List of bytes to write.
+          value: [0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x31, 0x3b]
+    turn_off_action:
+      - ble_client.ble_write:
+          id: pink_toy
+          service_uuid: 6E400001-B5A3-F393-E0A9-E50E24DCCA9E
+          characteristic_uuid: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E
+          # List of bytes to write.
+          value: [0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x3b]
+  - platform: template
+    name: "Blue Toy"
+    optimistic: True
+    turn_on_action:
+      - ble_client.ble_write:
+          id: blue_toy
+          service_uuid: 6E400001-B5A3-F393-E0A9-E50E24DCCA9E
+          characteristic_uuid: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E
+          # List of bytes to write.
+          value: [0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x31, 0x3b]
+    turn_off_action:
+      - ble_client.ble_write:
+          id: blue_toy
+          service_uuid: 6E400001-B5A3-F393-E0A9-E50E24DCCA9E
+          characteristic_uuid: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E
+          # List of bytes to write.
+          value: [0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x3b]
+
