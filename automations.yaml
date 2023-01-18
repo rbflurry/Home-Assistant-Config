@@ -20,9 +20,6 @@
     id: 'off'
   condition: []
   action:
-  - data: {}
-    entity_id: switch.bathroom_fan
-    service: switch.turn_on
   - choose:
     - conditions:
       - condition: trigger
@@ -620,6 +617,9 @@
       - condition: state
         entity_id: switch.wink_zwaveoutlet
         state: 'off'
+      - condition: state
+        state: 'off'
+        entity_id: input_boolean.vacation_mode
       sequence:
       - service: switch.turn_on
         data: {}
@@ -675,7 +675,9 @@
       - service: homeassistant.turn_on
         data: {}
         target:
-          entity_id: light.wink_bed_room
+          entity_id:
+          - light.wink_bed_room
+          - switch.relay1
     - conditions:
       - condition: trigger
         id: bed room off
@@ -708,8 +710,8 @@
     target:
       entity_id:
       - switch.wink_front_porch_switch
-      - switch.powerpivot1_2
-      - switch.powerpivot1_1
+      - switch.ahr_085_2_relay2
+      - switch.ahr_085_2_relay1
       - switch.wink_hallway_switch
   - service: notify.telegram_group
     data:
@@ -875,4 +877,32 @@
     data: {}
     target:
       entity_id: switch.driveway_outlets
+  mode: single
+- id: '1671853638567'
+  alias: Esp11 restore
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.esp11
+  condition: []
+  action:
+  - type: turn_on
+    device_id: fbf6496ae84f8cee7e76a266df688a46
+    entity_id: switch.esp11
+    domain: switch
+  mode: single
+- id: '1674051285239'
+  alias: Chicken - Egg Helper- Light
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: -01:00:00
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.sonoff_4ch_relay_2
   mode: single

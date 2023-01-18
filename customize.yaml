@@ -30,8 +30,6 @@ cover.myq_Third_Bay:
   icon: mdi:glassdoor
 cover.chicken_door:
   friendly_name: Chicken Coop
-switch.powerpivot1_2:
-  friendly_name: Barn Light
 input_boolean.alarm_ryan:
   persistent: true
 input_boolean.vacation_mode:
@@ -44,12 +42,6 @@ sensor.camper_temp_2:
   friendly_name: Bullet Camper Temp
 sensor.camper_humid_2:
   friendly_name: Bullet Camper Humidity
-switch.powerpivot1_1:
-  friendly_name: Carriage Lights
-person.ryan:
-  entity_picture: https://graph.facebook.com/v9.0/10212143670126852/picture?type=normal
-person.chelsea:
-  entity_picture: https://graph.facebook.com/639513494/picture?type=normal
 switch.sensornode2_relay1:
   friendly_name: Chicken Pen Door Switch
 switch.sensornode2_relay2:

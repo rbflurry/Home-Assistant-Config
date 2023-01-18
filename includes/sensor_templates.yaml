@@ -688,6 +688,7 @@
                       {{ years }} years 
                     {%- endif -%}
                     {%- if years > 0 -%}
+                    
                       {{ ', ' }}
                     {%- endif -%}
                   {%- endif -%}
@@ -732,66 +733,25 @@
                 {% set minutes = ((uptime % 3600) / 60) | int %}
                 {% set hours = ((uptime % 86400) / 3600) | int %}
                 {% set days = ((uptime % 604800) / 86400) | int %}
-                {% set weeks = ((uptime % 2629746) / 604800) | int %}
-                {% set months = ((uptime % 31557600) / 2629746) | int %}
-                {% set years = (uptime / 31557600) | int %}
+                {% set weeks = (uptime / 604800) | int %}
 
-                {%- if uptime < 60 -%}
-                  Less than a minute
-                {%- else -%}
-                  {%- if years > 0 -%}
-                    {%- if years == 1 -%}
-                      1 y 
-                    {%- else -%}
-                      {{ years }} y
-                    {%- endif -%}
-                    {%- if years > 0 -%}
-                      {{ ', ' }}
-                    {%- endif -%}
-                  {%- endif -%}
-                  {%- if months > 0 -%}
-                    {%- if months == 1 -%}
-                      1 m
-                    {%- else -%}
-                      {{ months }} m 
-                    {%- endif -%}
-                    {%- if months > 0 -%}
-                      {{ ', ' }}
-                    {%- endif -%}
-                  {%- endif -%}
              {%- if weeks > 0 -%}
                     {%- if weeks == 1 -%}
-                      1 w
+                      1 week
                     {%- else -%}
-                      {{ weeks }} w
+                      {{ weeks }}w
                     {%- endif -%}
                   {%- endif -%}
                   {%- if days > 0 -%}
                     {%- if weeks > 0 -%}
-
                       {{ ', ' }}
                     {%- endif -%}
                     {%- if days == 1 -%}
-                      1 d
+                      1 day
                     {%- else -%}
-                      {{ days }} d
+                      {{ days }}d
                     {%- endif -%}
                   {%- endif -%}
-                {%- endif -%}
-                
-                
-    brett_age:
-      friendly_name: 'Brett Age'
-      value_template: >
-          {% set birthday = as_datetime('2022-10-21') %}
-          {% set daysOld = (now().today() - birthday).days %}
-          {% set years = (daysOld // 365.25) |int  %}
-          {% set months = (daysOld % 365.25 // 30.42) |int  %}
-          {% set weeks = (daysOld % 365.25 % 30.42 // 7) |int  %}
-          {% set daysW = (daysOld % 365.25 % 30.42 % 7) |int  %}
-          {% set daysM = (daysOld % 365.25 % 30.42) |int  %}
-          {% if(years < 0) %}{{ years }} year{% if(years > 1) %}s{% endif %} {% endif %}{% if(months is not none) %}{{ months }} month{% if(months > 1) %}s{% endif %}, {% endif %}{% if(weeks is not none) %}{{ weeks }} week{% if(weeks > 1) %}s{% endif %}, {% endif %}{% if(dayW is not none) %}{{ daysW }} day{% if(daysW > 1) %}s{% endif %}{% endif %}
-
 
     brooder_target_temp:
         friendly_name: 'Brooder Target Temp'

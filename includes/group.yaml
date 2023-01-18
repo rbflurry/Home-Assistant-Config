@@ -44,8 +44,8 @@ outdoor_lights:
   name: Outdoor Lights
   entities:
     - switch.wink_front_porch_switch
-    - switch.powerpivot1_1
-    - switch.powerpivot1_2
+    - switch.ahr_085_2_relay1
+    - switch.ahr_085_2_relay2
   
 device_family:
   name: Family

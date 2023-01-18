@@ -31,7 +31,7 @@ wifi:
 captive_portal:
     
 logger:
-#  level: VERY_VERBOSE
+  level: VERY_VERBOSE
 
 esp32_ble_tracker:
 

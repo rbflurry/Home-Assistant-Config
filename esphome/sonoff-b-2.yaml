@@ -1,0 +1,53 @@
+esphome:
+  name: sonoff-b-2
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "NauYq6Nv2JkzBdZFpjTCbAmj8SGZmWSC2AVdGZKwiXY="
+
+ota:
+  password: "315c3a495018a416ec9e8deb393fe2d0"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Sonoff-B-2 Fallback Hotspot"
+    password: "yuxxU7oM7598"
+
+captive_portal:
+
+web_server:
+  port: 80
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: "Sonoff-2 Basic Button"
+    on_press:
+      - switch.toggle: relay
+
+switch:
+  - platform: gpio
+    name: "Sonoff-2 Basic Relay"
+    pin: GPIO12
+    id: relay
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: yes

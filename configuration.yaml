@@ -1,12 +1,12 @@
 homeassistant:
-  name: LilOld
-  latitude: !secret lat
-  longitude: !secret long
-  currency: USD
-  elevation: 186
-  unit_system: imperial
-  time_zone: America/New_York
-  temperature_unit: F
+#  name: LilOld
+#  latitude: !secret lat
+#  longitude: !secret long
+#  currency: USD
+#  elevation: 186
+#  unit_system: imperial
+#  time_zone: America/New_York
+#  temperature_unit: F
   customize: !include customize.yaml
   customize_domain: {}
   packages: !include_dir_named packages

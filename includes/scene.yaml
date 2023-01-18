@@ -7,7 +7,7 @@
     light.bed_wled: off
     input_boolean.good_night: on
     input_boolean.good_morning: off
-    switch.powerpivot1_1: off
+    switch.ahr_085_2_relay1: off
 - id: goodmorning
   name: goodmorning
   entities:
