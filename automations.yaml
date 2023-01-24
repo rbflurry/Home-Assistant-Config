@@ -255,6 +255,8 @@
       hours: 2
   condition: []
   action:
+  - wait_template: '{{ is_state(''light.sengled_e11_g13_035c3bc7_1'', ''off'')}}'
+    continue_on_timeout: false
   - service: climate.turn_off
     target:
       entity_id:
@@ -905,4 +907,24 @@
     data: {}
     target:
       entity_id: switch.sonoff_4ch_relay_2
+  mode: single
+- id: '1674312143783'
+  alias: Air compressor purge auto off
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 183e4d2b4ff3b11f051389546588444d
+    entity_id: switch.sonoff_basic_relay
+    domain: switch
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 183e4d2b4ff3b11f051389546588444d
+    entity_id: switch.sonoff_basic_relay
+    domain: switch
   mode: single

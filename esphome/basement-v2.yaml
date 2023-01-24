@@ -41,18 +41,18 @@ switch:
     name: ESP Basement v2 Restart
 
 binary_sensor:
-   - platform: gpio
-     pin:
-       number: 13
-       mode: INPUT_PULLUP
-       inverted: True
-     name: "Button"
-     filters:
-       - delayed_on: 10ms
-     on_press:
-       - switch.toggle: relay
-   - platform: status
-     name: ESP Basement V2 Status
+  - platform: gpio
+    pin:
+      number: 13
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Button"
+    filters:
+      - delayed_on: 10ms
+    on_press:
+      - switch.toggle: relay
+  - platform: status
+    name: ESP Basement V2 Status
   - platform: gpio
     pin:
       number: D18

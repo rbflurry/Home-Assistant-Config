@@ -156,3 +156,16 @@ opnsense:
   url: !secret fw
   api_secret: !secret fw_secret
   api_key: !secret fw_key
+  
+panel_custom:
+  - name: Automations
+    sidebar_title: Automations
+    sidebar_icon: mdi:cog-transfer
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: config/automation/dashboard
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator
+      
+      

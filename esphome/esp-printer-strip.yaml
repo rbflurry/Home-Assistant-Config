@@ -39,6 +39,8 @@ binary_sensor:
     internal: True
     on_press:
       - switch.toggle: relay2
+  - platform: status
+    name: Esp-Printer-Strip Status
 
 switch:
   - platform: gpio
@@ -61,3 +63,8 @@ switch:
     pin: GPIO13
     id: relay5
     name: USB Outlets
+
+sensor:
+  - platform: wifi_signal
+    name: Esp-Printer-Strip Signal
+    update_interval: 60s
