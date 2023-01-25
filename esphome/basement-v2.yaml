@@ -6,39 +6,22 @@ esp32:
   framework:
     type: arduino
 
-# Enable logging
-logger:
-#  level: debug
+substitutions:
+  devicename: basement-v2
+  upper_devicename: basement-v2
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
 
-# Enable Home Assistant API
 api:
   encryption:
     key: "sebyNmztsE5MDkRfg5iKtlkRh0hA5qLzSRkBIKUKM9s="
-
-ota:
-  password: "b9d14abcfc8aad083c4b7ea18f35323c"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Basement-V2 Fallback Hotspot"
-    password: !secret wifi_password
-
-captive_portal:
-
-web_server:
-  port: 80
 
 switch:
   - platform: gpio
     name: Relay 1
     pin: GPIO32
     id: relay
-  - platform: restart
-    name: ESP Basement v2 Restart
 
 binary_sensor:
   - platform: gpio
@@ -51,11 +34,9 @@ binary_sensor:
       - delayed_on: 10ms
     on_press:
       - switch.toggle: relay
-  - platform: status
-    name: ESP Basement V2 Status
   - platform: gpio
     pin:
-      number: D18
+      number: 18
       mode: INPUT_PULLUP
     name: “Front Door”
     device_class: door
@@ -64,7 +45,7 @@ binary_sensor:
 #      - delayed_off: 1000ms
   - platform: gpio
     pin: 
-       number: D19
+       number: 19
        mode: INPUT_PULLUP
     name: “Basement Door”
     device_class: door
@@ -85,8 +66,7 @@ sensor:
     unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
-  - platform: wifi_signal
-    name: Basement V2 WiFi Signal
-    update_interval: 60s
 
+status_led:
+  pin: GPIO2
   

@@ -4,30 +4,16 @@ esphome:
 esp8266:
   board: esp01_1m
 
-# Enable logging
-logger:
+substitutions:
+  devicename: ahr-085-2
+  upper_devicename: ahr-085-2
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
 
-# Enable Home Assistant API
 api:
   encryption:
     key: "rCskpOQEJhIdAsqXer+uIj66WcTXlxWLBwbcnmxEszw="
-
-ota:
-  password: "f7c6e1772a7ac1c8980e39167fe78255"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "ahr-085-2 Fallback Hotspot"
-    password: !secret wifi_password
-
-captive_portal:
-
-web_server:
-  port: 80
     
 switch:
   - platform: gpio
@@ -73,10 +59,3 @@ binary_sensor:
       - switch.toggle: relay2
       - switch.toggle: relay3
     internal: True
-
-
-substitutions:
-  devicename: ahr-085-2
-  upper_devicename: ahr-085-2
-packages:
-  device_base: !include default-sensors-switches.yaml

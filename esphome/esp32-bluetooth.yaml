@@ -2,39 +2,27 @@ esphome:
   name: esp32-bluetooth
 
 substitutions:
-  device_name: sense-u
+  devicename: sense-u
+  upper_devicename: sense-u
   friendly_name: ESP32-bluetooth
+
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
 
 esp32:
   board: esp32dev
   framework:
     type: arduino
 
-
-# Enable Home Assistant API
 api:
   encryption:
     key: "gsAx1prducgcRxA/0CoAZReQLnQgqf9Ta4e2Qlcn79g="
-
-ota:
-  password: "e569482973c9b18d0eb778e2db76a98b"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Esp32-Bluetooth Fallback Hotspot"
-    password: !secret wifi_password
-
-captive_portal:
     
 logger:
   level: VERY_VERBOSE
 
 esp32_ble_tracker:
-
 
 external_components:
   - source: github://andyboeh/esphome-sense-u
@@ -72,10 +60,6 @@ sensor:
   # Uptime sensor
   - platform: uptime
     name: ${friendly_name} Uptime
-  # WiFi Signal sensor
-  - platform: wifi_signal
-    name: ${friendly_name} Wifi Signal
-    update_interval: 60s
     
 # Sync time with Home Assistant
 time:
@@ -84,9 +68,6 @@ time:
 
 # Text sensors with general information
 text_sensor:
-  - platform: wifi_info
-    ip_address:
-      name: ${friendly_name} IP Address
   - platform: senseu
     id: my_senseu
     posture:
@@ -200,4 +181,3 @@ switch:
           characteristic_uuid: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E
           # List of bytes to write.
           value: [0x56, 0x69, 0x62, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x30, 0x3b]
-
