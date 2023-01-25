@@ -23,20 +23,6 @@ ota:
 
 web_server:
   port: 80
-    
-switch:
-  - platform: restart
-    name: ESP ${upper_devicename} Restart
-
-binary_sensor:
-  - platform: status
-    name: ESP ${upper_devicename} Status
-    
-sensor:
-  - platform: wifi_signal
-    name: ${upper_devicename} WiFi Signal
-    update_interval: 60s
-
 
 #packages:
   #device_base: !include common.yaml

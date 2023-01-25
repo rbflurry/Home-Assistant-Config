@@ -1,3 +1,6 @@
+#packages:
+  #device_switches_sensors: !include default-sensors-switches.yaml
+
 switch:
   - platform: restart
     name: ESP ${upper_devicename} Restart
@@ -8,6 +11,10 @@ binary_sensor:
     
 sensor:
   - platform: wifi_signal
-    name: ${upper_devicename} WiFi Signal
+    name: ESP ${upper_devicename} WiFi Signal
     update_interval: 60s
-    
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "ESP ${upper_devicename} IP Address"

@@ -9,6 +9,7 @@ esphome:
   
 packages:
   device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
 
 logger:
   baud_rate: 0
@@ -84,8 +85,6 @@ binary_sensor:
       then:
         - light.toggle: light_2
 
-  - platform: status
-    name: "Dual LS Status"
 
 status_led:
   pin:

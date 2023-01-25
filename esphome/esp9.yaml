@@ -9,6 +9,7 @@ esphome:
 
 packages:
   device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
 
 uart:
   rx_pin: RX
@@ -23,8 +24,6 @@ binary_sensor:
     name: ${devicename} Button
     on_press:
       - switch.toggle: relay
-  - platform: status
-    name: ${devicename} Status
 
 sensor:
   - platform: cse7766

@@ -9,6 +9,7 @@ esphome:
 
 packages:
   device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
 
 uart:
   rx_pin: RX
@@ -23,8 +24,6 @@ binary_sensor:
     name: ${devicename} Button
     on_press:
       - switch.toggle: relay
-  - platform: status
-    name: ${devicename} Status
 
 sensor:
   - platform: cse7766
@@ -42,9 +41,4 @@ switch:
     name: ${devicename}
     pin: GPIO12
     id: relay
-
-#ota:
- # password: "e941c8e8e979af02d9630b7fd0335ede"
-#  password: "fcb3e800936fb0d6a8dfc93455e0b458"
-
     

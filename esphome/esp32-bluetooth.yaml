@@ -26,7 +26,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Esp32-Bluetooth Fallback Hotspot"
-    password: "1QZJ21nZK82m"
+    password: !secret wifi_password
 
 captive_portal:
     

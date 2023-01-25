@@ -22,7 +22,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Sonoff-B-2 Fallback Hotspot"
-    password: "yuxxU7oM7598"
+    password: !secret wifi_password
 
 captive_portal:
 
