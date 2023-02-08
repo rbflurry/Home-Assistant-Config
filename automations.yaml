@@ -915,16 +915,150 @@
   - platform: device
     type: turned_on
     device_id: 183e4d2b4ff3b11f051389546588444d
-    entity_id: switch.sonoff_basic_relay
+    entity_id: switch.sonoff_b_1_relay
     domain: switch
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 10
   condition: []
   action:
   - type: turn_off
     device_id: 183e4d2b4ff3b11f051389546588444d
-    entity_id: switch.sonoff_basic_relay
+    entity_id: switch.sonoff_b_1_relay
     domain: switch
+  mode: single
+- id: '1675108306097'
+  alias: Garage - Opened turn on garage lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_entry_door
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id:
+    - cover.myq_first_bay_2
+    - cover.myq_second_bay_2
+    - cover.myq_third_bay_2
+    from: closed
+    to: opening
+  condition: []
+  action:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id: light.garage_lights_front
+  - service: timer.start
+    data:
+      duration: 00:10:00
+    target:
+      entity_id: timer.garage_lights
+  mode: single
+- id: '1675444247548'
+  alias: Laundry on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.laundry_door_alarm_level
+    to: '255'
+    id: open
+  - platform: state
+    entity_id:
+    - sensor.laundry_door_alarm_level
+    to: '0'
+    id: close
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: open
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.in_wall_paddle_switch_500s
+    - conditions:
+      - condition: trigger
+        id: close
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.in_wall_paddle_switch_500s
+  mode: single
+- id: '1675694589234'
+  alias: Chicken Water
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 0
+  - platform: time
+    at: '10:00:00'
+  - platform: state
+    entity_id:
+    - switch.side_spigot
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.bathroom_fan
+    state: unavailable
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.chicken_water_automations
+      state: 'off'
+    - condition: state
+      entity_id: switch.side_spigot
+      state: 'on'
+    then:
+    - service: notify.telegram_group
+      data:
+        message: Chicken Water Automation Disabled - Please remember to turn off water
+    - stop: Disabled
+  - if:
+    - condition: state
+      entity_id: input_boolean.chicken_water_automations
+      state: 'off'
+    then:
+    - service: homeassistant.turn_on
+      data: {}
+      target:
+        entity_id: input_boolean.chickens_need_watering
+    - stop: Disabled
+  - if:
+    - condition: or
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.pws_5in1_temperature
+        below: 32.1
+    then:
+    - service: homeassistant.turn_on
+      data: {}
+      target:
+        entity_id: input_boolean.chickens_need_watering
+    - stop: Too Cold.
+  - service: notify.telegram_group
+    data:
+      message: Filling the Watering Hole
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.side_spigot
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 50
+      milliseconds: 0
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.side_spigot
+  - service: automation.trigger
+    data: {}
+    target:
+      entity_id: automation.tag_chicken_water_is_scanned
+  - service: notify.telegram_group
+    data:
+      message: The Watering Hole Is Full
   mode: single

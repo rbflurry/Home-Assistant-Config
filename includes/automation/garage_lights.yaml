@@ -21,9 +21,9 @@
 #       state: 'off'
   action:
     - service: homeassistant.turn_on
-      entity_id: light.garage_lights_front
+      entity_id: light.garage_lights_front, switch.ahr_085_2_relay2
     - service: timer.start
-      entity_id: timer.back_flood, timer.garage_lights, switch.ahr_085_2_relay2
+      entity_id: timer.back_flood, timer.garage_lights
       data:
         duration: '00:10:00'
     - delay: 00:01:00

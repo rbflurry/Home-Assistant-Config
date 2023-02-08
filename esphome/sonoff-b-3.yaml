@@ -1,21 +1,16 @@
 esphome:
   name: ${devicename}
-  comment: air compressor drain valve
+
 esp8266:
   board: esp01_1m
 
 substitutions:
-  devicename: sonoff-b-1
-  upper_devicename: sonoff-b-1
+  devicename: sonoff-b-3
+  upper_devicename: sonoff-b-3
   
 packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: "Co5PNA8LChs1HCIFb+9sVTdvoIuQdD6OH6jWgjvXjo4="
 
 binary_sensor:
   - platform: gpio
