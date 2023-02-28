@@ -1,0 +1,49 @@
+esphome:
+  name: ${devicename}
+  comment: Bathroom Fan
+esp8266:
+  board: esp01_1m
+
+substitutions:
+  devicename: esp-bathroom
+  upper_devicename: Bathroom
+  
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    name: "${upper_devicename} Button"
+    on_press:
+      - switch.toggle: relay
+
+switch:
+  - platform: gpio
+    name: "${upper_devicename} Fan"
+    pin: GPIO12
+    id: relay
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: yes
+
+sensor:
+  - platform: dht
+    pin: GPIO3
+    model: AM2302
+    temperature:
+      name: "Bathroom Temp"
+      filters:
+        - lambda: return x * (9.0/5.0) + 32.0;
+      unit_of_measurement: "°F"
+    humidity:
+      name: "Bathroom Humid"
+    update_interval: 10s

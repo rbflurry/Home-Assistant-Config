@@ -168,4 +168,13 @@ panel_custom:
     config:
       ingress: core_configurator
       
-      
+proximity:
+  home:
+    ignored_zones:
+      - thales
+      - waterloo
+    devices:
+      - person.ryan
+      - person.chelsea
+    tolerance: 50
+    unit_of_measurement: mi

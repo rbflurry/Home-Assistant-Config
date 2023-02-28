@@ -10,14 +10,14 @@
       seconds: 0
     platform: numeric_state
     id: 'on'
-  - above: 89
-    entity_id: sensor.bathroom_humid
+  - entity_id: sensor.bathroom_humid
     for:
       hours: 0
       minutes: 1
       seconds: 0
     platform: numeric_state
     id: 'off'
+    below: 89
   condition: []
   action:
   - choose:
@@ -41,22 +41,6 @@
         target:
           entity_id: switch.bathroom_fan
   mode: single
-- id: '1584914187902'
-  alias: Bathroom Vent Off
-  description: ''
-  trigger:
-  - below: '89'
-    entity_id: sensor.bathroom_humid
-    for: 00:01:00
-    platform: numeric_state
-  condition:
-  - condition: state
-    entity_id: switch.bathroom_fan
-    state: 'on'
-  action:
-  - data: {}
-    entity_id: switch.bathroom_fan
-    service: switch.turn_off
 - id: '1611147472037'
   alias: Snooze Alarm
   description: ''
@@ -827,6 +811,7 @@
       hours: 0
       minutes: 20
       seconds: 0
+    from: 'on'
   condition: []
   action:
   - service: switch.turn_off
@@ -917,6 +902,10 @@
     device_id: 183e4d2b4ff3b11f051389546588444d
     entity_id: switch.sonoff_b_1_relay
     domain: switch
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
   condition: []
   action:
   - type: turn_off
@@ -995,6 +984,7 @@
     offset: 0
   - platform: time
     at: '10:00:00'
+    id: '10'
   - platform: state
     entity_id:
     - switch.side_spigot
@@ -1027,16 +1017,20 @@
         entity_id: input_boolean.chickens_need_watering
     - stop: Disabled
   - if:
-    - condition: or
+    - condition: and
       conditions:
       - condition: numeric_state
         entity_id: sensor.pws_5in1_temperature
         below: 32.1
     then:
-    - service: homeassistant.turn_on
-      data: {}
-      target:
-        entity_id: input_boolean.chickens_need_watering
+    - if:
+      - condition: trigger
+        id: '10'
+      then:
+      - service: homeassistant.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.chickens_need_watering
     - stop: Too Cold.
   - service: notify.telegram_group
     data:
@@ -1055,10 +1049,111 @@
     target:
       entity_id: switch.side_spigot
   - service: automation.trigger
-    data: {}
+    data:
+      skip_condition: true
     target:
       entity_id: automation.tag_chicken_water_is_scanned
   - service: notify.telegram_group
     data:
       message: The Watering Hole Is Full
+  mode: single
+- id: '1675973315311'
+  alias: wall panel tablet
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+    id: 'off'
+  - platform: state
+    entity_id:
+    - group.device_family
+    to: home
+    id: 'on'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id:
+          - light.fire_screen
+          - light.galtab_screen
+    - conditions:
+      - condition: trigger
+        id: 'on'
+      sequence:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id:
+          - light.galtab_screen
+          - light.fire_screen
+  mode: single
+- id: '1676037938048'
+  alias: 3D print is done
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.octoprint_job_percentage
+    to: '100'
+  condition: []
+  action:
+  - service: notify.telegram_ryan
+    data:
+      message: 3D Print is done!!
+  mode: single
+- id: '1676429256085'
+  alias: Bed Room Dimmer
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: ff:ff:00:0f:e7:fd:72:1f:1:0x0008
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{trigger.event.data.params.level == 2}}'
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id:
+          - light.wink_bed_room
+    default:
+    - service: light.turn_on
+      data:
+        brightness: '{{trigger.event.data.params.level | int}}'
+        transition: 1
+      target:
+        entity_id:
+        - light.wink_bed_room
+  mode: restart
+- id: '1677241964532'
+  alias: Turn lights off at sunrise
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: +00:45:00
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id: group.outdoor_lights
+  - condition: numeric_state
+    entity_id: zone.home
+    below: 1
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id: group.indoor_lights
   mode: single

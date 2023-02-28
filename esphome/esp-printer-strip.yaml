@@ -26,6 +26,20 @@ binary_sensor:
     on_press:
       - switch.toggle: relay2
 
+light:
+# Blue LED PWM
+# GPIO4
+  - platform: monochromatic
+    name: "PowerStrip-Blue_LED"
+    output: output_component_blue
+
+output:
+#Blue LED
+  - platform: esp8266_pwm
+    id: output_component_blue
+    pin: GPIO0
+    inverted: yes
+
 switch:
   - platform: gpio
     pin: GPIO14

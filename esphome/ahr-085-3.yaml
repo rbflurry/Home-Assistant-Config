@@ -11,11 +11,6 @@ packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
 
-# Enable Home Assistant API
-api:
-  encryption:
-    key: "93ow/yHLEHUCqBTbH4HZB4lJffPjwFKytTwnHsivSlI="
-
 switch:
   - platform: gpio
     name: "ahr-085-3-Relay1"

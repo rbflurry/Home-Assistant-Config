@@ -2,15 +2,15 @@
   id: e49fa1a6-a2a5-4e71-9059-277ff98c3075
   trigger:
     - platform: state
-      entity_id: sensor.syno_status_data
+      entity_id: sensor.ups_status_data
   action:
    service: notify.telegram_group
    data:
           message: >
-            {% if is_state('sensor.syno_status_data', 'OL') %}
+            {% if is_state('sensor.ups_status_data', 'OL') %}
               UPS is On
             {% else %}
-              UPS is {{ states('sensor.syno_status_data') }}.
+              UPS is {{ states('sensor.ups_status_data') }}.
             {% endif %}
         
 
