@@ -1117,6 +1117,15 @@
       unique_id: ff:ff:00:0f:e7:fd:72:1f:1:0x0008
   condition: []
   action:
+  - if:
+    - condition: state
+      entity_id: switch.relay1
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.relay1
   - choose:
     - conditions:
       - condition: template
@@ -1156,4 +1165,44 @@
     data: {}
     target:
       entity_id: group.indoor_lights
+  mode: single
+- id: '1678291560795'
+  alias: Coming Home / Away
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: zone.home
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    above: 0
+    id: turn on
+  - platform: numeric_state
+    entity_id: zone.home
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    id: turn off
+    below: 1
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: turn on
+      sequence:
+      - service: homeassistant.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.coming_home_helper
+    - conditions:
+      - condition: trigger
+        id: turn off
+      sequence:
+      - service: homeassistant.turn_off
+        data: {}
+        target:
+          entity_id: input_boolean.coming_home_helper
   mode: single
