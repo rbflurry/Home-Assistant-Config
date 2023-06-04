@@ -322,6 +322,17 @@
       - light.bed_wled
       - light.wink_bed_room
       - light.wink_led_strip_bath
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 59
+      milliseconds: 0
+  - service: media_player.turn_off
+    data: {}
+    target:
+      entity_id:
+      - media_player.lg_webos_tv_nano80upa
+      - media_player.lg_webos_tv_5a6f
   mode: single
 - id: '1665668429834'
   alias: Door Alerts v2
@@ -1205,4 +1216,34 @@
         data: {}
         target:
           entity_id: input_boolean.coming_home_helper
+  mode: single
+- id: '1682390387556'
+  alias: Brett Breath
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.breath_alarm
+    to: 'on'
+  condition: []
+  action:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id:
+      - light.wink_bed_room
+      - light.bed_wled
+  mode: single
+- id: '1684260682049'
+  alias: my ip changes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.myip
+  condition: []
+  action:
+  - service: notify.telegram_ryan
+    data:
+      message: "\U0001F4F9Blue Iris: {{trigger.to_state.state}}\U0001F4F9"
   mode: single

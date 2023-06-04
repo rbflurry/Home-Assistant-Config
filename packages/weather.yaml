@@ -15,10 +15,6 @@ homeassistant:
       emulated_hue_hidden: true
 #      emulated_hue_name: "back office light"
 
-    group.weather_darksky:
-      <<: *customize
-      friendly_name: "Dark Sky"
-
     group.weather_general:
       <<: *customize
       friendly_name: "General"
@@ -30,41 +26,6 @@ homeassistant:
     group.weather_yr:
       <<: *customize
       friendly_name: "YR"
-
-    sensor.dark_sky_cloud_coverage:
-      <<: *customize
-      friendly_name: "Cloud Coverage"
-      icon: mdi:weather-partlycloudy
-
-    sensor.dark_sky_humidity:
-      <<: *customize
-      friendly_name: "Humidity"
-      icon: mdi:water-percent
-
-    sensor.dark_sky_precip_probability:
-      <<: *customize
-      friendly_name: "Precipitation"
-      icon: mdi:weather-rainy
-
-    sensor.dark_sky_precip_intensity:
-      <<: *customize
-      friendly_name: "Precipitation Intensity"
-      icon: mdi:weather-rainy
-
-    sensor.dark_sky_temperature:
-      <<: *customize
-      friendly_name: "Temperature"
-      icon: mdi:thermometer
-
-    sensor.dark_sky_apparent_temperature:
-      <<: *customize
-      friendly_name: "Apparent Temperature"
-      icon: mdi:thermometer
-
-    sensor.dark_sky_wind_speed:
-      <<: *customize
-      friendly_name: "Wind Speed"
-      icon: mdi:thermometer
 
     sensor.pws_feelslike_f:
       <<: *customize
@@ -100,112 +61,19 @@ homeassistant:
       friendly_name: "Season"
       icon: mdi:weather-snowy-rainy
 
-    sensor.yr_cloudiness:
-      <<: *customize
-      friendly_name: "Cloudiness"
-      icon: mdi:weather-partlycloudy
-
-    sensor.yr_condition:
-      <<: *customize
-      friendly_name: "Condition"
-      icon: mdi:weather-sunny
-
-    sensor.yr_humidity:
-      <<: *customize
-      friendly_name: "Humidity"
-      icon: mdi:water-percent
-
-    sensor.yr_precipitation:
-      <<: *customize
-      friendly_name: "Precipitation"
-      icon: mdi:weather-rainy
-
-    sensor.yr_temperature:
-      <<: *customize
-      friendly_name: "Temperature"
-      icon: mdi:thermometer
 
 ################################################
 ## Group
 ################################################
 
-#group:
-#  weather_general:
-#    entities:
-#      - sun.sun
-#      - sensor.season
 
-#  weather_darksky:
-#    entities:
-#      - sensor.dark_sky_cloud_coverage
-#      - sensor.dark_sky_humidity
-#      - sensor.dark_sky_precip_probability
-#      - sensor.dark_sky_temperature
-
-#  weather_wunderground:
-#    entities:
-#      - sensor.pws_feelslike_f
-#      - sensor.pws_heat_index_f
-#      - sensor.pws_relative_humidity
-#      - sensor.pws_precip_today_in
-#      - sensor.pws_temp_f
-#      - sensor.pws_weather
-
-#  weather_yr:
-#    entities:
-#      - sensor.yr_cloudiness
-#      - sensor.yr_humidity
-#      - sensor.yr_precipitation
-#      - sensor.yr_temperature
 
 ################################################
 ## Sensor
 ################################################
 
-weather:
-  - platform: darksky
-    api_key: !secret forecast_key
-    mode: daily
-
-
-sensor:
-  - platform: darksky
-    api_key: !secret forecast_key
-    monitored_conditions:
-      - summary
-      - icon
-      - temperature
-      - humidity
-      - precip_probability
-      - precip_intensity
-      - wind_speed
-      - pressure
-      - wind_bearing
-      - apparent_temperature
-      - precip_type
-      - temperature_low
-      - temperature_high
-    forecast:
-      - 1
       
 
-
-#  - platform: wunderground
-#    api_key: !secret wunderground_api_key
-#    monitored_conditions:
-#      - feelslike_f
-#      - heat_index_f
-#      - precip_today_in
-#      - relative_humidity
-#      - temp_f
-#      - weather
-
-#  - platform: yr
-#    monitored_conditions:
-#      - cloudiness
-#      - humidity
-#      - precipitation
-#      - temperature
 
   # - platform: template
     # sensors:
