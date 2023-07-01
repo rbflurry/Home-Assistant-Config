@@ -69,8 +69,9 @@ notify:
   - name: Fire_dash
     platform: lannouncer
     host: 192.168.47.163
-  - name: fully
-    platform: command_line
-    command: "/root/.homeassistant/scripts/fully.sh"
+command_line:
+  - notify:
+      name: fully
+      command: "/root/.homeassistant/scripts/fully.sh"
     
     

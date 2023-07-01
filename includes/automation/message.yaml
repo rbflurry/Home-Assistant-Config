@@ -1,40 +1,40 @@
-- alias: Send Message when no one is home but a door was opened v2
-  id: 902b8d70-d603-4c09-9226-4824f9376f5f
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
-      to: 'on'
-  condition:
-   condition: state
-   entity_id: zone.home
-   state: "0"
-  action:
-    - wait_template: >
-       {% set new = trigger.entity_id %}
-       {{ is_state(new, 'off') }}
-      timeout: 00:00:05
-    - service: notify.everyone_group
-      data:
-        title: Something happened at home
-        message: >
-          {% set new = trigger.entity_id %}
-          {% if is_state(new, 'off') %}
-            No one is home and {{ trigger.to_state.name }} was opened and closed.
-          {% else %}
-            No one is home and {{ trigger.to_state.name }} was opened.
-          {% endif %}
-    - condition: template
-      value_template: >
-        {% set new = trigger.entity_id %}
-        {{ is_state(new, 'on') }}
-    - wait_template: >
-       {% set new = trigger.entity_id %}
-       {{ is_state(new, 'off') }}
-    - service: notify.everyone_group
-      data:
-       title: Something happened at home
-       message: >
-         No one is home and {{ trigger.to_state.name }} was closed
+# - alias: Send Message when no one is home but a door was opened v2
+  # id: 902b8d70-d603-4c09-9226-4824f9376f5f
+  # trigger:
+    # - platform: state
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+      # to: 'on'
+  # condition:
+   # condition: state
+   # entity_id: zone.home
+   # state: "0"
+  # action:
+    # - wait_template: >
+       # {% set new = trigger.entity_id %}
+       # {{ is_state(new, 'off') }}
+      # timeout: 00:00:05
+    # - service: notify.everyone_group
+      # data:
+        # title: Something happened at home
+        # message: >
+          # {% set new = trigger.entity_id %}
+          # {% if is_state(new, 'off') %}
+            # No one is home and {{ trigger.to_state.name }} was opened and closed.
+          # {% else %}
+            # No one is home and {{ trigger.to_state.name }} was opened.
+          # {% endif %}
+    # - condition: template
+      # value_template: >
+        # {% set new = trigger.entity_id %}
+        # {{ is_state(new, 'on') }}
+    # - wait_template: >
+       # {% set new = trigger.entity_id %}
+       # {{ is_state(new, 'off') }}
+    # - service: notify.everyone_group
+      # data:
+       # title: Something happened at home
+       # message: >
+         # No one is home and {{ trigger.to_state.name }} was closed
 
 
 - alias: Send Message on state changes

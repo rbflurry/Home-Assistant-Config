@@ -1245,5 +1245,57 @@
   action:
   - service: notify.telegram_ryan
     data:
-      message: "\U0001F4F9Blue Iris: {{trigger.to_state.state}}\U0001F4F9"
+      message: 'IP changed from: {{trigger.from_state.state}}  to {{trigger.ot_state.state}}'
   mode: single
+- id: '1688228439218'
+  alias: Send Message when no one is home but a door was opened v3
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.garage_entry_door
+    - binary_sensor.wink_back_door_opened
+    - binary_sensor.front_door
+    - binary_sensor.basement_door
+    to: 'on'
+  - platform: state
+    entity_id:
+    - cover.myq_first_bay_2
+    - cover.myq_second_bay_2
+    - cover.myq_third_bay_2
+    to: open
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: zone.home
+    state: '0'
+  action:
+  - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
+
+      '
+    timeout: 00:00:05
+  - service: notify.everyone_group
+    data:
+      title: No onr is home
+      message: "{% set new = trigger.entity_id %} {% if is_state(new, 'off') %}\n
+        \ No one is home and {{ trigger.to_state.name }} was opened and closed.\n{%
+        else %}\n  No one is home and {{ trigger.to_state.name }} was opened.\n{%
+        endif %}\n"
+  - condition: template
+    value_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''on'') }}
+
+      '
+  - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
+
+      '
+  - service: notify.everyone_group
+    data:
+      title: Something happened at home
+      message: 'No one is home and {{ trigger.to_state.name }} was closed
+
+        '
+  mode: parallel
+  max: 10

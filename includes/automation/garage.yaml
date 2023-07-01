@@ -55,25 +55,25 @@
 
 
 
-- alias: Garage Send Message when no one is home but a garage door was open was opened
-  id: d799e871-57fd-4b74-abc2-a495bdf022b3
-  trigger:
-    - platform: state
-      entity_id: cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2
-      to: 'open'
-      for:
-        minutes: 1
-  condition:
-    condition: state
-    entity_id: zone.home
-    state: "0"
-  action:
-   service: notify.ryan
-   data:
-      title: 'Something happened at home'
-      message: >
-        "No one is home and {{ trigger.to_state.name }} was opened"
-      data:
-        push:
-          category: camera
-        entity_id: camera.d239
+# - alias: Garage Send Message when no one is home but a garage door was open was opened
+  # id: d799e871-57fd-4b74-abc2-a495bdf022b3
+  # trigger:
+    # - platform: state
+      # entity_id: cover.myq_first_bay_2, cover.myq_second_bay_2, cover.myq_third_bay_2
+      # to: 'open'
+      # for:
+        # minutes: 1
+  # condition:
+    # condition: state
+    # entity_id: zone.home
+    # state: "0"
+  # action:
+   # service: notify.ryan
+   # data:
+      # title: 'Something happened at home'
+      # message: >
+        # "No one is home and {{ trigger.to_state.name }} was opened"
+      # data:
+        # push:
+          # category: camera
+        # entity_id: camera.d239

@@ -43,13 +43,6 @@ config:
    
 # This is the history tab (Graphs) you can hide certain components.
 history:
-  exclude:
-    domains:
-      - automation
-      - group
-      - alert
-    entities:
-      - sensor.time
 
 # Track the sun
 sun:
@@ -94,6 +87,7 @@ automation: !include automations.yaml
 binary_sensor: !include includes/binary_sensor.yaml
 climate: !include includes/climates.yaml
 cloud: !include includes/cloud.yaml
+command_line: !include includes/command_line.yaml
 device_tracker: !include includes/device_tracker.yaml
 group: !include includes/group.yaml
 input_boolean: !include includes/input_boolean.yaml

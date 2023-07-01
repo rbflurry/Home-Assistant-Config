@@ -25,15 +25,15 @@
     platform: telegram
     chat_id: -356616190
 ###
-  - platform: command_line
-    name: Hallway
-    command: "/root/.homeassistant/alexa_wrapper.sh -d 'Hallway'"
-  - platform: command_line
-    name: Office
-    command: "/root/.homeassistant/alexa_wrapper.sh -d 'Office'"
-  - platform: command_line
-    name: Everywhere
-    command: "/root/.homeassistant/alexa_wrapper.sh -d 'Everywhere'"
+  # - platform: command_line
+    # name: Hallway
+    # command: "/root/.homeassistant/alexa_wrapper.sh -d 'Hallway'"
+  # - platform: command_line
+    # name: Office
+    # command: "/root/.homeassistant/alexa_wrapper.sh -d 'Office'"
+  # - platform: command_line
+    # name: Everywhere
+    # command: "/root/.homeassistant/alexa_wrapper.sh -d 'Everywhere'"
   - name: file
     platform: file
     filename: notify.txt
