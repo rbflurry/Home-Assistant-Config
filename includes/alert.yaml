@@ -153,6 +153,18 @@
     notifiers:
       - telegram_group
       
+  blue_iris_chandler_running:
+    name: Chandler Blue Iris Is not running
+    message: Chandler Blue Iris Is not running /ack
+    done_message: Chandler Blue Iris Is running
+    entity_id: binary_sensor.template_blue_iris_chandler_running
+    state: "off"
+    repeat: 10
+    can_acknowledge: True
+    skip_first: True
+    notifiers:
+      - telegram_group
+      
   weather_station:
     name: Weather station is down
     message: Weather station is down /ack

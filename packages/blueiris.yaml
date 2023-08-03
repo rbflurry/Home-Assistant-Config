@@ -26,5 +26,5 @@ mqtt:
   sensor:
     - name: "BlueIris"
       state_topic: "BlueIris/app"   
-
- 
+    - name: "BlueIris_chandler"
+      state_topic: "BlueIris-chandler/app"   

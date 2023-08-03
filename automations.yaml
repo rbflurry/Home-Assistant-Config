@@ -297,6 +297,15 @@
     entity_id:
     - sensor.ups_trap
     to: 'UPS: No longer on battery power.'
+  - platform: state
+    entity_id:
+    - sensor.ups_status_data
+    from: OB
+    to: OL
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 55
   condition: []
   action:
   - service: homeassistant.turn_off
@@ -333,6 +342,10 @@
       entity_id:
       - media_player.lg_webos_tv_nano80upa
       - media_player.lg_webos_tv_5a6f
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.sonoff_4ch_relay_4
   mode: single
 - id: '1665668429834'
   alias: Door Alerts v2
@@ -507,7 +520,9 @@
     - service: switch.turn_on
       data: {}
       target:
-        entity_id: switch.outlet_1
+        entity_id:
+        - switch.outlet_1
+        - switch.desk_power_strip_1
     - service: light.turn_on
       data:
         brightness: '{{trigger.event.data.params.level | int}}'
@@ -1279,7 +1294,6 @@
     timeout: 00:00:05
   - service: notify.everyone_group
     data:
-      title: No onr is home
       message: "{% set new = trigger.entity_id %} {% if is_state(new, 'off') %}\n
         \ No one is home and {{ trigger.to_state.name }} was opened and closed.\n{%
         else %}\n  No one is home and {{ trigger.to_state.name }} was opened.\n{%
@@ -1293,9 +1307,45 @@
       '
   - service: notify.everyone_group
     data:
-      title: Something happened at home
       message: 'No one is home and {{ trigger.to_state.name }} was closed
 
         '
   mode: parallel
   max: 10
+- id: '1688688970200'
+  alias: Climate - Auto Office
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
+      or states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}
+
+      '
+    for:
+      minutes: 5
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.bed_room.attributes.current_temperature
+          < states.climate.bed_room.attributes.temperature-1}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: 'off'
+        target:
+          entity_id:
+          - climate.bed_room
+    - conditions:
+      - condition: template
+        value_template: '{{states.climate.bed_room.attributes.current_temperature
+          > states.climate.bed_room.attributes.temperature}}'
+      sequence:
+      - service: climate.set_hvac_mode
+        data:
+          hvac_mode: cool
+        target:
+          entity_id:
+          - climate.bed_room
+  mode: single
