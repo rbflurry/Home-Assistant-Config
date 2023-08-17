@@ -28,3 +28,7 @@ climate:
     visual:
       min_temperature: 60 °F
       max_temperature: 80 °F
+
+sensor:
+  - platform: uptime
+    name: Bedroom Minisplit Uptime Sensor
