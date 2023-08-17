@@ -1,12 +1,4 @@
 homeassistant:
-#  name: LilOld
-#  latitude: !secret lat
-#  longitude: !secret long
-#  currency: USD
-#  elevation: 186
-#  unit_system: imperial
-#  time_zone: America/New_York
-#  temperature_unit: F
   customize: !include customize.yaml
   customize_domain: {}
   packages: !include_dir_named packages
@@ -29,9 +21,6 @@ frontend:
 
 map:
 
-# Discover some devices automatically
-discovery:
-
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
   intents:
@@ -47,18 +36,13 @@ history:
 # Track the sun
 sun:
 
-#shell_command:
-
-
 media_player:
 #  - platform: androidtv
 #    name: Fire TV 1
 #    host: 192.168.47.215
 #    adbkey: !secret adbkey
 
-
 system_health:
-
 
 logger:
  default: warn
@@ -73,14 +57,10 @@ logger:
    requests.packages.urllib3.connectionpool: fatal
    homeassistant.components.camera: error
 
-
 ################################################
 ## Component Includes (Merge List)
 ################################################
 
-#fan: !include includes/fans.yaml
-#hangouts: !include includes/hangouts.yaml
-#influxdb: !include includes/influxdb.yaml
 alert: !include includes/alert.yaml
 automation old: !include_dir_merge_list includes/automation/
 automation: !include automations.yaml

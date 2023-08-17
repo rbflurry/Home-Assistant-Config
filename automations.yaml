@@ -391,19 +391,19 @@
   trigger:
   - platform: template
     value_template: '{{states.climate.craft_room.attributes.current_temperature >
-      states.climate.craft_room.attributes.temperature or states.climate.craft_room.attributes.current_temperature
-      < states.climate.craft_room.attributes.temperature-1}}
-
-      '
+      states.climate.craft_room.attributes.temperature +2 or states.climate.craft_room.attributes.current_temperature
+      <= states.climate.craft_room.attributes.temperature}}'
     for:
-      minutes: 5
+      hours: 0
+      minutes: 10
+      seconds: 0
   condition: []
   action:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{states.climate.craft_room.attributes.current_temperature
-          < states.climate.craft_room.attributes.temperature-1}}'
+          <= states.climate.craft_room.attributes.temperature}}'
       sequence:
       - service: climate.set_hvac_mode
         data:
@@ -413,7 +413,7 @@
     - conditions:
       - condition: template
         value_template: '{{states.climate.craft_room.attributes.current_temperature
-          > states.climate.craft_room.attributes.temperature}}'
+          > states.climate.craft_room.attributes.temperature+2}}'
       sequence:
       - service: climate.set_hvac_mode
         data:
@@ -889,7 +889,9 @@
   - service: switch.turn_on
     data: {}
     target:
-      entity_id: switch.driveway_outlets
+      entity_id:
+      - switch.driveway_outlets
+      - switch.sonoff_4ch_relay_4
   mode: single
 - id: '1671853638567'
   alias: Esp11 restore
@@ -1260,7 +1262,7 @@
   action:
   - service: notify.telegram_ryan
     data:
-      message: 'IP changed from: {{trigger.from_state.state}}  to {{trigger.ot_state.state}}'
+      message: 'IP changed from: {{trigger.from_state.state}}  to {{trigger.to_state.state}}'
   mode: single
 - id: '1688228439218'
   alias: Send Message when no one is home but a door was opened v3
@@ -1313,23 +1315,26 @@
   mode: parallel
   max: 10
 - id: '1688688970200'
-  alias: Climate - Auto Office
+  alias: Climate - Auto Office Cool
   description: ''
   trigger:
   - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
-      or states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}
+    value_template: '{{states.climate.bed_room.attributes.current_temperature+2 >
+      states.climate.bed_room.attributes.temperature or states.climate.bed_room.attributes.current_temperature
+      <= states.climate.bed_room.attributes.temperature}}
 
       '
     for:
-      minutes: 5
+      hours: 0
+      minutes: 10
+      seconds: 0
   condition: []
   action:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{states.climate.bed_room.attributes.current_temperature
-          < states.climate.bed_room.attributes.temperature-1}}'
+          < states.climate.bed_room.attributes.temperature}}'
       sequence:
       - service: climate.set_hvac_mode
         data:
@@ -1339,7 +1344,7 @@
           - climate.bed_room
     - conditions:
       - condition: template
-        value_template: '{{states.climate.bed_room.attributes.current_temperature
+        value_template: '{{states.climate.bed_room.attributes.current_temperature+2
           > states.climate.bed_room.attributes.temperature}}'
       sequence:
       - service: climate.set_hvac_mode
