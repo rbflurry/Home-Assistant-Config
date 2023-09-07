@@ -862,6 +862,7 @@
   - condition: sun
     before: sunrise
     after: sunset
+    enabled: false
   action:
   - service: climate.turn_off
     target:
@@ -872,13 +873,25 @@
   mode: parallel
   max: 10
 - id: '1669751419866'
-  alias: keep the driveway outlets on
+  alias: keep certain switches on
   description: ''
   trigger:
   - platform: state
     entity_id:
     - switch.driveway_outlets
     to: 'off'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  - platform: state
+    entity_id:
+    - switch.sonoff_4ch_relay_4
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   condition: []
   action:
   - delay:

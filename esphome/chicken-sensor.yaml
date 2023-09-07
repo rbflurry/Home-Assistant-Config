@@ -53,13 +53,11 @@ switch:
   - platform: template
     name: Chicken Pen Door Status
     id: pen_door_status
-    restore_state: true
     optimistic: true
   - platform: template
     name: Chicken Door Status
     id: coop_door_status
     optimistic: true
-    restore_state: true
 
 binary_sensor:
   - platform: gpio

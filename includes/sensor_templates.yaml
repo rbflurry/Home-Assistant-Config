@@ -865,7 +865,7 @@
         device_class: power
         unit_of_measurement: W
         value_template: >-
-          {% if states('sensor.ups_status_data') in ['OL', 'OL CHRG'] -%}
+          {% if states('sensor.ups_status_data') in ['OL', 'OL CHRG', 'OL BOOST'] -%}
             {{ (states('sensor.ups_output_current') | float) * (states('sensor.ups_output_voltage') | float) }}
           {%- else -%}
             0

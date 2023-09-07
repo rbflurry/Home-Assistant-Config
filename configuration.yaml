@@ -130,6 +130,7 @@ opnsense:
   url: !secret fw
   api_secret: !secret fw_secret
   api_key: !secret fw_key
+  verify_ssl: true
   
 panel_custom:
   - name: Automations

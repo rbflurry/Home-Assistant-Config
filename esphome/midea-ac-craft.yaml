@@ -14,6 +14,7 @@ packages:
 # Disable logging over UART (required)
 logger:
   baud_rate: 0
+  level: NONE
 
 # UART settings for Midea dongle (required)
 uart:
