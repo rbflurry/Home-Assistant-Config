@@ -282,14 +282,14 @@ mqtt:
       qos: 1
       retain: true
       
-    - name: "esp5"
-      unique_id: esp5
-      state_topic: "home/sonoff/5/1/stat"
-      command_topic: "home/sonoff/5/1"
-      payload_on: "on"
-      payload_off: "off"
-      qos: 1
-      retain: true
+    # - name: "esp5"
+      # unique_id: esp5
+      # state_topic: "home/sonoff/5/1/stat"
+      # command_topic: "home/sonoff/5/1"
+      # payload_on: "on"
+      # payload_off: "off"
+      # qos: 1
+      # retain: true
 
     - name: "esp6"
       unique_id: esp6
@@ -328,20 +328,20 @@ mqtt:
       payload_not_available: "Offline"
       retain: true
 
-    - name: "esp12"
-      unique_id: esp12
-      state_topic: "stat/esp12/RESULT"
-      value_template: '{{ value_json["POWER"] }}'
-      command_topic: "cmnd/esp12/POWER"
-      availability_topic: "tele/esp12/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
-      json_attributes_topic: "tele/esp12/SENSOR"
-      json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+    # - name: "esp12"
+      # unique_id: esp12
+      # state_topic: "stat/esp12/RESULT"
+      # value_template: '{{ value_json["POWER"] }}'
+      # command_topic: "cmnd/esp12/POWER"
+      # availability_topic: "tele/esp12/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
+      # json_attributes_topic: "tele/esp12/SENSOR"
+      # json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
       
     - name: "esp13"
       unique_id: esp13

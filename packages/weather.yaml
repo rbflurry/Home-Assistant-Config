@@ -13,48 +13,6 @@ homeassistant:
       haaska_hidden: true
       homebridge_hidden: true
       emulated_hue_hidden: true
-#      emulated_hue_name: "back office light"
-
-    group.weather_general:
-      <<: *customize
-      friendly_name: "General"
-
-    group.weather_wunderground:
-      <<: *customize
-      friendly_name: "Weather Underground"
-
-    group.weather_yr:
-      <<: *customize
-      friendly_name: "YR"
-
-    sensor.pws_feelslike_f:
-      <<: *customize
-      friendly_name: "Feels Like"
-      icon: mdi:thermometer
-
-    sensor.pws_heat_index_f:
-      <<: *customize
-      friendly_name: "Heat Index"
-      icon: mdi:thermometer
-
-    sensor.pws_precip_today_in:
-      <<: *customize
-      friendly_name: "Precipitation"
-      icon: mdi:weather-rainy
-
-    sensor.pws_relative_humidity:
-      <<: *customize
-      friendly_name: "Humidity"
-      icon: mdi:water-percent
-
-    sensor.pws_temp_f:
-      <<: *customize
-      friendly_name: "Temperature"
-      icon: mdi:thermometer
-
-    sensor.pws_weather:
-      <<: *customize
-      friendly_name: "Current Conditions"
 
     sensor.season:
       <<: *customize
@@ -72,23 +30,3 @@ homeassistant:
 ## Sensor
 ################################################
 
-      
-
-
-  # - platform: template
-    # sensors:
-      # template_season:
-        # value_template: >-
-          # {% set temp_entity = 'sensor.dark_sky_temperature' %}
-          # {% set temp = states(temp_entity)|float(none) %}
-          # {% set temp_min = states.input_number.season_winter.state|default(68)|float %}
-          # {% set temp_max = states.input_number.season_summer.state|default(84)|float %}
-          # {% if temp is none %}
-            # {{ states(temp_entity) }}
-          # {% elif temp < temp_min %}
-            # Winter
-          # {% elif temp > temp_max %}
-            # Summer
-          # {% else %}
-            # Awesome
-          # {% endif %}

@@ -39,9 +39,9 @@
       entity_id: group.indoor_lights
     - service: climate.set_hvac_mode
       data:
-        entity_id: climate.wink_home, climate.home
+        entity_id: climate.home
         operation_mode: off
     - service: climate.set_fan_mode
       data:
-        entity_id: climate.wink_home, climate.home
+        entity_id: climate.home
         fan_mode: 'off'

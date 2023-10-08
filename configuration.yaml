@@ -73,7 +73,7 @@ group: !include includes/group.yaml
 input_boolean: !include includes/input_boolean.yaml
 input_number: !include includes/input_number.yaml
 input_select: !include includes/input_select.yaml
-intent_script: !include includes/intent_scripts.yaml
+#intent_script: !include includes/intent_scripts.yaml
 light: !include includes/light.yaml
 logbook: !include includes/logbook.yaml
 notify: !include includes/notify.yaml

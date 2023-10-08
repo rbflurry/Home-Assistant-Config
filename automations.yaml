@@ -1049,6 +1049,19 @@
     - stop: Disabled
   - if:
     - condition: state
+      entity_id: switch.side_spigot
+      state: unavailable
+    then:
+    - service: notify.telegram_group
+      data:
+        message: Chicken Water Automation - Spigot is unavailable
+    - service: homeassistant.turn_on
+      data: {}
+      target:
+        entity_id: input_boolean.chickens_need_watering
+    - stop: Spigot Unavailable
+  - if:
+    - condition: state
       entity_id: input_boolean.chicken_water_automations
       state: 'off'
     then:
@@ -1366,4 +1379,36 @@
         target:
           entity_id:
           - climate.bed_room
+  mode: single
+- id: '1696794529178'
+  alias: Pumpkin window ligts
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+    id: turn_on
+  - platform: time
+    at: 00:00:00
+    id: turn_off
+  condition: []
+  action:
+  - condition: trigger
+    id:
+    - turn_on
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.esp10
+      - switch.esp12
+  - condition: trigger
+    id:
+    - turn_off
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.esp10
+      - switch.esp12
   mode: single

@@ -16,11 +16,6 @@ homeassistant:
       haaska_hidden: false
       homebridge_hidden: false
 
-    binary_sensor.guest_bedroom_occupancy:
-      <<: *customize_exposed
-      friendly_name: "Guest Bedroom Occupancy"
-      device_class: occupancy
-
 
 ################################################
 ## timer Platform
