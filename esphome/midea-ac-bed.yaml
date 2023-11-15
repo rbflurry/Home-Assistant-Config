@@ -5,7 +5,7 @@ substitutions:
 esphome:
   name: ${devicename}
   platform: ESP8266
-  board: d1_mini
+  board: esp12e
   
 packages:
   device_base: !include common.yaml
@@ -17,8 +17,8 @@ logger:
 
 # UART settings for Midea dongle (required)
 uart:
-  tx_pin: 3
-  rx_pin: 1
+  tx_pin: 1
+  rx_pin: 3
   baud_rate: 9600
 
 # Main settings

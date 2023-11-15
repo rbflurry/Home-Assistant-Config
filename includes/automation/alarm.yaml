@@ -18,12 +18,6 @@
       entity_id: light.wink_led_strip_bed
       data:
        brightness: 100
-#   - delay:
-#       minutes: 10
-#   - service: homeassistant.turn_on
-#     entity_id: light.wink_bed_room
-#     data:
-#      brightness: 1
 
 
 - alias: Ryan Alarm Wed-Fri
@@ -45,9 +39,3 @@
      entity_id: light.wink_led_strip_bed
      data:
       brightness: 100
-#   - delay:
-#       minutes: 10
-#   - service: homeassistant.turn_on
-#     entity_id: light.wink_bed_room
-#     data:
-#      brightness: 1

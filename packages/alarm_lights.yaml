@@ -58,45 +58,45 @@ sensor:
         
 
 automation:
-  - alias: Wake up Alarm - turn on lights
-    id: c395ea35-0369-4567-aaad-addf647294ac
-    initial_state: True
-    trigger:
-      - platform: template
-        value_template: '{{ states.sensor.time.state == states.sensor.alarm_time.state }}'
-    condition:
-      - condition: state
-        entity_id: input_boolean.alarm_on
-        state: 'on'
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'
-      - condition: template
-        value_template: '{{ states.sensor.time.state >= states.sensor.alarm_time.state }}'
-      - condition: or
-        conditions:
-            - condition: template
-              value_template: '{{ (now().strftime("%a") == "Mon") and (states.input_boolean.alarm_mon.state=="on")}}'
-            - condition: template
-              value_template: '{{ (now().strftime("%a") == "Tue") and (states.input_boolean.alarm_tue.state=="on")}}'
-            - condition: template
-              value_template: '{{ (now().strftime("%a") == "Wed") and (states.input_boolean.alarm_wed.state=="on")}}'
-            - condition: template
-              value_template: '{{ (now().strftime("%a") == "Thu") and (states.input_boolean.alarm_thur.state=="on")}}'
-            - condition: template
-              value_template: '{{ (now().strftime("%a") == "Fri") and (states.input_boolean.alarm_fri.state=="on")}}'
-            - condition: template
-              value_template: '{{ (now().strftime("%a") == "Sat") and (states.input_boolean.alarm_sat.state=="on")}}'
-            - condition: template
-              value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
-    action:
-      - service: homeassistant.turn_on
-        entity_id: switch.wink_hallway_switch
-#      - service: homeassistant.turn_on
-#        entity_id: light.wink_hallway
-#        data:
-#         brightness_pct: 100
-#         color_name: yellow
+  # - alias: Wake up Alarm - turn on lights
+    # id: c395ea35-0369-4567-aaad-addf647294ac
+    # initial_state: True
+    # trigger:
+      # - platform: template
+        # value_template: '{{ states.sensor.time.state == states.sensor.alarm_time.state }}'
+    # condition:
+      # - condition: state
+        # entity_id: input_boolean.alarm_on
+        # state: 'on'
+      # - condition: state
+        # entity_id: sun.sun
+        # state: 'below_horizon'
+      # - condition: template
+        # value_template: '{{ states.sensor.time.state >= states.sensor.alarm_time.state }}'
+      # - condition: or
+        # conditions:
+            # - condition: template
+              # value_template: '{{ (now().strftime("%a") == "Mon") and (states.input_boolean.alarm_mon.state=="on")}}'
+            # - condition: template
+              # value_template: '{{ (now().strftime("%a") == "Tue") and (states.input_boolean.alarm_tue.state=="on")}}'
+            # - condition: template
+              # value_template: '{{ (now().strftime("%a") == "Wed") and (states.input_boolean.alarm_wed.state=="on")}}'
+            # - condition: template
+              # value_template: '{{ (now().strftime("%a") == "Thu") and (states.input_boolean.alarm_thur.state=="on")}}'
+            # - condition: template
+              # value_template: '{{ (now().strftime("%a") == "Fri") and (states.input_boolean.alarm_fri.state=="on")}}'
+            # - condition: template
+              # value_template: '{{ (now().strftime("%a") == "Sat") and (states.input_boolean.alarm_sat.state=="on")}}'
+            # - condition: template
+              # value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
+    # action:
+      # - service: homeassistant.turn_on
+        # entity_id: switch.wink_hallway_switch
+# #      - service: homeassistant.turn_on
+# #        entity_id: light.wink_hallway
+# #        data:
+# #         brightness_pct: 100
+# #         color_name: yellow
          
   - alias: Wake up Alarm - turn on second lights
     id: b4520907-5b0f-40f5-9de2-e99ed45c871a
