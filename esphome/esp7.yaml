@@ -1,0 +1,44 @@
+substitutions:
+  devicename: esp7
+  upper_devicename: esp7
+
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: esp01_1m
+
+packages:
+  device_base: !include common.yaml
+#  device_switches_sensors: !include default-sensors-switches.yaml
+
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: ${devicename} Button
+    on_press:
+      - switch.toggle: relay
+
+sensor:
+  - platform: cse7766
+    current:
+      name: ${devicename} Current
+      accuracy_decimals: 1
+    voltage:
+      name: ${devicename} Voltage
+      accuracy_decimals: 1
+    power:
+      name: ${devicename} Power
+      accuracy_decimals: 1
+switch:
+  - platform: gpio
+    name: ${devicename}
+    pin: GPIO12
+    id: relay
+    

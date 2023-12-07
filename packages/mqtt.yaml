@@ -300,20 +300,20 @@ mqtt:
       qos: 1
       retain: true
       
-    - name: "esp7"
-      unique_id: esp7
-      state_topic: "stat/esp7/RESULT"
-      value_template: '{{ value_json["POWER"] }}'
-      command_topic: "cmnd/esp7/POWER"
-      availability_topic: "tele/esp7/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
-      json_attributes_topic: "tele/esp7/SENSOR"
-      json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+    # - name: "esp7"
+      # unique_id: esp7
+      # state_topic: "stat/esp7/RESULT"
+      # value_template: '{{ value_json["POWER"] }}'
+      # command_topic: "cmnd/esp7/POWER"
+      # availability_topic: "tele/esp7/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
+      # json_attributes_topic: "tele/esp7/SENSOR"
+      # json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
       
     - name: "esp8"
       unique_id: esp8

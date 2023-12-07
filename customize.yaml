@@ -19,15 +19,6 @@ binary_sensor.front_door:
   friendly_name: Front Door
 binary_sensor.garage_entry_door:
   friendly_name: Garage Entry
-cover.myq_First_Bay:
-  friendly_name: Myq First Bay
-  icon: mdi:glassdoor
-cover.myq_Second_Bay:
-  friendly_name: Myq Second Bay
-  icon: mdi:glassdoor
-cover.myq_Third_Bay:
-  friendly_name: Myq Third Bay
-  icon: mdi:glassdoor
 cover.chicken_door:
   friendly_name: Chicken Coop
 input_boolean.alarm_ryan:

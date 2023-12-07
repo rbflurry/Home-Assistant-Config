@@ -102,8 +102,9 @@
   condition: []
   action:
   - service: homeassistant.turn_on
+    data: {}
     target:
-      entity_id: switch.esp11
+      entity_id: switch.esp10
   mode: single
 - id: '1639314713123'
   alias: outside christmas tree off
@@ -115,8 +116,9 @@
   condition: []
   action:
   - service: homeassistant.turn_off
+    data: {}
     target:
-      entity_id: switch.esp11
+      entity_id: switch.esp10
   mode: single
 - id: '1641653770665'
   alias: alert-ack-home
@@ -970,9 +972,9 @@
     to: 'on'
   - platform: state
     entity_id:
-    - cover.myq_first_bay_2
-    - cover.myq_second_bay_2
-    - cover.myq_third_bay_2
+    - cover.ratgdo_51357_door
+    - cover.ratgdo_20157_door
+    - cover.ratgdo_88676_door
     from: closed
     to: opening
   condition: []
@@ -1308,9 +1310,9 @@
     to: 'on'
   - platform: state
     entity_id:
-    - cover.myq_first_bay_2
-    - cover.myq_second_bay_2
-    - cover.myq_third_bay_2
+    - cover.ratgdo_51357_door
+    - cover.ratgdo_20157_door
+    - cover.ratgdo_88676_door
     to: open
     for:
       hours: 0
@@ -1468,3 +1470,20 @@
       - light.jasco_products_14294_in_wall_smart_dimmer_level
   mode: single
   initial_state: true
+- id: '1700657413066'
+  alias: barn light night
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  condition:
+  - condition: numeric_state
+    entity_id: zone.home
+    attribute: persons
+    above: 1
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.ahr_085_2_relay2
+  mode: single

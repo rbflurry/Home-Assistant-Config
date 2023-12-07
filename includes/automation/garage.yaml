@@ -10,7 +10,7 @@
    condition: or
    conditions:
    - condition: state
-     entity_id: cover.myq_first_bay_2
+     entity_id: cover.ratgdo_51357_door
      state: 'open'
   action:
    service: notify.telegram_ryan
@@ -40,13 +40,13 @@
    data:
           title: 'Garage Door Left Open'
           message: >
-            {% if is_state('cover.myq_first_bay_2', 'open') -%}
+            {% if is_state('cover.ratgdo_51357_door', 'open') -%}
               First Bay is open.
             {% endif -%}
-            {% if is_state('cover.myq_second_bay_2', 'open') -%}
+            {% if is_state('cover.ratgdo_20157_door', 'open') -%}
               Second Bay is open.
             {% endif -%}
-            {%- if is_state('cover.myq_third_bay_2', 'open') -%}
+            {%- if is_state('cover.ratgdo_88676_door', 'open') -%}
               Third Bay is open
             {% endif -%}
           data:

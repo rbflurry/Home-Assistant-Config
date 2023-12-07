@@ -1,0 +1,17 @@
+substitutions:
+  name: ratgdov25i-11e249
+  friendly_name: rat-firstbay
+packages:
+  ratgdo.esphome: github://ratgdo/esphome-ratgdo/v25iboard.yaml@main
+esphome:
+  name: ${name}
+  name_add_mac_suffix: false
+  friendly_name: ${friendly_name}
+api:
+  encryption:
+    key: MeuZ/D3D53RqDChspaw8dPW9CndPYgBRfm2bVBKhdDo=
+
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password

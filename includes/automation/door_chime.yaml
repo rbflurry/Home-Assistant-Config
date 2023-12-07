@@ -18,7 +18,7 @@
   id: 38d2d5db-21ab-4aa7-abdb-0de3d481aebc
   trigger:
     - platform: state
-      entity_id: binary_sensor.garage_entry_door, cover.myq_first_bay, cover.myq_second_bay ,cover.myq_third_bay
+      entity_id: binary_sensor.garage_entry_door, cover.ratgdo_51357_door, cover.ratgdo_20157_door, cover.ratgdo_88676_door
       to: 'on'
   condition:
    condition: state
