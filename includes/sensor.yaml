@@ -1,17 +1,3 @@
-- platform: systemmonitor
-  resources:
-    - type: disk_use_percent
-      arg: /
-    - type: memory_free
-    - type: processor_use
-    - type: last_boot
-    - type: load_1m
-    - type: load_5m
-    - type: load_15m
-    - type: disk_use
-      arg: /
-  scan_interval: 120
-
 - platform: time_date
   display_options:
     - 'time'

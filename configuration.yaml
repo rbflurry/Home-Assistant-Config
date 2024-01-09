@@ -4,8 +4,8 @@ homeassistant:
   packages: !include_dir_named packages
   auth_providers:
     - type: homeassistant
-    - type: legacy_api_password
-      api_password: !secret http_password
+    # - type: legacy_api_password
+      # api_password: !secret http_password
     - type: trusted_networks
       trusted_networks:
         - 192.168.47.0/24

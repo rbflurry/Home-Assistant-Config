@@ -28,7 +28,7 @@ switch:
     pin:
       number: GPIO12
     on_turn_on:
-    - delay: 10s
+    - delay: 30s
     - switch.turn_off: relay2
   - platform: gpio
     name: "Relay3"

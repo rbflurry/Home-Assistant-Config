@@ -279,15 +279,15 @@
       minutes: 5
   condition:
   - condition: device
-    device_id: 1da3570264a941bbf2a20e7f133f58af
+    device_id: a71a54da1e80ae275a69e54383eb20ed
     domain: climate
-    entity_id: climate.craft_room
+    entity_id: bab6cfb92b760c2510616faead126007
     type: is_hvac_mode
     hvac_mode: 'off'
   action:
-  - device_id: 1da3570264a941bbf2a20e7f133f58af
+  - device_id: a71a54da1e80ae275a69e54383eb20ed
     domain: climate
-    entity_id: climate.craft_room
+    entity_id: bab6cfb92b760c2510616faead126007
     type: set_hvac_mode
     hvac_mode: cool
   mode: single
@@ -1479,11 +1479,109 @@
   condition:
   - condition: numeric_state
     entity_id: zone.home
-    attribute: persons
     above: 1
   action:
   - service: switch.turn_off
     data: {}
     target:
       entity_id: switch.ahr_085_2_relay2
+  mode: single
+- id: '1702473646649'
+  alias: Power out reset
+  description: ''
+  trigger:
+  - platform: time
+    at: '10:00:00'
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.desk_power_strip_2
+      - switch.desk_power_strip_3
+      - switch.desk_power_strip_4
+      - switch.hp_printer
+      - switch.outlet_2
+      - switch.outlet_3
+      - switch.switch_4
+      - switch.switch_3
+      - switch.ahr_085_3_relay1
+      - switch.ahr_085_3_relay2
+      - switch.ahr_085_3_relay3
+  mode: single
+- id: '1703035164626'
+  alias: Megatree
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: '-30'
+    id: turn_on
+  - platform: time
+    at: 00:00:00
+    id: turn_off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - turn_on
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id:
+          - switch.esp10
+    - conditions:
+      - condition: trigger
+        id:
+        - turn_off
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id:
+          - switch.esp10
+  mode: single
+- id: '1703775125209'
+  alias: chandler bi
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  - platform: state
+    entity_id:
+    - alert.blue_iris_chandler_running
+  condition:
+  - condition: time
+    after: '21:00:00'
+    before: 09:00:00
+  action:
+  - service: alert.turn_off
+    data: {}
+    target:
+      entity_id: alert.blue_iris_chandler_running
+  mode: single
+- id: '1704411488108'
+  alias: Chicken heater fan
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.season
+        state: winter
+      sequence:
+      - service: climate.set_hvac_mode
+        metadata: {}
+        data:
+          hvac_mode: heat
+        target:
+          entity_id: climate.chicken_water_heater
   mode: single
