@@ -9,7 +9,6 @@ homeassistant:
     - type: trusted_networks
       trusted_networks:
         - 192.168.47.0/24
-        - 10.0.93.2/32
 
 default_config:
 zeroconf:

@@ -19,7 +19,7 @@ binary_sensor:
     name: “Front Door”
     device_class: door
     filters:
-      - delayed_on: 1000ms
+      - delayed_on: 2000ms
 #      - delayed_off: 1000ms
   - platform: gpio
     pin: 
