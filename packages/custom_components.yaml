@@ -61,9 +61,9 @@ sensor:
    #   - elev
       - today_summary
 
-binary_sensor: 
-  - platform: car_wash
-    weather: weather.home
+#binary_sensor: 
+#  - platform: car_wash
+#    weather: weather.home
 
 
 circadian_lighting:

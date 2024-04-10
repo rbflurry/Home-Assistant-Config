@@ -6,18 +6,18 @@
 ## Customize
 ################################################
 
-homeassistant:
-  customize:
-    packages.weather: &customize
-      package: 'weather'
-      haaska_hidden: true
-      homebridge_hidden: true
-      emulated_hue_hidden: true
+#homeassistant:
+ # customize:
+ #   packages.weather: &customize
+ #     package: 'weather'
+ #     haaska_hidden: true
+#      homebridge_hidden: true
+#      emulated_hue_hidden: true
 
-    sensor.season:
-      <<: *customize
-      friendly_name: "Season"
-      icon: mdi:weather-snowy-rainy
+#    sensor.season:
+ #     <<: *customize
+#      friendly_name: "Season"
+ #     icon: mdi:weather-snowy-rainy
 
 
 ################################################
@@ -30,3 +30,30 @@ homeassistant:
 ## Sensor
 ################################################
 
+    template:
+      - trigger:
+          - platform: time_pattern
+            hours: "/4"
+          - platform: homeassistant
+            event: start
+          - platform: event
+            event_type: event_template_reloaded
+          - platform: state
+            entity_id: sensor.pws_5in1_temperature 
+        action:
+          - service: weather.get_forecasts
+            data:
+              type: daily
+            target:
+              entity_id: weather.home
+            response_variable: daily
+        weather:
+          name: Local
+          temperature_template: "{{ states('sensor.pws_5in1_temperature') | float}}" 
+          temperature_unit: "°F"
+          humidity_template: "{{ states('sensor.pws_5in1_humidity')| float }}"
+          condition_template: "{{ states('weather.home')}}"
+          wind_speed_template: "{{ states('sensor.pws_5in1_wind')| float }}"
+          wind_gust_speed_template: "{{ states('sensor.peak_wind_speed')| float }}"
+          wind_bearing_template: "{{ states('sensor.template_pws_5in1_weather_wind_dir')}}"
+          forecast_daily_template: "{{ daily['weather.home'].forecast }}"

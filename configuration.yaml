@@ -115,15 +115,6 @@ twilio:
   auth_token: !secret AUTH_TOKEN_FROM_TWILIO
   
 # Example configuration.yaml entry
-weather:
-  - platform: template
-    name: "my ws"
-    condition_template: "{{ states('weather.home')}}"
-    temperature_template: "{{ states('sensor.pws_5in1_temperature') | float}}" 
-    humidity_template: "{{ states('sensor.pws_5in1_humidity')| float }}"
-    forecast_template: "{{ states.weather.home.attributes.forecast }}"
-    wind_speed_template: "{{ states('sensor.pws_5in1_wind')| float }}"
-
 
 opnsense:
   url: !secret fw
@@ -142,13 +133,3 @@ panel_custom:
     config:
       ingress: core_configurator
       
-proximity:
-  home:
-    ignored_zones:
-      - thales
-      - waterloo
-    devices:
-      - person.ryan
-      - person.chelsea
-    tolerance: 50
-    unit_of_measurement: mi

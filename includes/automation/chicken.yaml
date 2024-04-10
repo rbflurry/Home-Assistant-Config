@@ -6,7 +6,7 @@
    entity_id: switch.chicken_door_switch
    to: 'on'
    for:
-     seconds: 13
+     seconds: 16
   action:
     - service: homeassistant.turn_off
       entity_id: switch.chicken_door_switch
@@ -21,7 +21,7 @@
    entity_id: switch.chicken_pen_switch
    to: 'on'
    for:
-     seconds: 13
+     seconds: 16
   action:
     - service: homeassistant.turn_off
       entity_id: switch.chicken_pen_switch
@@ -129,7 +129,7 @@
     - service: cover.open_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
-      timeout: 00:00:15
+      timeout: 00:00:20
     - service: notify.telegram_group
       data:
         title: "\U0001F414 Chicken Door Trigger \U0001F414"
@@ -143,7 +143,7 @@
           inline_keyboard:
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
-    - delay: "00:00:15"
+    - delay: "00:00:20"
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_automations, input_boolean.chicken_door_last_call
       
@@ -171,7 +171,7 @@
     - service: cover.close_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
-      timeout: 00:00:15
+      timeout: 00:00:20
     - service: notify.telegram_group
       data:
         title: "\U0001F414 Chicken Door Closed \U0001F414"
@@ -185,7 +185,7 @@
           inline_keyboard:
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
-    - delay: "00:00:15"
+    - delay: "00:00:20"
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_automations
 
@@ -208,7 +208,7 @@
     - service: cover.open_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
-      timeout: 00:00:15
+      timeout: 00:00:20
     - service: notify.telegram_group
       data:
         title: "\U0001F414 Last Call - Chicken Door \U0001F414"
@@ -261,7 +261,7 @@
 #    - service: cover.close_cover
 #      entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
-      timeout: 00:00:15
+      timeout: 00:00:20
     - service: notify.telegram_group
       data:
         title: "\U0001F414 Last Call - Chicken Door \U0001F414"
@@ -275,7 +275,7 @@
           inline_keyboard:
            - 'Open Door:/CHICKEN_OPEN_DOOR'
            - 'Close Door:/CHICKEN_CLOSE_DOOR'
-    - delay: "00:00:15"
+    - delay: "00:00:20"
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_last_call, switch.sonoff_4ch_relay_2, input_boolean.chicken_door_automations
     - service: homeassistant.turn_on
