@@ -16,7 +16,7 @@ binary_sensor:
     pin:
       number: D5
       mode: INPUT_PULLUP
-    name: “Garage Entry”
+    name: Garage Entry Door
     device_class: door
     filters:
       - invert:

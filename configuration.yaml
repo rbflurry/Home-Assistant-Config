@@ -18,8 +18,6 @@ mobile_app:
 frontend:
   themes: !include includes/themes.yaml
 
-map:
-
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
   intents:
@@ -76,7 +74,7 @@ input_select: !include includes/input_select.yaml
 light: !include includes/light.yaml
 logbook: !include includes/logbook.yaml
 notify: !include includes/notify.yaml
-panel_iframe: !include includes/iframe.yaml
+#panel_iframe: !include includes/iframe.yaml
 recorder: !include includes/recorder.yaml
 scene: !include includes/scene.yaml
 script: !include scripts.yaml

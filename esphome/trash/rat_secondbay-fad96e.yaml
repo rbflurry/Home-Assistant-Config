@@ -1,0 +1,17 @@
+substitutions:
+  name: rat_secondbay-fad96e
+  friendly_name: Second Bay fad96e
+packages:
+  ratgdo.esphome: github://ratgdo/esphome-ratgdo/v25iboard_secplusv1.yaml@main
+esphome:
+  name: ${name}
+  name_add_mac_suffix: false
+  friendly_name: ${friendly_name}
+api:
+  encryption:
+    key: SfJo7ZpP35KpP7ZX8KRaORb1dp9i6GPcWrN/fB4FZ+M=
+
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password

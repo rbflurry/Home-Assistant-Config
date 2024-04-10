@@ -359,49 +359,4 @@ mqtt:
       json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
 ################################################# 
 
-#################################################
-#### Power Pivot
-#################################################
-    # - name: "PowerPivot2-1"
-      # state_topic: "stat/powerpivot2/RESULT"
-      # value_template: '{{ value_json["POWER1"] }}'
-      # command_topic: "cmnd/powerpivot2/POWER1"
-      # availability_topic: "tele/powerpivot2/LWT"
-      # qos: 1
-      # payload_on: "ON"
-      # payload_off: "OFF"
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      # retain: true
-      
-    # - name: "PowerPivot2-2"
-      # state_topic: "stat/powerpivot2/RESULT"
-      # value_template: '{{ value_json["POWER2"] }}'
-      # command_topic: "cmnd/powerpivot2/POWER2"
-      # availability_topic: "tele/powerpivot2/LWT"
-      # qos: 1
-      # payload_on: "ON"
-      # payload_off: "OFF"
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      # retain: true
-#################################################
-
-
-#################################################
-#### Bathroom Fan
-#################################################      
-    # - name: "Bathroom Fan"
-      # state_topic: "stat/esp_bathroom/RESULT"
-      # value_template: '{{ value_json["POWER"] }}'
-      # command_topic: "cmnd/esp_bathroom/POWER"
-      # availability_topic: "tele/esp_bathroom/LWT"
-      # qos: 1
-      # payload_on: "ON"
-      # payload_off: "OFF"
-      # payload_available: "Online"
-      # payload_not_available: "Offline"
-      # #retain: true 
-      # optimistic: true
-################################################# 
 
