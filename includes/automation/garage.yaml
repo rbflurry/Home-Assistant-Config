@@ -1,22 +1,22 @@
-- alias: Garage Send Message when chelsea left but garage door is still open
-  id: c0237af6-5122-4830-930c-14540144d635
-  trigger:
-   platform: state
-   entity_id: person.chelsea
-   to: 'not_home'
-   for:
-     minutes: 10
-  condition:
-   condition: or
-   conditions:
-   - condition: state
-     entity_id: cover.ratgdo_51357_door
-     state: 'open'
-  action:
-   service: notify.telegram_ryan
-   data:
-      title: 'Chelsea Left'
-      message: "First Bay was left open"
+#- alias: Garage Send Message when chelsea left but garage door is still open
+#  id: c0237af6-5122-4830-930c-14540144d635
+#  trigger:
+#   platform: state
+#   entity_id: person.chelsea
+#   to: 'not_home'
+#   for:
+#     minutes: 10
+#  condition:
+#   condition: or
+#   conditions:
+#   - condition: state
+#     entity_id: cover.ratgdo_51357_door
+#     state: 'open'
+#  action:
+#   service: notify.telegram_ryan
+#   data:
+#      title: 'Chelsea Left'
+#      message: "First Bay was left open"
  #     data:
  #       push:
  #         category: 'door_close'
@@ -40,13 +40,13 @@
    data:
           title: 'Garage Door Left Open'
           message: >
-            {% if is_state('cover.ratgdo_51357_door', 'open') -%}
+            {% if is_state('cover.rat_thirdbay_11d3bf_door', 'open') -%}
               First Bay is open.
             {% endif -%}
-            {% if is_state('cover.ratgdo_20157_door', 'open') -%}
+            {% if is_state('cover.rat_secondbay_fad96e_door', 'open') -%}
               Second Bay is open.
             {% endif -%}
-            {%- if is_state('cover.ratgdo_88676_door', 'open') -%}
+            {%- if is_state('cover.rat_firstbay_11e249_door', 'open') -%}
               Third Bay is open
             {% endif -%}
           data:

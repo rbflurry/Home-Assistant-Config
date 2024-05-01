@@ -54,6 +54,14 @@
           humidity_template: "{{ states('sensor.pws_5in1_humidity')| float }}"
           condition_template: "{{ states('weather.home')}}"
           wind_speed_template: "{{ states('sensor.pws_5in1_wind')| float }}"
-          wind_gust_speed_template: "{{ states('sensor.peak_wind_speed')| float }}"
+          wind_gust_speed_template: "{{ states('sensor.peak_wind_speed')| float(default=0) }}"
           wind_bearing_template: "{{ states('sensor.template_pws_5in1_weather_wind_dir')}}"
           forecast_daily_template: "{{ daily['weather.home'].forecast }}"
+          
+          
+          
+          
+          
+          
+          
+          

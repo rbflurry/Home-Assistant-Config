@@ -10,7 +10,7 @@
       from: 'on'
       to: 'off'
     - platform: state
-      entity_id: cover.ratgdo_51357_door, cover.ratgdo_20157_door, cover.ratgdo_88676_door
+      entity_id: cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
       from: 'closed'
       to: 'open'
   condition:
@@ -73,7 +73,7 @@
   id: 77e3f77e-ab8c-4bdb-9ee7-16fe685686cd
   trigger:
     - platform: state
-      entity_id: cover.ratgdo_51357_door, cover.ratgdo_20157_door, cover.ratgdo_88676_door
+      entity_id: cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
       from: 'closed'
       to: 'open'
   condition:

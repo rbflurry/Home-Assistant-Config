@@ -972,9 +972,9 @@
     to: 'on'
   - platform: state
     entity_id:
-    - cover.ratgdo_51357_door
-    - cover.ratgdo_20157_door
-    - cover.ratgdo_88676_door
+    - cover.rat_firstbay_11e249_door
+    - cover.rat_thirdbay_11d3bf_door
+    - cover.rat_secondbay_fad96e_door
     from: closed
     to: opening
   condition: []
@@ -1310,9 +1310,9 @@
     to: 'on'
   - platform: state
     entity_id:
-    - cover.ratgdo_51357_door
-    - cover.ratgdo_20157_door
-    - cover.ratgdo_88676_door
+    - cover.rat_thirdbay_11d3bf_door
+    - cover.rat_secondbay_fad96e_door
+    - cover.rat_firstbay_11e249_door
     to: open
     for:
       hours: 0
@@ -1586,4 +1586,99 @@
           hvac_mode: heat
         target:
           entity_id: climate.chicken_water_heater
+  mode: single
+- id: '1712956046576'
+  alias: Ryan Headed home
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.ryan
+    zone: zone.thales
+    event: leave
+  condition:
+  - condition: time
+    after: '14:00:00'
+    before: '20:00:00'
+  action:
+  - service: notify.everyone_group
+    metadata: {}
+    data:
+      message: "\U0001F697 Ryan, your drive time is {{ states.sensor.waze_device_ryan_to_home.state
+        }} minutes taking {{ state_attr('sensor.waze_device_ryan_to_home', 'route')
+        }}. Drive safe\U0001F697"
+  mode: single
+- id: '1712957154301'
+  alias: Chelsea Headed Home
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.chelsea
+    zone: zone.waterloo
+    event: leave
+  condition:
+  - condition: time
+    after: '13:00:00'
+    before: '20:00:00'
+  action:
+  - service: notify.everyone_group
+    metadata: {}
+    data:
+      message: "\U0001F697 Chelsea, your drive time is {{ states.sensor.waze_chelsea_to_home.state
+        }} minutes taking {{ state_attr('sensor.waze_chelsea_to_home', 'route') }}.
+        Drive safe\U0001F697"
+  mode: single
+- id: '1713203767357'
+  alias: Garage Send Message when chelsea left but garage door is still open
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: person.chelsea
+    to: not_home
+    for:
+      minutes: 10
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: cover.rat_firstbay_11e249_door
+      state: open
+  action:
+  - service: notify.telegram_ryan
+    data:
+      title: Chelsea Left
+      message: First Bay was left open
+  mode: single
+- id: '1714482903010'
+  alias: 'Turn off side spigot when it goes unavailable '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.side_spigot
+    from: unavailable
+    to: 'on'
+  condition: []
+  action:
+  - service: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.side_spigot
+  mode: single
+- id: '1714482990730'
+  alias: Keep Things Switched On
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: template
+    value_template: "{{ label_entities(\"Always On\") | select('is_state', 'off')
+      | list | count\n      != 0 }}"
+  condition: []
+  action:
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      label_id: power_on_after_outage
   mode: single

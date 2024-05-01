@@ -6,7 +6,7 @@
       entity_id: binary_sensor.garage_motion_sensor_motion, binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door
       to: 'on'
     - platform: state
-      entity_id: cover.ratgdo_51357_door, cover.ratgdo_20157_door, cover.ratgdo_88676_door
+      entity_id: cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
       to: 'open'
   condition:
     - condition: state

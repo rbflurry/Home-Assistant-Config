@@ -57,7 +57,7 @@
   id: c8b85d93-ec78-43f2-a91a-6562f2e9fdc7
   trigger:
     - platform: state
-      entity_id: cover.ratgdo_51357_door, cover.ratgdo_20157_door, cover.ratgdo_88676_door
+      entity_id: cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
       from: 'closed'
       to: 'open'
   condition:

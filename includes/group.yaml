@@ -11,16 +11,16 @@
 garage:
   name: Garage Doors
   entities:
-    - cover.ratgdo_51357_door
-    - cover.ratgdo_20157_door
-    - cover.ratgdo_88676_door
+    - cover.rat_thirdbay_11d3bf_door
+    - cover.rat_secondbay_fad96e_door
+    - cover.rat_firstbay_11e249_door
 
 all_garage_doors:
   name: All Garage Doors
   entities:
-    - cover.ratgdo_51357_door
-    - cover.ratgdo_20157_door
-    - cover.ratgdo_88676_door
+    - cover.rat_thirdbay_11d3bf_door
+    - cover.rat_secondbay_fad96e_door
+    - cover.rat_firstbay_11e249_door
 
 indoor_lights:
   name: Indoor Lights
