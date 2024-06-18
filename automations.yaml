@@ -1212,13 +1212,18 @@
   trigger:
   - platform: sun
     event: sunrise
-    offset: +00:45:00
+    offset: +01:00:00
   condition: []
   action:
   - service: homeassistant.turn_off
     data: {}
     target:
       entity_id: group.outdoor_lights
+  - service: homeassistant.turn_off
+    metadata: {}
+    data: {}
+    target:
+      label_id: off_after_sunrise
   - condition: numeric_state
     entity_id: zone.home
     below: 1
@@ -1352,9 +1357,8 @@
   description: ''
   trigger:
   - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature+2 >
-      states.climate.bed_room.attributes.temperature or states.climate.bed_room.attributes.current_temperature
-      <= states.climate.bed_room.attributes.temperature}}
+    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
+      +2 or states.climate.bed_room.attributes.current_temperature <= states.climate.bed_room.attributes.temperature}}
 
       '
     for:
@@ -1674,11 +1678,63 @@
   - platform: template
     value_template: "{{ label_entities(\"Always On\") | select('is_state', 'off')
       | list | count\n      != 0 }}"
-  condition: []
+  - platform: time_pattern
+    minutes: '10'
+  condition:
+  - condition: template
+    value_template: "{{ label_entities(\"Always On\") | select('is_state', 'off')
+      | list | count\n      != 0 }}"
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      label_id:
+      - power_on_after_outage
+      - always_on
+  mode: single
+- id: '1717189678611'
+  alias: Turn on front porch light with door bell visitor
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: 2fb75c9c872cd338575295cf4b4579c6
+    entity_id: 734a599de7c20671ef165b2156768147
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
   action:
   - service: switch.turn_on
     metadata: {}
     data: {}
     target:
-      label_id: power_on_after_outage
+      entity_id: switch.wink_front_porch_switch
+  mode: single
+- id: '1718051020975'
+  alias: Run the air purge
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 05af22b56c7f5bfd80f9c2877b626d86
+    domain: cover
+    entity_id: f7ee2d8b3275cf417cb487ae1c507887
+    type: opening
+  condition:
+  - condition: template
+    value_template: '{{true if as_timestamp(now()) | int - as_timestamp(state_attr(this.entity_id,
+      ''last_triggered'')) | int > 1209600  else false }}'
+  action:
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.sonoff_b_1_relay
   mode: single

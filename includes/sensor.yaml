@@ -48,7 +48,7 @@
  
 - platform: snmp
   name: Garage Temp
-  host: 192.168.47.183
+  host: 192.168.47.238
   port: 161
 #  accept_errors: true
   community: public
@@ -57,7 +57,7 @@
   
 - platform: snmp   
   name: Garage Humidity
-  host: 192.168.47.183
+  host: 192.168.47.238
   port: 161
  # accept_errors: true
   community: public

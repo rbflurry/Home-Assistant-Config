@@ -33,13 +33,15 @@
     template:
       - trigger:
           - platform: time_pattern
-            hours: "/4"
+            hours: "/1"
           - platform: homeassistant
             event: start
           - platform: event
             event_type: event_template_reloaded
           - platform: state
-            entity_id: sensor.pws_5in1_temperature 
+            entity_id: sensor.pws_5in1_temperature
+          - platform: state
+            entity_id: weather.home
         action:
           - service: weather.get_forecasts
             data:
