@@ -1,56 +1,56 @@
-- alias: Climate - Send Message on colder outside than inside
-  id: de3a9c5b-92a0-41a2-8a19-af8db943c61e
-#  initial_to: True
-  trigger:
-    - platform: state
-      entity_id: sensor.dark_sky_temperature
-  condition:
-     - condition: state
-       entity_id: climate.home
-       state: 'cool'
-     - condition: template
-       value_template: "{{ states('sensor.pws_5in1_temperature') < states('input_number.climate_set_temp') }}"
-     - condition: state
-       entity_id: cover.windows
-       state: 'closed'
-  action:
-    - service: notify.ryan
-      data:
-        title: 'Colder outside than inside set temp.'
-        message: >
-          Outside temp is {{ states('sensor.pws_5in1_temperature') }} and inside set temp is {{ states('sensor.input_number.climate_set_temp') }} Cool is off
-    - service: climate.set_operation_mode
-      data:
-        entity_id: climate.home
-        operation_mode: 'off'
+# - alias: Climate - Send Message on colder outside than inside
+  # id: de3a9c5b-92a0-41a2-8a19-af8db943c61e
+# #  initial_to: True
+  # trigger:
+    # - platform: state
+      # entity_id: sensor.dark_sky_temperature
+  # condition:
+     # - condition: state
+       # entity_id: climate.home
+       # state: 'cool'
+     # - condition: template
+       # value_template: "{{ states('sensor.pws_5in1_temperature') < states('input_number.climate_set_temp') }}"
+     # - condition: state
+       # entity_id: cover.windows
+       # state: 'closed'
+  # action:
+    # - service: notify.ryan
+      # data:
+        # title: 'Colder outside than inside set temp.'
+        # message: >
+          # Outside temp is {{ states('sensor.pws_5in1_temperature') }} and inside set temp is {{ states('sensor.input_number.climate_set_temp') }} Cool is off
+    # - service: climate.set_operation_mode
+      # data:
+        # entity_id: climate.home
+        # operation_mode: 'off'
 
 
 
-- alias: Climate - Send Message on hotter outside than inside
-  id: 69c114ad-426f-4c43-a094-a91290811d5b
-#  initial_state:: True
-  trigger:
-    - platform: state
-      entity_id: sensor.dark_sky_temperature
-  condition:
-     - condition: state
-       entity_id: climate.home
-       state: 'off'
-     - condition: template
-       value_template: "{{ states('sensor.pws_5in1_temperature') > states('input_number.climate_set_temp') }}"
-     - condition: state
-       entity_id: cover.windows
-       state: 'closed'
-  action:
-    - service: notify.ryan
-      data:
-        title: 'Hotter outside than inside set temp.'
-        message: >
-          Outside temp is {{ states('sensor.pws_5in1_temperature') }} and inside set temp is {{ states('input_number.climate_set_temp') }} Cool is on
-    - service: climate.set_operation_mode
-      data:
-        entity_id: climate.home
-        operation_mode: 'cool'
+# - alias: Climate - Send Message on hotter outside than inside
+  # id: 69c114ad-426f-4c43-a094-a91290811d5b
+# #  initial_state:: True
+  # trigger:
+    # - platform: state
+      # entity_id: sensor.dark_sky_temperature
+  # condition:
+     # - condition: state
+       # entity_id: climate.home
+       # state: 'off'
+     # - condition: template
+       # value_template: "{{ states('sensor.pws_5in1_temperature') > states('input_number.climate_set_temp') }}"
+     # - condition: state
+       # entity_id: cover.windows
+       # state: 'closed'
+  # action:
+    # - service: notify.ryan
+      # data:
+        # title: 'Hotter outside than inside set temp.'
+        # message: >
+          # Outside temp is {{ states('sensor.pws_5in1_temperature') }} and inside set temp is {{ states('input_number.climate_set_temp') }} Cool is on
+    # - service: climate.set_operation_mode
+      # data:
+        # entity_id: climate.home
+        # operation_mode: 'cool'
 
 - alias: Climate - Set backdrop slider
   id: 76073590-fb03-45ae-8056-5e663799b38a

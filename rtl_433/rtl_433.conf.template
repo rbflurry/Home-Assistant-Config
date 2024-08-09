@@ -5,7 +5,11 @@
 device rtl_tcp:192.168.47.206
 frequency 433.92M
 report_meta time:tz
-output mqtt://192.168.47.204,retain=1,devices=rtl_433[/id],events=rtl_433/events[/id]
+protocol -165
+protocol -138
+#protocol 40
+#protocol 73
+output mqtt://192.168.47.104,retain=1,devices=rtl_433[/id],events=rtl_433/events[/id]
 
 
 # Uncomment the following line to also enable the default "table" output to the

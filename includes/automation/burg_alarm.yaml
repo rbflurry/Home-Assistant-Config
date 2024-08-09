@@ -1,44 +1,44 @@
-- alias: House armed - door open
-  id: 5abced82-a1c4-4369-b71e-c614ffe7d067
-  initial_state: off
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_motion_sensor_motion, binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door
-      to: 'on'
-    - platform: state
-      entity_id: cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
-      to: 'open'
-  condition:
-    - condition: state
-      entity_id: zone.home
-      state: "0"
-    - condition: state
-      entity_id: alarm_control_panel.ha_alarm
-      state: 'armed_away'
-  action:
-   service: notify.telegram_ryan
-   data:
-      title: 'Something happened at home'
-      message: >
-        {% set door = trigger.entity_id.split('.')[1] | capitalize %}
-        "No one is home and {{ door }} was opened"
+# - alias: House armed - door open
+  # id: 5abced82-a1c4-4369-b71e-c614ffe7d067
+  # initial_state: off
+  # trigger:
+    # - platform: state
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door
+      # to: 'on'
+    # - platform: state
+      # entity_id: cover.rat_firstbay_11e249_door
+      # to: 'open'
+  # condition:
+    # - condition: state
+      # entity_id: zone.home
+      # state: "0"
+    # - condition: state
+      # entity_id: alarm_control_panel.ha_alarm
+      # state: 'armed_away'
+  # action:
+   # service: notify.telegram_ryan
+   # data:
+      # title: 'Something happened at home'
+      # message: >
+        # {% set door = trigger.entity_id.split('.')[1] | capitalize %}
+        # "No one is home and {{ door }} was opened"
         
         
         
         
-- alias: House armed - Make the panel beep
-  id: b5194a45-9aaf-4d30-9784-2c02d44af9fa
-  initial_state: off
-  trigger:
-    - platform: time_pattern
-      seconds: 10
-  condition:
-    - condition: state
-      entity_id: binary_sensor.alarm_is_pending_triggered
-      state: 'on'
-  action:
-   service: notify.fire_dash
-   data:
-      message: chime
-      data:
-        method: alarm
+# - alias: House armed - Make the panel beep
+  # id: b5194a45-9aaf-4d30-9784-2c02d44af9fa
+  # initial_state: off
+  # trigger:
+    # - platform: time_pattern
+      # seconds: 10
+  # condition:
+    # - condition: state
+      # entity_id: binary_sensor.alarm_is_pending_triggered
+      # state: 'on'
+  # action:
+   # service: notify.fire_dash
+   # data:
+      # message: chime
+      # data:
+        # method: alarm

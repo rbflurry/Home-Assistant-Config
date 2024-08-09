@@ -1,8 +1,8 @@
 substitutions:
-  id_prefix: rat_secondbay
-  friendly_name: "Second Bay"
-  devicename: rat_secondbay
-  upper_devicename: "Second Bay"
+  id_prefix: ratthirdbay
+  friendly_name: "Third Bay"
+  devicename: rat-thirdbay
+  upper_devicename: "Third Bay"
   uart_tx_pin: D1
   uart_rx_pin: D2
   input_obst_pin: D7
@@ -23,7 +23,6 @@ packages:
 esphome:
   name: ${id_prefix}
   friendly_name: ${friendly_name}
-  name_add_mac_suffix: true
   project:
     name: ratgdo.esphome
     version: "2.5i"

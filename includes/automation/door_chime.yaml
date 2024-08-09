@@ -1,56 +1,56 @@
-- alias: Door Chime - Door Open
-  id: f7b10118-8722-41a3-8f6f-7f8bb58fc9fe
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
-      to: 'on'
-  condition:
-   condition: state
-   entity_id: group.device_family
-   state: 'home'
-  action:
-   service: wink.enable_chime
-   entity_id: wink.dome
-   data:
-     tone: alert
+# - alias: Door Chime - Door Open
+  # id: f7b10118-8722-41a3-8f6f-7f8bb58fc9fe
+  # trigger:
+    # - platform: state
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+      # to: 'on'
+  # condition:
+   # condition: state
+   # entity_id: group.device_family
+   # state: 'home'
+  # action:
+   # service: wink.enable_chime
+   # entity_id: wink.dome
+   # data:
+     # tone: alert
      
-- alias: Door Chime - Garage - Door Open
-  id: 38d2d5db-21ab-4aa7-abdb-0de3d481aebc
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_entry_door, cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
-      to: 'on'
-  condition:
-   condition: state
-   entity_id: group.device_family
-   state: 'home'
-  action:
-   - service: wink.enable_chime
-     entity_id: wink.dome
-     data:
-       tone: alert
-   - service: notify.hallway
-     data:
-       message: > 
-        {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+# - alias: Door Chime - Garage - Door Open
+  # id: 38d2d5db-21ab-4aa7-abdb-0de3d481aebc
+  # trigger:
+    # - platform: state
+      # entity_id: binary_sensor.garage_entry_door, cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
+      # to: 'on'
+  # condition:
+   # condition: state
+   # entity_id: group.device_family
+   # state: 'home'
+  # action:
+   # - service: wink.enable_chime
+     # entity_id: wink.dome
+     # data:
+       # tone: alert
+   # - service: notify.hallway
+     # data:
+       # message: > 
+        # {{ trigger.to_state.name }} is {{ trigger.to_state.state }}
 
 
-- alias: No one is home - Door Chime
-  id: 77f174de-f86e-4359-8860-8f4d503eae73
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
-      to: 'on'
-  condition:
-    - condition: state
-      entity_id: zone.home
-      state: "0"
-    - condition: state
-      entity_id: input_boolean.house_guest
-      state: 'off'
-  action:
-   service: wink.enable_chime
-   entity_id: wink.dome
-   data:
-     tone: alert
+# - alias: No one is home - Door Chime
+  # id: 77f174de-f86e-4359-8860-8f4d503eae73
+  # trigger:
+    # - platform: state
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+      # to: 'on'
+  # condition:
+    # - condition: state
+      # entity_id: zone.home
+      # state: "0"
+    # - condition: state
+      # entity_id: input_boolean.house_guest
+      # state: 'off'
+  # action:
+   # service: wink.enable_chime
+   # entity_id: wink.dome
+   # data:
+     # tone: alert
  

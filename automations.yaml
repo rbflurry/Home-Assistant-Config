@@ -18,7 +18,15 @@
     platform: numeric_state
     id: 'off'
     below: 89
-  condition: []
+  condition:
+  - condition: template
+    value_template: '{{true if now() - states.switch.bathroom_fan.last_changed < timedelta(minutes=2)
+      else false }}'
+    enabled: false
+  - condition: template
+    value_template: '{{true if now() - state_attr(''automation.night_time'', ''last_triggered'')
+      < timedelta(minutes=5) else false }}'
+    enabled: false
   action:
   - choose:
     - conditions:
@@ -308,9 +316,15 @@
       hours: 0
       minutes: 0
       seconds: 55
+  - platform: numeric_state
+    entity_id:
+    - sensor.bedroom_minisplit_uptime_sensor
+    below: 299.9
+    above: 60
   condition: []
   action:
   - service: homeassistant.turn_off
+    continue_on_error: true
     data: {}
     target:
       entity_id:
@@ -325,6 +339,7 @@
       seconds: 30
       milliseconds: 0
   - service: homeassistant.turn_off
+    continue_on_error: true
     data: {}
     target:
       entity_id:
@@ -973,8 +988,8 @@
   - platform: state
     entity_id:
     - cover.rat_firstbay_11e249_door
-    - cover.rat_thirdbay_11d3bf_door
-    - cover.rat_secondbay_fad96e_door
+    - cover.rat_thirdbay_fad96e_door
+    - cover.rat_secondbay_11d3bf_door
     from: closed
     to: opening
   condition: []
@@ -1315,8 +1330,8 @@
     to: 'on'
   - platform: state
     entity_id:
-    - cover.rat_thirdbay_11d3bf_door
-    - cover.rat_secondbay_fad96e_door
+    - cover.rat_thirdbay_fad96e_door
+    - cover.rat_secondbay_11d3bf_door
     - cover.rat_firstbay_11e249_door
     to: open
     for:
@@ -1719,7 +1734,7 @@
       entity_id: switch.wink_front_porch_switch
   mode: single
 - id: '1718051020975'
-  alias: Run the air purge
+  alias: Run the air purge Compressor
   description: ''
   trigger:
   - platform: device
@@ -1737,4 +1752,149 @@
     data: {}
     target:
       entity_id: switch.sonoff_b_1_relay
+  mode: single
+- id: '1721842648143'
+  alias: Winnie is down
+  description: ''
+  trigger:
+  - type: not_connected
+    platform: device
+    device_id: 54a2f3ef2d1be03326ca6c1ff1673ab6
+    entity_id: 96f0301dedb854363d69fdb1b683f987
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.telegram_group
+    metadata: {}
+    data:
+      message: Winnie is down
+  mode: single
+- id: '1721842715748'
+  alias: Winnie above 80
+  description: ''
+  trigger:
+  - type: temperature
+    platform: device
+    device_id: 54a2f3ef2d1be03326ca6c1ff1673ab6
+    entity_id: b5238e404eb6b58048938c01321e90dd
+    domain: sensor
+    above: 80
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  condition: []
+  action:
+  - repeat:
+      sequence:
+      - service: notify.telegram_group
+        metadata: {}
+        data:
+          message: Winnie is hot (above 80) for 5 minutes
+      - delay:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      until:
+      - condition: numeric_state
+        entity_id: sensor.wemos_winnebago_temperature
+        below: 80
+  mode: single
+- id: '1721842902821'
+  alias: Turn tv off if it turn on and vacation mode is on
+  description: ''
+  trigger:
+  - platform: device
+    type: changed_states
+    device_id: fd453b832f920b1ea646d619f09bbf60
+    entity_id: 848b6c82304b8a5ecc249d839f7a1a38
+    domain: media_player
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: ''
+  action:
+  - service: media_player.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: fd453b832f920b1ea646d619f09bbf60
+  mode: single
+- id: '1722957712789'
+  alias: Time - Refresh Z-wave Devices
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  condition: []
+  action:
+  - service: zwave_js.refresh_value
+    metadata: {}
+    data:
+      refresh_all_values: false
+      entity_id:
+      - switch.wink_basement
+  mode: single
+- id: '1723057460333'
+  alias: Climate - Send Message on colder outside than inside
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.home_temperature
+  condition:
+  - condition: state
+    entity_id: climate.home
+    state: cool
+  - condition: template
+    value_template: '{{ states(''sensor.pws_5in1_temperature'') < states(''input_number.climate_set_temp'')
+      }}'
+  - condition: state
+    entity_id: cover.windows
+    state: closed
+  action:
+  - service: notify.ryan
+    data:
+      title: Colder outside than inside set temp.
+      message: 'Outside temp is {{ states(''sensor.pws_5in1_temperature'') }} and
+        inside set temp is {{ states(''sensor.input_number.climate_set_temp'') }}
+        Cool is off
+
+        '
+  - service: climate.set_operation_mode
+    data:
+      entity_id: climate.home
+      operation_mode: 'off'
+  mode: single
+- id: '1723057499582'
+  alias: Climate - Send Message on hotter outside than inside
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.home_temperature
+  condition:
+  - condition: state
+    entity_id: climate.home
+    state: 'off'
+  - condition: template
+    value_template: '{{ states(''sensor.pws_5in1_temperature'') > states(''input_number.climate_set_temp'')
+      }}'
+  - condition: state
+    entity_id: cover.windows
+    state: closed
+  action:
+  - service: notify.ryan
+    data:
+      title: Hotter outside than inside set temp.
+      message: 'Outside temp is {{ states(''sensor.pws_5in1_temperature'') }} and
+        inside set temp is {{ states(''input_number.climate_set_temp'') }} Cool is
+        on
+
+        '
+  - service: climate.set_operation_mode
+    data:
+      entity_id: climate.home
+      operation_mode: cool
   mode: single

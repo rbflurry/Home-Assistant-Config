@@ -241,6 +241,22 @@ mqtt:
       state_topic: 'ha/cum_rain_prior'
       unit_of_measurement: "in"
       value_template: "{{(value)}}"
+
+    - name: "433_Fridge"
+      state_topic: 'rtl_433/202/temperature_C'
+      device_class: "temperature"
+      state_class: "measurement"
+      value_template: "{{ (value | multiply(9/5) + 32) | float | round(1) }}"
+      unit_of_measurement: "°F"
+      expire_after: 3600
+      
+    - name: "433_Freezer"
+      state_topic: 'rtl_433/128/temperature_C'
+      device_class: "temperature"
+      state_class: "measurement"
+      value_template: "{{ (value | multiply(9/5) + 32) | float | round(1) }}"
+      unit_of_measurement: "°F"
+      expire_after: 3600
 #################################################
 
   switch:

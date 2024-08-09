@@ -1,16 +1,16 @@
-- alias: Bedroom -  Bed Lights
-  id: 345d7bdb-eec8-4253-a19e-e27416ea1888
-  initial_state: false
-  trigger:
-    platform: state
-    entity_id: light.wink_led_strip_bed
-    to: 'on'
-  condition:
-    - condition: state
-      entity_id: sun.sun
-      state: 'below_horizon'
-  action:
-    - service: homeassistant.turn_on
-      entity_id: light.wink_led_strip_bed
-      data:
-        profile: relax
+# - alias: Bedroom -  Bed Lights
+  # id: 345d7bdb-eec8-4253-a19e-e27416ea1888
+  # initial_state: false
+  # trigger:
+    # platform: state
+    # entity_id: light.wink_led_strip_bed
+    # to: 'on'
+  # condition:
+    # - condition: state
+      # entity_id: sun.sun
+      # state: 'below_horizon'
+  # action:
+    # - service: homeassistant.turn_on
+      # entity_id: light.wink_led_strip_bed
+      # data:
+        # profile: relax

@@ -1,41 +1,41 @@
-- alias: Ryan Alarm Mon-Tue-Thu
-  id: e4f152cd-31e0-49fc-b39b-beccb42dfd9c
-  trigger:
-    - platform: time
-      at: '05:30:00'
-  condition: 
-    - condition: time
-      before: '05:59:00'
-      weekday:
-       - mon
-       - tue
-       - thu
-    - condition: state
-      entity_id: input_boolean.alarm_ryan
-      state: 'on'
-  action:
-    - service: homeassistant.turn_on
-      entity_id: light.wink_led_strip_bed
-      data:
-       brightness: 100
+# - alias: Ryan Alarm Mon-Tue-Thu
+  # id: e4f152cd-31e0-49fc-b39b-beccb42dfd9c
+  # trigger:
+    # - platform: time
+      # at: '05:30:00'
+  # condition: 
+    # - condition: time
+      # before: '05:59:00'
+      # weekday:
+       # - mon
+       # - tue
+       # - thu
+    # - condition: state
+      # entity_id: input_boolean.alarm_ryan
+      # state: 'on'
+  # action:
+    # - service: homeassistant.turn_on
+      # entity_id: light.wink_led_strip_bed
+      # data:
+       # brightness: 100
 
 
-- alias: Ryan Alarm Wed-Fri
-  id: bc3de9f2-cff5-4564-8e48-8d3fda96c289
-  trigger:
-    - platform: time
-      at: '06:30:00'
-  condition: 
-    - condition: time
-      before: '06:45:00'
-      weekday:
-      - wed
-      - fri
-    - condition: state
-      entity_id: input_boolean.alarm_ryan
-      state: 'on'
-  action:
-   - service: homeassistant.turn_on
-     entity_id: light.wink_led_strip_bed
-     data:
-      brightness: 100
+# - alias: Ryan Alarm Wed-Fri
+  # id: bc3de9f2-cff5-4564-8e48-8d3fda96c289
+  # trigger:
+    # - platform: time
+      # at: '06:30:00'
+  # condition: 
+    # - condition: time
+      # before: '06:45:00'
+      # weekday:
+      # - wed
+      # - fri
+    # - condition: state
+      # entity_id: input_boolean.alarm_ryan
+      # state: 'on'
+  # action:
+   # - service: homeassistant.turn_on
+     # entity_id: light.wink_led_strip_bed
+     # data:
+      # brightness: 100

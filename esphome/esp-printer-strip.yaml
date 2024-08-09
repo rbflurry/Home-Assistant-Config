@@ -62,3 +62,6 @@ switch:
     id: relay5
     name: USB Outlets
 
+logger:
+  logs:
+    sensor: INFO

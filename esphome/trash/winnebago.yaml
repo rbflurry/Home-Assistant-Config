@@ -1,0 +1,46 @@
+esphome:
+  name: winnebago
+  friendly_name: Winnebago
+
+esp8266:
+  board: d1_mini
+
+substitutions:
+  devicename: livingroom
+  upper_devicename: Livingroom
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "DcAgEU990ZheBzxmfdXJRfy982+7W0zBocCReAMDNRE="
+
+ota:
+  password: "f58ff507471ee42d9be83c5063387ab4"
+
+wifi:
+  ssid: !secret wifi_ssid_dog
+  password: !secret wifi_password_dog
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Winnebago Fallback Hotspot"
+    password: "MxJt64tejzoF"
+
+captive_portal:
+    
+
+# Example configuration entry
+sensor:
+  - platform: dht
+    pin: D2
+    temperature:
+      name: "Winnebago Temperature"
+    humidity:
+      name: "Winnebago Humidity"
+    update_interval: 60s

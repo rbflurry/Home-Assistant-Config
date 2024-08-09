@@ -1,8 +1,8 @@
 substitutions:
-  id_prefix: rat_firstbay
-  friendly_name: "First Bay"
-  devicename: rat_firstbay
-  upper_devicename: "First Bay"
+  id_prefix: ratsecondbay
+  friendly_name: "Second Bay"
+  devicename: rat-secondbay
+  upper_devicename: "Second Bay"
   uart_tx_pin: D1
   uart_rx_pin: D2
   input_obst_pin: D7
@@ -23,7 +23,6 @@ packages:
 esphome:
   name: ${id_prefix}
   friendly_name: ${friendly_name}
-  name_add_mac_suffix: true
   project:
     name: ratgdo.esphome
     version: "2.5i"
@@ -46,3 +45,8 @@ api:
 improv_serial:
 
 logger:
+
+sensor:
+  - platform: uptime
+    type: seconds
+    name: Second bay Uptime Sensor
