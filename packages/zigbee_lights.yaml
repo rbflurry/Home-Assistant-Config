@@ -80,15 +80,15 @@ automation:
 #      - service: homeassistant.turn_off
 #        entity_id: light.wink_all_lights
              
-  - alias: IOS - Wink Lights
-    id: acc4ae8d-a4f7-4a9f-b345-209afee815b3
-    trigger:
-      platform: event
-      event_type: ios.notification_action_fired
-    condition:
-     condition: template
-     value_template: "{{(trigger.event.data.actionName == 'TURN_OFF_WINK_LIGHTS')}}"
-    action:
-      service: homeassistant.turn_off
-      entity_id: light.wink_wink_all_lights
+  # - alias: IOS - Wink Lights
+    # id: acc4ae8d-a4f7-4a9f-b345-209afee815b3
+    # trigger:
+      # platform: event
+      # event_type: ios.notification_action_fired
+    # condition:
+     # condition: template
+     # value_template: "{{(trigger.event.data.actionName == 'TURN_OFF_WINK_LIGHTS')}}"
+    # action:
+      # service: homeassistant.turn_off
+      # entity_id: light.wink_wink_all_lights
     

@@ -2,7 +2,7 @@
   # id: f7b10118-8722-41a3-8f6f-7f8bb58fc9fe
   # trigger:
     # - platform: state
-      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
       # to: 'on'
   # condition:
    # condition: state
@@ -18,7 +18,7 @@
   # id: 38d2d5db-21ab-4aa7-abdb-0de3d481aebc
   # trigger:
     # - platform: state
-      # entity_id: binary_sensor.garage_entry_door, cover.rat_thirdbay_11d3bf_door, cover.rat_secondbay_fad96e_door, cover.rat_firstbay_11e249_door
+      # entity_id: binary_sensor.garage_entry_door, cover.ratthirdbay_door, cover.ratsecondbay_door, cover.rat_firstbay_11e249_door
       # to: 'on'
   # condition:
    # condition: state
@@ -39,7 +39,7 @@
   # id: 77f174de-f86e-4359-8860-8f4d503eae73
   # trigger:
     # - platform: state
-      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
       # to: 'on'
   # condition:
     # - condition: state

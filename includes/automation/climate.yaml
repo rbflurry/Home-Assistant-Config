@@ -67,15 +67,15 @@
       entity_id: input_number.climate_set_temp
       value: "{{  states('sensor.climate_set_temp')  }}"
 
-- alias: Climate - windows open turn off climate
-  id: 0bce4a92-de43-4eef-92d4-3fd27ae52034
-#  initial_to: True
-  trigger:
-    - platform: state
-      entity_id: cover.windows
-      to: 'open'
-  action:
-    - service: climate.set_operation_mode
-      data:
-        entity_id: climate.home
-        operation_mode: 'off'
+# - alias: Climate - windows open turn off climate
+  # id: 0bce4a92-de43-4eef-92d4-3fd27ae52034
+# #  initial_to: True
+  # trigger:
+    # - platform: state
+      # entity_id: cover.windows
+      # to: 'open'
+  # action:
+    # - service: climate.set_operation_mode
+      # data:
+        # entity_id: climate.home
+        # operation_mode: 'off'

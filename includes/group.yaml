@@ -11,15 +11,15 @@
 garage:
   name: Garage Doors
   entities:
-    - cover.rat_thirdbay_fad96e_door
-    - cover.rat_secondbay_11d3bf_door
+    - cover.ratthirdbay_door
+    - cover.ratsecondbay_door
     - cover.rat_firstbay_11e249_door
 
 all_garage_doors:
   name: All Garage Doors
   entities:
-    - cover.rat_thirdbay_fad96e_door
-    - cover.rat_secondbay_11d3bf_door
+    - cover.ratthirdbay_door
+    - cover.ratsecondbay_door
     - cover.rat_firstbay_11e249_door
 
 indoor_lights:

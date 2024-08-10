@@ -2,7 +2,7 @@
   # id: 902b8d70-d603-4c09-9226-4824f9376f5f
   # trigger:
     # - platform: state
-      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door, binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
       # to: 'on'
   # condition:
    # condition: state
@@ -42,18 +42,13 @@
 #  initial_to: False
   trigger:
     - platform: state
-      entity_id: switch.wink_zwaveoutlet, binary_sensor.climate_aux_heat, binary_sensor.device_vehicle_jeep, binary_sensor.device_vehicle_mazda
+      entity_id: switch.wink_zwaveoutlet, binary_sensor.climate_aux_heat
       from: 'on'
       to: 'off'
     - platform: state
-      entity_id: switch.wink_zwaveoutlet, binary_sensor.climate_aux_heat, binary_sensor.device_vehicle_jeep, binary_sensor.device_vehicle_mazda
+      entity_id: switch.wink_zwaveoutlet, binary_sensor.climate_aux_heat
       from: 'off'
       to: 'on'
-    - platform: state
-      entity_id: binary_sensor.wink_hub
-      to: 'off'
-      for:
-        minutes: 1
     - platform: state
       entity_id: binary_sensor.updater
       from: 'off'

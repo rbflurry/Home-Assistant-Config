@@ -369,7 +369,7 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened,
+    entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door,
       binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
     to: 'on'
   condition:
@@ -988,8 +988,8 @@
   - platform: state
     entity_id:
     - cover.rat_firstbay_11e249_door
-    - cover.rat_thirdbay_fad96e_door
-    - cover.rat_secondbay_11d3bf_door
+    - cover.ratthirdbay_door
+    - cover.ratsecondbay_door
     from: closed
     to: opening
   condition: []
@@ -1132,42 +1132,6 @@
   - service: notify.telegram_group
     data:
       message: The Watering Hole Is Full
-  mode: single
-- id: '1675973315311'
-  alias: wall panel tablet
-  description: ''
-  trigger:
-  - platform: time
-    at: '23:00:00'
-    id: 'off'
-  - platform: state
-    entity_id:
-    - group.device_family
-    to: home
-    id: 'on'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: 'off'
-      sequence:
-      - service: light.turn_off
-        data: {}
-        target:
-          entity_id:
-          - light.fire_screen
-          - light.galtab_screen
-    - conditions:
-      - condition: trigger
-        id: 'on'
-      sequence:
-      - service: light.turn_on
-        data: {}
-        target:
-          entity_id:
-          - light.galtab_screen
-          - light.fire_screen
   mode: single
 - id: '1676037938048'
   alias: 3D print is done
@@ -1330,8 +1294,8 @@
     to: 'on'
   - platform: state
     entity_id:
-    - cover.rat_thirdbay_fad96e_door
-    - cover.rat_secondbay_11d3bf_door
+    - cover.ratthirdbay_door
+    - cover.ratsecondbay_door
     - cover.rat_firstbay_11e249_door
     to: open
     for:
@@ -1862,10 +1826,11 @@
         Cool is off
 
         '
-  - service: climate.set_operation_mode
+  - service: climate.set_hvac_mode
+    target:
+      device_id: 2ba3ffc670e10864c5730ac799773af9
     data:
-      entity_id: climate.home
-      operation_mode: 'off'
+      hvac_mode: 'off'
   mode: single
 - id: '1723057499582'
   alias: Climate - Send Message on hotter outside than inside
@@ -1893,8 +1858,24 @@
         on
 
         '
-  - service: climate.set_operation_mode
+  - service: climate.set_hvac_mode
+    target:
+      device_id: 2ba3ffc670e10864c5730ac799773af9
     data:
-      entity_id: climate.home
-      operation_mode: cool
+      hvac_mode: 'off'
+  mode: single
+- id: '1723298593061'
+  alias: Climate - windows open turn off climate
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: cover.windows
+    to: open
+  condition: []
+  action:
+  - service: climate.set_hvac_mode
+    target:
+      device_id: 2ba3ffc670e10864c5730ac799773af9
+    data:
+      hvac_mode: 'off'
   mode: single

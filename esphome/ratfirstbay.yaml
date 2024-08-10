@@ -45,3 +45,8 @@ api:
 improv_serial:
 
 logger:
+  
+sensor:
+  - platform: uptime
+    type: seconds
+    name: ${friendly_name} Uptime Sensor

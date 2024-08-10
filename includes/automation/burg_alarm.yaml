@@ -3,7 +3,7 @@
   # initial_state: off
   # trigger:
     # - platform: state
-      # entity_id: binary_sensor.garage_entry_door, binary_sensor.wink_front_door_opened, binary_sensor.wink_back_door_opened, binary_sensor.basement_door
+      # entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door, binary_sensor.wink_back_door_opened, binary_sensor.basement_door
       # to: 'on'
     # - platform: state
       # entity_id: cover.rat_firstbay_11e249_door
