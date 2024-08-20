@@ -1,0 +1,143 @@
+substitutions:
+  devicename: traffic-light-pops
+  upper_devicename: Traffic-Light-Pops
+
+logger:
+
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: esp01_1m
+
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_1
+    on_press:
+      then:
+        - switch.toggle: green
+  - platform: gpio
+    pin:
+      number: GPIO9
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_2
+    on_press:
+      then:
+        - switch.toggle: yellow
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    id: button_3
+    on_press:
+      then:
+        - switch.toggle: red
+
+output:
+  - platform: gpio
+    pin: GPIO12
+    id: relay_1
+
+  - platform: gpio
+    pin: GPIO5
+    id: relay_2
+
+  - platform: gpio
+    pin: GPIO4
+    id: relay_3
+
+switch:
+  - platform: output
+    name: "Traffic Light Green"
+    id: green
+    output: relay_1
+
+  - platform: output
+    name: "Traffic Light Yellow"
+    id: yellow
+    output: relay_2
+
+  - platform: output
+    name: "Traffic Light Red"
+    id: red
+    output: relay_3
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: yes
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    on_time:
+      # Every Hour on the hour
+      - seconds: 0
+        minutes: 0
+        then:
+          - switch.turn_off: red
+          - switch.turn_off: yellow
+          - switch.turn_off: green
+          - delay: 1s
+          - switch.turn_on: red
+          - delay: 1s
+          - switch.turn_on: yellow
+          - delay: 1s
+          - switch.turn_on: green
+          - delay: 1s
+          - switch.turn_off: red
+          - switch.turn_off: yellow
+          - switch.turn_off: green
+          - delay: 1s
+          - repeat:
+              count: !lambda |-
+                auto time = id(homeassistant_time).now();       
+                int curhour = time.hour;
+                ESP_LOGD("demo","Current hour: %d", curhour);
+                if (curhour == 0) { 
+                  curhour = 1;}
+                if (curhour > 12) { 
+                  curhour = curhour - 12;}
+                  ESP_LOGD("demo","We are flashing: %d times", curhour);
+                return curhour;
+              then:
+                - lambda: |-
+                   static int i = 0 ; 
+                   ESP_LOGI("demo","iteration=%d",++i);
+                - delay: 1s
+                - switch.turn_on: red
+                - delay: 1s
+                - switch.turn_off: red
+      # Every Hour on the half-hour
+      - seconds: 0
+        minutes: 30
+        then:
+          - switch.turn_off: red
+          - switch.turn_off: yellow
+          - switch.turn_off: green
+          - delay: 1s
+          - switch.turn_on: red
+          - delay: 1s
+          - switch.turn_on: yellow
+          - delay: 1s
+          - switch.turn_on: green
+          - delay: 1s
+          - switch.turn_off: red
+          - switch.turn_off: yellow
+          - switch.turn_off: green
+

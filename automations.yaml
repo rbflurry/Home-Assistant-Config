@@ -369,8 +369,8 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door,
-      binary_sensor.wink_back_door_opened, binary_sensor.basement_door, binary_sensor.front_door
+    entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door, binary_sensor.wink_back_door_opened,
+      binary_sensor.basement_door, binary_sensor.front_door
     to: 'on'
   condition:
   - condition: numeric_state
@@ -750,6 +750,11 @@
   - service: notify.telegram_group
     data:
       message: No one is home so i turned on some lights
+  - service: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.wink_hallway
   mode: single
 - id: '1668793611494'
   alias: Wallpanel Battery Management
@@ -1615,10 +1620,12 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: person.chelsea
+    entity_id:
+    - person.chelsea
     to: not_home
     for:
       minutes: 10
+    from: home
   condition:
   - condition: or
     conditions:
@@ -1878,4 +1885,141 @@
       device_id: 2ba3ffc670e10864c5730ac799773af9
     data:
       hvac_mode: 'off'
+  mode: single
+- id: '1723493670635'
+  alias: Billpay
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '16'
+    minutes: '00'
+    seconds: '00'
+  - platform: time_pattern
+    hours: '16'
+    minutes: '15'
+    seconds: '00'
+  - platform: time_pattern
+    hours: '16'
+    minutes: '30'
+    seconds: '00'
+  - platform: time_pattern
+    hours: '16'
+    minutes: '45'
+    seconds: '00'
+  condition:
+  - condition: template
+    value_template: '{{ now().day == 12 }}'
+  action:
+  - event: nodered-billpay
+    event_data: {}
+  mode: single
+- id: '1723510445297'
+  alias: Lovelace refresh
+  description: ''
+  trigger:
+  - platform: event
+    event_type: lovelace_updated
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: browser_mod.refresh
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1723510702431'
+  alias: Galtab reload
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.galtab_browser_visibility
+    from:
+    to: unavailable
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+  condition: []
+  action:
+  - service: fully_kiosk.load_url
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1723552054351'
+  alias: Vacation Mode Changes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.vacation_mode
+    from: 'off'
+    to: 'on'
+    id: 'on'
+  - platform: state
+    entity_id:
+    - input_boolean.vacation_mode
+    from: 'on'
+    to: 'off'
+    id: 'off'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - 'on'
+      sequence:
+      - service: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.wink_zwaveoutlet
+    - conditions:
+      - condition: trigger
+        id:
+        - 'off'
+      sequence:
+      - service: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.wink_zwaveoutlet
+  mode: single
+- id: '1723553563824'
+  alias: Vacation mode by Date
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.vacation_mode_on_date
+    id: start_vacation
+  - platform: time
+    at: input_datetime.vacation_mode_off_date
+    id: stop_vacation
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - start_vacation
+      sequence:
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.vacation_mode
+    - conditions:
+      - condition: trigger
+        id:
+        - stop_vacation
+      sequence:
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.vacation_mode
   mode: single

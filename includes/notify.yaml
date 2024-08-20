@@ -34,10 +34,10 @@
   # - platform: command_line
     # name: Everywhere
     # command: "/root/.homeassistant/alexa_wrapper.sh -d 'Everywhere'"
-  - name: file
-    platform: file
-    filename: notify.txt
-    timestamp: true
+  # - name: file
+    # platform: file
+    # filename: notify.txt
+    # timestamp: true
   - name: firetv
     platform: nfandroidtv
     host: !secret firestick

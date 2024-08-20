@@ -40,13 +40,13 @@
    data:
           title: 'Garage Door Left Open'
           message: >
-            {% if is_state('cover.ratthirdbay_door', 'open') -%}
+            {% if is_state('cover.rat_firstbay_11e249_door', 'open') -%}
               First Bay is open.
             {% endif -%}
             {% if is_state('cover.ratsecondbay_door', 'open') -%}
               Second Bay is open.
             {% endif -%}
-            {%- if is_state('cover.rat_firstbay_11e249_door', 'open') -%}
+            {%- if is_state('cover.ratthirdbay_door', 'open') -%}
               Third Bay is open
             {% endif -%}
           data:
