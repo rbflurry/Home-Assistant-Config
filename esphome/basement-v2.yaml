@@ -19,7 +19,7 @@ api:
 
 switch:
   - platform: gpio
-    name: Relay 1
+    name: Fire Blower
     pin: GPIO32
     id: relay
 
@@ -53,12 +53,12 @@ binary_sensor:
       - delayed_on: 10ms
       - delayed_off: 10ms
 
-dallas:
+one_wire:
+   platform: gpio
    pin: GPIO5
-   update_interval: 30s
   
 sensor:
-  - platform: dallas
+  - platform: dallas_temp
     address: 0x1627f6271e64ff28
     name: "Stove Air Sensor"
     filters:

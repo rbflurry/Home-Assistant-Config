@@ -5,8 +5,12 @@
 #  device_base: !include common.yaml
 #  device_switches_sensors: !include default-sensors-switches.yaml
 
+substitutions:
+  update_interval: 10s
+
 # Enable logging
 logger:
+  baud_rate: 0
 
 # Enable Home Assistant API
 api:

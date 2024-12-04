@@ -19,14 +19,14 @@ switch:
   - platform: gpio
     pin: GPIO12
     name: "Driveway Outlets"
-    id: fan_relay
+    id: switch_relay
 
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO0
       inverted: True
-    id: bathroom_fan_relay_button
+    id: switch_relay_button
     on_press:
       then:
-        - switch.toggle: fan_relay
+        - switch.toggle: switch_relay

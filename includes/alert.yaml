@@ -58,30 +58,6 @@
     notifiers:
       - telegram_group
       
-  chicken_sensorpod:
-    name: Chicken Sensor Pod is down
-    message: Chicken Sensor Pod is down /ack
-    done_message: Chicken Sensor Pod is up
-    entity_id: sensor.sn2_availablilty
-    state: "Offline"
-    repeat: 10
-    can_acknowledge: True
-    skip_first: True
-    notifiers:
-      - telegram_group
-      
-  sensorpod_3:
-    name: Sensor Pod 3 is down
-    message: Sensor Pod 3 is down /ack
-    done_message: Sensor Pod 3 is up
-    entity_id: sensor.sn3_availablilty
-    state: 'offline'
-    repeat: 10
-    can_acknowledge: True
-    skip_first: True
-    notifiers:
-      - telegram_group
-      
   certificate:
     name: Cert is expiring
     message: Cert is expiring /ack
@@ -117,16 +93,6 @@
     notifiers:
       - telegram_group
 
-  # zwave:
-    # name: Zwave Down
-    # done_message: Zwave is now up
-    # entity_id:  binary_sensor.zwave_online
-    # state: 'off'
-    # repeat: 10
-    # can_acknowledge: True
-    # skip_first: False
-    # notifiers:
-      # - telegram_group
       
   zigbee:
     name: Zigbee Down
@@ -141,29 +107,29 @@
       - telegram_group
       
       
-  blue_iris_running:
-    name: Blue Iris Is not running
-    message: Blue Iris Is not running /ack
-    done_message: Blue Iris Is running
-    entity_id: binary_sensor.template_blue_iris_running
-    state: "off"
-    repeat: 10
-    can_acknowledge: True
-    skip_first: True
-    notifiers:
-      - telegram_group
+  # blue_iris_running:
+    # name: Blue Iris Is not running
+    # message: Blue Iris Is not running /ack
+    # done_message: Blue Iris Is running
+    # entity_id: binary_sensor.template_blue_iris_running
+    # state: "off"
+    # repeat: 10
+    # can_acknowledge: True
+    # skip_first: True
+    # notifiers:
+      # - telegram_group
       
-  blue_iris_chandler_running:
-    name: Chandler Blue Iris Is not running
-    message: Chandler Blue Iris Is not running /ack
-    done_message: Chandler Blue Iris Is running
-    entity_id: binary_sensor.template_blue_iris_chandler_running
-    state: "off"
-    repeat: 60
-    can_acknowledge: True
-    skip_first: True
-    notifiers:
-      - telegram_group
+  # blue_iris_chandler_running:
+    # name: Chandler Blue Iris Is not running
+    # message: Chandler Blue Iris Is not running /ack
+    # done_message: Chandler Blue Iris Is running
+    # entity_id: binary_sensor.template_blue_iris_chandler_running
+    # state: "off"
+    # repeat: 60
+    # can_acknowledge: True
+    # skip_first: True
+    # notifiers:
+      # - telegram_group
       
   weather_station:
     name: Weather station is down

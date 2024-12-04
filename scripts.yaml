@@ -48,3 +48,18 @@ create_every_switch_group:
       entities: '{{ states.switch |  map(attribute=''entity_id'') | join('','') }}
 
         '
+let_the_chickens_out:
+  alias: Let the chickens out
+  sequence:
+  - service: automation.turn_off
+    target:
+      entity_id: automation.chicken_pen_door_lockout
+    data:
+      stop_actions: true
+  - service: cover.open_cover
+    metadata: {}
+    data: {}
+    target:
+      entity_id: cover.chicken_pen
+  description: ''
+  icon: mdi:food-drumstick

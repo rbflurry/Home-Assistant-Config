@@ -11,12 +11,12 @@ packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
 
-dallas:
+one_wire:
+   platform: gpio
    pin: D4
-   update_interval: 30s
   
 sensor:
-  - platform: dallas
+  - platform: dallas_temp
     address: 0xF50517A19A43FF28
     name: "Stove Air Sensor"
     filters:

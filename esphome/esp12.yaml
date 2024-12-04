@@ -30,12 +30,19 @@ sensor:
     current:
       name: ${devicename} Current
       accuracy_decimals: 1
+      filters:
+        - throttle_average: ${update_interval}
     voltage:
       name: ${devicename} Voltage
       accuracy_decimals: 1
+      filters:
+        - throttle_average: ${update_interval}
     power:
       name: ${devicename} Power
       accuracy_decimals: 1
+      filters:
+        - throttle_average: ${update_interval}
+
 switch:
   - platform: gpio
     name: ${devicename}

@@ -2,11 +2,12 @@
   alias: Bathroom Vent/Fan
   description: ''
   trigger:
-  - above: '95'
-    entity_id: sensor.bathroom_humid
+  - above: 97
+    entity_id:
+    - sensor.bathroom_humid
     for:
       hours: 0
-      minutes: 2
+      minutes: 10
       seconds: 0
     platform: numeric_state
     id: 'on'
@@ -154,23 +155,25 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.fry_battery_state
-    from: Charging
+    entity_id:
+    - sensor.fry_battery_state
     to: Not Charging
   condition:
   - condition: time
     after: 05:00:00
     before: '11:00:00'
   action:
-  - service: alert.turn_on
-    data:
+  - data:
       entity_id: '{{ states.alert|selectattr(''state'',''eq'',''off'')|map(attribute=''entity_id'')|join('','')
         }}
 
         '
-  - service: automation.turn_off
-    target:
+    action: alert.turn_on
+  - target:
       entity_id: automation.alert_ack_morn
+    action: automation.turn_off
+    data:
+      stop_actions: true
   mode: single
 - id: '1643123848197'
   alias: Node Red is dead
@@ -532,27 +535,32 @@
       - condition: template
         value_template: '{{trigger.event.data.params.level <= 5}}'
       sequence:
-      - service: light.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id:
           - light.sengled_e11_g13_035cb3f8_1
           - light.sengled_e11_g13_035c3bc7_1
+        action: light.turn_off
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
     default:
-    - service: switch.turn_on
-      data: {}
+    - data: {}
       target:
         entity_id:
         - switch.outlet_1
         - switch.desk_power_strip_1
-    - service: light.turn_on
-      data:
+      action: switch.turn_on
+    - data:
         brightness: '{{trigger.event.data.params.level | int}}'
         transition: 1
       target:
         entity_id:
         - light.sengled_e11_g13_035c3bc7_1
         - light.sengled_e11_g13_035cb3f8_1
+      action: light.turn_on
   mode: restart
 - id: '1666123844519'
   alias: bed light dimmer
@@ -767,18 +775,18 @@
 - id: '1668960233718'
   alias: wood stove blower
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - switch.esp7
+  triggers:
+  - entity_id:
+    - switch.fire_blower
     to: 'on'
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - delay: '{{ states(''input_number.woodstove_timer'') | multiply(60) | int }}'
-  - service: switch.turn_off
-    data: {}
+  - data: {}
+    action: switch.turn_off
     target:
-      entity_id: switch.esp7
+      entity_id: switch.fire_blower
   mode: restart
 - id: '1668982954413'
   alias: Sunset/Sunrise
@@ -943,8 +951,8 @@
   condition: []
   action:
   - type: turn_on
-    device_id: fbf6496ae84f8cee7e76a266df688a46
-    entity_id: switch.esp11
+    device_id: 68a2c5306cd6f57f98fd2b36d334ed6b
+    entity_id: 27526730710b5e3d27c8f60083bf7396
     domain: switch
   mode: single
 - id: '1674051285239'
@@ -2022,4 +2030,31 @@
         data: {}
         target:
           entity_id: input_boolean.vacation_mode
+  mode: single
+- id: '1733194797400'
+  alias: Turn off vacation mode towards home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.home_ryan_direction_of_travel
+    to: towards
+    for:
+      hours: 2
+      minutes: 0
+      seconds: 0
+  - platform: numeric_state
+    entity_id:
+    - sensor.home_ryan_distance
+    below: 100000
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'on'
+  action:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.vacation_mode
   mode: single
