@@ -88,46 +88,18 @@
 - id: '1614888725831'
   alias: record cumulative rain to midnight
   description: ''
-  trigger:
-  - platform: time_pattern
-    hours: '00'
+  triggers:
+  - hours: '00'
     minutes: '00'
     seconds: '01'
-  condition: []
-  action:
-  - service: mqtt.publish
-    data:
+    trigger: time_pattern
+  conditions: []
+  actions:
+  - data:
       topic: ha/cum_rain_prior
       retain: true
-      payload_template: '{{ states(''sensor.pws_5in1_total_rain'') }}'
-  mode: single
-- id: '1639314659508'
-  alias: outside christmas tree on
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunset
-    offset: '0'
-  condition: []
-  action:
-  - service: homeassistant.turn_on
-    data: {}
-    target:
-      entity_id: switch.esp10
-  mode: single
-- id: '1639314713123'
-  alias: outside christmas tree off
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunrise
-    offset: '0'
-  condition: []
-  action:
-  - service: homeassistant.turn_off
-    data: {}
-    target:
-      entity_id: switch.esp10
+      payload: '{{ states(''sensor.pws_5in1_total_rain'') }}'
+    action: mqtt.publish
   mode: single
 - id: '1641653770665'
   alias: alert-ack-home
@@ -942,14 +914,14 @@
       - switch.sonoff_4ch_relay_4
   mode: single
 - id: '1671853638567'
-  alias: Esp11 restore
+  alias: Wood Stove - Esp11 restore
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - switch.esp11
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - type: turn_on
     device_id: 68a2c5306cd6f57f98fd2b36d334ed6b
     entity_id: 27526730710b5e3d27c8f60083bf7396
@@ -2057,4 +2029,100 @@
     data: {}
     target:
       entity_id: input_boolean.vacation_mode
+  mode: single
+- id: '1734900230850'
+  alias: Winter, Chicken Water Heater
+  description: ''
+  triggers:
+  - trigger: homeassistant
+    event: start
+  conditions:
+  - condition: state
+    entity_id: sensor.season
+    state: winter
+  actions:
+  - action: climate.set_hvac_mode
+    metadata: {}
+    data:
+      hvac_mode: heat
+    target:
+      entity_id: climate.chicken_water_heater
+  mode: single
+- id: '1735236054380'
+  alias: Furnace On - Woodstove Off
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.climate_fan
+    to: 'on'
+    id: 'on'
+  - trigger: state
+    entity_id:
+    - binary_sensor.climate_fan
+    to: 'off'
+    id: 'off'
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - 'on'
+      sequence:
+      - action: homeassistant.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - automation.esp11_restore
+          - switch.esp11
+    - conditions:
+      - condition: trigger
+        id:
+        - 'off'
+      sequence:
+      - action: homeassistant.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - automation.esp11_restore
+          - switch.esp11
+  mode: single
+- id: '1735418804681'
+  alias: Holiday Lights
+  description: ''
+  triggers:
+  - event: sunset
+    offset: 0
+    id: turn_on
+    trigger: sun
+  - at: 00:00:00
+    id: turn_off
+    trigger: time
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - turn_on
+      sequence:
+      - action: homeassistant.turn_on
+        target:
+          label_id: christmas_lights
+          entity_id: switch.esp12
+        data: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - turn_off
+      sequence:
+      - data: {}
+        target:
+          entity_id:
+          - switch.esp12
+          label_id: christmas_lights
+        action: homeassistant.turn_off
   mode: single

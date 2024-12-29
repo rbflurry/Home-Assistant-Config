@@ -3,7 +3,7 @@
     wood_stove_blower:
       value_template: "{{iif(states('sensor.esp11_power')|int(0) > 100, 'True')}}"
     climate_aux_heat:
-      value_template: "{{ states.climate.home.attributes.aux_heat == 'on' }}"
+      value_template: "{{ is_state_attr('climate.home', 'equipment_running', 'auxHeat1,fan') }}"
       friendly_name: 'Aux Heat'
     climate_fan:
       value_template: "{{ states.climate.home.attributes.fan == 'on' }}"

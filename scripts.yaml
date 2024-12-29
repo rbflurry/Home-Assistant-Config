@@ -63,3 +63,105 @@ let_the_chickens_out:
       entity_id: cover.chicken_pen
   description: ''
   icon: mdi:food-drumstick
+house:
+  alias: house
+  sequence:
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_tree_1
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  description: ''
+all_trees_random:
+  alias: all trees random
+  sequence:
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_tree_1, light.wled_half, light.wled_mid, light.wled_yard
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  description: ''
+half_random:
+  alias: half random
+  sequence:
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_half
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  description: ''
+mid_random:
+  alias: mid random
+  sequence:
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_mid
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  description: ''
+yard:
+  alias: yard
+  sequence:
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_yard
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  description: ''
+all_trees_each_random:
+  alias: all trees each random
+  sequence:
+  - action: select.select_option
+    target:
+      entity_id: select.wled_tree_1_color_palette
+    data:
+      option: '{{ state_attr(''select.wled_tree_1_color_palette'', ''options'') |
+        random }}'
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_tree_1
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  - action: select.select_option
+    target:
+      entity_id: select.wled_half_color_palette
+    data:
+      option: '{{ state_attr(''select.wled_tree_1_color_palette'', ''options'') |
+        random }}'
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_half
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  - action: select.select_option
+    target:
+      entity_id: select.wled_mid_color_palette
+    data:
+      option: '{{ state_attr(''select.wled_tree_1_color_palette'', ''options'') |
+        random }}'
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_mid
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  - action: select.select_option
+    target:
+      entity_id: select.wled_yard_color_palette
+    data:
+      option: '{{ state_attr(''select.wled_tree_1_color_palette'', ''options'') |
+        random }}'
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.wled_yard
+    data_template:
+      effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
+  description: ''
