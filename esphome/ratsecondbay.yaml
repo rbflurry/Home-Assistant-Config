@@ -27,6 +27,9 @@ esphome:
     name: ratgdo.esphome
     version: "2.5i"
 
+ota:
+  - id: !remove ratgdo_ota
+
 esp8266:
   board: d1_mini
   restore_from_flash: true
@@ -42,11 +45,11 @@ time:
 api:
   id: api_server
 
-improv_serial:
+#improv_serial:
 
 # Logger must be at least debug (default)
 logger:
-  level: debug
+#  level: debug
   
 # # Example configuration entry
 # debug:

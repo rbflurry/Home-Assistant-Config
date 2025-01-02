@@ -1,0 +1,23 @@
+substitutions:
+  devicename: mains-monitor
+  upper_devicename: mains-monitor
+
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: esp01_1m
+
+packages:
+  device_base: !include common.yaml
+
+sensor:
+  - platform: adc
+    pin: A0
+    name: "EMF"
+    update_interval: 10s
+    filters:
+      - multiply: 3.3
+
+
+
+
