@@ -49,10 +49,6 @@
       entity_id: switch.wink_zwaveoutlet, binary_sensor.climate_aux_heat
       from: 'off'
       to: 'on'
-    - platform: state
-      entity_id: binary_sensor.updater
-      from: 'off'
-      to: 'on'
     - platform: numeric_state
       entity_id: sensor.disk_use_percent
       above: 90

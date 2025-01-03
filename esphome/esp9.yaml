@@ -6,6 +6,7 @@ esphome:
   name: ${devicename}
   platform: ESP8266
   board: esp01_1m
+  comment: garage attic fan
 
 packages:
   device_base: !include common.yaml
@@ -14,6 +15,7 @@ packages:
 uart:
   rx_pin: RX
   baud_rate: 4800
+  parity: EVEN
 
 binary_sensor:
   - platform: gpio
