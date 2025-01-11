@@ -45,7 +45,24 @@ mqtt:
   #  payload_off: "Offline"
   #  device_class: "connectivity"
   
+    - state_topic: rtl_433/events/50080
+      json_attributes_topic: rtl_433/events/50080
+      payload_on: "Water Leak"
+      payload_off: "Button Press"
+      device_class: moisture
+      unique_id: 50080_kitchen_water
+      name: Kitchen Sink Water Leak
+      value_template: "{{value_json.event}}"
+  
   sensor:
+    - state_topic: rtl_433/events/50080
+      json_attributes_topic: rtl_433/events/50080
+      device_class: battery
+      value_template: “{{ (value_json.battery_ok | float * 100) | int }}”
+      unique_id: 50080_kitchen_water_battery
+      name: Kitchen Sink Water Leak Battery
+      unit_of_measurement: “%”
+      
     # - name: "SN1 Humidity"
       # state_topic: "home/sensornode1"  
       # icon: mdi:water-percent
@@ -190,6 +207,8 @@ mqtt:
       # qos: 1
       # payload_available: "online"
       # payload_not_available: "offline"
+      
+      
 #################################################
  
 ################################################# 
@@ -257,6 +276,43 @@ mqtt:
       value_template: "{{ (value | multiply(9/5) + 32) | float | round(1) }}"
       unit_of_measurement: "°F"
       expire_after: 3600
+
+
+#### ACu  
+    - name: "Battery"
+      device:
+        name: acu_mini_room_1
+        identifiers: 3a25871d-eb23-453e-a82d-0585105faede
+      state_topic: 'rtl_433/9342/battery_ok'
+      unit_of_measurement: "%"
+      device_class: "battery"
+      value_template: "{{value | int * 100}}"
+      expire_after: 3600
+      unique_id: a4c7962e-0bd1-4fa3-bb0e-5a1d484d9c22
+      
+    - name: "Temperature"
+      device:
+        name: acu_mini_room_1
+        identifiers: 3a25871d-eb23-453e-a82d-0585105faede
+      state_topic: 'rtl_433/9342/temperature_C'
+      device_class: "temperature"
+      state_class: "measurement"
+      value_template: "{{ (value | multiply(9/5) + 32) | float | round(1) }}"
+      unit_of_measurement: "°F"
+      expire_after: 3600
+      unique_id: 78a9e1e7-2269-43f5-a2bf-cff11930c288
+      
+    - name: "Humidity"
+      device:
+        name: acu_mini_room_1
+        identifiers: 3a25871d-eb23-453e-a82d-0585105faede
+      state_topic: 'rtl_433/9342/humidity'
+      device_class: "humidity"
+      state_class: "measurement"
+      unit_of_measurement: "%"
+      value_template: "{{(value | float)}}"
+      expire_after: 3600
+      unique_id: af672100-e165-4a56-b34a-5aad5d198640
 #################################################
 
   switch:

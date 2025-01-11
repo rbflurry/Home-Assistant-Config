@@ -565,20 +565,20 @@
 - id: '1667065340558'
   alias: HCPSS Status Changes
   description: ''
-  trigger:
-  - platform: state
-    not_from:
+  triggers:
+  - not_from:
     - 'null'
     - unavailable
     not_to:
     - unavailale
     entity_id:
     - sensor.hcps_status
-  condition: []
-  action:
-  - service: notify.telegram_group
-    data:
+    trigger: state
+  conditions: []
+  actions:
+  - data:
       message: '✏HCPSS is: {{trigger.to_state.state}}✏'
+    action: notify.telegram_group
   mode: single
 - id: '1667065431239'
   alias: Blue Iris Status
@@ -1319,46 +1319,46 @@
 - id: '1688688970200'
   alias: Climate - Auto Office Cool
   description: ''
-  trigger:
-  - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
-      +2 or states.climate.bed_room.attributes.current_temperature <= states.climate.bed_room.attributes.temperature}}
+  triggers:
+  - value_template: '{{states.climate.office.attributes.current_temperature > states.climate.office.attributes.temperature
+      +2 or states.climate.office.attributes.current_temperature <= states.climate.office.attributes.temperature}}
 
       '
     for:
       hours: 0
       minutes: 10
       seconds: 0
-  condition:
+    trigger: template
+  conditions:
   - condition: not
     conditions:
     - condition: state
-      entity_id: climate.bed_room
+      entity_id: climate.office
       state: heat
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{states.climate.bed_room.attributes.current_temperature
-          < states.climate.bed_room.attributes.temperature}}'
+        value_template: '{{states.climate.office.attributes.current_temperature <
+          states.climate.office.attributes.temperature}}'
       sequence:
-      - service: climate.set_hvac_mode
-        data:
+      - data:
           hvac_mode: 'off'
         target:
           entity_id:
-          - climate.bed_room
+          - climate.office
+        action: climate.set_hvac_mode
     - conditions:
       - condition: template
-        value_template: '{{states.climate.bed_room.attributes.current_temperature+2
-          > states.climate.bed_room.attributes.temperature}}'
+        value_template: '{{states.climate.office.attributes.current_temperature+2
+          > states.climate.office.attributes.temperature}}'
       sequence:
-      - service: climate.set_hvac_mode
-        data:
+      - data:
           hvac_mode: cool
         target:
           entity_id:
-          - climate.bed_room
+          - climate.office
+        action: climate.set_hvac_mode
   mode: single
 - id: '1696794529178'
   alias: Pumpkin window ligts

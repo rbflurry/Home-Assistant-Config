@@ -179,3 +179,16 @@
     notifiers:
       - telegram_group
       
+  stove_over_temp:
+    name: Stove over temp
+    message: Wood Stove is over temp
+    done_message: Wood stove is under temp
+    entity_id: binary_sensor.stove_air_over_temp
+    state: "on"
+    repeat: 30
+    can_acknowledge: True
+    #skip_first: True
+    notifiers:
+      - telegram_group
+
+

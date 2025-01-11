@@ -25,11 +25,21 @@ uart:
 climate:
   - platform: midea
     name: "Craft Room"
+    id: craft
     visual:
       min_temperature: 60 °F
       max_temperature: 80 °F
 
 
 sensor:
-  - platform: uptime
-    name: Craft Room MiniSplit Uptime Sensor
+ # - platform: uptime
+ #   name: Craft Room MiniSplit Uptime Sensor
+  - platform: template
+    name: "Craft Minisplit Temp"
+    lambda: return(id(craft).current_temperature);
+    unit_of_measurement: "°C"
+    icon: "mdi:temperature-fahrenheit"
+    device_class: "temperature"
+    state_class: "measurement"
+    accuracy_decimals: 1
+    update_interval: 60s
