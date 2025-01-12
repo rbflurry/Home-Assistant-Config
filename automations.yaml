@@ -213,7 +213,7 @@
   description: ''
   trigger:
   - platform: template
-    value_template: '{{ is_state(''climate.bed_room'', ''heat'') or is_state(''climate.bed_room'',
+    value_template: '{{ is_state(''climate.office'', ''heat'') or is_state(''climate.office'',
       ''unavailable'') }}'
     for:
       hours: 2
@@ -229,7 +229,7 @@
   - service: climate.turn_off
     target:
       entity_id:
-      - climate.bed_room
+      - climate.office
       - climate.craft_room
     data: {}
   mode: parallel
@@ -423,8 +423,8 @@
   description: ''
   trigger:
   - platform: template
-    value_template: '{{states.climate.bed_room.attributes.current_temperature > states.climate.bed_room.attributes.temperature
-      or states.climate.bed_room.attributes.current_temperature < states.climate.bed_room.attributes.temperature-1}}
+    value_template: '{{states.climate.office.attributes.current_temperature > states.climate.office.attributes.temperature
+      or states.climate.office.attributes.current_temperature < states.climate.office.attributes.temperature-1}}
 
       '
     for:
@@ -434,26 +434,26 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{states.climate.bed_room.attributes.current_temperature
-          < states.climate.bed_room.attributes.temperature-1}}'
+        value_template: '{{states.climate.office.attributes.current_temperature
+          < states.climate.office.attributes.temperature-1}}'
       sequence:
       - service: climate.set_hvac_mode
         data:
           hvac_mode: heat
         target:
           entity_id:
-          - climate.bed_room
+          - climate.office
     - conditions:
       - condition: template
-        value_template: '{{states.climate.bed_room.attributes.current_temperature
-          > states.climate.bed_room.attributes.temperature}}'
+        value_template: '{{states.climate.office.attributes.current_temperature
+          > states.climate.office.attributes.temperature}}'
       sequence:
       - service: climate.set_hvac_mode
         data:
           hvac_mode: 'off'
         target:
           entity_id:
-          - climate.bed_room
+          - climate.office
   mode: single
 - id: '1665712050949'
   alias: Climate - Auto Craft Heat
@@ -874,7 +874,7 @@
   - service: climate.turn_off
     target:
       entity_id:
-      - climate.bed_room
+      - climate.office
       - climate.craft_room
     data: {}
   mode: parallel

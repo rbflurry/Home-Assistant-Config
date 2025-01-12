@@ -94,5 +94,5 @@ climate:
     temperature_unit: F  # default to celsius, 'C' or 'F'
     entities:
     - climate.craft_room
-    - climate.bed_room
+    - climate.office
 
