@@ -53,11 +53,11 @@
       invert: Yes
     trend_stove_temperature_up:
       friendly_name: 'Stove Temp increasing'
-      entity_id: sensor.stove_air_sensor
+      entity_id: sensor.air_output_sensor
       device_class: heat
     trend_stove_temperature_down:
       friendly_name: 'Stove Temp decreasing'
-      entity_id: sensor.stove_air_sensor
+      entity_id: sensor.air_output_sensor
       device_class: cold
       invert: Yes
 

@@ -165,3 +165,21 @@ all_trees_each_random:
     data_template:
       effect: '{{ state_attr("light.wled_tree_1", "effect_list") | random }}'
   description: ''
+brett_bath_set:
+  alias: Brett Bath Set
+  sequence:
+  - action: input_datetime.set_datetime
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_datetime.brett_bath
+  description: ''
+ty_bath_set:
+  alias: Ty Bath Set
+  sequence:
+  - action: input_datetime.set_datetime
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_datetime.ty_bath
+  description: ''

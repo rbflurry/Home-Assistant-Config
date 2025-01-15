@@ -380,43 +380,43 @@
 - id: '1665711480975'
   alias: Climate -  Auto Craft Cool
   description: ''
-  trigger:
-  - platform: template
-    value_template: '{{states.climate.craft_room.attributes.current_temperature >
+  triggers:
+  - value_template: '{{states.climate.craft_room.attributes.current_temperature >
       states.climate.craft_room.attributes.temperature +2 or states.climate.craft_room.attributes.current_temperature
       <= states.climate.craft_room.attributes.temperature}}'
     for:
       hours: 0
       minutes: 10
       seconds: 0
-  condition:
+    trigger: template
+  conditions:
   - condition: not
     conditions:
     - condition: state
       entity_id: climate.craft_room
       state: heat
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{states.climate.craft_room.attributes.current_temperature
           <= states.climate.craft_room.attributes.temperature}}'
       sequence:
-      - service: climate.set_hvac_mode
-        data:
+      - data:
           hvac_mode: 'off'
         target:
           entity_id: climate.craft_room
+        action: climate.set_hvac_mode
     - conditions:
       - condition: template
         value_template: '{{states.climate.craft_room.attributes.current_temperature
           > states.climate.craft_room.attributes.temperature+2}}'
       sequence:
-      - service: climate.set_hvac_mode
-        data:
+      - data:
           hvac_mode: cool
         target:
           entity_id: climate.craft_room
+        action: climate.set_hvac_mode
   mode: single
 - id: '1665711964366'
   alias: Climate - Auto Office Heat
@@ -434,8 +434,8 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{states.climate.office.attributes.current_temperature
-          < states.climate.office.attributes.temperature-1}}'
+        value_template: '{{states.climate.office.attributes.current_temperature <
+          states.climate.office.attributes.temperature-1}}'
       sequence:
       - service: climate.set_hvac_mode
         data:
@@ -445,8 +445,8 @@
           - climate.office
     - conditions:
       - condition: template
-        value_template: '{{states.climate.office.attributes.current_temperature
-          > states.climate.office.attributes.temperature}}'
+        value_template: '{{states.climate.office.attributes.current_temperature >
+          states.climate.office.attributes.temperature}}'
       sequence:
       - service: climate.set_hvac_mode
         data:

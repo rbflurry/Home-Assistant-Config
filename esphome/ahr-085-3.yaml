@@ -34,6 +34,7 @@ light:
 # GPIO4
   - platform: monochromatic
     name: "ahr-085-3-PowerStrip-Blue_LED"
+    id: led
     output: output_component_blue
 
 output:
@@ -45,14 +46,20 @@ output:
 
 # Button & Automation to toggle all switches
 # GPIO5
-
 binary_sensor:
   - platform: gpio
     pin: GPIO4
+    internal: False
     id: button
-    name: "PowerStrip_Button"
+    name: "ahr-085-3-PowerStrip_Button"
     on_press:
-      - switch.toggle: relay1
-      - switch.toggle: relay2
-      - switch.toggle: relay3
-    internal: True
+      - light.toggle: led
+      - if:
+          condition:
+            not:
+              api.connected
+          then:
+            - switch.toggle: relay1
+            - switch.toggle: relay2
+            - switch.toggle: relay3
+
