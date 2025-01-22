@@ -146,18 +146,8 @@
   max_age:
     hours: 12
 
-- platform: template
-  sensors:
-    template_rain_since_midnight:
-      friendly_name: "Rain since midnight"
-      unit_of_measurement: 'in'
-      value_template: "{{ ((states('sensor.pws_5in1_Total_Rain') | float(0)) - (states('sensor.rain_at_midnight') | float(0))) | round(2) }}"
-    template_pws_5in1_weather_wind_dir:
-      friendly_name: PWS 5in1 Wind Direction True
-      value_template: >
-        {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N'] %}
-        {% set degree = states('sensor.pws_5in1_wind_direction')|float %}
-        {{ direction[((degree+11.25)/22.5)|int] }}
-
-
+- platform: integration
+  name: Closet Energy
+  source: sensor.ups_power_usage
+  unit_prefix: k
 

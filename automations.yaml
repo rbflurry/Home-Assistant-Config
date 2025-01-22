@@ -917,10 +917,11 @@
     trigger: state
   conditions: []
   actions:
-  - type: turn_on
-    device_id: 68a2c5306cd6f57f98fd2b36d334ed6b
-    entity_id: 27526730710b5e3d27c8f60083bf7396
-    domain: switch
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.esp11
   mode: single
 - id: '1674051285239'
   alias: Chicken - Egg Helper- Light
