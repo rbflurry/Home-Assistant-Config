@@ -54,6 +54,9 @@ binary_sensor:
     name: "ahr-085-3-PowerStrip_Button"
     on_press:
       - light.toggle: led
+      - switch.turn_on: relay1
+      - switch.turn_on: relay2
+      - switch.turn_on: relay3
       - if:
           condition:
             not:

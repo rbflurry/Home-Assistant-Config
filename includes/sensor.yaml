@@ -4,11 +4,11 @@
     - 'date'
     - 'date_time_iso'
 
-- platform: cert_expiry
-  host: !secret ha_cert 
+# - platform: cert_expiry
+  # host: !secret ha_cert 
   
-- platform: cert_expiry
-  host: !secret nginz_cert 
+# - platform: cert_expiry
+  # host: !secret nginz_cert 
   
 - platform: history_stats
   name: history_climate_fan_on_today
@@ -102,19 +102,6 @@
         # friendly_name: 'deeks_collar_threshold'
         # value_template: '{{ states.sensor.deeks_collar_stats_mean.attributes["average_change"] | float > 0 }}' #"key_car_stats" is the name from C; mean is used but could be also other statistics (median, change, variation, count, etc)
 
-# - platform: sql
-# #  db_url: postgres://hass:hass@192.168.47.155/hass
-  # db_url: mysql://hass:hass@core-mariadb/homeassistant
-  # scan_interval: 900
-  # queries:
-#    - name: sql States recorded today
-#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN CURDATE() AND adddate(current_date, 1) LIMIT 1;"
-#      column: 'value'
-#      unit_of_measurement: States
-#    - name: sql States recorded yesterday
-#      query: "SELECT COUNT(*) as value FROM states WHERE created BETWEEN subdate(current_date, 1) and CURDATE() LIMIT 1;"
- #     column: 'value'
- #     unit_of_measurement: States
   
 - platform: statistics
   name: Local Rain 24 Hours Statistics

@@ -72,6 +72,7 @@ sensor:
 #    unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
+    update_interval: 15s
   - platform: dallas_temp
     address: 0x703c01f09633d428
     name: "Air Input Sensor"
@@ -81,14 +82,15 @@ sensor:
     #unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
+    update_interval: 15s
   - platform: max6675
     name: "WoodStove Flue Temperature"
     cs_pin: GPIO26
-    update_interval: 60s
+    update_interval: 15s
   - platform: template
     name: "Air Delta"
-    lambda: 'return id(output).state - id(input).state;'
-    update_interval: 60s
+    lambda: 'return (id(output).state * (9.0/5.0) + 32.0) - (id(input).state * (9.0/5.0) + 32.0);'
+    update_interval: 15s
     device_class: "temperature"
     state_class: "measurement"
     unit_of_measurement: "°F"

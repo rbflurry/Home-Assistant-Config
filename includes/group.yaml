@@ -13,14 +13,14 @@ garage:
   entities:
     - cover.ratthirdbay_door
     - cover.ratsecondbay_door
-    - cover.rat_firstbay_11e249_door
+    - cover.ratfirstbay_door
 
 all_garage_doors:
   name: All Garage Doors
   entities:
     - cover.ratthirdbay_door
     - cover.ratsecondbay_door
-    - cover.rat_firstbay_11e249_door
+    - cover.ratfirstbay_door
 
 indoor_lights:
   name: Indoor Lights
@@ -31,7 +31,7 @@ indoor_lights:
     - light.wink_bed_room
     - light.wink_office
     - switch.wink_hallway_switch
-    - light.bed_wled
+    - light.wled_bed
     - light.sengled_e11_g13_035cb3f8_1
     - light.sengled_e11_g13_035c3bc7_1
     - light.jasco_products_14294_in_wall_smart_dimmer_level

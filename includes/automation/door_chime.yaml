@@ -18,7 +18,7 @@
   # id: 38d2d5db-21ab-4aa7-abdb-0de3d481aebc
   # trigger:
     # - platform: state
-      # entity_id: binary_sensor.garage_entry_door, cover.ratthirdbay_door, cover.ratsecondbay_door, cover.rat_firstbay_11e249_door
+      # entity_id: binary_sensor.garage_entry_door, cover.ratthirdbay_door, cover.ratsecondbay_door, cover.ratfirstbay_door
       # to: 'on'
   # condition:
    # condition: state

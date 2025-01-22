@@ -20,9 +20,9 @@ ecobee:
   api_key: !secret eco_api
 
  
-notify:
-  - name: ecobee
-    platform: ecobee
+# notify:
+  # - name: ecobee
+    # platform: ecobee
 
   
 ################################################

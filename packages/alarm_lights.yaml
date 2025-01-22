@@ -137,12 +137,12 @@ automation:
               value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
     action:
       - service: homeassistant.turn_on
-        entity_id: light.bed_wled
+        entity_id: light.wled_bed
         data:
          brightness_pct: 100
       - service: light.turn_on
         data: {}
-        entity_id: light.bed_wled
+        entity_id: light.wled_bed
       - service: number.set_value
         target:
           entity_id: number.bed_wled_intensity

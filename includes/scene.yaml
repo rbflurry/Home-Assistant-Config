@@ -4,7 +4,7 @@
     switch.wink_hallway_switch: off
     light.wink_bed_room: off
     switch.wink_back_flood: off
-    light.bed_wled: off
+    light.wled_bed: off
     input_boolean.good_night: on
     input_boolean.good_morning: off
     switch.ahr_085_2_relay1: off

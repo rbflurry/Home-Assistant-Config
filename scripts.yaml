@@ -170,7 +170,8 @@ brett_bath_set:
   sequence:
   - action: input_datetime.set_datetime
     metadata: {}
-    data: {}
+    data:
+      timestamp: '{{ now().timestamp() }}'
     target:
       entity_id: input_datetime.brett_bath
   description: ''
@@ -179,7 +180,8 @@ ty_bath_set:
   sequence:
   - action: input_datetime.set_datetime
     metadata: {}
-    data: {}
+    data:
+      timestamp: '{{ now().timestamp() }}'
     target:
       entity_id: input_datetime.ty_bath
   description: ''

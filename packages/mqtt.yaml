@@ -219,8 +219,10 @@ mqtt:
       device_class: "battery"
       value_template: "{{value | int * 100}}"
       expire_after: 3600
+      unit_of_measurement: "%"
       
     - name: "PWS 5in1 Temperature"
+      unique_id: "PWS 5in1 Temperature"
       state_topic: 'rtl_433/815/temperature_F'
       device_class: "temperature"
       state_class: "measurement"
@@ -229,6 +231,7 @@ mqtt:
       expire_after: 3600
       
     - name: "PWS 5in1 Humidity"
+      unique_id: "PWS 5in1 Humidity"
       state_topic: 'rtl_433/815/humidity'
       device_class: "humidity"
       state_class: "measurement"

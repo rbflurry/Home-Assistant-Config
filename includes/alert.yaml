@@ -33,19 +33,7 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - telegram_group
-      
-  garage_ap:
-    name: Garage AP is down
-    message: Garage AP is down /ack
-    done_message: Garage AP is up
-    entity_id: device_tracker.0418d64e51d2
-    state: 'not_home'
-    repeat: 10
-    can_acknowledge: True
-    skip_first: True
-    notifiers:
-      - telegram_group
+      - template_cert_internal
       
   disk_space:
     name: Disk is full
@@ -58,16 +46,16 @@
     notifiers:
       - telegram_group
       
-  certificate:
-    name: Cert is expiring
-    message: Cert is expiring /ack
-    entity_id: sensor.template_cert_internal
-    state: 'on'
-    repeat: 180
-    can_acknowledge: True
-    skip_first: False
-    notifiers:
-      - telegram_group
+  # certificate:
+    # name: Cert is expiring
+    # message: Cert is expiring /ack
+    # entity_id: sensor.template_cert_internal
+    # state: 'on'
+    # repeat: 180
+    # can_acknowledge: True
+    # skip_first: False
+    # notifiers:
+      # - telegram_group
       
   dog:
     name: Dog Alert
@@ -142,12 +130,12 @@
     #skip_first: True
     notifiers:
       - telegram_group
-    
+      
   water_chickens:
     name: Chickens need watering
     message: Chickens need watering /ack
     done_message: Thank you for watering the chickens
-    entity_id: input_boolean.chickens_need_watering
+    entity_id: binary_sensor.template_chickens_need_water
     state: "on"
     repeat: 30
     can_acknowledge: True
@@ -155,7 +143,7 @@
     notifiers:
       - telegram_group
       
-  water_feed:
+  feed_chickens:
     name: Chickens need feeding
     message: Chickens need feeding /ack
     done_message: Thank you for feeding the chickens

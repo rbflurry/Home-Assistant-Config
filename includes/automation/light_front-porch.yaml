@@ -57,7 +57,7 @@
   id: c8b85d93-ec78-43f2-a91a-6562f2e9fdc7
   trigger:
     - platform: state
-      entity_id: cover.ratthirdbay_door, cover.ratsecondbay_door, cover.rat_firstbay_11e249_door
+      entity_id: cover.ratthirdbay_door, cover.ratsecondbay_door, cover.ratfirstbay_door
       from: 'closed'
       to: 'open'
   condition:

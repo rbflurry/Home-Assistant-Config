@@ -62,7 +62,7 @@
   action:
   - service: light.turn_on
     target:
-      entity_id: light.bed_wled
+      entity_id: light.wled_bed
     data:
       effect: solid
       rgb_color:
@@ -73,7 +73,7 @@
     data:
       effect: Sunrise
     target:
-      entity_id: light.bed_wled
+      entity_id: light.wled_bed
   - service: number.set_value
     target:
       entity_id: number.bed_wled_intensity
@@ -277,13 +277,12 @@
 - id: '1657809251650'
   alias: UPS Turn Off lights after blip
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - sensor.ups_trap
     to: 'UPS: No longer on battery power.'
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - sensor.ups_status_data
     from: OB
     to: OL
@@ -291,53 +290,49 @@
       hours: 0
       minutes: 0
       seconds: 55
-  - platform: numeric_state
-    entity_id:
-    - sensor.bedroom_minisplit_uptime_sensor
-    below: 299.9
-    above: 60
-  condition: []
-  action:
-  - service: homeassistant.turn_off
-    continue_on_error: true
+    trigger: state
+  conditions: []
+  actions:
+  - continue_on_error: true
     data: {}
     target:
       entity_id:
       - light.sengled_e11_g13_035cb3f8_1
       - light.sengled_e11_g13_035c3bc7_1
-      - light.bed_wled
       - light.wink_bed_room
       - light.wink_led_strip_bath
+      - light.wled_bed
+    action: homeassistant.turn_off
   - delay:
       hours: 0
       minutes: 0
       seconds: 30
       milliseconds: 0
-  - service: homeassistant.turn_off
-    continue_on_error: true
+  - continue_on_error: true
     data: {}
     target:
       entity_id:
       - light.sengled_e11_g13_035cb3f8_1
       - light.sengled_e11_g13_035c3bc7_1
-      - light.bed_wled
       - light.wink_bed_room
       - light.wink_led_strip_bath
+      - light.wled_bed
+    action: homeassistant.turn_off
   - delay:
       hours: 0
       minutes: 0
       seconds: 59
       milliseconds: 0
-  - service: media_player.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id:
       - media_player.lg_webos_tv_nano80upa
       - media_player.lg_webos_tv_5a6f
-  - service: switch.turn_on
-    data: {}
+    action: media_player.turn_off
+  - data: {}
     target:
       entity_id: switch.sonoff_4ch_relay_4
+    action: switch.turn_on
   mode: single
 - id: '1665668429834'
   alias: Door Alerts v2
@@ -537,30 +532,30 @@
 - id: '1666123844519'
   alias: bed light dimmer
   description: ''
-  trigger:
-  - platform: event
-    event_type: zha_event
+  triggers:
+  - event_type: zha_event
     event_data:
       unique_id: ff:ff:00:0f:e7:fd:89:a4:1:0x0008
-  condition: []
-  action:
+    trigger: event
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{trigger.event.data.params.level == 2}}'
       sequence:
-      - service: light.turn_off
-        data: {}
+      - data: {}
+        action: light.turn_off
         target:
-          entity_id: light.bed_wled
+          entity_id: light.wled_bed
     default:
-    - service: light.turn_on
-      data:
+    - data:
         brightness: '{{trigger.event.data.params.level | int}}'
         transition: 1
       target:
         entity_id:
-        - light.bed_wled
+        - light.wled_bed
+      action: light.turn_on
   mode: restart
 - id: '1667065340558'
   alias: HCPSS Status Changes
@@ -577,7 +572,7 @@
   conditions: []
   actions:
   - data:
-      message: '✏HCPSS is: {{trigger.to_state.state}}✏'
+      message: '✏HCPSS: {{trigger.to_state.state}}✏'
     action: notify.telegram_group
   mode: single
 - id: '1667065431239'
@@ -972,7 +967,7 @@
     to: 'on'
   - platform: state
     entity_id:
-    - cover.rat_firstbay_11e249_door
+    - cover.ratfirstbay_door
     - cover.ratthirdbay_door
     - cover.ratsecondbay_door
     from: closed
@@ -1251,7 +1246,7 @@
     target:
       entity_id:
       - light.wink_bed_room
-      - light.bed_wled
+      - light.wled_bed
   mode: single
 - id: '1684260682049'
   alias: my ip changes
@@ -1281,7 +1276,7 @@
     entity_id:
     - cover.ratthirdbay_door
     - cover.ratsecondbay_door
-    - cover.rat_firstbay_11e249_door
+    - cover.ratfirstbay_door
     to: open
     for:
       hours: 0
@@ -1610,7 +1605,7 @@
   - condition: or
     conditions:
     - condition: state
-      entity_id: cover.rat_firstbay_11e249_door
+      entity_id: cover.ratfirstbay_door
       state: open
   action:
   - service: notify.telegram_ryan
@@ -2125,4 +2120,61 @@
           - switch.esp12
           label_id: christmas_lights
         action: homeassistant.turn_off
+  mode: single
+- id: '1737052082491'
+  alias: Basement door open turn basement_light on for 10 minutes unless it is already
+    on.
+  description: ''
+  triggers:
+  - entity_id: binary_sensor.basement_door
+    from: 'off'
+    to: 'on'
+    trigger: state
+  - entity_id: binary_sensor.basement_door
+    from: 'on'
+    to: 'off'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: switch.wink_basement
+    state: 'off'
+  actions:
+  - data:
+      entity_id:
+      - switch.wink_basement
+    action: zwave_js.refresh_value
+  - delay: 0:00:05
+  - condition: state
+    entity_id: switch.wink_basement
+    state: 'off'
+  - entity_id: switch.wink_basement
+    action: homeassistant.turn_on
+  - wait_for_trigger:
+    - trigger: state
+      entity_id:
+      - binary_sensor.basement_door
+      to: 'off'
+    continue_on_timeout: false
+  - entity_id: timer.basement_light
+    data:
+      duration: 00:10:00
+    action: timer.start
+  mode: single
+- id: '1737507106180'
+  alias: CCPS Status
+  description: ''
+  triggers:
+  - not_from:
+    - 'null'
+    - unavailable
+    not_to:
+    - unavailale
+    entity_id:
+    - sensor.ccps_short_status
+    trigger: state
+  conditions: []
+  actions:
+  - data:
+      message: '✏CCPS: {{trigger.to_state.state}}✏'
+    action: notify.telegram_group
   mode: single

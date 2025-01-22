@@ -12,7 +12,7 @@ binary_sensor:
 sensor:
   - platform: wifi_signal
     name: ESP ${upper_devicename} WiFi Signal
-    update_interval: 60s
+    update_interval: 300s
 
 text_sensor:
   - platform: wifi_info
