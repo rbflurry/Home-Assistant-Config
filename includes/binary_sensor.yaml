@@ -3,9 +3,11 @@
     wood_stove_blower:
       value_template: "{{iif(states('sensor.esp11_power')|int(0) > 100, 'True')}}"
     climate_aux_heat:
+      unique_id: climate_aux_heat
       value_template: "{{ state_attr('climate.home', 'equipment_running') | contains('auxHeat') }}"
       friendly_name: 'Aux Heat'
     climate_fan:
+      unique_id: climate_fan
       value_template: "{{ states.climate.home.attributes.fan == 'on' }}"
       friendly_name: 'Fan'
     chicken_door_after_dark:
@@ -33,44 +35,46 @@
       value_template: '{{  (as_timestamp(now()) - as_timestamp(as_datetime((state_attr("input_datetime.chicken_last_feed", "timestamp"))))) > 432000 }}'
     template_chickens_need_water:
       value_template: '{{  (as_timestamp(now()) - as_timestamp(as_datetime((state_attr("input_datetime.chicken_last_water", "timestamp"))))) > 172800 or is_state("input_boolean.chickens_need_watering", "on")}}'
+
+
 - platform: trend
   sensors:
-    trend_house_temperature_up:
-      friendly_name: 'Temp increasing'
-      entity_id: sensor.home_temperature
-      device_class: heat
+#    trend_house_temperature_up:
+#      friendly_name: 'Temp increasing'
+#      entity_id: sensor.home_temperature
+#      device_class: heat
     trend_house_temperature_down:
       friendly_name: 'Temp decreasing'
       entity_id: sensor.home_temperature
       device_class: cold
       invert: Yes
-    trend_outside_temperature_up:
-      friendly_name: 'Outside Temp increasing'
-      entity_id: sensor.pws_5in1_temperature
-      device_class: heat
+      max_samples: 8
+#    trend_outside_temperature_up:
+#      friendly_name: 'Outside Temp increasing'
+#      entity_id: sensor.pws_5in1_temperature
+#      device_class: heat
     trend_outside_temperature_down:
       friendly_name: 'Outisde Temp decreasing'
       entity_id: sensor.pws_5in1_temperature
       device_class: cold
       invert: Yes
-    trend_stove_temperature_up:
-      friendly_name: 'Stove Temp increasing'
-      entity_id: sensor.air_output_sensor
-      device_class: heat
+      max_samples: 8
+#    trend_stove_temperature_up:
+#      friendly_name: 'Stove Temp increasing'
+#      entity_id: sensor.air_output_sensor
+#      device_class: heat
     trend_stove_temperature_down:
       friendly_name: 'Stove Temp decreasing'
       entity_id: sensor.air_output_sensor
       device_class: cold
       invert: Yes
-
-
-# - platform: command_line
-  # command: 'netstat -atn | grep :3334 | grep ESTABLISHED | wc -l'
-  # name: 'zigbee_online'
-  # device_class: connectivity
-  # payload_on: 1
-  # payload_off: 0
-  
+      max_samples: 8
+    trend_flue_temperature_down:
+      friendly_name: 'Stove Temp decreasing'
+      entity_id: sensor.woodstove_flue_temperature
+      device_class: cold
+      invert: Yes
+      max_samples: 8
 
 
 - platform: bayesian

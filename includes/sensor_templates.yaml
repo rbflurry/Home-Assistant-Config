@@ -813,55 +813,58 @@
       value_template: >-
           {% if is_state('binary_sensor.trend_outside_temperature_down', 'on') %}
             Cooling
-          {% elif is_state('binary_sensor.trend_outside_temperature_up', 'on') %}
-            Warming
           {% else %}
-            Steady
+            Warming
           {% endif %}
       icon_template: >
           {% if is_state('binary_sensor.trend_outside_temperature_down', 'on') %}
-            mdi:snowflake-alert
-          {% elif is_state('binary_sensor.trend_outside_temperature_up', 'on') %}
-            mdi:sun-thermometer-outline
+            mdi:trending-down
           {% else %}
-            mdi:lightning-bolt-outline
+            mdi:trending-up
           {% endif %}
     trend_inside_temp:
       unique_id: trend_inside_temp
       value_template: >-
           {% if is_state('binary_sensor.trend_house_temperature_down', 'on') %}
             Cooling
-          {% elif is_state('binary_sensor.trend_house_temperature_up', 'on') %}
-            Warming
           {% else %}
-            Steady
+            Warming
           {% endif %}
       icon_template: >
           {% if is_state('binary_sensor.trend_house_temperature_down', 'on') %}
-            mdi:snowflake-alert
-          {% elif is_state('binary_sensor.trend_house_temperature_up', 'on') %}
-            mdi:sun-thermometer-outline
+            mdi:trending-down
           {% else %}
-            mdi:lightning-bolt-outline
+            mdi:trending-up
           {% endif %}
     trend_stove_temp:
       unique_id: trend_stove_temp
       value_template: >-
           {% if is_state('binary_sensor.trend_stove_temperature_down', 'on') %}
             Cooling
-          {% elif is_state('binary_sensor.trend_stove_temperature_up', 'on') %}
-            Warming
           {% else %}
-            Steady
+            Warming
           {% endif %}
       icon_template: >
           {% if is_state('binary_sensor.trend_stove_temperature_down', 'on') %}
-            mdi:snowflake-alert
-          {% elif is_state('binary_sensor.trend_stove_temperature_up', 'on') %}
-            mdi:sun-thermometer-outline
+            mdi:trending-down
           {% else %}
-            mdi:lightning-bolt-outline
+            mdi:trending-up
           {% endif %}
+    trend_flue_temp:
+      unique_id: trend_flue_temp
+      value_template: >-
+          {% if is_state('binary_sensor.trend_flue_temperature_down', 'on') %}
+            Cooling
+          {% else %}
+            Warming
+          {% endif %}
+      icon_template: >
+          {% if is_state('binary_sensor.trend_flue_temperature_down', 'on') %}
+            mdi:trending-down
+          {% else %}
+            mdi:trending-up
+          {% endif %}
+          
 #- platform: template
 #  sensors:
     ups_power_usage:
