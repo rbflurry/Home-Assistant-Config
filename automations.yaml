@@ -1022,22 +1022,25 @@
 - id: '1675694589234'
   alias: Chicken Water
   description: ''
-  trigger:
-  - platform: sun
-    event: sunrise
+  triggers:
+  - event: sunrise
     offset: 0
-  - platform: time
-    at: '10:00:00'
+    trigger: sun
+  - at: '10:00:00'
     id: '10'
-  - platform: state
-    entity_id:
+    trigger: time
+  - entity_id:
     - switch.side_spigot
     to: 'on'
-  condition:
+    trigger: state
+  conditions:
   - condition: state
     entity_id: switch.bathroom_fan
     state: unavailable
-  action:
+  - condition: state
+    entity_id: input_boolean.chicken_frozen
+    state: 'off'
+  actions:
   - if:
     - condition: state
       entity_id: input_boolean.chicken_water_automations
@@ -1046,32 +1049,32 @@
       entity_id: switch.side_spigot
       state: 'on'
     then:
-    - service: notify.telegram_group
-      data:
+    - data:
         message: Chicken Water Automation Disabled - Please remember to turn off water
+      action: notify.telegram_group
     - stop: Disabled
   - if:
     - condition: state
       entity_id: switch.side_spigot
       state: unavailable
     then:
-    - service: notify.telegram_group
-      data:
+    - data:
         message: Chicken Water Automation - Spigot is unavailable
-    - service: homeassistant.turn_on
-      data: {}
+      action: notify.telegram_group
+    - data: {}
       target:
         entity_id: input_boolean.chickens_need_watering
+      action: homeassistant.turn_on
     - stop: Spigot Unavailable
   - if:
     - condition: state
       entity_id: input_boolean.chicken_water_automations
       state: 'off'
     then:
-    - service: homeassistant.turn_on
-      data: {}
+    - data: {}
       target:
         entity_id: input_boolean.chickens_need_watering
+      action: homeassistant.turn_on
     - stop: Disabled
   - if:
     - condition: and
@@ -1084,35 +1087,36 @@
       - condition: trigger
         id: '10'
       then:
-      - service: homeassistant.turn_on
-        data: {}
+      - data: {}
         target:
           entity_id: input_boolean.chickens_need_watering
+        action: homeassistant.turn_on
+      enabled: false
     - stop: Too Cold.
-  - service: notify.telegram_group
-    data:
+  - data:
       message: Filling the Watering Hole
-  - service: switch.turn_on
-    data: {}
+    action: notify.telegram_group
+  - data: {}
     target:
       entity_id: switch.side_spigot
+    action: switch.turn_on
   - delay:
       hours: 0
       minutes: 0
       seconds: 50
       milliseconds: 0
-  - service: switch.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id: switch.side_spigot
-  - service: automation.trigger
-    data:
+    action: switch.turn_off
+  - data:
       skip_condition: true
     target:
       entity_id: automation.tag_chicken_water_is_scanned
-  - service: notify.telegram_group
-    data:
+    action: automation.trigger
+  - data:
       message: The Watering Hole Is Full
+    action: notify.telegram_group
   mode: single
 - id: '1676037938048'
   alias: 3D print is done
