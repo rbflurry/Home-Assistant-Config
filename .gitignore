@@ -12,6 +12,7 @@ known_devices.yaml
 ip_bans.yaml
 .HA_VERSION
 known_devices.yaml
+known_devices.yaml.old
 secrets.yaml
 deps
 scripts

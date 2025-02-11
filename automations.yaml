@@ -2158,12 +2158,13 @@
     - unavailable
     not_to:
     - unavailale
+    - unknown
     entity_id:
     - sensor.ccps_short_status
     trigger: state
   conditions: []
   actions:
   - data:
-      message: '✏CCPS: {{trigger.to_state.state}}✏'
+      message: '✏CCPS✏: {{trigger.to_state.state}}'
     action: notify.telegram_group
   mode: single

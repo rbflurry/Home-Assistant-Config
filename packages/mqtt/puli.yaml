@@ -11,23 +11,16 @@ mqtt:
       # unique_id: puli_chargingswasd    - name: "puli wifi"
     - name: "Puli Temp" 
       state_topic: "puli"  
-      icon: mdi:water-percent
       device_class: "temperature"
       value_template: "{{ value_json['T'] | int }}"
       unit_of_measurement: "°C"
       unique_id: puli_temp
     - name: "Puli Battery" 
       state_topic: "puli"  
-      icon: mdi:water-percent
       value_template: "{{ value_json['P'] | int }}"
       unit_of_measurement: "%"
       unique_id: puli_battery
       device_class: "battery"
-    - name: "Puli Charging" 
-      state_topic: "puli"  
-      icon: mdi:water-percent
-      value_template: "{{ value_json['C'] }}"
-      unique_id: puli_charging
   switch:
     - name: "puli wifi"
       unique_id: puli_wifi
@@ -39,4 +32,11 @@ mqtt:
       qos: 1
       payload_on: "wifi up"
       payload_off: "wifi down"
-      
+  binary_sensor:
+    - name: "Puli Charging" 
+      state_topic: "puli"  
+      value_template: "{{ value_json['C'] }}"
+      payload_on: "1"
+      payload_off: "0"
+      unique_id: puli_charging
+      device_class: battery_charging

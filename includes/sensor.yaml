@@ -50,7 +50,7 @@
   name: Garage Temp
   host: 192.168.47.238
   port: 161
-#  accept_errors: true
+  accept_errors: true
   community: public
   baseoid: 1.3.6.1.4.1.21239.2.2.1.6.1
   unit_of_measurement: "°F"
@@ -59,7 +59,7 @@
   name: Garage Humidity
   host: 192.168.47.238
   port: 161
- # accept_errors: true
+  accept_errors: true
   community: public
   baseoid: 1.3.6.1.4.1.21239.2.2.1.7.1
   unit_of_measurement: "%"
@@ -81,27 +81,6 @@
   community: bittner
   baseoid: 1.3.6.1.4.1.21239.2.2.1.7.1
   unit_of_measurement: "%"
-  
-# - platform: template
-  # sensors:
-    # deeks_collar: #unique names; this is different from the one above
-      # value_template: >
-        # {% if is_state('sensor.deeks_collar_state', 'unknown') %}
-          # -100 
-        # {% else %}
-          # {{states.sensor.deeks_collar_state.state | float}}
-        # {% endif %}
-# - platform: statistics
-  # entity_id: 'sensor.deeks_collar' 
-  # name: 'deeks_collar_stats' 
-  # sampling_size: 10
-  
-# - platform: template
-  # sensors:
-      # bt_car_keys_threshold:
-        # friendly_name: 'deeks_collar_threshold'
-        # value_template: '{{ states.sensor.deeks_collar_stats_mean.attributes["average_change"] | float > 0 }}' #"key_car_stats" is the name from C; mean is used but could be also other statistics (median, change, variation, count, etc)
-
   
 - platform: statistics
   name: Local Rain 24 Hours Statistics
