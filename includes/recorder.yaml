@@ -6,6 +6,7 @@
     entity_globs:
       - sensor.wupws_weather_*
       - switch.*_do_not_disturb_switch
+      - image.roborock*
     domains:
       - persistent_notification
       - device_tracker

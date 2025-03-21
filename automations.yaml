@@ -489,14 +489,14 @@
 - id: '1666117827132'
   alias: upstairs dimmer
   description: ''
-  trigger:
-  - platform: event
-    event_type: zha_event
+  triggers:
+  - event_type: zha_event
     event_data:
       device_id: 50b370ca9c6b4fcf91f0fee0cb747b7b
       command: move_to_level_with_on_off
-  condition: []
-  action:
+    trigger: event
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: template
@@ -519,6 +519,7 @@
         entity_id:
         - switch.outlet_1
         - switch.desk_power_strip_1
+        - switch.desk_power_strip_usb_power
       action: switch.turn_on
     - data:
         brightness: '{{trigger.event.data.params.level | int}}'
@@ -2166,5 +2167,106 @@
   actions:
   - data:
       message: '✏CCPS✏: {{trigger.to_state.state}}'
+    action: notify.telegram_group
+  mode: single
+- id: '1741533565068'
+  alias: Chicken - New Water
+  description: ''
+  triggers:
+  - event: sunrise
+    offset: 0
+    trigger: sun
+  - at: '10:00:00'
+    id: '10'
+    trigger: time
+  - entity_id:
+    - switch.ahr_085_2_relay3
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: switch.bathroom_fan
+    state: unavailable
+  - condition: state
+    entity_id: input_boolean.chicken_frozen
+    state: 'off'
+  actions:
+  - if:
+    - condition: state
+      entity_id: input_boolean.chicken_water_automations
+      state: 'off'
+    - condition: state
+      entity_id: switch.side_spigot
+      state: 'on'
+    then:
+    - data:
+        message: Chicken Water Automation Disabled - Please remember to turn off water
+      action: notify.telegram_group
+    - stop: Disabled
+  - if:
+    - condition: state
+      entity_id: switch.ahr_085_2_relay3
+      state: unavailable
+    then:
+    - data:
+        message: Chicken Water Automation - Spigot is unavailable
+      action: notify.telegram_group
+    - data: {}
+      target:
+        entity_id: input_boolean.chickens_need_watering
+      action: homeassistant.turn_on
+    - stop: Spigot Unavailable
+  - if:
+    - condition: state
+      entity_id: input_boolean.chicken_water_automations
+      state: 'off'
+    then:
+    - data: {}
+      target:
+        entity_id: input_boolean.chickens_need_watering
+      action: homeassistant.turn_on
+    - stop: Disabled
+  - if:
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.pws_5in1_temperature
+        below: 32.1
+    then:
+    - if:
+      - condition: trigger
+        id: '10'
+      then:
+      - data: {}
+        target:
+          entity_id: input_boolean.chickens_need_watering
+        action: homeassistant.turn_on
+      enabled: false
+    - stop: Too Cold.
+  - data:
+      message: Filling the Watering Hole
+    action: notify.telegram_group
+  - data: {}
+    target:
+      entity_id:
+      - switch.ahr_085_2_relay3
+    action: switch.turn_on
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 50
+      milliseconds: 0
+  - data: {}
+    target:
+      entity_id:
+      - switch.ahr_085_2_relay3
+    action: switch.turn_off
+  - data:
+      skip_condition: true
+    target:
+      entity_id: automation.tag_chicken_water_is_scanned
+    action: automation.trigger
+  - data:
+      message: The Watering Hole Is Full
     action: notify.telegram_group
   mode: single

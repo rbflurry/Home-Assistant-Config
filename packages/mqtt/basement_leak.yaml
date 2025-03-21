@@ -1,0 +1,24 @@
+mqtt:
+     
+#Basement
+  binary_sensor:
+    - state_topic: rtl_433/events/49597
+      json_attributes_topic: rtl_433/events/49597
+      payload_on: "Water Leak"
+      payload_off: "Button Press"
+      device_class: moisture
+      unique_id: 49597_water
+      name: Basement Water Leak
+      value_template: "{{value_json.event}}"
+  
+  sensor:
+    - state_topic: rtl_433/events/49597
+      json_attributes_topic: rtl_433/events/49597
+      device_class: battery
+      value_template: “{{ (value_json.battery_ok | float * 100) | int }}”
+      unique_id: 49597_water_battery
+      name: Basement Water Leak Battery
+      unit_of_measurement: “%”
+      
+
+      

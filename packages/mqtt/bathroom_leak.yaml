@@ -1,0 +1,22 @@
+mqtt:
+      
+#Bathroom
+  binary_sensor:
+    - state_topic: rtl_433/events/637
+      json_attributes_topic: rtl_433/events/637
+      payload_on: "Water Leak"
+      payload_off: "Button Press"
+      device_class: moisture
+      unique_id: 637_water
+      name: Bathroom Sink Water Leak
+      value_template: "{{value_json.event}}"
+  
+  sensor:
+    - state_topic: rtl_433/events/637
+      json_attributes_topic: rtl_433/events/637
+      device_class: battery
+      value_template: “{{ (value_json.battery_ok | float * 100) | int }}”
+      unique_id: 637_water_battery
+      name: Bathhroom Water Leak Battery
+      unit_of_measurement: “%”
+      

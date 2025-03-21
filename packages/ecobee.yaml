@@ -16,8 +16,8 @@ homeassistant:
 ## ecobee Platform
 ################################################
 
-ecobee:
-  api_key: !secret eco_api
+#ecobee:
+#  api_key: !secret eco_api
 
  
 # notify:
