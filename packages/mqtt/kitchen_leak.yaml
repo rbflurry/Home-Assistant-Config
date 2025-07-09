@@ -16,4 +16,4 @@ mqtt:
       value_template: “{{ (value_json.battery_ok | float * 100) | int }}”
       unique_id: 50080_kitchen_water_battery
       name: Kitchen Sink Water Leak Battery
-      unit_of_measurement: “%”
+ #     unit_of_measurement: “%”

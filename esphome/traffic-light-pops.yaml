@@ -14,9 +14,10 @@ wifi:
 
 esphome:
   name: ${devicename}
-  platform: ESP8266
+ # platform: ESP8266
+ # board: esp01_1m
+esp8266:
   board: esp01_1m
-
 packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
@@ -32,7 +33,7 @@ binary_sensor:
     id: button_1
     on_press:
       then:
-        - switch.toggle: green
+        - switch.toggle: red
   - platform: gpio
     pin:
       number: GPIO9
@@ -54,7 +55,7 @@ binary_sensor:
     id: button_3
     on_press:
       then:
-        - switch.toggle: red
+        - switch.toggle: green
 
 output:
   - platform: gpio

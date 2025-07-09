@@ -16,11 +16,13 @@ logger:
 api:
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+  networks:
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
   ap:
     ssid: ${devicename} Fallback
     password: !secret wifi_pass
+
 
 captive_portal:
 

@@ -579,15 +579,15 @@
 - id: '1667065431239'
   alias: Blue Iris Status
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - sensor.blueiris
-  condition: []
-  action:
-  - service: notify.telegram_ryan
-    data:
+    trigger: state
+  conditions: []
+  actions:
+  - data:
       message: "\U0001F4F9Blue Iris: {{trigger.to_state.state}}\U0001F4F9"
+    action: notify.telegram_ryan
   mode: single
 - id: '1667183802979'
   alias: Hot Water
@@ -1361,43 +1361,6 @@
           - climate.office
         action: climate.set_hvac_mode
   mode: single
-- id: '1696794529178'
-  alias: Pumpkin window ligts
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunset
-    offset: 0
-    id: turn_on
-  - platform: time
-    at: 00:00:00
-    id: turn_off
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id:
-        - turn_on
-      sequence:
-      - service: switch.turn_on
-        data: {}
-        target:
-          entity_id:
-          - switch.esp10
-          - switch.esp12
-    - conditions:
-      - condition: trigger
-        id:
-        - turn_off
-      sequence:
-      - service: switch.turn_off
-        data: {}
-        target:
-          entity_id:
-          - switch.esp10
-          - switch.esp12
-  mode: single
 - id: '1698197021513'
   alias: Wake up Alarm - turn on lights - new
   description: ''
@@ -1480,41 +1443,6 @@
       - switch.ahr_085_3_relay1
       - switch.ahr_085_3_relay2
       - switch.ahr_085_3_relay3
-  mode: single
-- id: '1703035164626'
-  alias: Megatree
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunset
-    offset: '-30'
-    id: turn_on
-  - platform: time
-    at: 00:00:00
-    id: turn_off
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id:
-        - turn_on
-      sequence:
-      - service: switch.turn_on
-        data: {}
-        target:
-          entity_id:
-          - switch.esp10
-    - conditions:
-      - condition: trigger
-        id:
-        - turn_off
-      sequence:
-      - service: switch.turn_off
-        data: {}
-        target:
-          entity_id:
-          - switch.esp10
   mode: single
 - id: '1703775125209'
   alias: chandler bi
@@ -1710,41 +1638,38 @@
 - id: '1721842648143'
   alias: Winnie is down
   description: ''
-  trigger:
-  - type: not_connected
-    platform: device
-    device_id: 54a2f3ef2d1be03326ca6c1ff1673ab6
-    entity_id: 96f0301dedb854363d69fdb1b683f987
-    domain: binary_sensor
-  condition: []
-  action:
-  - service: notify.telegram_group
-    metadata: {}
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.winnebago_temp_esp_winnebago_temp_status
+    to: unavailable
+  conditions: []
+  actions:
+  - metadata: {}
     data:
       message: Winnie is down
+    action: notify.telegram_group
   mode: single
 - id: '1721842715748'
-  alias: Winnie above 80
+  alias: Winnie above temp
   description: ''
-  trigger:
-  - type: temperature
-    platform: device
-    device_id: 54a2f3ef2d1be03326ca6c1ff1673ab6
-    entity_id: b5238e404eb6b58048938c01321e90dd
-    domain: sensor
-    above: 80
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.winnebago_temp_winnebago_temperature
     for:
       hours: 0
       minutes: 5
       seconds: 0
-  condition: []
-  action:
+    above: input_number.winnie_temp_alarm
+  conditions: []
+  actions:
   - repeat:
       sequence:
-      - service: notify.telegram_group
-        metadata: {}
+      - metadata: {}
         data:
           message: Winnie is hot (above 80) for 5 minutes
+        action: notify.telegram_group
       - delay:
           hours: 0
           minutes: 1
@@ -1753,7 +1678,7 @@
       until:
       - condition: numeric_state
         entity_id: sensor.wemos_winnebago_temperature
-        below: 80
+        below: input_number.winnie_temp_alarm
   mode: single
 - id: '1721842902821'
   alias: Turn tv off if it turn on and vacation mode is on
@@ -2097,7 +2022,6 @@
       - action: homeassistant.turn_on
         target:
           label_id: christmas_lights
-          entity_id: switch.esp12
         data: {}
     - conditions:
       - condition: trigger
@@ -2106,8 +2030,6 @@
       sequence:
       - data: {}
         target:
-          entity_id:
-          - switch.esp12
           label_id: christmas_lights
         action: homeassistant.turn_off
   mode: single
@@ -2196,7 +2118,7 @@
       entity_id: input_boolean.chicken_water_automations
       state: 'off'
     - condition: state
-      entity_id: switch.side_spigot
+      entity_id: switch.ahr_085_2_relay3
       state: 'on'
     then:
     - data:
@@ -2269,4 +2191,49 @@
   - data:
       message: The Watering Hole Is Full
     action: notify.telegram_group
+  mode: single
+- id: '1743014589123'
+  alias: Speed test
+  description: ''
+  triggers:
+  - minutes: '1'
+    trigger: time_pattern
+  conditions:
+  - condition: state
+    entity_id: device_tracker.l
+    state: not_home
+    enabled: false
+  actions:
+  - action: homeassistant.update_entity
+    data:
+      entity_id:
+      - sensor.speedtest_download
+  mode: single
+- id: '1744194851876'
+  alias: Ziplock reminder
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.chelsea
+    to: Waterloo
+    from: not_home
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  conditions: []
+  actions:
+  - repeat:
+      count: 5
+      sequence:
+      - action: notify.everyone_group
+        metadata: {}
+        data:
+          message: “Ziplocks please, if you have the time. I love you
+      - delay:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
   mode: single

@@ -1,14 +1,39 @@
 substitutions:
-  devicename: esp10
-  upper_devicename: esp10
+  devicename: winnebago-plug
+  upper_devicename: Winnebago-Plug
 
 esphome:
   name: ${devicename}
-  platform: ESP8266
+  comment: winnebago plug
+
+esp8266:
   board: esp01_1m
 
 packages:
   device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
+
+wifi:
+  networks:
+    - ssid: !secret wifi_ssid_dog_iot
+      password: !secret wifi_password_dog_iot
+      manual_ip:
+        static_ip: 192.168.62.11
+        gateway: 192.168.62.1
+        subnet: 255.255.255.0
+      priority: 4
+    - ssid: !secret wifi_ssid_dog
+      password: !secret wifi_password_dog
+      manual_ip:
+        static_ip: 192.168.62.11
+        gateway: 192.168.62.1
+        subnet: 255.255.255.0
+      priority: 2
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+      ssid: ${devicename} Fallback
+      password: !secret wifi_pass
 
 uart:
   rx_pin: RX

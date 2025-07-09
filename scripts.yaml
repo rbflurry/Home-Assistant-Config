@@ -185,3 +185,41 @@ ty_bath_set:
     target:
       entity_id: input_datetime.ty_bath
   description: ''
+populate_roborock_scripts:
+  sequence:
+  - target:
+      entity_id: input_select.robo_rock_scripts
+    data:
+      options: "[\n{% for entity_id in states.button | map(attribute='entity_id')
+        if 'roborock_q' in entity_id %}\n  \"{{ states[entity_id].attributes.friendly_name
+        }}\"{% if not loop.last %}, {% endif %}\n{% endfor %}\n]\n"
+    action: input_select.set_options
+  alias: populate-roborock-scripts
+  description: ''
+run_vacuum_later:
+  sequence:
+  - wait_for_trigger:
+    - trigger: numeric_state
+      entity_id:
+      - zone.home
+      for:
+        hours: 0
+        minutes: 1
+        seconds: 0
+      attribute: persons
+      below: 1
+    timeout:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - action: button.press
+    target:
+      entity_id: '{% for entity_id in states.button | map(attribute=''entity_id'')
+        if states[entity_id].attributes.friendly_name == states.input_select.robo_rock_scripts.state
+        %}  {{ states[entity_id].entity_id }}{% if not loop.last %}, {% endif %} {%
+        endfor %}
+
+        '
+  alias: run vacuum later
+  description: ''

@@ -18,7 +18,7 @@ mqtt:
       value_template: “{{ (value_json.battery_ok | float * 100) | int }}”
       unique_id: 49597_water_battery
       name: Basement Water Leak Battery
-      unit_of_measurement: “%”
+#      unit_of_measurement: “%”
       
 
       
