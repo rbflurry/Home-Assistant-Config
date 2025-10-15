@@ -7,11 +7,14 @@ sensor:
     name: geocode_ryan
     display_zone: hide
     api_key: !secret google_geocode
+    scan_interval: 600
   - platform: google_geocode
     origin: device_tracker.chelseas_iphone
     name: geocode_chelsea
     display_zone: hide
     api_key: !secret google_geocode
+    scan_interval: 600
+    
 
   # https://github.com/custom-components/sensor.authenticated
   - platform: authenticated

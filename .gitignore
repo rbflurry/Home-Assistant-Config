@@ -55,3 +55,5 @@ www\deepstack_person_images
 *.jpg
 google_calendars.yaml
 .google.token
+backup_config.yaml
+frigate.yml

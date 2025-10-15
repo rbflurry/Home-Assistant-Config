@@ -33,7 +33,7 @@
     can_acknowledge: True
     skip_first: True
     notifiers:
-      - template_cert_internal
+      - telegram_group
       
   disk_space:
     name: Disk is full
@@ -178,5 +178,40 @@
     #skip_first: True
     notifiers:
       - telegram_group
+      
+  leak_detected:
+    name: leak_detected
+    message: Leak-Detected
+    done_message: Leak-Cleared
+    entity_id: binary_sensor.basement_water_leak
+    state: "on"
+    repeat: 30
+    can_acknowledge: True
+    #skip_first: True
+    notifiers:
+      - telegram_group
 
+  leak_detected1:
+    name: leak_detected
+    message: Leak-Detected
+    done_message: Leak-Cleared
+    entity_id: binary_sensor.bathroom_sink_water_leak
+    state: "on"
+    repeat: 30
+    can_acknowledge: True
+    #skip_first: True
+    notifiers:
+      - telegram_group
+      
+  leak_detected2:
+    name: leak_detected
+    message: Leak-Detected
+    done_message: Leak-Cleared
+    entity_id: binary_sensor.kitchen_sink_water_leak
+    state: "on"
+    repeat: 30
+    can_acknowledge: True
+    #skip_first: True
+    notifiers:
+      - telegram_group
 

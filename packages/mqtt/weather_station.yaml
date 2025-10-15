@@ -4,7 +4,7 @@
 mqtt:
   sensor:
     - name: "PWS 5in1 Battery"
-      state_topic: 'rtl_433/815/battery_ok'
+      state_topic: 'rtl_433/1030/battery_ok'
       device_class: "battery"
       value_template: "{{value | int * 100}}"
       expire_after: 3600
@@ -12,7 +12,7 @@ mqtt:
       
     - name: "PWS 5in1 Temperature"
       unique_id: "PWS 5in1 Temperature"
-      state_topic: 'rtl_433/815/temperature_F'
+      state_topic: 'rtl_433/1030/temperature_F'
       device_class: "temperature"
       state_class: "measurement"
       value_template: "{{(value | float)}}"
@@ -21,7 +21,7 @@ mqtt:
       
     - name: "PWS 5in1 Humidity"
       unique_id: "PWS 5in1 Humidity"
-      state_topic: 'rtl_433/815/humidity'
+      state_topic: 'rtl_433/1030/humidity'
       device_class: "humidity"
       state_class: "measurement"
       unit_of_measurement: "%"
@@ -29,21 +29,21 @@ mqtt:
       expire_after: 3600
       
     - name: "PWS 5in1 Total Rain"
-      state_topic: 'rtl_433/815/rain_in'
+      state_topic: 'rtl_433/1030/rain_in'
       unit_of_measurement: "in"
       state_class: "total_increasing"
       value_template: "{{(value | float)}}"
       icon: "mdi:water"
       
     - name: "PWS 5in1 Wind"
-      state_topic: 'rtl_433/815/wind_avg_km_h'
+      state_topic: 'rtl_433/1030/wind_avg_km_h'
       unit_of_measurement: "mph"
       state_class: "measurement"
       icon: "mdi:weather-windy-variant"
       value_template: "{{((value | float / 1.609) | round(0))}}"
       
     - name: "PWS 5in1 Wind Direction"
-      state_topic: 'rtl_433/815/wind_dir_deg'
+      state_topic: 'rtl_433/1030/wind_dir_deg'
       unit_of_measurement: "°"
       icon: "mdi:compass-rose"
       value_template: "{{(value)}}"
