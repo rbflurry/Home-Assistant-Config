@@ -57,3 +57,7 @@ google_calendars.yaml
 .google.token
 backup_config.yaml
 frigate.yml
+.ha_run.lock
+/blueprints/automation
+/view_assist
+/esphome/trash

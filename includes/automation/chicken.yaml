@@ -103,11 +103,13 @@
   id: 22d5fa60-9f85-4132-a3a8-96f541057e17
   initial_state: true
   trigger:
-    - platform: template
-      value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_open_time_dirty.state }}'
-#    - platform: state
-#      entity_id: sun.sun
-#      to: 'above_horizon'
+ #   - platform: template
+ #     value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_open_time_dirty.state }}'
+    - trigger: sun
+      # Possible values: sunset, sunrise
+      event: sunrise
+      # Optional time offset. This example will trigger 14 minutes before sunrise.
+      offset: "-00:14:00"
   condition:
     - condition: state
       entity_id: input_boolean.chicken_door
@@ -119,8 +121,8 @@
     - condition: state
       entity_id: cover.chicken_pen
       state: 'closed'
-    - condition: template
-      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_open_time_dirty.state }}'
+#    - condition: template
+#      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_open_time_dirty.state }}'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_automations, automation.chicken_door_last_call_v2

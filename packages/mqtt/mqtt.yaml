@@ -14,29 +14,29 @@ mqtt:
 #######################################################
 ### blue iris
 #######################################################
-    - name: "blueiris_front_porch_motion"
-      state_topic: "BlueIris/fp_motion"
-      payload_on: "ON"
-      payload_off: "OFF"
-      device_class: motion
+#    - name: "blueiris_front_porch_motion"
+#      state_topic: "BlueIris/fp_motion"
+#      payload_on: "ON"
+#      payload_off: "OFF"
+#      device_class: motion
       
-    - name: "blueiris_back_porch_motion"
-      state_topic: "BlueIris/bp_motion"
-      payload_on: "ON"
-      payload_off: "OFF"
-      device_class: motion
+#    - name: "blueiris_back_porch_motion"
+#      state_topic: "BlueIris/bp_motion"
+#      payload_on: "ON"
+#      payload_off: "OFF"
+#      device_class: motion
       
-    - name: "blueiris_driveway_motion"
-      state_topic: "BlueIris/driveway_motion"
-      payload_on: "ON"
-      payload_off: "OFF"
-      device_class: motion
+#    - name: "blueiris_driveway_motion"
+#      state_topic: "BlueIris/driveway_motion"
+#      payload_on: "ON"
+#      payload_off: "OFF"
+#      device_class: motion
       
-    - name: "blueiris_coop_motion"
-      state_topic: "BlueIris/coop_motion"
-      payload_on: "ON"
-      payload_off: "OFF"
-      device_class: motion
+#    - name: "blueiris_coop_motion"
+#      state_topic: "BlueIris/coop_motion"
+#      payload_on: "ON"
+#      payload_off: "OFF"
+#      device_class: motion
 ######################################################
   
   sensor:

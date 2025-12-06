@@ -1122,16 +1122,21 @@
 - id: '1676037938048'
   alias: 3D print is done
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - sensor.octoprint_job_percentage
     to: '100'
-  condition: []
-  action:
-  - service: notify.telegram_ryan
-    data:
+    trigger: state
+  - trigger: state
+    entity_id:
+    - binary_sensor.octoprint_printing
+    to: 'off'
+    from: 'on'
+  conditions: []
+  actions:
+  - data:
       message: 3D Print is done!!
+    action: notify.telegram_ryan
   mode: single
 - id: '1676429256085'
   alias: Bed Room Dimmer
@@ -1174,28 +1179,28 @@
 - id: '1677241964532'
   alias: Turn lights off at sunrise
   description: ''
-  trigger:
-  - platform: sun
-    event: sunrise
-    offset: +01:00:00
-  condition: []
-  action:
-  - service: homeassistant.turn_off
-    data: {}
+  triggers:
+  - event: sunrise
+    offset: +00:30:00
+    trigger: sun
+  conditions: []
+  actions:
+  - data: {}
     target:
       entity_id: group.outdoor_lights
-  - service: homeassistant.turn_off
-    metadata: {}
+    action: homeassistant.turn_off
+  - metadata: {}
     data: {}
     target:
       label_id: off_after_sunrise
+    action: homeassistant.turn_off
   - condition: numeric_state
     entity_id: zone.home
     below: 1
-  - service: homeassistant.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id: group.indoor_lights
+    action: homeassistant.turn_off
   mode: single
 - id: '1678291560795'
   alias: Coming Home / Away
@@ -1478,6 +1483,12 @@
         entity_id: sensor.season
         state: winter
       sequence:
+      - action: climate.set_hvac_mode
+        metadata: {}
+        target:
+          entity_id: climate.chicken_fan
+        data:
+          hvac_mode: 'off'
       - metadata: {}
         data:
           hvac_mode: heat
@@ -2080,7 +2091,7 @@
     - 'null'
     - unavailable
     not_to:
-    - unavailale
+    - unavailable
     - unknown
     entity_id:
     - sensor.ccps_short_status
@@ -2284,4 +2295,144 @@
     metadata: {}
     data:
       message: It’s alive!
+  mode: single
+- id: '1761140238172'
+  alias: Turn on driveway flood when coming home
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.ryan
+    zone: zone.home
+    event: enter
+  - trigger: zone
+    entity_id: person.chelsea
+    zone: zone.home
+    event: enter
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  - condition: state
+    entity_id: switch.wink_kitchen
+    state: 'off'
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.wink_kitchen
+  - wait_for_trigger:
+    - trigger: state
+      entity_id:
+      - switch.wink_kitchen
+      to:
+      - 'off'
+    timeout:
+      hours: 0
+      minutes: 15
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.wink_kitchen
+  mode: single
+- id: '1762890336427'
+  alias: HA-Start
+  description: ''
+  triggers:
+  - trigger: homeassistant
+    event: start
+  conditions: []
+  actions:
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.populate_roborock_scripts
+  mode: single
+- id: '1764787327088'
+  alias: Carpet check
+  description: ''
+  triggers:
+  - trigger: zone
+    entity_id: person.ryan
+    zone: zone.home
+    event: leave
+  - trigger: zone
+    entity_id: person.chelsea
+    zone: zone.home
+    event: leave
+  conditions: []
+  actions:
+  - action: camera.snapshot
+    metadata: {}
+    data:
+      filename: /config/www/entryway_check.jpg
+    target:
+      entity_id: camera.lilold_mouse
+    enabled: true
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+    enabled: false
+  - action: ai_task.generate_data
+    metadata: {}
+    data:
+      task_name: Carpet Check
+      instructions: 'Your job is to emulate a camera image that is looking at the
+        entryway to my house. Often shoes or otherthings are left on the black mat
+        that would prevent or tangle a robot vacuum. Looking at the image can you
+        respond with safe or unsafe so that I know weather or not it is safe to send
+        out the vacuum to clean? Ignore the shoes that are on the shoe mat.
+
+        Answer ONLY with one word: either "SAFE" or "UNSAFE"'
+      attachments:
+        media_content_id: media-source://camera/camera.lilold_mouse
+        media_content_type: image/jpeg
+        metadata:
+          title: LilOld Mouse
+          thumbnail: /api/camera_proxy/camera.lilold_mouse
+          media_class: video
+          children_media_class:
+          navigateIds:
+          - {}
+          - media_content_type: app
+            media_content_id: media-source://camera
+      entity_id: ai_task.ollama_ai_task
+    response_variable: floor_check
+  - variables:
+      ai_response: '{{ floor_check.data | trim }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ ''SAFE'' == ai_response }}'
+      sequence:
+      - action: vacuum.start
+        target:
+          entity_id: vacuum.robot_vacuum
+        enabled: false
+        data: {}
+      - action: telegram_bot.send_photo
+        metadata: {}
+        data:
+          verify_ssl: true
+          config_entry_id: 01K1B4QHGPVS1AX9G0C0J9AM97
+          file: /config/www/entryway_check.jpg
+          caption: "Floor is clear! Starting vacuum. \U0001F9F9"
+          target:
+          - '618533989'
+    default:
+    - action: telegram_bot.send_photo
+      metadata: {}
+      data:
+        verify_ssl: true
+        config_entry_id: 01K1B4QHGPVS1AX9G0C0J9AM97
+        file: /config/www/entryway_check.jpg
+        caption: Really? You pig
+        target:
+        - '618533989'
   mode: single

@@ -65,10 +65,10 @@ sensor:
 ## Notify
 ################################################    
    
-notify:
-  - name: Fire_dash
-    platform: lannouncer
-    host: 192.168.47.163
+# notify:
+  # - name: Fire_dash
+    # platform: lannouncer
+    # host: 192.168.47.163
 command_line:
   - notify:
       name: fully

@@ -85,24 +85,10 @@ zone:
 ios: !include includes/ios.yaml
 
 
-#python_script:
-
 tts:
   - platform: google_translate
     service_name: google_say
-  
-#alexa:
-  
-telegram_bot:
-  - platform: polling
-    api_key: !secret telegram
-    parse_mode: html
-    allowed_chat_ids:
-     - 618533989
-     - 664122562
-     - 356616190
-     - -356616190
-     - -543668285
+
  
 shopping_list:
       
