@@ -1495,6 +1495,25 @@
         target:
           entity_id: climate.chicken_water_heater
         action: climate.set_hvac_mode
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.season
+        state:
+        - autumn
+      sequence:
+      - action: climate.set_hvac_mode
+        metadata: {}
+        target:
+          entity_id: climate.chicken_fan
+        data:
+          hvac_mode: 'off'
+      - metadata: {}
+        data:
+          hvac_mode: heat
+        target:
+          entity_id: climate.chicken_water_heater
+        action: climate.set_hvac_mode
   mode: single
 - id: '1712956046576'
   alias: Ryan Headed home
@@ -2175,6 +2194,10 @@
           entity_id: input_boolean.chickens_need_watering
         action: homeassistant.turn_on
       enabled: false
+    - action: notify.everyone_group
+      metadata: {}
+      data:
+        message: It was too cold to water the chickens, do it yourself.
     - stop: Too Cold.
   - data:
       message: Filling the Watering Hole

@@ -4,7 +4,7 @@ substitutions:
 
 esphome:
   name: ${devicename}
-  platform: ESP8266
+esp8266:
   board: d1_mini
   
 packages:
@@ -24,3 +24,24 @@ sensor:
     unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
+
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    name: "Driveway Outlets"
+    id: switch_relay
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: True
+    id: switch_relay_button
+    on_press:
+      then:
+        - switch.toggle: switch_relay
+
+logger:
+  level: DEBUG
+  baud_rate: 115200

@@ -42,3 +42,4 @@ sensor:
     state_class: "measurement"
     accuracy_decimals: 1
     update_interval: 60s
+
