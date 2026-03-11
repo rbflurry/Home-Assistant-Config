@@ -1,0 +1,412 @@
+- sensor:
+  - default_entity_id: sensor.current_week
+    state: >-
+      {% set dummy = states("sensor.date") %} {%- if (as_timestamp(now()) | timestamp_custom('%W',
+      true) | int ) % 2 == 0 -%}
+        Even Week (Week# {{ as_timestamp(now()) | timestamp_custom('%W', true) }})
+      {%- else -%}
+        Odd Week (Week# {{ as_timestamp(now()) | timestamp_custom('%W', true) }})
+      {%- endif -%}
+    name: current_week
+- sensor:
+  - default_entity_id: sensor.trash_day
+    state: >-
+      {% set dummy = states("sensor.date") %} {%- set pickupDay = "thursday" | lower
+      -%} {%- macro day_of_week(timestamp) -%}
+        {{ as_timestamp(timestamp)| timestamp_custom('%A', true) | lower }}
+      {%- endmacro -%} {%- if day_of_week(now()) == pickupDay -%}
+        yes
+      {%- else -%}
+        no
+      {%- endif -%}
+    name: trash_day
+- sensor:
+  - default_entity_id: sensor.recycle_day
+    state: >-
+      {% set dummy = states("sensor.date") %} {%- set pickupDay = "thursday" | lower
+      -%} {%- set evenWeekPickup = false %} {%- macro day_of_week(timestamp) -%}
+        {{ as_timestamp(timestamp)| timestamp_custom('%A', true) | lower }}
+      {%- endmacro %}       {%- macro week_number_of_year() -%}
+        {{ as_timestamp(now()) | timestamp_custom('%W', true) | int }}
+      {%- endmacro %} {%- macro is_it_this_week() -%}
+        {%- if as_timestamp(now()) | timestamp_custom('%W', true) | int % 2 == 0 -%}
+          {%- if evenWeekPickup == true -%}
+            true
+          {%- else -%}
+            false
+          {%- endif -%}
+        {%- else -%}
+          {%- if evenWeekPickup == true -%}
+            false
+          {%- else -%}
+            true
+          {%- endif -%}
+        {%- endif -%}
+      {%- endmacro -%} {%- macro is_it_today() -%} {%- if is_it_this_week() == "true"
+      -%}
+        {%- if day_of_week(now()) | lower == pickupDay -%}
+          yes
+        {%- else -%}
+          no
+        {%- endif -%}
+      {%- else -%}
+        no
+      {%- endif -%} {%- endmacro -%} {{- is_it_today() -}}
+    name: recycle_day
+- sensor:
+  - unit_of_measurement: °F
+    default_entity_id: sensor.climate_set_temp
+    name: Set Temp
+    state: >-
+      {{ states.climate.home.attributes.temperature }}
+- sensor:
+  - default_entity_id: sensor.climate_operation
+    name: Operation
+    state: >-
+      {{ states.climate.home.attributes.hvac_action }}
+- sensor:
+  - default_entity_id: sensor.chicken_door_time
+    name: Chicken Door Open Time
+    state: >-
+      {{ "%0.02d:%0.02d" | format(states("input_number.chicken_hour") | int, states("input_number.chicken_minutes")
+      | int) }}
+- sensor:
+  - default_entity_id: sensor.chicken_door_open_time_clean
+    icon: mdi:clock-outline
+    name: Door Opens at
+    state: >-
+      {{ (as_timestamp(states.sensor.lilold_sun_rising.state) + (states("input_number.chicken_minutes_before_sunrise")
+      | int)  * 60)  | timestamp_custom("%-I:%M %p") }}
+- sensor:
+  - default_entity_id: sensor.chicken_door_open_time_dirty
+    name: Door Opens at
+    state: >-
+      {{ (as_timestamp(states.sensor.lilold_sun_rising.state) + (states("input_number.chicken_minutes_before_sunrise")
+      | int)  * 60)  | timestamp_custom("%H:%M") }}
+- sensor:
+  - default_entity_id: sensor.chicken_door_close_time_clean
+    icon: mdi:clock-outline
+    name: Door Close at
+    state: >-
+      {{ (as_timestamp(states.sensor.lilold_sun_setting.state) + (states("input_number.chicken_minutes_after_sunset")
+      | int)  * 60)  | timestamp_custom("%-I:%M %p") }}
+- sensor:
+  - default_entity_id: sensor.chicken_door_close_time_dirty
+    name: Door Close at
+    state: >-
+      {{ (as_timestamp(states.sensor.lilold_sun_setting.state) + (states("input_number.chicken_minutes_after_sunset")
+      | int)  * 60)  | timestamp_custom("%H:%M") }}
+- sensor:
+  - default_entity_id: sensor.chicken_door_last_call_time_dirty
+    name: Last Call Time
+    state: >-
+      {{ (as_timestamp(states.sensor.lilold_sun_setting.state) + (states("input_number.chicken_minutes_after_sunset")|int
+      + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%H:%M")
+      }}
+- sensor:
+  - default_entity_id: sensor.chicken_door_last_call_time_clean
+    icon: mdi:clock-outline
+    name: Last Call Time
+    state: >-
+      {{ (as_timestamp(states.sensor.lilold_sun_setting.state) + (states("input_number.chicken_minutes_after_sunset")|int
+      + (states("input_number.chicken_last_call_after_close")) | int) * 60)  | timestamp_custom("%-I:%M
+      %p") }}
+- sensor:
+  - default_entity_id: sensor.sun_next_setting
+    name: Next Sunset
+    state: >-
+      {{(as_timestamp(states.sensor.lilold_sun_setting.state)) | timestamp_custom("%I:%M
+      %p") }}
+- sensor:
+  - default_entity_id: sensor.sun_next_rising
+    name: Next Sunrise
+    state: >-
+      {{(as_timestamp(states.sensor.lilold_sun_rising.state)) | timestamp_custom("%I:%M
+      %p") }}
+- sensor:
+  - default_entity_id: sensor.sun_elevation
+    name: Sun Elevation
+    state: >-
+      {{states.sun.sun.attributes.elevation}}
+- sensor:
+  - default_entity_id: sensor.baby_brett
+    icon: mdi:baby-carriage
+    name: Baby Brett
+    state: "{% set value = as_timestamp(now()) - as_timestamp(\"2022-10-21T12:58:00\"\
+      ) %} {% set uptime = value | int %} {% set uptime = value | int %}\n    {% set\
+      \ minutes = ((uptime % 3600) / 60) | int %}\n    {% set hours = ((uptime % 86400)\
+      \ / 3600) | int %}\n    {% set days = ((uptime % 604800) / 86400) | int %}\n\
+      \    {% set weeks = ((uptime % 2629746) / 604800) | int %}\n    {% set months\
+      \ = ((uptime % 31557600) / 2629746) | int %}\n    {% set years = (uptime / 31557600)\
+      \ | int %}\n\n    {%- if uptime < 60 -%}\n      Less than a minute\n    {%-\
+      \ else -%}\n      {%- if years > 0 -%}\n        {%- if years == 1 -%}\n    \
+      \      1 year \n        {%- else -%}\n          {{ years }} years \n       \
+      \ {%- endif -%}\n        {%- if years > 0 -%}\n        \n          {{ ', ' }}\n\
+      \        {%- endif -%}\n      {%- endif -%}\n      {%- if months > 0 -%}\n \
+      \       {%- if months == 1 -%}\n          1 month \n        {%- else -%}\n \
+      \         {{ months }} months \n        {%- endif -%}\n        {%- if months\
+      \ > 0 -%}\n          {{ ', ' }}\n        {%- endif -%}\n      {%- endif -%}\n\
+      \ {%- if weeks > 0 -%}\n        {%- if weeks == 1 -%}\n          1 week\n  \
+      \      {%- else -%}\n          {{ weeks }} weeks\n        {%- endif -%}\n  \
+      \    {%- endif -%}\n      {%- if days > 0 -%}\n        {%- if weeks > 0 -%}\n\
+      \n          {{ ', ' }}\n        {%- endif -%}\n        {%- if days == 1 -%}\n\
+      \          1 day\n        {%- else -%}\n          {{ days }} days\n        {%-\
+      \ endif -%}\n      {%- endif -%}\n    {%- endif -%}"
+- sensor:
+  - default_entity_id: sensor.baby_brett_short
+    icon: mdi:baby-carriage
+    name: Baby Brett
+    state: >-
+      {% set value = as_timestamp(now()) - as_timestamp("2022-10-21T12:58:00") %}
+      {% set uptime = value | int %} {% set uptime = value | int %}
+          {% set minutes = ((uptime % 3600) / 60) | int %}
+          {% set hours = ((uptime % 86400) / 3600) | int %}
+          {% set days = ((uptime % 604800) / 86400) | int %}
+          {% set weeks = (uptime / 604800) | int %}
+
+       {%- if weeks > 0 -%}
+              {%- if weeks == 1 -%}
+                1 week
+              {%- else -%}
+                {{ weeks }}w
+              {%- endif -%}
+            {%- endif -%}
+            {%- if days > 0 -%}
+              {%- if weeks > 0 -%}
+                {{ ', ' }}
+              {%- endif -%}
+              {%- if days == 1 -%}
+                1 day
+              {%- else -%}
+                {{ days }}d
+              {%- endif -%}
+            {%- endif -%}
+- sensor:
+  - unit_of_measurement: °F
+    default_entity_id: sensor.brooder_target_temp
+    name: Brooder Target Temp
+    state: >-
+      {% set dummy = states("sensor.date") %} {{(95-((as_timestamp(utcnow()) - as_timestamp("2019-04-15T00:00:00-05:00"))
+      / 604800)|int * 5 )}}
+- sensor:
+  - default_entity_id: sensor.car_wash_clean
+    state: >-
+      {% if is_state('binary_sensor.car_wash', 'on') %}
+        yes
+      {% else %}
+        no
+      {% endif %}
+    name: car_wash_clean
+- sensor:
+  - default_entity_id: sensor.smoke_status
+    icon: >-
+      {% set alarm = states('sensor.smoke_and_carbon_monoxide_alarm_alarmtype') |
+      float(0) %} {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel')
+      | float(0) %} {% if alarm == 13 and level == 255 %}
+          mdi:smoke-detector
+      {% elif alarm == 1 %}
+          mdi:fire
+      {% elif alarm == 2 %} mdi:cloud-alert {% elif alarm == 12 %}
+          mdi:smoke-detector
+      {% else %}
+          mdi:cloud-question
+      {% endif %}
+    name: Zwave Smoke Status
+    state: >-
+      {% set alarm = states('sensor.smoke_and_carbon_monoxide_alarm_alarmtype') |
+      float(0) %} {% set level = states('sensor.smoke_and_carbon_monoxide_alarm_alarmlevel')
+      | float(0) %} {% if alarm == 13 and level == 255 %}
+        OK
+      {% elif alarm == 1 %}
+        Smoke
+      {% elif alarm == 2 %}
+        CO
+      {% elif alarm == 12 %}
+        Test
+      {% else %}
+        Unknown
+      {% endif %}
+- sensor:
+  - unique_id: trend_outside_temp
+    default_entity_id: sensor.trend_outside_temp
+    icon: >-
+      {% if is_state('binary_sensor.trend_outside_temperature_down', 'on') %}
+        mdi:trending-down
+      {% else %}
+        mdi:trending-up
+      {% endif %}
+    state: >-
+      {% if is_state('binary_sensor.trend_outside_temperature_down', 'on') %}
+        Cooling
+      {% else %}
+        Warming
+      {% endif %}
+    name: trend_outside_temp
+- sensor:
+  - unique_id: trend_inside_temp
+    default_entity_id: sensor.trend_inside_temp
+    icon: >-
+      {% if is_state('binary_sensor.trend_house_temperature_down', 'on') %}
+        mdi:trending-down
+      {% else %}
+        mdi:trending-up
+      {% endif %}
+    state: >-
+      {% if is_state('binary_sensor.trend_house_temperature_down', 'on') %}
+        Cooling
+      {% else %}
+        Warming
+      {% endif %}
+    name: trend_inside_temp
+- sensor:
+  - unique_id: trend_stove_temp
+    default_entity_id: sensor.trend_stove_temp
+    icon: >-
+      {% if is_state('binary_sensor.trend_stove_temperature_down', 'on') %}
+        mdi:trending-down
+      {% else %}
+        mdi:trending-up
+      {% endif %}
+    state: >-
+      {% if is_state('binary_sensor.trend_stove_temperature_down', 'on') %}
+        Cooling
+      {% else %}
+        Warming
+      {% endif %}
+    name: trend_stove_temp
+- sensor:
+  - unique_id: trend_flue_temp
+    default_entity_id: sensor.trend_flue_temp
+    icon: >-
+      {% if is_state('binary_sensor.trend_flue_temperature_down', 'on') %}
+        mdi:trending-down
+      {% else %}
+        mdi:trending-up
+      {% endif %}
+    state: >-
+      {% if is_state('binary_sensor.trend_flue_temperature_down', 'on') %}
+        Cooling
+      {% else %}
+        Warming
+      {% endif %}
+    name: trend_flue_temp
+- sensor:
+  - device_class: power
+    unit_of_measurement: W
+    default_entity_id: sensor.ups_power_usage
+    state: >-
+      {% if states('sensor.ups_status_data') in ['OL', 'OL CHRG', 'OL BOOST'] -%}
+        {{ (states('sensor.ups_output_current') | float) * (states('sensor.ups_output_voltage')
+      | float) }}
+      {%- else -%}
+        0
+      {%- endif %}
+    name: ups_power_usage
+- sensor:
+  - unique_id: 5in1real
+    unit_of_measurement: °F
+    default_entity_id: sensor.5in1_real_feel
+    name: 5in1 Real Feel
+    state: >-
+      {% set T = ((states.sensor.pws_5in1_temperature.state|float(0))) %} {% set RH
+      = states.sensor.pws_5in1_humidity|float(0) %} {% set STEADMAN_HI = 0.5 * (T
+      + 61.0 + ((T-68.0)*1.2) + (RH*0.094)) %} {% if STEADMAN_HI >= 80 %}
+        {% set ROTHFUSZ_HI = -42.379 + 2.04901523*T + 10.14333127*RH - 0.22475541*T*RH
+      - 0.00683783*T*T - 0.05481717*RH*RH + 0.00122874*T*T*RH + 0.00085282*T*RH*RH
+      - 0.00000199*T*T*RH*RH %}
+        {% set HI = ROTHFUSZ_HI %}
+        {% if RH < 13 and 80 < T < 112 %}
+          {% set ADJUSTMENT = ((13-RH)/4)*((17-(T-95)|abs)/17)**0.5 %}
+          {% set HI = HI - ADJUSTMENT %}
+        {% elif RH > 85 and 80 < T < 87 %}
+          {% set ADJUSTMENT = ((RH-85)/10) * ((87-T)/5) %}
+          {% set HI = HI + ADJUSTMENT %}
+        {% endif %}
+      {% else %} {% set HI = STEADMAN_HI %} {% endif %} {% set HI_C = (HI-32)/1.8
+      %} {{- HI|round(1) -}}
+- sensor:
+  - unit_of_measurement: in
+    default_entity_id: sensor.template_rain_since_midnight
+    name: Rain since midnight
+    state: >-
+      {{ ((states('sensor.pws_5in1_Total_Rain') | float(0)) - (states('sensor.rain_at_midnight')
+      | float(0))) | round(2) }}
+- sensor:
+  - default_entity_id: sensor.template_pws_5in1_weather_wind_dir
+    name: PWS 5in1 Wind Direction True
+    state: >-
+      {% set direction = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW','N']
+      %} {% set degree = states('sensor.pws_5in1_wind_direction')|float %} {{ direction[((degree+11.25)/22.5)|int]
+      }}
+- sensor:
+  - default_entity_id: sensor.alarm_time
+    name: Alarm Time
+    state: >-
+      {{ "%0.02d:%0.02d" | format(states("input_number.alarm_hour") | int, states("input_number.alarm_minutes")
+      | int) }}
+- sensor:
+  - default_entity_id: sensor.second_alarm_time
+    name: Second Alarm Time
+    state: >-
+      {{ "%0.02d:%0.02d" | format(states("input_number.alarm_hour") | int, states("input_number.alarm_minutes")
+      | int + states("input_number.alarm_second_alarm")|int )  }}
+- sensor:
+  - default_entity_id: sensor.total_automations_on
+    state: >-
+      {% for state in states.automation if state.state == 'on' %} {% if loop.last
+      %} {{ loop.index|int }} {% endif %} {% endfor %}
+    name: total_automations_on
+- sensor:
+  - default_entity_id: sensor.total_automations_off
+    state: >-
+      {% for state in states.automation if state.state == 'off' %} {% if loop.last
+      %} {{ loop.index|int }} {% endif %} {% endfor %}
+    name: total_automations_off
+- sensor:
+  - default_entity_id: sensor.total_automations
+    state: >-
+      {% for state in states.automation %} {% if loop.last %} {{ loop.index|int }}
+      {% endif %} {% endfor %}
+    name: total_automations
+- sensor:
+  - unit_of_measurement: °F
+    default_entity_id: sensor.sn2_real_feel
+    name: SN2 Real Feel
+    state: >-
+      {% set T = ((states.sensor.chicken_coop_temperature.state|float(0))) %} {% set
+      RH = states.sensor.chicken_coop_humidity|float(0) %} {% set STEADMAN_HI = 0.5
+      * (T + 61.0 + ((T-68.0)*1.2) + (RH*0.094)) %} {% if STEADMAN_HI >= 80 %}
+        {% set ROTHFUSZ_HI = -42.379 + 2.04901523*T + 10.14333127*RH - 0.22475541*T*RH
+      - 0.00683783*T*T - 0.05481717*RH*RH + 0.00122874*T*T*RH + 0.00085282*T*RH*RH
+      - 0.00000199*T*T*RH*RH %}
+        {% set HI = ROTHFUSZ_HI %}
+        {% if RH < 13 and 80 < T < 112 %}
+          {% set ADJUSTMENT = ((13-RH)/4)*((17-(T-95)|abs)/17)**0.5 %}
+          {% set HI = HI - ADJUSTMENT %}
+        {% elif RH > 85 and 80 < T < 87 %}
+          {% set ADJUSTMENT = ((RH-85)/10) * ((87-T)/5) %}
+          {% set HI = HI + ADJUSTMENT %}
+        {% endif %}
+      {% else %} {% set HI = STEADMAN_HI %} {% endif %} {% set HI_C = (HI-32)/1.8
+      %} {{- HI|round(1) -}}
+- sensor:
+  - default_entity_id: sensor.total_wink_lights_on
+    state: >-
+      {% set dummy = states("sensor.date") %} {% for state in states.light if state.state
+      == 'on' and state.attributes.power_reset == 'true' %} {% if loop.last %} {{
+      loop.index|int }} {% endif %} {% else %} 0 {% endfor %}
+    name: total_wink_lights_on
+- sensor:
+  - default_entity_id: sensor.total_wink_lights_off
+    state: >-
+      {% set dummy = states("sensor.date") %} {% for state in states.light if state.state
+      == 'off' and state.attributes.power_reset == 'true' %} {% if loop.last %} {{
+      loop.index|int }} {% endif %} {% else %} 0 {% endfor %}
+    name: total_wink_lights_off
+- sensor:
+  - default_entity_id: sensor.total_wink_lights
+    state: >-
+      {% set dummy = states("sensor.date") %} {% for state in states.light if state.state
+      != 'unavailable' and state.attributes.power_reset == 'true' %} {% if loop.last
+      %} {{ loop.index|int }} {% endif %} {% else %} 0 {% endfor %}
+    name: total_wink_lights

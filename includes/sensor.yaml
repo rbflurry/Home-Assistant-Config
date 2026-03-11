@@ -48,7 +48,7 @@
  
 - platform: snmp
   name: Garage Temp
-  host: 192.168.47.238
+  host: 192.168.47.246
   port: 161
   accept_errors: true
   community: public
@@ -57,7 +57,7 @@
   
 - platform: snmp   
   name: Garage Humidity
-  host: 192.168.47.238
+  host: 192.168.47.246
   port: 161
   accept_errors: true
   community: public
@@ -66,7 +66,7 @@
 
 - platform: snmp
   name: Basement Temp
-  host: 192.168.47.123
+  host: 192.168.47.222
   port: 161
   accept_errors: true
   community: bittner
@@ -75,7 +75,7 @@
   
 - platform: snmp   
   name: Basement Humidity
-  host: 192.168.47.123
+  host: 192.168.47.222
   port: 161
   accept_errors: true
   community: bittner

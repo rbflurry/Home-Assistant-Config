@@ -7,6 +7,5 @@ http:
   ip_ban_enabled: true
   login_attempts_threshold: 10
   trusted_proxies:
-    - 192.168.49.2
-    - 192.168.49.3
     - 192.168.49.4
+    - 127.0.0.1

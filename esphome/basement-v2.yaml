@@ -97,4 +97,5 @@ sensor:
 
 status_led:
   pin: GPIO2
-  
+
+bluetooth_proxy:

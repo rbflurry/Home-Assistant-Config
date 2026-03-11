@@ -1,0 +1,50 @@
+- cover:
+  - unique_id: template_chicken_pen
+    open_cover:
+    - target:
+        entity_id:
+        - switch.chicken_pen_switch
+      action: switch.turn_on
+    close_cover:
+    - target:
+        entity_id:
+        - switch.chicken_pen_switch
+      action: switch.turn_on
+    stop_cover:
+    - target:
+        entity_id:
+        - switch.chicken_pen_switch
+      action: switch.turn_off
+    - target:
+        entity_id:
+        - switch.chicken_pen_door_status
+      action: homeassistant.toggle
+    default_entity_id: cover.chicken_pen
+    name: Chicken Pen
+    state: >-
+      {{ is_state('switch.chicken_pen_door_status', 'on')  }}
+- cover:
+  - unique_id: template_chicken_door
+    open_cover:
+    - target:
+        entity_id:
+        - switch.chicken_door_switch
+      action: switch.turn_on
+    close_cover:
+    - target:
+        entity_id:
+        - switch.chicken_door_switch
+      action: switch.turn_on
+    stop_cover:
+    - target:
+        entity_id:
+        - switch.chicken_door_switch
+      action: switch.turn_off
+    - target:
+        entity_id:
+        - switch.chicken_door_status
+      action: homeassistant.toggle
+    default_entity_id: cover.chicken_door
+    name: Chicken Door
+    state: >-
+      {{ is_state('switch.chicken_door_status', 'on')  }}

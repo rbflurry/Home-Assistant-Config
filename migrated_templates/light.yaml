@@ -1,0 +1,6 @@
+- light:
+  - turn_on: []
+    turn_off: []
+    set_level: []
+    default_entity_id: light.dashboard_screen
+    name: dashboard_screen

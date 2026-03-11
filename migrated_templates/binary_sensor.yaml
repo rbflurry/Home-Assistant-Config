@@ -1,0 +1,78 @@
+- binary_sensor:
+  - default_entity_id: binary_sensor.wood_stove_blower
+    state: >-
+      {{iif(states('sensor.esp11_power')|int(0) > 100, 'True')}}
+    name: wood_stove_blower
+- binary_sensor:
+  - unique_id: climate_aux_heat
+    default_entity_id: binary_sensor.climate_aux_heat
+    name: Aux Heat
+    state: >-
+      {{ state_attr('climate.home', 'equipment_running') | contains('auxHeat') }}
+- binary_sensor:
+  - unique_id: climate_fan
+    default_entity_id: binary_sensor.climate_fan
+    name: Fan
+    state: >-
+      {{ states.climate.home.attributes.fan == 'on' }}
+- binary_sensor:
+  - default_entity_id: binary_sensor.chicken_door_after_dark
+    state: >-
+      {{ (is_state("cover.chicken_door", "open") or is_state("cover.chicken_door",
+      "unknown")) and states.sensor.time.state > states.sensor.chicken_door_last_call_time_dirty.state
+      }}
+    name: chicken_door_after_dark
+- binary_sensor:
+  - default_entity_id: binary_sensor.chicken_pen_after_dark
+    state: >-
+      {{ (is_state("cover.chicken_pen", "open") or is_state("cover.chicken_pen", "unknown"))
+      and states.sensor.time.state > states.sensor.chicken_door_last_call_time_dirty.state
+      and is_state("input_boolean.chicken_door_last_call", "off") }}
+    name: chicken_pen_after_dark
+- binary_sensor:
+  - default_entity_id: binary_sensor.still_dark
+    state: >-
+      {{ states.sun.sun.attributes.elevation < -3 }}
+    name: still_dark
+- binary_sensor:
+  - default_entity_id: binary_sensor.chicken_door_after_open
+    state: >-
+      {{(is_state("cover.chicken_door", "closed") or is_state("cover.chicken_door",
+      "unknown")) and is_state("sun.sun", "above_horizon") and states.sensor.time.state
+      > states.sensor.chicken_door_time.state}}
+    name: chicken_door_after_open
+- binary_sensor:
+  - default_entity_id: binary_sensor.template_weather_down
+    state: >-
+      {{ is_state("sensor.pws_5in1_temperature", "unavailable") and (now() > today_at("07:00")
+      and now() < today_at("22:00")) }}
+    name: template_weather_down
+- binary_sensor:
+  - default_entity_id: binary_sensor.template_disk_space
+    state: >-
+      {{states.sensor.disk_use_percent.state |int > 95}}
+    name: template_disk_space
+- binary_sensor:
+  - default_entity_id: binary_sensor.template_blue_iris_running
+    state: >-
+      {{ is_state("sensor.blueiris", "running") or is_state("sensor.blueiris", "starting")}}
+    name: template_blue_iris_running
+- binary_sensor:
+  - default_entity_id: binary_sensor.template_blue_iris_chandler_running
+    state: >-
+      {{ is_state("sensor.blueiris_chandler", "running") or is_state("sensor.blueiris_chandler",
+      "starting")}}
+    name: template_blue_iris_chandler_running
+- binary_sensor:
+  - default_entity_id: binary_sensor.template_chickens_need_feeding
+    state: >-
+      {{  (as_timestamp(now()) - as_timestamp(as_datetime((state_attr("input_datetime.chicken_last_feed",
+      "timestamp"))))) > states('input_number.chicken_feed_interval')|int * 86400 }}
+    name: template_chickens_need_feeding
+- binary_sensor:
+  - default_entity_id: binary_sensor.template_chickens_need_water
+    state: >-
+      {{  (as_timestamp(now()) - as_timestamp(as_datetime((state_attr("input_datetime.chicken_last_water",
+      "timestamp"))))) > 172800 or is_state("input_boolean.chickens_need_watering",
+      "on")}}
+    name: template_chickens_need_water

@@ -78,11 +78,12 @@ notify: !include includes/notify.yaml
 recorder: !include includes/recorder.yaml
 scene: !include includes/scene.yaml
 script: !include scripts.yaml
-sensor templates: !include includes/sensor_templates.yaml
+#sensor templates: !include includes/sensor_templates.yaml
 sensor: !include includes/sensor.yaml
 switch: !include includes/switch.yaml
 zone: 
 ios: !include includes/ios.yaml
+template migrated: !include_dir_merge_list migrated_templates
 
 
 tts:

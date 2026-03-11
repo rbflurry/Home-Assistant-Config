@@ -1444,7 +1444,6 @@
       - switch.outlet_3
       - switch.switch_4
       - switch.switch_3
-      - switch.ahr_085_3_relay2
       - switch.ahr_085_3_relay3
     action: homeassistant.turn_on
   mode: single
@@ -1647,22 +1646,25 @@
 - id: '1718051020975'
   alias: Run the air purge Compressor
   description: ''
-  trigger:
-  - platform: device
-    device_id: 05af22b56c7f5bfd80f9c2877b626d86
+  triggers:
+  - device_id: 05af22b56c7f5bfd80f9c2877b626d86
     domain: cover
     entity_id: f7ee2d8b3275cf417cb487ae1c507887
     type: opening
-  condition:
+    trigger: device
+  conditions:
   - condition: template
     value_template: '{{true if as_timestamp(now()) | int - as_timestamp(state_attr(this.entity_id,
       ''last_triggered'')) | int > 1209600  else false }}'
-  action:
-  - service: switch.turn_on
-    metadata: {}
+  - condition: numeric_state
+    entity_id: sensor.pws_5in1_temperature
+    above: 35
+  actions:
+  - metadata: {}
     data: {}
     target:
       entity_id: switch.sonoff_b_1_relay
+    action: switch.turn_on
   mode: single
 - id: '1721842648143'
   alias: Winnie is down
@@ -2459,3 +2461,96 @@
         target:
         - '618533989'
   mode: single
+- id: '1765638416099'
+  alias: 'Air hose chicken drain. '
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: a070c87aea3c558b8e3e51cdbec10dfe
+    entity_id: 6a07c44256b333c6ae285bfb386162e6
+    domain: switch
+    trigger: device
+  conditions: []
+  actions:
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id: switch.sonoff_b_2_relay
+    data: {}
+  mode: single
+- id: '1767724951442'
+  alias: turn off upstairs heat after 4 hours
+  description: ''
+  triggers:
+  - device_id: ba5d1b464d32a0046f09f6238e7e62e2
+    domain: climate
+    entity_id: a450193f611947578be0017263e1bc9f
+    type: hvac_mode_changed
+    metadata:
+      secondary: false
+    trigger: device
+    to: heat
+    for:
+      hours: 4
+      minutes: 0
+      seconds: 0
+  conditions: []
+  actions:
+  - action: climate.set_hvac_mode
+    metadata: {}
+    target:
+      entity_id: climate.upstairs
+    data:
+      hvac_mode: 'off'
+  mode: single
+- id: '1767834041163'
+  alias: upstairs when left home
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - zone.home
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    below: 1
+  conditions: []
+  actions:
+  - action: climate.set_hvac_mode
+    metadata: {}
+    target:
+      entity_id: climate.upstairs
+    data:
+      hvac_mode: 'off'
+  - action: light.turn_off
+    metadata: {}
+    target:
+      entity_id:
+      - light.sengled_e11_g13_035c3bc7_1
+      - light.sengled_e11_g13_035cb3f8_1
+    data: {}
+  mode: single
+- id: '1768693181420'
+  alias: Link On/Off State of porch/driveway flood
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - switch.wink_kitchen
+      - switch.kauf_plug_a9f21b_kauf_plug
+- id: '1768693235355'
+  alias: Link On/Off State of carriage/flood
+  description: ''
+  use_blueprint:
+    path: aderusha/link_multiple_devices.yaml
+    input:
+      linked_entities:
+      - switch.wink_front_porch_switch
+      - switch.ahr_085_2_relay1
