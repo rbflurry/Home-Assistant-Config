@@ -1242,23 +1242,6 @@
         target:
           entity_id: input_boolean.coming_home_helper
   mode: single
-- id: '1682390387556'
-  alias: Brett Breath
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.breath_alarm
-    to: 'on'
-  condition: []
-  action:
-  - service: light.turn_on
-    data: {}
-    target:
-      entity_id:
-      - light.wink_bed_room
-      - light.wled_bed
-  mode: single
 - id: '1684260682049'
   alias: my ip changes
   description: ''

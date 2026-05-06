@@ -1,0 +1,151 @@
+substitutions:
+  devicename: chicken-sensor-v2
+  upper_devicename: Chicken-Sensor-v2
+
+esphome:
+  name: ${devicename}
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: esp-idf
+
+web_server:
+
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
+
+cover:
+  - platform: template
+    name: Chicken Door
+    lambda: |-
+      if (id(door_reed).state) {
+        return COVER_OPEN;
+      } else {
+        return COVER_CLOSED;
+      }
+    open_action:
+      - if:
+          condition:
+            switch.is_off: coop_door_lockout
+          then:
+            - switch.turn_on: door
+            - logger.log: "Switch turned ON successfully"
+          else:
+            - logger.log: "Lockout is active - ignoring turn ON command"
+    close_action:
+      - switch.turn_on: door
+      - delay: 10000ms
+      - switch.turn_on: coop_door_lockout
+    stop_action:
+      - switch.turn_off: door
+#cover:
+  - platform: template
+    name: Chicken Pen
+    lambda: |-
+      if (id(pen_reed).state) {
+        return COVER_OPEN;
+      } else {
+        return COVER_CLOSED;
+      }
+    open_action:
+      - if:
+          condition:
+            switch.is_off: pen_door_lockout
+          then:
+            - switch.turn_on: pen
+            - logger.log: "Switch turned ON successfully"
+          else:
+            - logger.log: "Lockout is active - ignoring turn ON command"
+    close_action:
+      - switch.turn_on: pen
+      - delay: 10s
+      - switch.turn_on: pen_door_lockout
+    stop_action:
+      - switch.turn_off: pen
+
+switch:
+  - platform: gpio
+    pin:
+      number: GPIO25
+      inverted: true
+    name: Chicken Door Switch
+    id: door
+    internal: true
+    on_turn_on:
+#    - delay: 5s
+#    - switch.toggle: coop_door_status
+    - delay: 13s
+    - switch.turn_off: door
+  - platform: gpio
+    pin:
+      number: GPIO26
+      inverted: true
+    name: Chicken Pen Switch
+    id: pen
+    internal: true
+    on_turn_on:
+#    - delay: 5s
+#    - switch.toggle: pen_door_status
+    - delay: 13s
+    - switch.turn_off: pen
+  - platform: template
+    name: Chicken Pen Lockout
+    id: pen_door_lockout
+    optimistic: true
+    restore_mode: ALWAYS_ON
+  - platform: template
+    name: Chicken Door Lockout
+    id: coop_door_lockout
+    optimistic: true
+    restore_mode: ALWAYS_ON
+
+binary_sensor:
+  - platform: gpio
+    id: door_reed
+    pin:
+      number: GPIO13
+      mode: INPUT_PULLUP
+    name: Chicken Door Reed
+    device_class: door
+    filters:
+      - delayed_on: 1s
+      - delayed_off: 1s
+  - platform: gpio
+    id: pen_reed
+    pin:
+      number: GPIO14
+      mode: INPUT_PULLUP
+    name: Chicken Pen Reed
+    device_class: door
+    filters:
+      - delayed_on: 1s
+      - delayed_off: 1s
+  - platform: gpio
+    id: pen_status
+    pin:
+      number: GPIO32
+      mode: INPUT_PULLUP
+      inverted: true
+    name: Chicken Door Button
+  - platform: gpio
+    pin:
+      number: GPIO33
+      mode: INPUT_PULLUP
+      inverted: true
+    name: Chicken Pen Button
+
+sensor:
+  - platform: dht
+    pin: GPIO23
+    model: AM2302
+    temperature:
+      name: "Chicken Coop Temperature"
+      filters:
+        - lambda: return x * (9.0/5.0) + 32.0;
+      unit_of_measurement: "°F"
+    humidity:
+      name: "Chicken Coop Humidity"
+    update_interval: 60s
+

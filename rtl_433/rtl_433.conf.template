@@ -7,6 +7,9 @@ frequency 433.92M
 report_meta time:tz
 protocol -165
 protocol -138
+protocol -100
+protocol -43
+decoder n=Door-Generic433,m=OOK_PWM,s=432,l=1152,r=1300,bits>=24,bits<=25,unique,get=id:@0:{20},get=@20:{4}:cmd:[6:CLOSED 9:OPEN]
 #protocol 40
 #protocol 73
 output mqtt://192.168.47.103,retain=1,devices=rtl_433[/id],events=rtl_433/events[/id]

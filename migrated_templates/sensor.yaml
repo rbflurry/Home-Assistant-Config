@@ -64,25 +64,25 @@
     name: Operation
     state: >-
       {{ states.climate.home.attributes.hvac_action }}
-- sensor:
-  - default_entity_id: sensor.chicken_door_time
-    name: Chicken Door Open Time
-    state: >-
-      {{ "%0.02d:%0.02d" | format(states("input_number.chicken_hour") | int, states("input_number.chicken_minutes")
-      | int) }}
-- sensor:
-  - default_entity_id: sensor.chicken_door_open_time_clean
-    icon: mdi:clock-outline
-    name: Door Opens at
-    state: >-
-      {{ (as_timestamp(states.sensor.lilold_sun_rising.state) + (states("input_number.chicken_minutes_before_sunrise")
-      | int)  * 60)  | timestamp_custom("%-I:%M %p") }}
-- sensor:
-  - default_entity_id: sensor.chicken_door_open_time_dirty
-    name: Door Opens at
-    state: >-
-      {{ (as_timestamp(states.sensor.lilold_sun_rising.state) + (states("input_number.chicken_minutes_before_sunrise")
-      | int)  * 60)  | timestamp_custom("%H:%M") }}
+# - sensor:
+  # - default_entity_id: sensor.chicken_door_time
+    # name: Chicken Door Open Time
+    # state: >-
+      # {{ "%0.02d:%0.02d" | format(states("input_number.chicken_hour") | int, states("input_number.chicken_minutes")
+      # | int) }}
+# - sensor:
+  # - default_entity_id: sensor.chicken_door_open_time_clean
+    # icon: mdi:clock-outline
+    # name: Door Opens at
+    # state: >-
+      # {{ (as_timestamp(states.sensor.lilold_sun_rising.state) + (states("input_number.chicken_minutes_before_sunrise")
+      # | int)  * 60)  | timestamp_custom("%-I:%M %p") }}
+# - sensor:
+  # - default_entity_id: sensor.chicken_door_open_time_dirty
+    # name: Door Opens at
+    # state: >-
+      # {{ (as_timestamp(states.sensor.lilold_sun_rising.state) + (states("input_number.chicken_minutes_before_sunrise")
+      # | int)  * 60)  | timestamp_custom("%H:%M") }}
 - sensor:
   - default_entity_id: sensor.chicken_door_close_time_clean
     icon: mdi:clock-outline

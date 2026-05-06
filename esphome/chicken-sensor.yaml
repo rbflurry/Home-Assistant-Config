@@ -62,11 +62,21 @@ switch:
 
 binary_sensor:
   - platform: gpio
-    id: door_status
+    id: door_reed
     pin:
       number: D6
-    #  mode: INPUT_PULLUP
+      mode: INPUT_PULLUP
     name: Chicken Door
+    device_class: door
+    filters:
+      - delayed_on: 1000ms
+      - delayed_off: 1000ms
+  - platform: gpio
+    id: pen_reed
+    pin:
+      number: D7
+      mode: INPUT_PULLUP
+    name: Chicken Pen
     device_class: door
     filters:
       - delayed_on: 1000ms

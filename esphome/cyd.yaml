@@ -1,0 +1,160 @@
+substitutions:
+  device_name: yellowtft1
+  friendly_name: Yellow TFT 1
+
+# ============================================================ 
+# Standard ESPHome setup
+#
+# ESPHome naming
+esphome:
+  name: $device_name
+  friendly_name: $friendly_name
+ 
+# The ESP32-2432S028R uses a standard ESP32-WROVER, so we use the esp32dev defintion
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+ # level: DEBUG
+
+# Enable Home Assistant API
+#api:
+#  encryption:
+#   key: !secret api_key
+
+# Set OTA password
+ota:
+  platform: esphome
+  password: !secret ota_password
+
+# Setup WiFi credentials
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+#  ap:
+#    ssid: $device_name Fallback Hotspot
+#    password: !secret ap_password
+web_server:
+  
+#captive_portal:
+
+# ============================================================ 
+# Home Assistant related setup
+#
+light:
+  - platform: monochromatic
+    output: backlight_pwm
+    name: Display Backlight
+    id: backlight
+    restore_mode: ALWAYS_ON
+
+# ============================================================ 
+# Hardware related setup
+#
+# Setup SPI for the display. The ESP32-2432S028R uses separate SPI buses for display and touch
+spi:
+  - id: tft
+    clk_pin: GPIO14
+    mosi_pin: GPIO13
+    miso_pin: GPIO12
+  - id: touch
+    clk_pin: GPIO25
+    mosi_pin: GPIO32
+    miso_pin: GPIO39
+
+# Setup a pin to control the backlight
+output:
+  - platform: ledc
+    pin: GPIO21
+    id: backlight_pwm
+
+# Setup the ili9xxx platform
+#
+# Display is used as 240x320 by default so we rotate it to 90°
+display:
+ - platform: ili9xxx
+   id: esp_display
+   model: ili9342
+   spi_id: tft
+   cs_pin: GPIO15
+   dc_pin: GPIO2
+   #invert_display: true (changed to below with ESPhome 2023.12.0)
+   invert_colors: true
+
+lvgl:
+  displays:
+    - esp_display   # ← change to your actual display ID
+
+  pages:
+    - id: main_page
+      widgets:
+        # Black Tank text (top half)
+        - label:
+            id: black_text
+            align: TOP_MID
+            y: 60          # Adjust based on your screen resolution
+            text: "Black: --%"
+            text_font: montserrat_28  # Or use a smaller one like montserrat_20 if needed
+            text_color: 0xFFFFFF     # White text
+            bg_color: 0x000000       # Optional black background for contrast
+            bg_opa: 100%
+
+        # Grey Tank text (bottom half)
+        - label:
+            id: grey_text
+            align: BOTTOM_MID
+            y: -60         # Negative to push up from bottom
+            text: "Grey: --%"
+            text_font: montserrat_28
+            text_color: 0xFFFFFF
+            bg_color: 0x000000
+            bg_opa: 100%
+
+  # Optional: Make the page the default/start page
+
+
+  
+
+espnow:
+  id: espnow_component
+  peers:
+    - "58:e6:c5:11:03:90"   # ← MAC address of your SENSOR ESP32
+
+packet_transport:
+  - platform: espnow
+    espnow_id: espnow_component
+   # encryption: "TankSecret123"
+    providers:
+      - name: tank-sensor
+
+# These are the "mirrored" sensors from the other board
+sensor:
+  # Your remote sensors from packet_transport (as previously configured)
+  - platform: packet_transport
+    provider: tank-sensor
+    remote_id: black_level
+    id: black_remote
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: black_text
+            text:
+              format: "Black: %.0f%%"
+              args: [ 'x' ]   # x is the new percentage value
+
+  - platform: packet_transport
+    provider: tank-sensor
+    remote_id: grey_level
+    id: grey_remote
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: grey_text
+            text:
+              format: "Grey: %.0f%%"
+              args: [ 'x' ]

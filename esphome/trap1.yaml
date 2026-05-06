@@ -112,7 +112,7 @@ output:
   - platform: esp8266_pwm
     id: hv_pwm
     pin: GPIO13
-    frequency: 230 Hz          # start point; we’ll sweep this
+    frequency: 230.6 Hz          # start point; we’ll sweep this
     min_power: 0.0
     max_power: 1.0
 
@@ -148,7 +148,7 @@ switch:
     turn_on_action:
       - output.set_level:
           id: hv_pwm
-          level: 0.278             # ~27.8% duty to start; adjust as needed
+          level: 28.4%         # ~27.8% duty to start; adjust as needed
     turn_off_action:
       - output.set_level:
           id: hv_pwm

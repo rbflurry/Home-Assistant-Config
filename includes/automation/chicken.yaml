@@ -1,32 +1,32 @@
-- alias: Chicken - Turn off chicken coop door switch after 13 seconds
-  id: bb4bc7f9-1f7e-45ce-a8eb-1f94b1eb5235
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: switch.chicken_door_switch
-   to: 'on'
-   for:
-     seconds: 16
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.chicken_door_switch
-    - service: homeassistant.toggle
-      entity_id: switch.chicken_door_status
+# - alias: Chicken - Turn off chicken coop door switch after 13 seconds
+  # id: bb4bc7f9-1f7e-45ce-a8eb-1f94b1eb5235
+  # initial_state: false
+  # trigger:
+   # platform: state
+   # entity_id: switch.chicken_door_switch
+   # to: 'on'
+   # for:
+     # seconds: 16
+  # action:
+    # - service: homeassistant.turn_off
+      # entity_id: switch.chicken_door_switch
+    # - service: homeassistant.toggle
+      # entity_id: switch.chicken_door_status
       
-- alias: Chicken - Turn off chicken pen door switch after 13 seconds
-  id: 0637c1fb-67da-43d9-8071-cc5e9524bbf4
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: switch.chicken_pen_switch
-   to: 'on'
-   for:
-     seconds: 16
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.chicken_pen_switch
-    - service: homeassistant.toggle
-      entity_id: switch.chicken_pen_door_status
+# - alias: Chicken - Turn off chicken pen door switch after 13 seconds
+  # id: 0637c1fb-67da-43d9-8071-cc5e9524bbf4
+  # initial_state: false
+  # trigger:
+   # platform: state
+   # entity_id: switch.chicken_pen_switch
+   # to: 'on'
+   # for:
+     # seconds: 16
+  # action:
+    # - service: homeassistant.turn_off
+      # entity_id: switch.chicken_pen_switch
+    # - service: homeassistant.toggle
+      # entity_id: switch.chicken_pen_door_status
       
 - alias: Chicken - Turn off Chicken door last call after 2 minute
   id: b191c1f7-c3df-43c0-a3b5-b42494664c78
@@ -103,8 +103,6 @@
   id: 22d5fa60-9f85-4132-a3a8-96f541057e17
   initial_state: true
   trigger:
- #   - platform: template
- #     value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_open_time_dirty.state }}'
     - trigger: sun
       # Possible values: sunset, sunrise
       event: sunrise
@@ -121,13 +119,11 @@
     - condition: state
       entity_id: cover.chicken_pen
       state: 'closed'
-#    - condition: template
-#      value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_open_time_dirty.state }}'
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_automations, automation.chicken_door_last_call_v2
     - service: homeassistant.turn_off
-      entity_id: automation.chicken_coop_door_lockout, input_boolean.cancel_last_call
+      entity_id: input_boolean.cancel_last_call, switch.chicken_sensor_v2_chicken_door_lockout
     - service: cover.open_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
@@ -169,7 +165,7 @@
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_automations
     - service: homeassistant.turn_off
-      entity_id: automation.chicken_coop_door_lockout
+      entity_id: switch.chicken_sensor_v2_chicken_door_lockout
     - service: cover.close_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'closed') }}"
@@ -281,7 +277,7 @@
     - service: homeassistant.turn_off
       entity_id: input_boolean.chicken_door_last_call, switch.sonoff_4ch_relay_2, input_boolean.chicken_door_automations
     - service: homeassistant.turn_on
-      entity_id: automation.chicken_pen_door_lockout, automation.chicken_coop_door_lockout  
+      entity_id: switch.chicken_sensor_v2_chicken_pen_lockout, switch.chicken_sensor_v2_chicken_door_lockout  
       
       
       
@@ -356,28 +352,6 @@
      entity_id: switch.sonoff_4ch_relay_2
 
 
-
-- alias: Chicken - IOS Handler
-  id: b19580f7-b0aa-47c0-ab0b-005180f251bd
-  trigger:
-    platform: event
-    event_type: ios.notification_action_fired
-  condition:
-   condition: template
-   value_template: "{{(trigger.event.data.actionName.split('_')[0] == 'CHICKEN')}}"
-  action:
-   service: >-
-     {% if (trigger.event.data.actionName.split('_')[1] == 'OPEN' ) and ( states.cover.chicken_door.state == 'closed')   %}
-       cover.open_cover
-     {% elif (trigger.event.data.actionName.split('_')[1] == 'CLOSE' ) and ( states.cover.chicken_door.state == 'open')  %}
-       cover.close_cover
-     {% else %}
-     {% endif %}
-   data:
-    entity_id: cover.chicken_door
-
-
-
 - alias: Chicken -  Boorder turn on light at sunrise
   id: da0f61d5-2c87-49ef-9eca-bcff25a49086
   trigger:
@@ -433,28 +407,28 @@
 
 
 
-- alias: Chicken - Pen Door Lockout
-  id: edcc037f-c491-4d16-8187-56192252e05d
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: switch.chicken_pen_switch
-   to: 'on'
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.chicken_pen_switch
+# - alias: Chicken - Pen Door Lockout
+  # id: edcc037f-c491-4d16-8187-56192252e05d
+  # initial_state: false
+  # trigger:
+   # platform: state
+   # entity_id: switch.chicken_pen_switch
+   # to: 'on'
+  # action:
+    # - service: homeassistant.turn_off
+      # entity_id: switch.chicken_pen_switch
 
 
-- alias: Chicken - Coop Door Lockout
-  id: f20b67ec-ecb9-4a6c-9b78-f2f958c1afdc
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: switch.chicken_door_switch
-   to: 'on'
-  action:
-    - service: homeassistant.turn_off
-      entity_id: switch.chicken_door_switch
+# - alias: Chicken - Coop Door Lockout
+  # id: f20b67ec-ecb9-4a6c-9b78-f2f958c1afdc
+  # initial_state: false
+  # trigger:
+   # platform: state
+   # entity_id: switch.chicken_door_switch
+   # to: 'on'
+  # action:
+    # - service: homeassistant.turn_off
+      # entity_id: switch.chicken_door_switch
       
 
 - alias: Chicken Pen - Lockout Enable
@@ -471,4 +445,4 @@
       state: 'off'
   action:
     - service: homeassistant.turn_on
-      entity_id: automation.chicken_pen_door_lockout
+      entity_id: automation.chicken_pen_door_lockout, switch.chicken_sensor_v2_chicken_pen_lockout

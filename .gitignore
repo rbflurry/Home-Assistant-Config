@@ -61,3 +61,6 @@ frigate.yml
 /blueprints/automation
 /view_assist
 /esphome/trash
+/.cache
+/esphome/fonts
+/esphome/archive
