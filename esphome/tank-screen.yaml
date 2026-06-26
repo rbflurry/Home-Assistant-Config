@@ -1,0 +1,181 @@
+esphome:
+  name: tank-screen
+  friendly_name: tank-screen
+
+esp32:
+  variant: esp32s3
+  framework:
+    type: esp-idf
+  flash_size: 16MB
+
+# Set OTA password
+ota:
+  - platform: esphome
+    password: !secret ota_password
+#  - platform: web_server
+
+
+# Setup WiFi credentials
+wifi:
+  use_address: 192.168.19.227
+  networks:
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
+      priority: 1
+    - ssid: !secret wifi_ssid_dog_iot
+      password: !secret wifi_password_dog_iot
+      manual_ip:
+        static_ip: 192.168.62.13
+        gateway: 192.168.62.1
+        subnet: 255.255.255.0
+      priority: 2
+    - ssid: !secret wifi_ssid_dog
+      password: !secret wifi_password_dog
+      #manual_ip:
+       # static_ip: 192.168.62.11
+       # gateway: 192.168.62.1
+       # subnet: 255.255.255.0
+      priority: 3
+
+logger:
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO0
+    name: Button
+
+spi:
+  - id: spi_led
+    clk_pin: GPIO39
+    mosi_pin: GPIO40
+  - id: spi_lcd
+    clk_pin: GPIO5
+    mosi_pin: GPIO3
+
+display:
+  - platform: mipi_spi
+    id: esp_display
+    spi_id: spi_lcd
+    model: "st7735"
+    reset_pin: GPIO1
+    cs_pin: GPIO4
+    dc_pin: GPIO2
+    invert_colors: true
+    auto_clear_enabled: false
+
+output:
+  - platform: ledc
+    frequency: 2000
+    pin: GPIO38
+    inverted: True
+    id: backlight_output
+
+light:
+  - platform: monochromatic
+    output: backlight_output
+    name: "LCD Backlight"
+    id: lcd_backlight
+    restore_mode: ALWAYS_ON
+    initial_state: 
+      brightness: 50%
+# RGB Led, APA102 on GPIO39/GPIO40
+  - platform: spi_led_strip
+    spi_id: spi_led
+    initial_state:
+      state: off
+    num_leds: 1
+    name: "FastLED SPI Light"
+    data_rate: 1MHz # Adjust as needed, APA102 supports up to 20MHz, 1MHz is a safe starting point
+
+lvgl:
+  displays:
+    - esp_display   # ← change to your actual display ID
+  rotation: 270
+  pages:
+    - id: main_page
+      bg_color: 0x000000
+      widgets:
+        # Black Tank text (top half)
+        - label:
+            id: black_text
+            align: TOP_LEFT
+            y: 30          # Adjust based on your screen resolution
+            text: "Black: --"
+            text_font: montserrat_26  # Or use a smaller one like montserrat_20 if needed
+            text_color: 0xFFFFFF     # White text
+            bg_color: 0x000000       # Optional black background for contrast
+            bg_opa: 100%
+
+        # Grey Tank text (bottom half)
+        - label:
+            id: grey_text
+            align: BOTTOM_LEFT
+            y: -30         # Negative to push up from bottom
+            text: "Grey: --"
+            text_font: montserrat_26
+            text_color: 0xFFFFFF
+            bg_color: 0x000000
+            bg_opa: 100%
+
+espnow:
+  id: espnow_component
+  peers:
+    - "58:e6:c5:11:03:90"   # ← MAC address of your SENSOR ESP32
+  channel: 1
+
+packet_transport:
+  - platform: espnow
+    espnow_id: espnow_component
+   # encryption: "TankSecret123"
+    providers:
+      - name: tank-sensor
+
+# These are the "mirrored" sensors from the other board
+sensor:
+  # Your remote sensors from packet_transport (as previously configured)
+  - platform: packet_transport
+    provider: tank-sensor
+    remote_id: black_level
+    id: black_remote
+  #  on_value:
+  #    then:
+  #      - lvgl.label.update:
+  #          id: black_text
+  #          text:
+  #            format: "Black: %.0f%%"
+  #            args: [ 'x' ]   # x is the new percentage value
+  - platform: packet_transport
+    provider: tank-sensor
+    remote_id: grey_level
+    id: grey_remote
+   # on_value:
+   #   then:
+   #     - lvgl.label.update:
+   #         id: grey_text
+   #         text:
+   #           format: "Grey: %.0f%%"
+   #           args: [ 'x' ]
+ ###### Raw
+  - platform: packet_transport
+    provider: tank-sensor
+    remote_id: black_raw
+    id: black_raw_remote
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: black_text
+            text:
+              format: "Black: %.0f%"
+              args: [ 'x' ]   # x is the new percentage value
+
+  - platform: packet_transport
+    provider: tank-sensor
+    remote_id: grey_raw
+    id: grey_raw_remote
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: grey_text
+            text:
+              format: "Grey: %.0f%"
+              args: [ 'x' ]
