@@ -1,0 +1,68 @@
+esphome:
+  name: winnie-power
+  friendly_name: winnie-power
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "WO+J4lz+3yOLFCKYvFKSg6Wyt4Aep3eTCPDf/Lk8Rh4="
+
+ota:
+  - platform: esphome
+    password: "6f2e21fecf4467e95dcc0b668d8d785d"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Winnie-Power Fallback Hotspot"
+    password: "a7w5pitzUzLP"
+
+captive_portal:
+
+web_server:
+
+switch:
+  - platform: gpio
+    name: "Relay 1"
+    pin: 12
+
+  - platform: gpio
+    name: "Relay 2"
+    pin: 13
+
+  - platform: gpio
+    name: "Relay 3"
+    pin: 14
+
+  - platform: gpio
+    name: "Relay 4"
+    pin: 15
+
+sensor:
+  - platform: ct_clamp
+    sensor: adc_sensor
+    name: "Measured Current"
+    update_interval: 60s
+    filters:
+      - calibrate_linear:
+          # Measured value of 0 maps to 0A
+          - 0 -> 0
+          # Known load: 4.0A
+          # Value shown in logs: 0.1333A
+          - 0.1333 -> 4.0
+
+  # Example source sensor
+  - platform: adc
+    pin: 32
+    id: adc_sensor
