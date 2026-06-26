@@ -103,6 +103,7 @@ switch:
 
 binary_sensor:
   - platform: gpio
+    internal: true
     id: door_reed
     pin:
       number: GPIO13
@@ -113,6 +114,7 @@ binary_sensor:
       - delayed_on: 1s
       - delayed_off: 1s
   - platform: gpio
+    internal: true
     id: pen_reed
     pin:
       number: GPIO14
