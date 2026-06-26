@@ -1,0 +1,61 @@
+esphome:
+  name: usb-c
+  friendly_name: usb-c
+
+esp32:
+  board: esp32-c6-devkitc-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "TliDpzaxX5wGDAdg83iNgjJ/uyBviis8cMZofeB9L38="
+
+ota:
+  - platform: esphome
+    password: "346147add9c9edd886c309a31539ba8e"
+
+wifi:
+  ssid: !secret wifi_ssid_work
+  password: !secret wifi_password_work
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Usb-C Fallback Hotspot"
+    password: "awtTVDo97990"
+
+captive_portal:
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: America/New_York
+    servers:
+     - 0.pool.ntp.org
+     - 1.pool.ntp.org
+     - 2.pool.ntp.org
+
+# Example configuration entry
+wireguard:
+  address: 192.168.148.4
+  private_key: !secret wg_pri
+  peer_endpoint: !secret wg_end
+  peer_public_key: !secret wg_pub
+
+  # Optional netmask (this is the default, no outgoing traffic
+  # will pass through the tunnel if omitted)
+  netmask: 255.255.255.0
+
+  # Optional endpoint port (WireGuard default if omitted)
+  peer_port: 51820
+
+  # Optional list of ip/mask (any host is allowed if omitted)
+  peer_allowed_ips:
+    - 192.168.0.0/16
+
+  # Optional keepalive (disabled by default)
+  peer_persistent_keepalive: 25s
