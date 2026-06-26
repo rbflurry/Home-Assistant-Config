@@ -15,17 +15,36 @@ web_server:
   port: 80
 
 # Enable Home Assistant API
-#api:
-#  encryption:
-#    key: "/B24EbpyBGbNzpocSg++iwW5x03PJAKHSEt5s1LbloQ="
+api:
+  encryption:
+    key: "/B24EbpyBGbNzpocSg++iwW5x03PJAKHSEt5s1LbloQ="
+  reboot_timeout: 0s
 
 ota:
   - platform: esphome
     password: "426bcdab745ea14e82ba7d2d43b8a431"
+  #- platform: web_server
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+  use_address: 192.168.19.160
+  networks:
+    - ssid: !secret wifi_ssid_dog_iot
+      password: !secret wifi_password_dog_iot
+      manual_ip:
+        static_ip: 192.168.62.12
+        gateway: 192.168.62.1
+        subnet: 255.255.255.0
+      priority: 2
+    - ssid: !secret wifi_ssid_dog
+      password: !secret wifi_password_dog
+      #manual_ip:
+      #  static_ip: 192.168.62.11
+      #  gateway: 192.168.62.1
+      #  subnet: 255.255.255.0
+      priority: 3
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
+      priority: 1
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
 #  ap:
@@ -36,12 +55,10 @@ wifi:
 
 uart:
   - id: uart_sensor1
-    rx_pin: GPIO23   # Remap freely; check your board's pinout
-    tx_pin: GPIO22
+    rx_pin: GPIO17
     baud_rate: 9600
   - id: uart_sensor2
-    rx_pin: GPIO17
-    tx_pin: GPIO16
+    rx_pin: GPIO23
     baud_rate: 9600
 
 sensor:
@@ -50,24 +67,22 @@ sensor:
     name: "Black Tank Distance"
     id: black_raw
     filters:
-      - throttle: 5s
-      - heartbeat: 5s
+      - throttle: 3s
   - platform: a02yyuw
     uart_id: uart_sensor2
     name: "Grey Tank Distance"
     id: grey_raw
     filters:
-      - throttle: 5s
-      - heartbeat: 5s
+      - throttle: 3s
   - platform: template
     name: "Black Tank Level"
     id: black_level
     unit_of_measurement: "%"
     accuracy_decimals: 0
-    update_interval: 5s
+    update_interval: 3s
     lambda: |-
       if (isnan(id(black_raw).state)) return {};
-      float empty_distance = 1000.0;   // mm from sensor to empty tank bottom (calibrate!)
+      float empty_distance = 175.0;   // mm from sensor to empty tank bottom (calibrate!)
       float full_distance  = 100.0;    // mm when full (blind zone + offset)
       float height = empty_distance - id(black_raw).state;
       float percent = (height / (empty_distance - full_distance)) * 100.0;
@@ -77,10 +92,10 @@ sensor:
     id: grey_level
     unit_of_measurement: "%"
     accuracy_decimals: 0
-    update_interval: 5s
+    update_interval: 3s
     lambda: |-
       if (isnan(id(grey_raw).state)) return {};
-      float empty_distance = 1000.0;   // mm from sensor to empty tank bottom (calibrate!)
+      float empty_distance = 214.0;   // mm from sensor to empty tank bottom (calibrate!)
       float full_distance  = 100.0;    // mm when full (blind zone + offset)
       float height = empty_distance - id(grey_raw).state;
       float percent = (height / (empty_distance - full_distance)) * 100.0;
@@ -88,12 +103,16 @@ sensor:
     
 espnow:
   peers:
-    - "78:1C:3C:2B:78:64"   # ← Put the MAC address of your DISPLAY ESP32 here
+   # - "78:1C:3C:2B:78:64"   # ← Put the MAC address of your DISPLAY ESP32 here
+    - "DC:54:75:FB:D2:2C"
+  channel: 1
 
 packet_transport:
   - platform: espnow
     update_interval: 5s
-    peer_address: "78:1C:3C:2B:78:64"   # same MAC as above
+    peer_address: "DC:54:75:FB:D2:2C"   # same MAC as above
     sensors:
       - black_level
       - grey_level
+      - black_raw
+      - grey_raw
