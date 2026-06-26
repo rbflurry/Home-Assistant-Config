@@ -3,8 +3,8 @@ esphome:
 
 esp32:
   board: esp32dev
-  framework:
-    type: arduino
+#  framework:
+ #   type: arduino
 
 substitutions:
   devicename: basement-v2
@@ -12,6 +12,10 @@ substitutions:
 packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
+
+wifi:
+  ap: !remove {} 
+
 
 api:
   encryption:
