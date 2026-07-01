@@ -1,0 +1,204 @@
+esphome:
+  name: radar-speedometer.yaml
+  on_boot:
+    then:
+      - script.execute: refresh_display
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+external_components:
+  - source:
+      type: local
+      path: components
+
+logger:
+  level: DEBUG
+  logs:
+    ld2451: DEBUG
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Standalone Fallback Hotspot"
+
+#captive_portal:
+
+api:
+  reboot_timeout: 0s
+    
+
+ota:
+  - platform: esphome
+
+web_server:
+  port: 80
+
+
+uart:
+  id: radar_uart
+  rx_pin: GPIO16
+  tx_pin: GPIO17
+  baud_rate: 115200
+  rx_buffer_size: 512
+
+
+ld2451:
+  id: radar
+  uart_id: radar_uart
+  speed:
+    name: "Radar Speed"
+    id: speed_sensor
+    on_value:
+      then:
+        - lambda: |-
+            int speed = (int)x;
+            if (speed >= 0 && speed <= 99) {
+              id(disp_val) = speed;
+              id(last_update) = 0;
+              id(refresh_display).execute();
+            }
+  distance:
+    name: "Radar Distance"
+  angle:
+    name: "Radar Angle"
+  snr:
+    name: "Radar SNR"
+  target_count:
+    name: "Radar Target Count"
+  approaching:
+    name: "Radar Approaching"
+
+sensor:
+  - platform: wifi_signal
+    name: "Radar WiFi Signal"
+    update_interval: 10s
+
+
+number:
+  - platform: template
+    name: "Display Test Value"
+    id: test_value
+    min_value: 0
+    max_value: 30
+    step: 1
+    initial_value: 0
+    optimistic: true
+    on_value:
+      then:
+        - globals.set:
+            id: disp_val
+            value: !lambda 'return (int)x;'
+        - globals.set:
+            id: last_update
+            value: "0"
+        - script.execute: refresh_display
+
+
+
+# ── Shift register output pins ────────────────────────────────
+output:
+  - platform: gpio
+    pin: GPIO14 #clock
+    id: pin_sck
+  - platform: gpio
+    pin: GPIO13 #latch
+    id: pin_rck 
+  - platform: gpio
+    pin: GPIO4 #Serial
+    id: pin_sdi
+
+# ── Current display value ─────────────────────────────────────
+globals:
+  - id: disp_val
+    type: int
+    restore_value: no
+    initial_value: '1'
+  - id: last_update
+    type: int
+    restore_value: no
+    initial_value: '0'
+
+interval:
+  - interval: 1s
+    then:
+      - lambda: |-
+          id(last_update)++;
+          if (id(last_update) >= 5) {
+            id(disp_val) = -1;
+            id(refresh_display).execute();
+          }
+
+# ── Cycle 1–9 every second ───────────────────────────────────
+#interval:
+#  - interval: 1s
+#    then:
+#      - lambda: |-
+#          id(disp_val) = (id(disp_val) % 9) + 1;
+#          id(refresh_display).execute();
+
+# ── Segment display refresh ───────────────────────────────────
+script:
+  - id: refresh_display
+    mode: restart
+    then:
+      - lambda: |-
+          const uint8_t seg[10] = {
+            0x3F, // 0
+            0x06, // 1
+            0x5B, // 2
+            0x4F, // 3
+            0x66, // 4
+            0x6D, // 5
+            0x7D, // 6
+            0x07, // 7
+            0x7F, // 8
+            0x6F  // 9
+          };
+
+          int val = id(disp_val);
+
+          // Blank both displays if no recent target
+          if (val < 0) {
+            id(pin_rck).turn_off();
+            for (int i = 0; i < 16; i++) {
+              id(pin_sdi).turn_off();
+              id(pin_sck).turn_on();
+              id(pin_sck).turn_off();
+            }
+            id(pin_rck).turn_on();
+            id(pin_rck).turn_off();
+            return;
+          }
+
+          if (val > 99) val = 99;
+
+          uint8_t tens_byte = (val < 10) ? 0x00 : seg[val / 10];
+          uint8_t ones_byte = seg[val % 10];
+
+          id(pin_rck).turn_off();
+
+          // Tens digit → display #1
+          for (int i = 7; i >= 0; i--) {
+            bool bit = (tens_byte >> i) & 1;
+            if (bit) id(pin_sdi).turn_on();
+            else     id(pin_sdi).turn_off();
+            id(pin_sck).turn_on();
+            id(pin_sck).turn_off();
+          }
+
+          // Ones digit → display #2
+          for (int i = 7; i >= 0; i--) {
+            bool bit = (ones_byte >> i) & 1;
+            if (bit) id(pin_sdi).turn_on();
+            else     id(pin_sdi).turn_off();
+            id(pin_sck).turn_on();
+            id(pin_sck).turn_off();
+          }
+
+          id(pin_rck).turn_on();
+          id(pin_rck).turn_off();
