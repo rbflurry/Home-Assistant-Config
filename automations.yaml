@@ -2431,7 +2431,7 @@
           config_entry_id: 01K1B4QHGPVS1AX9G0C0J9AM97
           file: /config/www/entryway_check.jpg
           caption: "Floor is clear! Starting vacuum. \U0001F9F9"
-          target:
+          chat_id:
           - '618533989'
     default:
     - action: telegram_bot.send_photo
@@ -2441,7 +2441,7 @@
         config_entry_id: 01K1B4QHGPVS1AX9G0C0J9AM97
         file: /config/www/entryway_check.jpg
         caption: Really? You pig
-        target:
+        chat_id:
         - '618533989'
   mode: single
 - id: '1765638416099'
@@ -2537,3 +2537,170 @@
       linked_entities:
       - switch.wink_front_porch_switch
       - switch.ahr_085_2_relay1
+- id: '1778505237163'
+  alias: AI Chicken Check
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    hours: '*'
+  conditions:
+  - condition: sun
+    before: sunset
+    after: sunrise
+  actions:
+  - action: camera.snapshot
+    metadata: {}
+    data:
+      filename: /config/www/chicken_check.jpg
+    enabled: true
+    target:
+      entity_id: camera.lilold_chicken_coop
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+    enabled: false
+  - action: ai_task.generate_data
+    metadata: {}
+    data:
+      task_name: Chicken Check
+      instructions: Your job is to evaluate a camera image that is looking at the
+        outside of my chicken pen. Do you see any chickens outside of the chainlink
+        fence? Could you reply with either "NO Chickens" or "YES Chickens"
+      attachments:
+        media_content_id: media-source://camera/camera.lilold_chicken_coop
+        media_content_type: image/jpeg
+        metadata:
+          title: LilOld Chicken Coop (z238) LilOld Chicken Coop
+          thumbnail: /api/camera_proxy/camera.lilold_chicken_coop
+          media_class: video
+          children_media_class:
+          navigateIds:
+          - {}
+          - media_content_type: app
+            media_content_id: media-source://camera
+      entity_id: ai_task.ollama_ai_task
+    response_variable: chicken_check
+  - variables:
+      ai_response: '{{ chicken_check.data | trim }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ ''NO Chickens'' == ai_response }}'
+      sequence:
+      - action: telegram_bot.send_photo
+        metadata: {}
+        data:
+          verify_ssl: true
+          config_entry_id: 01K1B4QHGPVS1AX9G0C0J9AM97
+          file: /config/www/chicken_check.jpg
+          caption: I see no Chickens!
+          data:
+            chat_id:
+            - '618533989'
+    default:
+    - action: telegram_bot.send_photo
+      metadata: {}
+      data:
+        verify_ssl: true
+        config_entry_id: 01K1B4QHGPVS1AX9G0C0J9AM97
+        file: /config/www/chicken_check.jpg
+        caption: Chickens Everywhere!
+        data:
+          chat_id:
+          - '618533989'
+  mode: single
+- id: '1778982003877'
+  alias: Turn on light with doorbell person
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: 2fb75c9c872cd338575295cf4b4579c6
+    entity_id: 734a599de7c20671ef165b2156768147
+    domain: binary_sensor
+    trigger: device
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      entity_id: switch.kauf_plug_a9f21b_kauf_plug
+    data: {}
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id: switch.kauf_plug_a9f21b_kauf_plug
+    data: {}
+  mode: single
+- id: '1782488421042'
+  alias: vacuum Empty Dust bin
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - vacuum.roborock_q_revo
+    from:
+    - returning
+    to:
+    - docked
+  conditions:
+  - condition: time
+    after: '21:00:00'
+    before: 06:00:00
+    weekday:
+    - sun
+    - mon
+    - sat
+    - fri
+    - thu
+    - wed
+    - tue
+  actions:
+  - wait_for_trigger:
+    - trigger: zone.occupancy_cleared
+      options:
+        for: 00:00:00
+        zone: zone.home
+    timeout:
+      hours: 9
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - action: vacuum.send_command
+    metadata: {}
+    target:
+      entity_id: vacuum.roborock_q_revo
+    data:
+      command: app_start_collect_dust
+  mode: single
+- id: '1782488604758'
+  alias: Turn off AC after dark and lights off
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - light.wink_office
+    to:
+    - 'off'
+    from:
+    - 'on'
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  actions:
+  - action: climate.turn_off
+    metadata: {}
+    target:
+      device_id: ba5d1b464d32a0046f09f6238e7e62e2
+    data: {}
+  mode: single

@@ -1,0 +1,174 @@
+# Victor Smart-Kill — Home Assistant MQTT Sensor Config
+#
+# Add this to your configuration.yaml, or drop it in your
+# packages/ directory as victor_traps.yaml
+#
+# Replace <trap_id> with your real trap ID (e.g. 242839).
+# Duplicate the block for each additional trap, changing the
+# trap_id and entity name accordingly.
+#
+# Requires the MQTT integration to be configured in Home Assistant.
+ 
+mqtt:
+  sensor:
+    # -------------------------------------------------------------------------
+    # Full status (raw JSON — useful for automations and debugging)
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242839 Status"
+      unique_id: victor_trap_242839_status
+      state_topic: "victor/242839/status"
+      value_template: "{{ value_json.activity_label }}"
+      json_attributes_topic: "victor/242839/status"
+      icon: mdi:mouse-variant
+ 
+    # -------------------------------------------------------------------------
+    # Battery
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242839 Battery"
+      unique_id: victor_trap_242839_battery
+      state_topic: "victor/242839/battery"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+      icon: mdi:battery
+ 
+    # -------------------------------------------------------------------------
+    # WiFi signal strength
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242839 RSSI"
+      unique_id: victor_trap_242839_rssi
+      state_topic: "victor/242839/rssi"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "dBm"
+      device_class: signal_strength
+      state_class: measurement
+      icon: mdi:wifi
+ 
+    # -------------------------------------------------------------------------
+    # Total kills reported (lifetime counter)
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242839 Total Kills"
+      unique_id: victor_trap_242839_kills_total
+      state_topic: "victor/242839/kills_total"
+      value_template: "{{ value_json.value }}"
+      state_class: total_increasing
+      icon: mdi:counter
+ 
+    # -------------------------------------------------------------------------
+    # Last activity label
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242839 Activity"
+      unique_id: victor_trap_242839_activity
+      state_topic: "victor/242839/activity"
+      value_template: "{{ value_json.value }}"
+      icon: mdi:information-outline
+ 
+    # -------------------------------------------------------------------------
+    # Last alert
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242839 Last Alert"
+      unique_id: victor_trap_242839_alert
+      state_topic: "victor/242839/alert"
+      value_template: "{{ value_json.type }}"
+      json_attributes_topic: "victor/242839/alert"
+      icon: mdi:bell-alert
+      
+      
+    # -------------------------------------------------------------------------
+    # Full status (raw JSON — useful for automations and debugging)
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242121 Status"
+      unique_id: victor_trap_242121_status
+      state_topic: "victor/242121/status"
+      value_template: "{{ value_json.activity_label }}"
+      json_attributes_topic: "victor/242121/status"
+      icon: mdi:mouse-variant
+ 
+    # -------------------------------------------------------------------------
+    # Battery
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242121 Battery"
+      unique_id: victor_trap_242121_battery
+      state_topic: "victor/242121/battery"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+      icon: mdi:battery
+ 
+    # -------------------------------------------------------------------------
+    # WiFi signal strength
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242121 RSSI"
+      unique_id: victor_trap_242121_rssi
+      state_topic: "victor/242121/rssi"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "dBm"
+      device_class: signal_strength
+      state_class: measurement
+      icon: mdi:wifi
+ 
+    # -------------------------------------------------------------------------
+    # Total kills reported (lifetime counter)
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242121 Total Kills"
+      unique_id: victor_trap_242121_kills_total
+      state_topic: "victor/242121/kills_total"
+      value_template: "{{ value_json.value }}"
+      state_class: total_increasing
+      icon: mdi:counter
+ 
+    # -------------------------------------------------------------------------
+    # Last activity label
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242121 Activity"
+      unique_id: victor_trap_242121_activity
+      state_topic: "victor/242121/activity"
+      value_template: "{{ value_json.value }}"
+      icon: mdi:information-outline
+ 
+    # -------------------------------------------------------------------------
+    # Last alert
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242121 Last Alert"
+      unique_id: victor_trap_242121_alert
+      state_topic: "victor/242121/alert"
+      value_template: "{{ value_json.type }}"
+      json_attributes_topic: "victor/242121/alert"
+      icon: mdi:bell-alert
+      
+      
+      
+      
+ 
+  binary_sensor:
+    # -------------------------------------------------------------------------
+    # Kill present (true = kill in chamber, needs emptying)
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242839 Kill Present"
+      unique_id: victor_trap_242839_kill_present
+      state_topic: "victor/242839/kills_present"
+      value_template: "{{ value_json.value }}"
+      payload_on: "True"
+      payload_off: "False"
+      device_class: occupancy
+      icon: mdi:mouse-variant-off
+      
+    # -------------------------------------------------------------------------
+    # Kill present (true = kill in chamber, needs emptying)
+    # -------------------------------------------------------------------------
+    - name: "Victor Trap 242121 Kill Present"
+      unique_id: victor_trap_242121_kill_present
+      state_topic: "victor/242121/kills_present"
+      value_template: "{{ value_json.value }}"
+      payload_on: "True"
+      payload_off: "False"
+      device_class: occupancy
+      icon: mdi:mouse-variant-off
+      
+
+
+
+
+ 

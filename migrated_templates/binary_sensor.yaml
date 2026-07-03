@@ -38,8 +38,7 @@
   - default_entity_id: binary_sensor.chicken_door_after_open
     state: >-
       {{(is_state("cover.chicken_door", "closed") or is_state("cover.chicken_door",
-      "unknown")) and is_state("sun.sun", "above_horizon") and states.sensor.time.state
-      > states.sensor.chicken_door_time.state}}
+      "unknown")) and is_state("sun.sun", "above_horizon")}}
     name: chicken_door_after_open
 - binary_sensor:
   - default_entity_id: binary_sensor.template_weather_down

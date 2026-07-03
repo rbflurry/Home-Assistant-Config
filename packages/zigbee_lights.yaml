@@ -26,39 +26,39 @@ homeassistant:
   
   
   
-sensor:
-  - platform: template
-    sensors:
-      total_wink_lights_on:
-        value_template: >-
-          {% set dummy = states("sensor.date") %}
-          {% for state in states.light if state.state == 'on' and state.attributes.power_reset == 'true' %}
-          {% if loop.last %}
-          {{ loop.index|int }}
-          {% endif %}
-          {% else %}
-          0
-          {% endfor %}
-      total_wink_lights_off:
-        value_template: >-
-          {% set dummy = states("sensor.date") %}
-          {% for state in states.light if state.state == 'off' and state.attributes.power_reset == 'true' %}
-          {% if loop.last %}
-          {{ loop.index|int }}
-          {% endif %}
-          {% else %}
-          0
-          {% endfor %}
-      total_wink_lights:
-        value_template: >-
-          {% set dummy = states("sensor.date") %}
-          {% for state in states.light if state.state != 'unavailable' and state.attributes.power_reset == 'true' %}
-          {% if loop.last %}
-          {{ loop.index|int }}
-          {% endif %}
-          {% else %}
-          0
-          {% endfor %}
+# sensor:
+  # - platform: template
+    # sensors:
+      # total_wink_lights_on:
+        # value_template: >-
+          # {% set dummy = states("sensor.date") %}
+          # {% for state in states.light if state.state == 'on' and state.attributes.power_reset == 'true' %}
+          # {% if loop.last %}
+          # {{ loop.index|int }}
+          # {% endif %}
+          # {% else %}
+          # 0
+          # {% endfor %}
+      # total_wink_lights_off:
+        # value_template: >-
+          # {% set dummy = states("sensor.date") %}
+          # {% for state in states.light if state.state == 'off' and state.attributes.power_reset == 'true' %}
+          # {% if loop.last %}
+          # {{ loop.index|int }}
+          # {% endif %}
+          # {% else %}
+          # 0
+          # {% endfor %}
+      # total_wink_lights:
+        # value_template: >-
+          # {% set dummy = states("sensor.date") %}
+          # {% for state in states.light if state.state != 'unavailable' and state.attributes.power_reset == 'true' %}
+          # {% if loop.last %}
+          # {{ loop.index|int }}
+          # {% endif %}
+          # {% else %}
+          # 0
+          # {% endfor %}
 
     
     

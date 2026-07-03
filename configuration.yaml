@@ -91,7 +91,7 @@ tts:
     service_name: google_say
 
  
-shopping_list:
+#shopping_list:
       
 stream:
   
@@ -101,11 +101,11 @@ twilio:
   
 # Example configuration.yaml entry
 
-opnsense:
-  url: !secret fw
-  api_secret: !secret fw_secret
-  api_key: !secret fw_key
-  verify_ssl: true
+#opnsense:
+#  url: !secret fw
+#  api_secret: !secret fw_secret
+#  api_key: !secret fw_key
+#  verify_ssl: true
   
 panel_custom:
   - name: Automations

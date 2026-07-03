@@ -26,30 +26,30 @@ homeassistant:
   
   
   
-sensor:
-  - platform: template
-    sensors:
-      total_automations_on:
-        value_template: >-
-          {% for state in states.automation if state.state == 'on' %}
-          {% if loop.last %}
-          {{ loop.index|int }}
-          {% endif %}
-          {% endfor %}
-      total_automations_off:
-        value_template: >-
-          {% for state in states.automation if state.state == 'off' %}
-          {% if loop.last %}
-          {{ loop.index|int }}
-          {% endif %}
-          {% endfor %}
-      total_automations:
-        value_template: >-
-          {% for state in states.automation %}
-          {% if loop.last %}
-          {{ loop.index|int }}
-          {% endif %}
-          {% endfor %}
+# sensor:
+  # - platform: template
+    # sensors:
+      # total_automations_on:
+        # value_template: >-
+          # {% for state in states.automation if state.state == 'on' %}
+          # {% if loop.last %}
+          # {{ loop.index|int }}
+          # {% endif %}
+          # {% endfor %}
+      # total_automations_off:
+        # value_template: >-
+          # {% for state in states.automation if state.state == 'off' %}
+          # {% if loop.last %}
+          # {{ loop.index|int }}
+          # {% endif %}
+          # {% endfor %}
+      # total_automations:
+        # value_template: >-
+          # {% for state in states.automation %}
+          # {% if loop.last %}
+          # {{ loop.index|int }}
+          # {% endif %}
+          # {% endfor %}
    
         
     

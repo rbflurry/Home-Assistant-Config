@@ -17,13 +17,13 @@
 ## Sensor
 ################################################
 
-light:
-  - platform: template
-    lights:
-      dashboard_screen:
-        turn_on:
-        turn_off:
-        set_level:
+# light:
+  # - platform: template
+    # lights:
+      # dashboard_screen:
+        # turn_on:
+        # turn_off:
+        # set_level:
 
 # this causes the screen to constantly get set to 255
 #switch:
