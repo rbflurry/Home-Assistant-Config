@@ -68,6 +68,10 @@ sensor:
     ld2451_id: radar
     speed:
       name: "Radar Speed"
+    speed_approaching:
+      name: "Radar Speed Approaching"
+    speed_leaving:
+      name: "Radar Speed Leaving"
     distance:
       name: "Radar Distance"
     angle:
