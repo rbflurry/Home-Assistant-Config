@@ -15,7 +15,7 @@ ethernet:
   cs_pin: GPIO14
   interrupt_pin: GPIO10
   reset_pin: GPIO9
-  use_address: 192.168.47.238
+  use_address: 192.168.98.111
 
 # Enable Home Assistant API
 api:
