@@ -80,6 +80,15 @@ sensor:
     ld2451_id: radar
     speed:
       name: "Radar Speed"
+      id: speed_sensor
+      on_value:
+        then:
+          - lambda: |-
+              int speed = (int)x;
+              if (speed >= 0 && speed <= 99) {
+                id(disp_val) = speed;
+                id(refresh_display).execute();
+              }
     speed_approaching:
       name: "Radar Speed Approaching"
     speed_leaving:
