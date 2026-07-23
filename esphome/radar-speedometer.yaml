@@ -87,6 +87,7 @@ sensor:
               int speed = (int)x;
               if (speed >= 0 && speed <= 99) {
                 id(disp_val) = speed;
+                id(last_update) = 0;  // ← this was missing
                 id(refresh_display).execute();
               }
     speed_approaching:
