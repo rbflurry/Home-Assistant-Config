@@ -58,14 +58,12 @@ ota:
 web_server:
   port: 80
 
-
 uart:
   id: radar_uart
   rx_pin: GPIO16
   tx_pin: GPIO17
   baud_rate: 115200
   rx_buffer_size: 512
-
 
 ld2451:
   id: radar
@@ -99,10 +97,7 @@ binary_sensor:
       name: "Radar Approaching"
       filters:
         - delayed_off: 3s
-
-
-
-
+          
 number:
   - platform: template
     name: "Display Test Value"
@@ -121,8 +116,6 @@ number:
             id: last_update
             value: "0"
         - script.execute: refresh_display
-
-
 
 # ── Shift register output pins ────────────────────────────────
 output:
