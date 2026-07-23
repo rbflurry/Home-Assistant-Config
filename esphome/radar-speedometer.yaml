@@ -1,5 +1,5 @@
 esphome:
-  name: radar-speedometer.yaml
+  name: radar-speedometer
   on_boot:
     then:
       - script.execute: refresh_display
@@ -20,11 +20,30 @@ logger:
     ld2451: DEBUG
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+  use_address: 192.168.19.160
+  networks:
+    - ssid: !secret wifi_ssid_dog_iot
+      password: !secret wifi_password_dog_iot
+      #manual_ip:
+      #  static_ip: 192.168.62.12
+      #  gateway: 192.168.62.1
+      #  subnet: 255.255.255.0
+      priority: 2
+    - ssid: !secret wifi_ssid_dog
+      password: !secret wifi_password_dog
+      #manual_ip:
+      #  static_ip: 192.168.62.11
+      #  gateway: 192.168.62.1
+      #  subnet: 255.255.255.0
+      priority: 3
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
+      priority: 1
 
-  ap:
-    ssid: "Standalone Fallback Hotspot"
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+#  ap:
+#    ssid: "Tank-Sensor Fallback Hotspot"
+#    password: "L9nhODB7NwRC"
 
 #captive_portal:
 
