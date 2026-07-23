@@ -68,6 +68,12 @@ uart:
 ld2451:
   id: radar
   uart_id: radar_uart
+  min_angle: -30
+  max_angle: 30
+  #min_distance: 0
+  #max_distance: 100
+  #min_snr: 20
+  #min_speed: 5
 
 sensor:
   - platform: ld2451
