@@ -69,33 +69,37 @@ uart:
 ld2451:
   id: radar
   uart_id: radar_uart
-  speed:
-    name: "Radar Speed"
-    id: speed_sensor
-    on_value:
-      then:
-        - lambda: |-
-            int speed = (int)x;
-            if (speed >= 0 && speed <= 99) {
-              id(disp_val) = speed;
-              id(last_update) = 0;
-              id(refresh_display).execute();
-            }
-  distance:
-    name: "Radar Distance"
-  angle:
-    name: "Radar Angle"
-  snr:
-    name: "Radar SNR"
-  target_count:
-    name: "Radar Target Count"
-  approaching:
-    name: "Radar Approaching"
 
 sensor:
+  - platform: ld2451
+    ld2451_id: radar
+    speed:
+      name: "Radar Speed"
+    speed_approaching:
+      name: "Radar Speed Approaching"
+    speed_leaving:
+      name: "Radar Speed Leaving"
+    distance:
+      name: "Radar Distance"
+    angle:
+      name: "Radar Angle"
+    snr:
+      name: "Radar SNR"
+    target_count:
+      name: "Radar Target Count"
   - platform: wifi_signal
     name: "Radar WiFi Signal"
     update_interval: 10s
+
+binary_sensor:
+  - platform: ld2451
+    ld2451_id: radar
+    approaching:
+      name: "Radar Approaching"
+      filters:
+        - delayed_off: 3s
+
+
 
 
 number:
