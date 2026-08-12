@@ -41,9 +41,19 @@ sensor:
         - throttle_average: ${update_interval}
     power:
       name: ${devicename} Power
+      id: wattage
       accuracy_decimals: 1
       filters:
         - throttle_average: ${update_interval}
+  - platform: total_daily_energy
+    name: Total Daily Energy
+    id: tde
+    power_id: wattage
+    filters:
+        - multiply: 0.001  ## convert Wh to kWh
+    unit_of_measurement: kWh
+    state_class: total_increasing
+
 switch:
   - platform: gpio
     name: ${devicename}
@@ -52,3 +62,7 @@ switch:
 
 status_led:
   pin: GPIO13
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
