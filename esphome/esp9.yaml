@@ -30,17 +30,17 @@ binary_sensor:
 sensor:
   - platform: cse7766
     current:
-      name: ${devicename} Current
+      name: Current
       accuracy_decimals: 1
       filters:
         - throttle_average: ${update_interval}
     voltage:
-      name: ${devicename} Voltage
+      name: Voltage
       accuracy_decimals: 1
       filters:
         - throttle_average: ${update_interval}
     power:
-      name: ${devicename} Power
+      name: Power
       id: wattage
       accuracy_decimals: 1
       filters:
