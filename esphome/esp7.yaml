@@ -56,6 +56,7 @@ sensor:
 time:
   - platform: homeassistant
     id: homeassistant_time
+    
 switch:
   - platform: gpio
     name: ${devicename}
