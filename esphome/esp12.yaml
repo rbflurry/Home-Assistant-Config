@@ -7,6 +7,8 @@ esphome:
 esp8266:
   board: esp01_1m
 
+captive_portal:
+  
 packages:
   device_base: !include common.yaml
 #  device_switches_sensors: !include default-sensors-switches.yaml
