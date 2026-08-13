@@ -37,6 +37,8 @@ ota:
 
 esp32:
   variant: esp32c3
+  framework:
+    type: esp-idf
 
 dashboard_import:
   package_import_url: github://ratgdo/esphome-ratgdo/v25iboard_secplusv1.yaml@main
