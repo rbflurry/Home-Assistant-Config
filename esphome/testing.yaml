@@ -12,6 +12,7 @@ esp32:
 
 logger:
   level: DEBUG
+  hardware_uart: UART0
 
 api:
   encryption:
