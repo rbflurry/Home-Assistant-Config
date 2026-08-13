@@ -51,13 +51,16 @@ time:
 api:
   id: api_server
 
-#improv_serial:
-
+captive_portal: 
 
 logger:
-  hardware_uart: UART0
   level: DEBUG
+  hardware_uart: UART0
 
-captive_portal: 
+wifi:
+  ap:
+    ssid: testing Fallback Hotspot
+    password: password
+  
   
 
