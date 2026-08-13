@@ -53,10 +53,10 @@ api:
 
 captive_portal: 
 
-logger:
-  level: DEBUG
-  hardware_uart: UART0
-  baud_rate: 115200
+#logger:
+#  level: DEBUG
+#  hardware_uart: UART0
+#  baud_rate: 115200
 
 wifi:
   ap:
