@@ -30,9 +30,8 @@ esphome:
 ota:
   - id: !remove ratgdo_ota
 
-esp8266:
-  board: d1_mini
-  restore_from_flash: true
+esp32:
+  variant: esp32c3
 
 
 dashboard_import:
