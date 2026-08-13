@@ -3,14 +3,14 @@ substitutions:
   friendly_name: "Second Bay"
   devicename: rat-secondbay
   upper_devicename: "Second Bay"
-  uart_tx_pin: D1
-  uart_rx_pin: D2
-  input_obst_pin: D7
-  status_door_pin: D0
-  status_obstruction_pin: D8
-  dry_contact_open_pin: D5
-  dry_contact_close_pin: D6
-  dry_contact_light_pin: D3
+  uart_tx_pin: GPIO21
+  uart_rx_pin: GPIO20
+  input_obst_pin: GPIO5
+  status_door_pin: GPIO1
+  status_obstruction_pin: GPIO10
+  dry_contact_open_pin: GPIO3
+  dry_contact_close_pin: GPIO4
+  dry_contact_light_pin: GPIO9
 
 packages:
   device_base: !include common.yaml
