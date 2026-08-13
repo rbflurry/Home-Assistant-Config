@@ -55,9 +55,5 @@ api:
 
 
 logger:
+  baud_rate: 115200
 
-
-# sensor:
-#   - platform: uptime
-#     type: seconds
-#     name: ${friendly_name} Uptime Sensor
