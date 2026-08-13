@@ -57,3 +57,6 @@ api:
 logger:
   baud_rate: 115200
 
+captive_portal: 
+  
+
