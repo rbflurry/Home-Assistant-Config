@@ -3,8 +3,8 @@ substitutions:
   friendly_name: "Second Bay"
   devicename: rat-secondbay
   upper_devicename: "Second Bay"
-  uart_tx_pin: GPIO21
-  uart_rx_pin: GPIO20
+  uart_tx_pin: GPIO20
+  uart_rx_pin: GPIO21
   input_obst_pin: GPIO5
   status_door_pin: GPIO1
   status_obstruction_pin: GPIO10
@@ -34,8 +34,6 @@ ota:
     id: !remove ${id_prefix}_ratgdo_ota
   - platform: web_server
     id: !remove ${id_prefix}_ratgdo_ota_ws
-#ota:
- # - id: !remove ratgdo_ota
 
 esp32:
   variant: esp32c3
