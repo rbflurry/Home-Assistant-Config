@@ -55,6 +55,7 @@ api:
 logger:
   baud_rate: 115200
   hardware_uart: UART0
+  level: DEBUG
 
 captive_portal: 
   
