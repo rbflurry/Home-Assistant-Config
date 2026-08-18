@@ -44,9 +44,11 @@ sensor:
     accuracy_decimals: 1
     update_interval: 60s
 
-button:
-  - platform: template
-    name: Display Toggle
-    icon: mdi:theme-light-dark
-    on_press:
-      midea_ac.display_toggle:
+external_components:
+  - source: github://parkghost/esphome@feature/midea-display-light-control-via-uart
+    components: [midea]
+
+switch:
+  - platform: midea
+    display_light:
+      name: "Display Light"
