@@ -25,3 +25,49 @@ wifi:
     password: "0UrQ3G5QkVNm"
 
 captive_portal:
+
+  
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO4
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "${friendly_name} Button"
+    id: "${device_name}_button"
+    on_press:
+      - switch.toggle: "${device_name}_relay"
+  - platform: status
+    name: "${friendly_name} Status"
+    id: "${device_name}_status"
+
+switch:
+  - platform: gpio
+    name: "${friendly_name} Relay"
+    id: "${device_name}_relay"
+    pin: GPIO14
+    on_turn_on:
+      - output.turn_on: led
+    on_turn_off:
+      - output.turn_off: led
+
+status_led:
+  pin:
+    number: GPIO12
+    inverted: yes
+
+output:
+  - platform: gpio
+    pin: GPIO13
+    inverted: true
+    id: led
+
+sensor:
+  - platform: wifi_signal
+    name: "${friendly_name} WiFi signal"
+    id: "${device_name}_wifi_signal"
+    update_interval: 60s
+  - platform: uptime
+    name: "${friendly_name} Uptime"
+    id: "${device_name}_uptime"
+    update_interval: 60s
