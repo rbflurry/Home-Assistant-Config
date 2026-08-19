@@ -1,5 +1,9 @@
 # Board: Generic ESP8266 Board (Generic)
 # Definition: definitions/boards/generic-esp8266/manifest.yaml
+substitutions:
+  name: gosund_wp3
+  friendly_name: Gosund WP3
+
 
 esphome:
   name: wps3-3
