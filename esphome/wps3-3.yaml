@@ -34,17 +34,17 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: True
     name: "${friendly_name} Button"
-    id: "${device_name}_button"
+    id: "${name}_button"
     on_press:
-      - switch.toggle: "${device_name}_relay"
+      - switch.toggle: "${name}_relay"
   - platform: status
     name: "${friendly_name} Status"
-    id: "${device_name}_status"
+    id: "${name}_status"
 
 switch:
   - platform: gpio
     name: "${friendly_name} Relay"
-    id: "${device_name}_relay"
+    id: "${name}_relay"
     pin: GPIO14
     on_turn_on:
       - output.turn_on: led
