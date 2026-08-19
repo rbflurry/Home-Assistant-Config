@@ -15,7 +15,7 @@ logger:
 
 api:
   encryption:
-    key: "JA8Nm2VvuM9pEa5IIPCWgFLpDBscQJCKgQPLtYxyXlQ="
+    key: "Q4+FAXArrCKgHYNH3l3jyrwGUUvJPOeXBFpGDgwCIuI="
 
 ota:
   - platform: esphome
@@ -24,7 +24,7 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   ap:
-    ssid: wp3-1 Fallback Hotspot
+    ssid: wps3-1 Fallback Hotspot
     password: "0UrQ3G5QkVNm"
 
 captive_portal:
