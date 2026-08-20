@@ -26,7 +26,7 @@ wifi:
   ap:
     ssid: wp3-3 Fallback Hotspot
     password: "0UrQ3G5QkVNm"
-  use_address: 192.168.50.244
+
 
 captive_portal:
 
