@@ -158,12 +158,13 @@ sensor:
     update_interval: 1s
     unit_of_measurement: A
     accuracy_decimals: 1
-    calibration: 30.0
     filters:
       - sliding_window_moving_average:
           window_size: 5
           send_every: 1
- 
+      #- calibrate_linear:
+        #  - 0 -> 0
+        #  - 1.0 -> 30.0   # PLACEHOLDER — tune this after measuring a known load
   - platform: template
     name: "Shore Power Watts"
     unit_of_measurement: W
