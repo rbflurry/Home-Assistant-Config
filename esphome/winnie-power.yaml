@@ -1,3 +1,33 @@
+substitutions:
+  device_name: rv_load_manager
+  friendly_name: RV Load Manager
+ 
+  # ═══════════════════════════════════════════════════
+  # SHED ORDER — swap these four lines to reorder
+  # Valid values: relay_water_heater, relay_refrigerator,
+  #               relay_ac_compressor, relay_ac_fan
+  # ═══════════════════════════════════════════════════
+  shed_1st: relay_water_heater
+  shed_2nd: relay_ac_compressor
+  shed_3rd: relay_ac_fan
+  shed_4th: relay_refrigerator
+ 
+  # ═══════════════════════════════════════════════════
+  # AC MINIMUM OFF TIME (seconds) — compressor protection
+  # ═══════════════════════════════════════════════════
+  ac_min_off_secs: "120"
+ 
+  # ═══════════════════════════════════════════════════
+  # GPIO PINS
+  # ═══════════════════════════════════════════════════
+  ct_pin:                  GPIO32
+  relay_water_heater_pin:  GPIO12
+  relay_ac_compressor_pin: GPIO13
+  relay_ac_fan_pin:        GPIO14
+  relay_refrigerator_pin:  GPIO15
+ 
+# ─────────────────────────────────────────────
+
 esphome:
   name: winnie-power
   friendly_name: winnie-power
@@ -32,37 +62,381 @@ captive_portal:
 
 web_server:
 
+# ─────────────────────────────────────────────
+# GLOBALS
+# ─────────────────────────────────────────────
+globals:
+  # Service limit — switched between 30A and 20A from HA
+  - id: service_limit
+    type: float
+    restore_value: true
+    initial_value: '30.0'
+ 
+  # Learned amp draw for each load (updated every time a load is shed)
+  - id: learned_amps_water_heater
+    type: float
+    restore_value: true
+    initial_value: '0.0'
+ 
+  - id: learned_amps_refrigerator
+    type: float
+    restore_value: true
+    initial_value: '0.0'
+ 
+  - id: learned_amps_ac_compressor
+    type: float
+    restore_value: true
+    initial_value: '0.0'
+ 
+  - id: learned_amps_ac_fan
+    type: float
+    restore_value: true
+    initial_value: '0.0'
+ 
+  # Amps reading just before each shed (used to calculate learned value)
+  - id: pre_shed_amps
+    type: float
+    restore_value: false
+    initial_value: '0.0'
+ 
+  # Off-time counters for AC units (seconds)
+  - id: ac_compressor_off_seconds
+    type: int
+    restore_value: false
+    initial_value: '9999'
+ 
+  - id: ac_fan_off_seconds
+    type: int
+    restore_value: false
+    initial_value: '9999'
+ 
+  # Which loads were shed by automation vs manually switched
+  - id: water_heater_shed
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+ 
+  - id: refrigerator_shed
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+ 
+  - id: ac_compressor_shed
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+ 
+  - id: ac_fan_shed
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+ 
+  # Tracks which shed position was last shed (for ordered restore)
+  # 0 = none shed, 1 = only 1st shed, 2 = 1st+2nd shed, etc.
+  - id: shed_depth
+    type: int
+    restore_value: false
+    initial_value: '0'
+ 
+# ─────────────────────────────────────────────
+# CT SENSOR
+# ─────────────────────────────────────────────
+sensor:
+  - platform: adc
+    pin: ${ct_pin}
+    name: "Raw CT ADC"
+    id: raw_ct_adc
+    update_interval: 50ms
+    attenuation: 11db
+    internal: true
+ 
+  - platform: ct_clamp
+    sensor: raw_ct_adc
+    name: "Shore Power Current"
+    id: shore_amps
+    sample_duration: 200ms
+    update_interval: 1s
+    unit_of_measurement: A
+    accuracy_decimals: 1
+    calibration: 30.0
+    filters:
+      - sliding_window_moving_average:
+          window_size: 5
+          send_every: 1
+ 
+  - platform: template
+    name: "Shore Power Watts"
+    unit_of_measurement: W
+    accuracy_decimals: 0
+    update_interval: 2s
+    lambda: return id(shore_amps).state * 120.0;
+ 
+  # Expose learned values to Home Assistant for visibility
+  - platform: template
+    name: "Learned Amps Water Heater"
+    unit_of_measurement: A
+    accuracy_decimals: 1
+    update_interval: 10s
+    lambda: return id(learned_amps_water_heater);
+ 
+  - platform: template
+    name: "Learned Amps Refrigerator"
+    unit_of_measurement: A
+    accuracy_decimals: 1
+    update_interval: 10s
+    lambda: return id(learned_amps_refrigerator);
+ 
+  - platform: template
+    name: "Learned Amps AC Compressor"
+    unit_of_measurement: A
+    accuracy_decimals: 1
+    update_interval: 10s
+    lambda: return id(learned_amps_ac_compressor);
+ 
+  - platform: template
+    name: "Learned Amps AC Fan"
+    unit_of_measurement: A
+    accuracy_decimals: 1
+    update_interval: 10s
+    lambda: return id(learned_amps_ac_fan);
+ 
+  - platform: template
+    name: "Service Limit"
+    unit_of_measurement: A
+    accuracy_decimals: 0
+    update_interval: 5s
+    lambda: return id(service_limit);
+ 
+# ─────────────────────────────────────────────
+# RELAYS — normally closed, ON = device OFF
+# ─────────────────────────────────────────────
 switch:
   - platform: gpio
-    name: "Relay 1"
-    pin: 12
-
+    pin: ${relay_water_heater_pin}
+    id: relay_water_heater
+    name: "Water Heater"
+    restore_mode: RESTORE_DEFAULT_OFF
+ 
   - platform: gpio
-    name: "Relay 2"
-    pin: 13
-
+    pin: ${relay_refrigerator_pin}
+    id: relay_refrigerator
+    name: "Refrigerator"
+    restore_mode: RESTORE_DEFAULT_OFF
+ 
   - platform: gpio
-    name: "Relay 3"
-    pin: 14
-
+    pin: ${relay_ac_compressor_pin}
+    id: relay_ac_compressor
+    name: "AC Compressor"
+    restore_mode: RESTORE_DEFAULT_OFF
+ 
   - platform: gpio
-    name: "Relay 4"
-    pin: 15
-
-sensor:
-  - platform: ct_clamp
-    sensor: adc_sensor
-    name: "Measured Current"
-    update_interval: 60s
-    filters:
-      - calibrate_linear:
-          # Measured value of 0 maps to 0A
-          - 0 -> 0
-          # Known load: 4.0A
-          # Value shown in logs: 0.1333A
-          - 0.1333 -> 4.0
-
-  # Example source sensor
-  - platform: adc
-    pin: 32
-    id: adc_sensor
+    pin: ${relay_ac_fan_pin}
+    id: relay_ac_fan
+    name: "AC Fan"
+    restore_mode: RESTORE_DEFAULT_OFF
+ 
+# ─────────────────────────────────────────────
+# 30A / 20A SERVICE SELECTOR
+# Appears as a select dropdown in Home Assistant
+# ─────────────────────────────────────────────
+select:
+  - platform: template
+    name: "Shore Power Service"
+    id: shore_service_select
+    options:
+      - "30 Amp"
+      - "20 Amp"
+    initial_option: "30 Amp"
+    restore_value: true
+    optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+            if (x == "30 Amp") {
+              id(service_limit) = 30.0;
+              ESP_LOGI("load_shed", "Service limit set to 30A");
+            } else {
+              id(service_limit) = 20.0;
+              ESP_LOGI("load_shed", "Service limit set to 20A");
+            }
+ 
+# ─────────────────────────────────────────────
+# INTERVAL TIMERS
+# ─────────────────────────────────────────────
+interval:
+  # 1-second tick — AC off-time counters
+  - interval: 1s
+    then:
+      - lambda: |-
+          if (id(relay_ac_compressor).state) {
+            id(ac_compressor_off_seconds) += 1;
+          } else {
+            id(ac_compressor_off_seconds) = 0;
+          }
+          if (id(relay_ac_fan).state) {
+            id(ac_fan_off_seconds) += 1;
+          } else {
+            id(ac_fan_off_seconds) = 0;
+          }
+ 
+  # 2-second tick — main load shed / restore logic
+  - interval: 2s
+    then:
+      - lambda: |-
+          float amps = id(shore_amps).state;
+          float limit = id(service_limit);
+          int ac_min = $ac_min_off_secs;
+ 
+          // Helper: returns learned amps for a given relay id string
+          // (used to check headroom before restore)
+          auto learned = [](const std::string& relay_id) -> float {
+            if (relay_id == "relay_water_heater")  return id(learned_amps_water_heater);
+            if (relay_id == "relay_refrigerator")  return id(learned_amps_refrigerator);
+            if (relay_id == "relay_ac_compressor") return id(learned_amps_ac_compressor);
+            if (relay_id == "relay_ac_fan")        return id(learned_amps_ac_fan);
+            return 0.0f;
+          };
+ 
+          // Helper: returns AC off-seconds for a relay id string
+          auto off_secs = [](const std::string& relay_id) -> int {
+            if (relay_id == "relay_ac_compressor") return id(ac_compressor_off_seconds);
+            if (relay_id == "relay_ac_fan")        return id(ac_fan_off_seconds);
+            return 9999; // not an AC unit, no delay needed
+          };
+ 
+          // Helper: is this relay an AC unit requiring min-off delay?
+          auto is_ac = [](const std::string& relay_id) -> bool {
+            return (relay_id == "relay_ac_compressor" || relay_id == "relay_ac_fan");
+          };
+ 
+          // Helper: shed a load by relay id string, learn its draw
+          auto do_shed = [&](const std::string& relay_id) {
+            id(pre_shed_amps) = amps;  // capture current before relay opens
+            if (relay_id == "relay_water_heater")  { id(relay_water_heater).turn_on();  id(water_heater_shed)  = true; }
+            if (relay_id == "relay_refrigerator")  { id(relay_refrigerator).turn_on();  id(refrigerator_shed)  = true; }
+            if (relay_id == "relay_ac_compressor") { id(relay_ac_compressor).turn_on(); id(ac_compressor_shed) = true; id(ac_compressor_off_seconds) = 0; }
+            if (relay_id == "relay_ac_fan")        { id(relay_ac_fan).turn_on();        id(ac_fan_shed)        = true; id(ac_fan_off_seconds) = 0; }
+          };
+ 
+          // Helper: after shedding, call this one cycle later to learn the drop
+          // (we do it inline below after a return — next cycle sees lower amps)
+          auto update_learned = [&](const std::string& relay_id) {
+            float drop = id(pre_shed_amps) - amps;
+            if (drop > 0.5f) {  // ignore noise; only learn if drop is meaningful
+              if (relay_id == "relay_water_heater")  id(learned_amps_water_heater)  = drop;
+              if (relay_id == "relay_refrigerator")  id(learned_amps_refrigerator)  = drop;
+              if (relay_id == "relay_ac_compressor") id(learned_amps_ac_compressor) = drop;
+              if (relay_id == "relay_ac_fan")        id(learned_amps_ac_fan)        = drop;
+              ESP_LOGI("load_shed", "Learned %s = %.1fA", relay_id.c_str(), drop);
+            }
+          };
+ 
+          // Relay id strings matching substitution order
+          std::string order[4] = {"$shed_1st", "$shed_2nd", "$shed_3rd", "$shed_4th"};
+ 
+          // ── LEARN PHASE ─────────────────────────────────
+          // If pre_shed_amps was set last cycle, learn the drop now
+          if (id(pre_shed_amps) > 0.0f) {
+            for (int i = 0; i < 4; i++) {
+              bool relay_on = false;
+              if (order[i] == "relay_water_heater")  relay_on = id(relay_water_heater).state;
+              if (order[i] == "relay_refrigerator")  relay_on = id(relay_refrigerator).state;
+              if (order[i] == "relay_ac_compressor") relay_on = id(relay_ac_compressor).state;
+              if (order[i] == "relay_ac_fan")        relay_on = id(relay_ac_fan).state;
+              // This relay was just shed (on) last cycle
+              if (relay_on) {
+                update_learned(order[i]);
+                break;
+              }
+            }
+            id(pre_shed_amps) = 0.0f;  // clear flag
+          }
+ 
+          // ── SHED PHASE ──────────────────────────────────
+          if (amps > limit) {
+            for (int i = 0; i < 4; i++) {
+              bool relay_on = false;
+              if (order[i] == "relay_water_heater")  relay_on = id(relay_water_heater).state;
+              if (order[i] == "relay_refrigerator")  relay_on = id(relay_refrigerator).state;
+              if (order[i] == "relay_ac_compressor") relay_on = id(relay_ac_compressor).state;
+              if (order[i] == "relay_ac_fan")        relay_on = id(relay_ac_fan).state;
+ 
+              if (!relay_on) {
+                // This load is still ON — shed it
+                do_shed(order[i]);
+                id(shed_depth) = i + 1;
+                ESP_LOGI("load_shed", "SHED %d: %s OFF (%.1fA / %.0fA limit)",
+                  i+1, order[i].c_str(), amps, limit);
+                return;  // wait one cycle before evaluating again
+              }
+            }
+          }
+ 
+          // ── RESTORE PHASE ───────────────────────────────
+          // Walk backwards through shed loads
+          // Only restore if: current + learned_amps_of_load < service_limit
+          // AND AC min-off timer has elapsed
+          for (int i = 3; i >= 0; i--) {
+            bool relay_on = false;
+            bool was_shed = false;
+            if (order[i] == "relay_water_heater")  { relay_on = id(relay_water_heater).state;  was_shed = id(water_heater_shed); }
+            if (order[i] == "relay_refrigerator")  { relay_on = id(relay_refrigerator).state;   was_shed = id(refrigerator_shed); }
+            if (order[i] == "relay_ac_compressor") { relay_on = id(relay_ac_compressor).state;  was_shed = id(ac_compressor_shed); }
+            if (order[i] == "relay_ac_fan")        { relay_on = id(relay_ac_fan).state;         was_shed = id(ac_fan_shed); }
+ 
+            if (relay_on && was_shed) {
+              // Check AC minimum off time
+              if (is_ac(order[i]) && off_secs(order[i]) < ac_min) {
+                ESP_LOGI("load_shed", "%s waiting for min-off: %ds / %ds",
+                  order[i].c_str(), off_secs(order[i]), ac_min);
+                return;  // don't restore anything until this one is ready
+              }
+ 
+              // Check headroom: current + this load's learned draw must be under limit
+              float load_draw = learned(order[i]);
+              if (load_draw == 0.0f) {
+                // Never learned — use a conservative default and restore anyway
+                load_draw = 1.0f;
+              }
+              if ((amps + load_draw) < limit) {
+                // Enough headroom — restore this load
+                if (order[i] == "relay_water_heater")  { id(relay_water_heater).turn_off();  id(water_heater_shed)  = false; }
+                if (order[i] == "relay_refrigerator")  { id(relay_refrigerator).turn_off();  id(refrigerator_shed)  = false; }
+                if (order[i] == "relay_ac_compressor") { id(relay_ac_compressor).turn_off(); id(ac_compressor_shed) = false; }
+                if (order[i] == "relay_ac_fan")        { id(relay_ac_fan).turn_off();        id(ac_fan_shed)        = false; }
+                ESP_LOGI("load_shed", "RESTORE: %s ON (%.1fA + %.1fA learned = %.1fA < %.0fA limit)",
+                  order[i].c_str(), amps, load_draw, amps + load_draw, limit);
+                return;  // one restore per cycle
+              } else {
+                ESP_LOGI("load_shed", "HOLD: %s not enough headroom (%.1fA + %.1fA = %.1fA >= %.0fA)",
+                  order[i].c_str(), amps, load_draw, amps + load_draw, limit);
+                return;  // not enough room yet, wait
+              }
+            }
+          }
+ 
+# ─────────────────────────────────────────────
+# STATUS SENSORS
+# ─────────────────────────────────────────────
+binary_sensor:
+  - platform: template
+    name: "Load Shedding Active"
+    lambda: |-
+      return id(relay_water_heater).state ||
+             id(relay_refrigerator).state  ||
+             id(relay_ac_compressor).state ||
+             id(relay_ac_fan).state;
+ 
+text_sensor:
+  - platform: template
+    name: "Shed Status"
+    update_interval: 5s
+    lambda: |-
+      std::string status = "";
+      if (id(relay_water_heater).state)  status += "WH ";
+      if (id(relay_ac_compressor).state) status += "AC-COMP ";
+      if (id(relay_ac_fan).state)        status += "AC-FAN ";
+      if (id(relay_refrigerator).state)  status += "FRIDGE ";
+      if (status.empty()) status = "None";
+      return {"Shed: " + status};
+ 
