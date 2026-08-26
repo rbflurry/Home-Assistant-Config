@@ -50,15 +50,10 @@ switch:
     name: "Relay 2"
     id: relay_2
 
-light:
-  - platform: binary
-    name: "Status LED"
-    output: led3_output
-
-output:
-  - platform: gpio
-    pin: GPIO23
-    id: led3_output
+status_led:
+  pin:
+    number: GPIO23
+    inverted: yes
 
 esp32_ble_tracker:
   scan_parameters:
