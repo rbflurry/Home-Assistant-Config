@@ -1,5 +1,6 @@
-# Board: Generic ESP32 Board (Generic)
-# Definition: definitions/boards/generic-esp32/manifest.yaml
+substitutions:
+  devicename: garage-door-lights
+  upper_devicename: Garage-Door-Lights
 
 esphome:
   name: garage-door-lights
