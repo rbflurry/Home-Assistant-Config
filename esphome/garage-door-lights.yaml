@@ -27,3 +27,24 @@ wifi:
     password: "aTJWQKK5b4MN"
 
 captive_portal:
+
+switch:
+  - platform: gpio
+    pin: GPIO16
+    name: "Relay 1"
+    id: relay_1
+
+  - platform: gpio
+    pin: GPIO17
+    name: "Relay 2"
+    id: relay_2
+
+light:
+  - platform: binary
+    name: "Status LED"
+    output: led3_output
+
+output:
+  - platform: gpio
+    pin: GPIO23
+    id: led3_output
