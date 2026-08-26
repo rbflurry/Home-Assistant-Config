@@ -39,7 +39,6 @@ binary_sensor:
     
 web_server:
   
-  
 switch:
   - platform: gpio
     pin: GPIO16
@@ -61,3 +60,9 @@ output:
     pin: GPIO23
     id: led3_output
 
+esp32_ble_tracker:
+  scan_parameters:
+    active: true
+
+bluetooth_proxy:
+  active: true
