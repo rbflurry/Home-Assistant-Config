@@ -20,11 +20,6 @@ api:
 ota:
   - platform: esphome
 
-wifi:
-  ap:
-    ssid: garage-door-lig Fallback Hotspot
-    password: "aTJWQKK5b4MN"
-
 captive_portal:
 
 packages:
@@ -41,7 +36,9 @@ binary_sensor:
       inverted: true
     name: "Garage Door"
     device_class: door
-
+    
+web_server:
+  
   
 switch:
   - platform: gpio
