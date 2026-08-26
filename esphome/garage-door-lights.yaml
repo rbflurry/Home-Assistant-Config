@@ -6,7 +6,7 @@ esphome:
   friendly_name: garage-door-lights
 
 esp32:
-  variant: esp32
+  board: esp32dev
   framework:
     type: esp-idf
 
