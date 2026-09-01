@@ -30,11 +30,6 @@ wifi:
         subnet: 255.255.255.0
       priority: 2
 
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-      ssid: ${devicename} Fallback
-      password: !secret wifi_pass
-
 api:
   reboot_timeout: 0s
 
