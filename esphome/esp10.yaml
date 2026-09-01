@@ -35,6 +35,9 @@ wifi:
       ssid: ${devicename} Fallback
       password: !secret wifi_pass
 
+api:
+  reboot_timeout: 0s
+
 mqtt:
   broker: 192.168.47.103
   username: winnebago-plug
