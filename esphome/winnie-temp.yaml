@@ -21,6 +21,12 @@ api:
   encryption:
     key: "ATtXPeimYkxrF+xeGgR811e0ueix+5TduhyBtpsZABs="
 
+mqtt:
+  broker: 192.168.47.103
+  username: winnebago-temp
+  password: winnebago-temp
+    
+
 #ota:
 #  - platform: esphome
 #    password: "941b025e26f36d2bc84cf520a4cbf80a"
@@ -46,6 +52,8 @@ wifi:
 captive_portal:
 
 web_server:
+
+bluetooth_proxy:
   
 sensor:
   - platform: dht
