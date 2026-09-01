@@ -45,6 +45,7 @@ wifi:
       #  gateway: 192.168.62.1
       #  subnet: 255.255.255.0
       priority: 2
+    - ssid: 
 
 
 captive_portal:
