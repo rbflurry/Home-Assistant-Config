@@ -27,11 +27,7 @@ mqtt:
   username: winnebago-temp
   password: winnebago-temp
   discovery: true
-    
 
-#ota:
-#  - platform: esphome
-#    password: "941b025e26f36d2bc84cf520a4cbf80a"
 
 wifi:
   networks:
