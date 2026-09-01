@@ -48,9 +48,9 @@ web_server:
 sensor:
   - platform: dht
     model: DHT22
-    pin: 3
+    pin: GPIO3
     temperature:
-      name: "Allaince Temperature"
+      name: "Alliance Temperature"
       filters:
         - lambda: return x * (9.0/5.0) + 32.0;
       unit_of_measurement: "°F"
