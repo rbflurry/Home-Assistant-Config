@@ -35,6 +35,12 @@ wifi:
       ssid: ${devicename} Fallback
       password: !secret wifi_pass
 
+mqtt:
+  broker: 192.168.47.103
+  username: winnebago-plug
+  password: winnebago-plug
+  discovery: true
+
 uart:
   rx_pin: RX
   baud_rate: 4800
