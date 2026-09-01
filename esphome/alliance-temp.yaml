@@ -48,7 +48,7 @@ web_server:
 sensor:
   - platform: dht
     model: DHT22
-    pin: GPIO3
+    pin: D3
     temperature:
       name: "Alliance Temperature"
       filters:
