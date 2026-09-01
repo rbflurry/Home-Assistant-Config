@@ -33,19 +33,12 @@ wifi:
   networks:
     - ssid: !secret wifi_ssid_dog_iot
       password: !secret wifi_password_dog_iot
-      #manual_ip:
-      #  static_ip: 192.168.62.10
-      #  gateway: 192.168.62.1
-      #  subnet: 255.255.255.0
       priority: 4
     - ssid: !secret wifi_ssid_dog
       password: !secret wifi_password_dog
-      #manual_ip:
-      #  static_ip: 192.168.62.10
-      #  gateway: 192.168.62.1
-      #  subnet: 255.255.255.0
       priority: 2
-    - ssid: 
+    - ssid: !secret wifi_ssid_chandler2
+      password: !secret wifi_password_chandler2
 
 
 captive_portal:
