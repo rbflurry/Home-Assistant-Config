@@ -48,7 +48,7 @@ web_server:
 sensor:
   - platform: dht
     model: DHT22
-    pin: 4
+    pin: 3
     temperature:
       name: "Allaince Temperature"
       filters:
