@@ -23,6 +23,12 @@ api:
 #  - platform: esphome
 #    password: "941b025e26f36d2bc84cf520a4cbf80a"
 
+mqtt:
+  broker: 192.168.47.103
+  username: alliance-temp
+  password: alliance-temp
+  discovery: true
+
 wifi:
   networks:
     - ssid: !secret wifi_ssid_dog_iot
