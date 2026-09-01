@@ -1,25 +1,61 @@
 esphome:
   name: alliance-temp
   friendly_name: alliance-temp
+substitutions:
+  devicename: alliance-temp
+  upper_devicename: Alliance-temp
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
 
-# Replace this with your actual platform if you aren't using ESP32.
-esp32:
-  board: esp32dev
+esp8266:
+  board: d1_mini
 
+# Enable logging
 logger:
 
+# Enable Home Assistant API
 api:
   encryption:
-    key: "FO3yc2hWAiOW5FWQTkKKxMOGD25WF3AbsGiz5aoVu2E="
+    key: "ATtXPeimYkxrF+xeGgR811e0ueix+5TduhyBtpsZABs="
 
-ota:
-  - platform: esphome
+#ota:
+#  - platform: esphome
+#    password: "941b025e26f36d2bc84cf520a4cbf80a"
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  ap:
-    ssid: alliance-temp Fallback Hotspot
-    password: "2qAVjm7aNVhf"
+  networks:
+    - ssid: !secret wifi_ssid_dog_iot
+      password: !secret wifi_password_dog_iot
+      #manual_ip:
+      #  static_ip: 192.168.62.10
+      #  gateway: 192.168.62.1
+      #  subnet: 255.255.255.0
+      priority: 4
+    - ssid: !secret wifi_ssid_dog
+      password: !secret wifi_password_dog
+      #manual_ip:
+      #  static_ip: 192.168.62.10
+      #  gateway: 192.168.62.1
+      #  subnet: 255.255.255.0
+      priority: 2
+
 
 captive_portal:
+
+web_server:
+  
+sensor:
+  - platform: dht
+    model: DHT22
+    pin: 4
+    temperature:
+      name: "Allaince Temperature"
+      filters:
+        - lambda: return x * (9.0/5.0) + 32.0;
+      unit_of_measurement: "°F"
+    humidity:
+      name: "Alliance Humidity"
+    update_interval: 60s
+
+    
