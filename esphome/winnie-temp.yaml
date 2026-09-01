@@ -26,6 +26,7 @@ mqtt:
   broker: 192.168.47.103
   username: winnebago-temp
   password: winnebago-temp
+  discovery: true
     
 
 #ota:
