@@ -30,6 +30,7 @@ mqtt:
   username: winnebago-plug
   password: winnebago-plug
   discovery: true
+  discovery_unique_id_generator: mac
 
 uart:
   rx_pin: RX
