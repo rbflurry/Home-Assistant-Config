@@ -18,6 +18,7 @@ logger:
 api:
   encryption:
     key: "ATtXPeimYkxrF+xeGgR811e0ueix+5TduhyBtpsZABs="
+  reboot_timeout: 0s
 
 mqtt:
   broker: 192.168.47.103
