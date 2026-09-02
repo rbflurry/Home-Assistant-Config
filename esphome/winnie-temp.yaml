@@ -47,10 +47,10 @@ sensor:
     model: DHT22
     pin: 21
     temperature:
-      name: "Temperature"
+      name: "Winnebago Temperature"
       filters:
         - lambda: return x * (9.0/5.0) + 32.0;
       unit_of_measurement: "°F"
     humidity:
-      name: "Humidity"
+      name: "Winnebago Humidity"
     update_interval: 60s
