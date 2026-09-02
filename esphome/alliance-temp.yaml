@@ -16,8 +16,6 @@ logger:
 
 # Enable Home Assistant API
 api:
-  encryption:
-    key: "ATtXPeimYkxrF+xeGgR811e0ueix+5TduhyBtpsZABs="
   reboot_timeout: 0s
 
 mqtt:
