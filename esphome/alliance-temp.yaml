@@ -19,10 +19,6 @@ api:
   encryption:
     key: "ATtXPeimYkxrF+xeGgR811e0ueix+5TduhyBtpsZABs="
 
-#ota:
-#  - platform: esphome
-#    password: "941b025e26f36d2bc84cf520a4cbf80a"
-
 mqtt:
   broker: 192.168.47.103
   username: alliance-temp
@@ -50,12 +46,12 @@ sensor:
     model: DHT22
     pin: D3
     temperature:
-      name: "Alliance Temperature"
+      name: "Temperature"
       filters:
         - lambda: return x * (9.0/5.0) + 32.0;
       unit_of_measurement: "°F"
     humidity:
-      name: "Alliance Humidity"
+      name: "Humidity"
     update_interval: 60s
 
     
