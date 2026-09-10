@@ -42,16 +42,26 @@ captive_portal:
 web_server:
 
 #bluetooth_proxy:
-  
+i2c:
+  scl: 21
+  sda: 22
 sensor:
-  - platform: dht
-    model: DHT22
-    pin: 21
+#  - platform: dht
+#    model: DHT22
+#    pin: 21
+#    temperature:
+#      name: "Temperature"
+#      filters:
+#        - lambda: return x * (9.0/5.0) + 32.0;
+#      unit_of_measurement: "°F"
+#    humidity:
+#      name: "Humidity"
+#    update_interval: 60s
+
+  - platform: bme280_i2c
     temperature:
-      name: "Temperature"
-      filters:
-        - lambda: return x * (9.0/5.0) + 32.0;
-      unit_of_measurement: "°F"
+      name: "BME280 Temperature"
+    pressure:
+      name: "BME280 Pressure"
     humidity:
-      name: "Humidity"
-    update_interval: 60s
+      name: "BME280 Humidity"
