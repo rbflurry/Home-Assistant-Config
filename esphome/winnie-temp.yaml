@@ -60,9 +60,10 @@ sensor:
 #    update_interval: 60s
 
   - platform: bme280_i2c
+    address: 0x76
     temperature:
-      name: "BME280 Temperature"
+      name: "Temperature"
     pressure:
-      name: "BME280 Pressure"
+      name: "Pressure"
     humidity:
-      name: "BME280 Humidity"
+      name: "Humidity"
