@@ -43,7 +43,7 @@ web_server:
 
 #bluetooth_proxy:
 i2c:
-  scl: 21
+  scl: 23
   sda: 22
 sensor:
 #  - platform: dht
