@@ -45,6 +45,7 @@ web_server:
 i2c:
   scl: GPIO23
   sda: GPIO22
+  scan: true
 sensor:
 #  - platform: dht
 #    model: DHT22
