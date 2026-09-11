@@ -10,6 +10,9 @@ esp32:
   framework:
     type: esp-idf
 
+web_server:
+  
+    
 api:
   encryption:
     key: "isrRzD95TWhPh6OUCb637IVN81M5jdR2LAas4ASbH4Y="
