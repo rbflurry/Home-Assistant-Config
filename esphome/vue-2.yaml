@@ -101,13 +101,13 @@ substitutions:
   leg_1: "Phase A"
   leg_2: "Phase B"
   #leg_3 (`input: "C"` available but not used in this example)
-  cir_1: "Circuit 1"
-  cir_2: "Circuit 2"
-  cir_3: "Circuit 3"
-  cir_4: "Circuit 4"
-  cir_5: "Circuit 5"
-  cir_6: "Circuit 6"
-  cir_7: "Circuit 7"
+  cir_1: "Well Pump"
+  cir_2: "Hot Water"
+  cir_3: "Upstairs Mini Split"
+  cir_4: "Basement Outlets"
+  cir_5: "Heat Pump"
+  cir_6: "Air Handler"
+  cir_7: "Dryer"
   cir_8: "Circuit 8"
   cir_9: "Circuit 9"
   cir_10: "Circuit 10"
@@ -183,11 +183,11 @@ sensor:
       # Pay close attention to set the `phase_id` for each breaker by matching it to the phase/leg it connects to in the panel
       - { phase_id: phase_a, input:  "1", power: { id:  cir1, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input:  "2", power: { id:  cir2, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "3", power: { id:  cir3, filters: [ *neg ] } }
+      - { phase_id: phase_a, input:  "3", power: { id:  cir3, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_b, input:  "4", power: { id:  cir4, filters: [ *neg ] } }
-      - { phase_id: phase_a, input:  "5", power: { id:  cir5, filters: [ *neg ] } }
-      - { phase_id: phase_b, input:  "6", power: { id:  cir6, filters: [ *neg ] } }
-      - { phase_id: phase_a, input:  "7", power: { id:  cir7, filters: [ *neg ] } }
+      - { phase_id: phase_a, input:  "5", power: { id:  cir5, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_b, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_a, input:  "7", power: { id:  cir7, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_b, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
       - { phase_id: phase_a, input:  "9", power: { id:  cir9, filters: [ *neg ] } }
       - { phase_id: phase_b, input: "10", power: { id: cir10, filters: [ *neg ] } }
