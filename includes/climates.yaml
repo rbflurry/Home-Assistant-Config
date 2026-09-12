@@ -37,8 +37,9 @@
   - platform: generic_thermostat
     name: Garage Attic Fan
     heater: switch.esp9
-    target_sensor: sensor.garage_temp
-    cold_tolerance: 2.0
-    hot_tolerance: 2.0
+    target_sensor: sensor.snmp_garage_nodered_8ee3b983b87504d4
+    cold_tolerance: 1
+    hot_tolerance: 1
     ac_mode: true
     min_cycle_duration: 00:05:00
+    target_temp: 80

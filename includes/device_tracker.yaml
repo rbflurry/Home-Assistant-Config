@@ -20,13 +20,13 @@
 #  - platform: nmap_tracker
 #    hosts: 192.168.47.1/24
 #  - platform: owntracks_http
-  - platform: snmp
-    host: 192.168.47.2
-    community: !secret snmp
-    baseoid: 1.3.6.1.2.1.4.22.1.2
-    interval_seconds: 120
+#  - platform: snmp
+#    host: 192.168.47.2
+#    community: !secret snmp
+#    baseoid: 1.3.6.1.2.1.4.22.1.2
+#    interval_seconds: 120
 # BedRoom Speaker
-    new_device_defaults:
-      track_new_devices: false
+#    new_device_defaults:
+ #     track_new_devices: false
 
 

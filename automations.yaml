@@ -1429,6 +1429,16 @@
       - switch.switch_3
       - switch.ahr_085_3_relay3
     action: homeassistant.turn_on
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_off
+    metadata: {}
+    target:
+      entity_id: light.bretts_bed_wled
+    data: {}
   mode: single
 - id: '1703775125209'
   alias: chandler bi
@@ -2124,6 +2134,7 @@
   - condition: state
     entity_id: switch.bathroom_fan
     state: unavailable
+    enabled: false
   - condition: state
     entity_id: input_boolean.chicken_frozen
     state: 'off'
@@ -2527,7 +2538,7 @@
     input:
       linked_entities:
       - switch.wink_kitchen
-      - switch.kauf_plug_a9f21b_kauf_plug
+      - switch.wp3_2_gosund_wp3_2_relay
 - id: '1768693235355'
   alias: Link On/Off State of carriage/flood
   description: ''
@@ -2627,9 +2638,9 @@
   actions:
   - action: switch.turn_on
     metadata: {}
-    target:
-      entity_id: switch.kauf_plug_a9f21b_kauf_plug
     data: {}
+    target:
+      entity_id: switch.wp3_2_gosund_wp3_2_relay
   - delay:
       hours: 0
       minutes: 10
@@ -2638,9 +2649,9 @@
   - action: switch.turn_off
     metadata: {}
     target:
-      entity_id: switch.kauf_plug_a9f21b_kauf_plug
+      entity_id: switch.wp3_2_gosund_wp3_2_relay
     data: {}
-  mode: single
+  mode: restart
 - id: '1782488421042'
   alias: vacuum Empty Dust bin
   description: ''
@@ -2671,7 +2682,7 @@
         for: 00:00:00
         zone: zone.home
     timeout:
-      hours: 9
+      hours: 10
       minutes: 0
       seconds: 0
       milliseconds: 0
@@ -2703,4 +2714,100 @@
     target:
       device_id: ba5d1b464d32a0046f09f6238e7e62e2
     data: {}
+  mode: single
+- id: '1785337821086'
+  alias: Garage Attic Fan - Sync Target
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.pws_5in1_temperature
+  - trigger: homeassistant
+    event: start
+  conditions: []
+  actions:
+  - action: climate.set_temperature
+    metadata: {}
+    target:
+      entity_id: climate.garage_attic_fan
+    data:
+      temperature: '{{ [(states(''sensor.pws_5in1_temperature'') | float(70)) + 5.5,
+        80] | max }}
+
+        '
+  mode: single
+- id: '1787939771435'
+  alias: Energy Savings
+  description: ''
+  triggers:
+  - trigger: schedule.block_started
+    target:
+      entity_id: schedule.peak_energy_summer
+    options:
+      behavior: each
+      for: 00:00:00
+  conditions:
+  - condition: state
+    entity_id: sensor.season
+    state:
+    - summer
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id:
+      - switch.wink_zwaveoutlet
+      - switch.kauf_plug_a9f569_kauf_plug
+    data: {}
+  - action: climate.set_hvac_mode
+    metadata: {}
+    target:
+      entity_id: climate.garage_attic_fan
+    data:
+      hvac_mode: 'off'
+  mode: single
+- id: '1788171857330'
+  alias: Grid Tie is doing it!
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: sensor.ef_bk0388_grid_connection_status
+  conditions: []
+  actions:
+  - action: notify.send_message
+    metadata: {}
+    target:
+      entity_id: notify.telegram_bot_700554930_543668285
+    data:
+      message: It’s happening!!!!
+  mode: single
+- id: '1788358229633'
+  alias: Energy savings off
+  description: ''
+  triggers:
+  - trigger: schedule.block_ended
+    target:
+      entity_id: schedule.peak_energy_summer
+    options:
+      behavior: each
+      for: 00:00:00
+  conditions:
+  - condition: state
+    entity_id: sensor.season
+    state:
+    - summer
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      entity_id:
+      - switch.kauf_plug_a9f569_kauf_plug
+      - switch.wink_zwaveoutlet
+    data: {}
+  - action: climate.set_hvac_mode
+    metadata: {}
+    target:
+      entity_id: climate.garage_attic_fan
+    data:
+      hvac_mode: cool
   mode: single

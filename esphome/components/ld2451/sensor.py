@@ -13,6 +13,8 @@ CONF_LD2451_ID = "ld2451_id"
 CONF_ANGLE = "angle"
 CONF_TARGET_COUNT = "target_count"
 CONF_SNR = "snr" 
+CONF_SPEED_APPROACHING = "speed_approaching"
+CONF_SPEED_LEAVING = "speed_leaving"
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(CONF_LD2451_ID): cv.use_id(LD2451Component),
@@ -46,6 +48,18 @@ CONFIG_SCHEMA = cv.Schema({
         accuracy_decimals=0,
         state_class=STATE_CLASS_MEASUREMENT,
     ),
+    cv.Optional(CONF_SPEED_APPROACHING): sensor.sensor_schema(
+        unit_of_measurement="mph",
+        icon="mdi:speedometer",
+        accuracy_decimals=1,
+        state_class=STATE_CLASS_MEASUREMENT,
+),
+    cv.Optional(CONF_SPEED_LEAVING): sensor.sensor_schema(
+        unit_of_measurement="mph",
+        icon="mdi:speedometer",
+        accuracy_decimals=1,
+        state_class=STATE_CLASS_MEASUREMENT,
+),
 })
 
 async def to_code(config):
@@ -70,3 +84,11 @@ async def to_code(config):
     if CONF_TARGET_COUNT in config:
         s = await sensor.new_sensor(config[CONF_TARGET_COUNT])
         cg.add(parent.set_target_count_sensor(s))
+        
+    if CONF_SPEED_APPROACHING in config:
+        s = await sensor.new_sensor(config[CONF_SPEED_APPROACHING])
+        cg.add(parent.set_speed_approaching_sensor(s))
+
+    if CONF_SPEED_LEAVING in config:
+        s = await sensor.new_sensor(config[CONF_SPEED_LEAVING])
+        cg.add(parent.set_speed_leaving_sensor(s))

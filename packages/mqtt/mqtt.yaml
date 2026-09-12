@@ -38,50 +38,28 @@ mqtt:
 #      payload_off: "OFF"
 #      device_class: motion
 ######################################################
-  
-  sensor:
-    - name: "Camper Temp" 
-      state_topic: "tele/Camper/SENSOR"  
-      icon: 'mdi:temperature-fahrenheit'
-      value_template: "{{ value_json['AM2301'].Temperature | int }}"
-      unit_of_measurement: "°F"
-      availability_topic: "tele/Camper/LWT"
-      qos: 1
-      payload_available: "Online"
-      payload_not_available: "Offline"
 
-    - name: "Camper Humid"
-      state_topic: "tele/Camper/SENSOR"  
-      icon: mdi:water-percent
-      value_template: "{{ value_json['AM2301'].Humidity | int }}"
-      unit_of_measurement: "%"
-      availability_topic: "tele/Camper/LWT"
-      qos: 1
-      payload_available: "Online"
-      payload_not_available: "Offline"
-
-    - name: "Camper Temp 2"
-      state_topic: "tele/TempSensor2/SENSOR"  
-      icon: 'mdi:temperature-fahrenheit'
-      value_template: "{{ value_json['AM2301'].Temperature | int }}"
-      unit_of_measurement: "°F"
-      availability_topic: "tele/TempSensor2/LWT"
-      qos: 1
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      
-    - name: "Camper Humid 2" 
-      state_topic: "tele/TempSensor2/SENSOR"  
-      icon: mdi:water-percent
-      value_template: "{{ value_json['AM2301'].Humidity | int }}"
-      unit_of_measurement: "%"
-      availability_topic: "tele/TempSensor2/LWT"
-      qos: 1
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      
 #################################################
- 
+  sensor:
+    # - name: "Camper Temp" 
+      # state_topic: "tele/Camper/SENSOR"  
+      # icon: 'mdi:temperature-fahrenheit'
+      # value_template: "{{ value_json['AM2301'].Temperature | int }}"
+      # unit_of_measurement: "°F"
+      # availability_topic: "tele/Camper/LWT"
+      # qos: 1
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+
+    # - name: "Camper Humid"
+      # state_topic: "tele/Camper/SENSOR"  
+      # icon: mdi:water-percent
+      # value_template: "{{ value_json['AM2301'].Humidity | int }}"
+      # unit_of_measurement: "%"
+      # availability_topic: "tele/Camper/LWT"
+      # qos: 1
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
 
 
 ######################################
@@ -215,20 +193,20 @@ mqtt:
       payload_not_available: "Offline"
       retain: true
       
-    - name: "esp13"
-      unique_id: esp13
-      state_topic: "stat/esp13/RESULT"
-      value_template: '{{ value_json["POWER"] }}'
-      command_topic: "cmnd/esp13/POWER"
-      availability_topic: "tele/esp13/LWT"
-      qos: 1
-      payload_on: "ON"
-      payload_off: "OFF"
-      payload_available: "Online"
-      payload_not_available: "Offline"
-      retain: true
-      json_attributes_topic: "tele/esp13/SENSOR"
-      json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
+    # - name: "esp13"
+      # unique_id: esp13
+      # state_topic: "stat/esp13/RESULT"
+      # value_template: '{{ value_json["POWER"] }}'
+      # command_topic: "cmnd/esp13/POWER"
+      # availability_topic: "tele/esp13/LWT"
+      # qos: 1
+      # payload_on: "ON"
+      # payload_off: "OFF"
+      # payload_available: "Online"
+      # payload_not_available: "Offline"
+      # retain: true
+      # json_attributes_topic: "tele/esp13/SENSOR"
+      # json_attributes_template: "{{ value_json['ENERGY'] | tojson }}"
       
 ################################################# 
 

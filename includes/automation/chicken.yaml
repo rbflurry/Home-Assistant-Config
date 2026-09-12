@@ -203,6 +203,8 @@
   action:
     - service: homeassistant.turn_on
       entity_id: input_boolean.chicken_door_last_call, input_boolean.chicken_door_automations
+    - service: homeassistant.turn_off
+      entity_id: switch.chicken_sensor_v2_chicken_door_lockout
     - service: cover.open_cover
       entity_id: cover.chicken_door
     - wait_template: "{{ is_state('cover.chicken_door', 'open') }}"
@@ -404,45 +406,20 @@
       data:
         entity_id: climate.brooder
         temperature: '{{states.sensor.brooder_target_temp.state | int }}'
-
-
-
-# - alias: Chicken - Pen Door Lockout
-  # id: edcc037f-c491-4d16-8187-56192252e05d
-  # initial_state: false
-  # trigger:
-   # platform: state
-   # entity_id: switch.chicken_pen_switch
-   # to: 'on'
-  # action:
-    # - service: homeassistant.turn_off
-      # entity_id: switch.chicken_pen_switch
-
-
-# - alias: Chicken - Coop Door Lockout
-  # id: f20b67ec-ecb9-4a6c-9b78-f2f958c1afdc
-  # initial_state: false
-  # trigger:
-   # platform: state
-   # entity_id: switch.chicken_door_switch
-   # to: 'on'
-  # action:
-    # - service: homeassistant.turn_off
-      # entity_id: switch.chicken_door_switch
       
 
-- alias: Chicken Pen - Lockout Enable
-  id: 7bb93c46-7385-4032-9d0f-1b7a45b6d03d
-  initial_state: true
-  trigger:
-    - platform: state
-      entity_id: cover.chicken_pen
-      from: "open"
-      to: "closed"
-  condition:
-    - condition: state
-      entity_id: input_boolean.chicken_door_automations
-      state: 'off'
-  action:
-    - service: homeassistant.turn_on
-      entity_id: automation.chicken_pen_door_lockout, switch.chicken_sensor_v2_chicken_pen_lockout
+# - alias: Chicken Pen - Lockout Enable
+  # id: 7bb93c46-7385-4032-9d0f-1b7a45b6d03d
+  # initial_state: true
+  # trigger:
+    # - platform: state
+      # entity_id: cover.chicken_pen
+      # from: "open"
+      # to: "closed"
+  # condition:
+    # - condition: state
+      # entity_id: input_boolean.chicken_door_automations
+      # state: 'off'
+  # action:
+    # - service: homeassistant.turn_on
+      # entity_id: automation.chicken_pen_door_lockout, switch.chicken_sensor_v2_chicken_pen_lockout

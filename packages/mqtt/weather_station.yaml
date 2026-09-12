@@ -48,6 +48,12 @@ mqtt:
       icon: "mdi:compass-rose"
       value_template: "{{(value)}}"
       
+    - name: "PWS 5in1 Last Seen"
+      unique_id: "PWS 5in1 Last Seen"
+      state_topic: 'rtl_433/1030/time'
+      device_class: timestamp
+      value_template: "{{ as_datetime(value) }}"
+      
     - name: "rain at midnight"
       state_topic: 'ha/cum_rain_prior'
       unit_of_measurement: "in"

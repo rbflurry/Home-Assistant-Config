@@ -30,6 +30,14 @@ class LD2451Component : public Component, public uart::UARTDevice {
   void set_snr_sensor(sensor::Sensor *s)          { snr_sensor_ = s; }
   void set_target_count_sensor(sensor::Sensor *s) { target_count_sensor_ = s; }
   void set_approaching_sensor(binary_sensor::BinarySensor *s) { approaching_sensor_ = s; }
+  void set_speed_approaching_sensor(sensor::Sensor *s) { speed_approaching_sensor_ = s; }
+  void set_speed_leaving_sensor(sensor::Sensor *s)     { speed_leaving_sensor_ = s; }  
+  void set_min_angle(int min_angle)       { min_angle_ = min_angle; }
+  void set_max_angle(int max_angle)       { max_angle_ = max_angle; }
+  void set_min_distance(int min_distance) { min_distance_ = min_distance; }
+  void set_max_distance(int max_distance) { max_distance_ = max_distance; }
+  void set_min_snr(int min_snr)           { min_snr_ = min_snr; }
+  void set_min_speed(int min_speed)       { min_speed_ = min_speed; }
 
   void setup() override {}
 
@@ -55,6 +63,14 @@ class LD2451Component : public Component, public uart::UARTDevice {
   sensor::Sensor *snr_sensor_{nullptr};
   sensor::Sensor *target_count_sensor_{nullptr};
   binary_sensor::BinarySensor *approaching_sensor_{nullptr};
+  sensor::Sensor *speed_approaching_sensor_{nullptr};
+  sensor::Sensor *speed_leaving_sensor_{nullptr};
+  int min_angle_{-30};
+  int max_angle_{30};
+  int min_distance_{0};
+  int max_distance_{100};
+  int min_snr_{0};
+  int min_speed_{0};
 
   uint8_t sync_pos_{0};
 
@@ -106,6 +122,27 @@ class LD2451Component : public Component, public uart::UARTDevice {
       uint8_t dir   = t[2];
       uint8_t spd   = t[3];
       uint8_t snr   = t[4];
+	  
+    ESP_LOGD("ld2451", "  Target %d: %.1f mph @ %.0f ft  angle:%d°  dir:%s  SNR:%d",
+           i, spd * 0.621371f, dist * 3.28084f, angle,
+           dir == 0x01 ? "approach" : "away", snr);
+
+	if (angle < min_angle_ || angle > max_angle_) {
+		ESP_LOGD("ld2451", "  Skipping target %d: angle %d° out of range", i, angle);
+		continue;
+	  }
+	  if (dist < min_distance_ || dist > max_distance_) {
+		ESP_LOGD("ld2451", "  Skipping target %d: distance %d m out of range", i, dist);
+		continue;
+	  }
+	  if (snr < min_snr_) {
+		ESP_LOGD("ld2451", "  Skipping target %d: SNR %d below minimum", i, snr);
+		continue;
+	  }
+	  if (spd < min_speed_) {
+		ESP_LOGD("ld2451", "  Skipping target %d: speed %d below minimum", i, spd);
+		continue;
+	  }
 
       if (spd > best_speed) {
         best_speed = spd;
@@ -116,7 +153,18 @@ class LD2451Component : public Component, public uart::UARTDevice {
       }
     }
 
-    if (speed_sensor_ != nullptr)    speed_sensor_->publish_state(best_speed * 0.621371f);
+	if (best_speed == 0) return;
+
+	if (speed_sensor_ != nullptr)
+		speed_sensor_->publish_state(best_speed * 0.621371f);
+
+	if (best_dir == 0x01) {	
+		if (speed_approaching_sensor_ != nullptr)
+			  speed_approaching_sensor_->publish_state(best_speed * 0.621371f);
+		} else {
+			if (speed_leaving_sensor_ != nullptr)
+			  speed_leaving_sensor_->publish_state(best_speed * 0.621371f);
+		}
     if (distance_sensor_ != nullptr) distance_sensor_->publish_state(best_dist * 3.28084f);
     if (angle_sensor_ != nullptr)    angle_sensor_->publish_state(best_angle);
     if (snr_sensor_ != nullptr)      snr_sensor_->publish_state(best_snr);
