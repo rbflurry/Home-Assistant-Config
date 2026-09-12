@@ -1,10 +1,10 @@
 substitutions:
   devicename: esp13-s21
-  upper_devicename: Winnebago-Plug
+  upper_devicename: esp13-s21
 
 esphome:
   name: ${devicename}
-  comment: winnebago plug
+  comment: esp13-s21
 
 esp8266:
   board: esp01_1m
@@ -25,12 +25,12 @@ wifi:
 api:
   reboot_timeout: 0s
 
-mqtt:
-  broker: 192.168.47.103
-  username: winnebago-plug
-  password: winnebago-plug
-  discovery: true
-  discovery_unique_id_generator: mac
+#mqtt:
+#  broker: 192.168.47.103
+#  username: winnebago-plug
+#  password: winnebago-plug
+#  discovery: true
+#  discovery_unique_id_generator: mac
 
 uart:
   rx_pin: RX
