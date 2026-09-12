@@ -46,8 +46,8 @@ binary_sensor:
     name: "${devicename} Button"
     on_press:
       - switch.toggle: relay
-  - platform: status
-    name: "${devicename} Status"
+#  - platform: status
+#    name: "${devicename} Status"
 
 sensor:
   - platform: cse7766
