@@ -17,10 +17,10 @@ wifi:
   networks:
     - ssid: !secret wifi_ssid_dog_iot
       password: !secret wifi_password_dog_iot
-      priority: 4
+      priority: 6
     - ssid: !secret wifi_ssid_dog
       password: !secret wifi_password_dog
-      priority: 2
+      priority: 7
 
 api:
   reboot_timeout: 0s
