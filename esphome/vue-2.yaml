@@ -145,23 +145,23 @@ sensor:
     i2c_id: i2c_a
     phases:
       - id: phase_a  # Verify that this specific phase/leg is connected to correct input wire color on device listed below
-        input: BLACK # Vue device wire color
+        input: RED # Vue device wire color
         calibration: 0.022 # a starting point, may need adjusted to ensure accuracy!
         # To calculate new calibration value use the formula <in-use calibration value> * <accurate voltage> / <reporting voltage>
         voltage:
           name: "${leg_1} Voltage"
           filters: [*throttle_avg, *pos]
-        frequency:
-          name: "${leg_1} Frequency"
+        phase_angle:
+          name: "${leg_2} Phase Angle"
           filters: [*throttle_avg, *pos]
       - id: phase_b  # see notes above
-        input: RED
+        input: BLACK
         calibration: 0.022
         voltage:
           name: "${leg_2} Voltage"
           filters: [*throttle_avg, *pos]
-        phase_angle:
-          name: "${leg_2} Phase Angle"
+        frequency:
+          name: "${leg_1} Frequency"
           filters: [*throttle_avg, *pos]
 
     ct_clamps:
@@ -181,16 +181,16 @@ sensor:
           device_class: power
           filters: [*pos]
       # Pay close attention to set the `phase_id` for each breaker by matching it to the phase/leg it connects to in the panel
-      - { phase_id: phase_a, input:  "1", power: { id:  cir1, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "2", power: { id:  cir2, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "3", power: { id:  cir3, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "4", power: { id:  cir4, filters: [ *neg ] } }
-      - { phase_id: phase_a, input:  "5", power: { id:  cir5, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "7", power: { id:  cir7, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
-      - { phase_id: phase_a, input:  "9", power: { id:  cir9, filters: [ *neg ] } }
-      - { phase_id: phase_b, input: "10", power: { id: cir10, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_b, input:  "1", power: { id:  cir1, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_a, input:  "2", power: { id:  cir2, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_b, input:  "3", power: { id:  cir3, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_a, input:  "4", power: { id:  cir4, filters: [ *neg ] } }
+      - { phase_id: phase_b, input:  "5", power: { id:  cir5, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_a, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_a, input:  "7", power: { id:  cir7, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_a, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
+      - { phase_id: phase_b, input:  "9", power: { id:  cir9, filters: [ *neg ] } }
+      - { phase_id: phase_a, input: "10", power: { id: cir10, filters: [ *neg, multiply: 2 ] } }
      # - { phase_id: phase_a, input: "11", power: { id: cir11, filters: [ *neg ] } }
      # - { phase_id: phase_a, input: "12", power: { id: cir12, filters: [ *neg ] } }
      # - { phase_id: phase_a, input: "13", power: { id: cir13, filters: [ *neg ] } }
