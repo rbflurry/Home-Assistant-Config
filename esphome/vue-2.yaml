@@ -191,12 +191,12 @@ sensor:
       - { phase_id: phase_b, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
       - { phase_id: phase_a, input:  "9", power: { id:  cir9, filters: [ *neg ] } }
       - { phase_id: phase_b, input: "10", power: { id: cir10, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input: "11", power: { id: cir11, filters: [ *neg ] } }
-      - { phase_id: phase_a, input: "12", power: { id: cir12, filters: [ *neg ] } }
-      - { phase_id: phase_a, input: "13", power: { id: cir13, filters: [ *neg ] } }
-      - { phase_id: phase_a, input: "14", power: { id: cir14, filters: [ *neg ] } }
-      - { phase_id: phase_a, input: "15", power: { id: cir15, filters: [ *neg ] } }
-      - { phase_id: phase_a, input: "16", power: { id: cir16, filters: [ *neg ] } }
+     # - { phase_id: phase_a, input: "11", power: { id: cir11, filters: [ *neg ] } }
+     # - { phase_id: phase_a, input: "12", power: { id: cir12, filters: [ *neg ] } }
+     # - { phase_id: phase_a, input: "13", power: { id: cir13, filters: [ *neg ] } }
+     # - { phase_id: phase_a, input: "14", power: { id: cir14, filters: [ *neg ] } }
+     # - { phase_id: phase_a, input: "15", power: { id: cir15, filters: [ *neg ] } }
+     # - { phase_id: phase_a, input: "16", power: { id: cir16, filters: [ *neg ] } }
     on_update:
       then:
         - component.update: total_power
@@ -217,12 +217,12 @@ sensor:
   - { platform: copy, name:  "${cir_8} Power", source_id:  cir8, filters: *throttle_avg }
   - { platform: copy, name:  "${cir_9} Power", source_id:  cir9, filters: *throttle_avg }
   - { platform: copy, name: "${cir_10} Power", source_id: cir10, filters: *throttle_avg }
-  - { platform: copy, name: "${cir_11} Power", source_id: cir11, filters: *throttle_avg }
-  - { platform: copy, name: "${cir_12} Power", source_id: cir12, filters: *throttle_avg }
-  - { platform: copy, name: "${cir_13} Power", source_id: cir13, filters: *throttle_avg }
-  - { platform: copy, name: "${cir_14} Power", source_id: cir14, filters: *throttle_avg }
-  - { platform: copy, name: "${cir_15} Power", source_id: cir15, filters: *throttle_avg }
-  - { platform: copy, name: "${cir_16} Power", source_id: cir16, filters: *throttle_avg }
+#  - { platform: copy, name: "${cir_11} Power", source_id: cir11, filters: *throttle_avg }
+#  - { platform: copy, name: "${cir_12} Power", source_id: cir12, filters: *throttle_avg }
+#  - { platform: copy, name: "${cir_13} Power", source_id: cir13, filters: *throttle_avg }
+#  - { platform: copy, name: "${cir_14} Power", source_id: cir14, filters: *throttle_avg }
+#  - { platform: copy, name: "${cir_15} Power", source_id: cir15, filters: *throttle_avg }
+#  - { platform: copy, name: "${cir_16} Power", source_id: cir16, filters: *throttle_avg }
 
   - platform: template
     lambda: return id(phase_a_power).state + id(phase_b_power).state;
@@ -251,12 +251,12 @@ sensor:
         id( cir8).state -
         id( cir9).state -
         id(cir10).state -
-        id(cir11).state -
-        id(cir12).state -
-        id(cir13).state -
-        id(cir14).state -
-        id(cir15).state -
-        id(cir16).state);
+  #      id(cir11).state -
+  #      id(cir12).state -
+  #      id(cir13).state -
+  #      id(cir14).state -
+  #      id(cir15).state -
+  #      id(cir16).state);
     update_interval: never   # still happens, but via `on_update` trigger (*after* all power sensors update)
     id: balance_power
     device_class: power
@@ -279,9 +279,9 @@ sensor:
   - { power_id:  cir8, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name:  "${cir_8} Daily Energy", filters: *throttle_time }
   - { power_id:  cir9, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name:  "${cir_9} Daily Energy", filters: *throttle_time }
   - { power_id: cir10, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_10} Daily Energy", filters: *throttle_time }
-  - { power_id: cir11, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_11} Daily Energy", filters: *throttle_time }
-  - { power_id: cir12, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_12} Daily Energy", filters: *throttle_time }
-  - { power_id: cir13, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_13} Daily Energy", filters: *throttle_time }
-  - { power_id: cir14, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_14} Daily Energy", filters: *throttle_time }
-  - { power_id: cir15, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_15} Daily Energy", filters: *throttle_time }
-  - { power_id: cir16, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_16} Daily Energy", filters: *throttle_time }
+#  - { power_id: cir11, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_11} Daily Energy", filters: *throttle_time }
+#  - { power_id: cir12, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_12} Daily Energy", filters: *throttle_time }
+#  - { power_id: cir13, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_13} Daily Energy", filters: *throttle_time }
+#  - { power_id: cir14, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_14} Daily Energy", filters: *throttle_time }
+#  - { power_id: cir15, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_15} Daily Energy", filters: *throttle_time }
+#  - { power_id: cir16, platform: total_daily_energy, accuracy_decimals: 0, restore: false, name: "${cir_16} Daily Energy", filters: *throttle_time }
