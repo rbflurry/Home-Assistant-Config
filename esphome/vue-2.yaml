@@ -108,9 +108,9 @@ substitutions:
   cir_5: "Heat Pump"
   cir_6: "Air Handler"
   cir_7: "Dryer"
-  cir_8: "Circuit 8"
-  cir_9: "Circuit 9"
-  cir_10: "Circuit 10"
+  cir_8: "Garage 1"
+  cir_9: "Garage 2"
+  cir_10: "Stove"
   cir_11: "Circuit 11"
   cir_12: "Circuit 12"
   cir_13: "Circuit 13"
@@ -182,15 +182,15 @@ sensor:
           filters: [*pos]
       # Pay close attention to set the `phase_id` for each breaker by matching it to the phase/leg it connects to in the panel
       - { phase_id: phase_a, input:  "1", power: { id:  cir1, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "2", power: { id:  cir2, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_b, input:  "2", power: { id:  cir2, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input:  "3", power: { id:  cir3, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "4", power: { id:  cir4, filters: [ *neg ] } }
+      - { phase_id: phase_b, input:  "4", power: { id:  cir4, filters: [ *neg ] } }
       - { phase_id: phase_a, input:  "5", power: { id:  cir5, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "7", power: { id:  cir7, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
+      - { phase_id: phase_b, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_b, input:  "7", power: { id:  cir7, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_b, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
       - { phase_id: phase_a, input:  "9", power: { id:  cir9, filters: [ *neg ] } }
-      - { phase_id: phase_a, input: "10", power: { id: cir10, filters: [ *neg ] } }
+      - { phase_id: phase_b, input: "10", power: { id: cir10, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input: "11", power: { id: cir11, filters: [ *neg ] } }
       - { phase_id: phase_a, input: "12", power: { id: cir12, filters: [ *neg ] } }
       - { phase_id: phase_a, input: "13", power: { id: cir13, filters: [ *neg ] } }
