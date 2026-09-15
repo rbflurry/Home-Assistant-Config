@@ -250,7 +250,7 @@ sensor:
         id( cir7).state -
         id( cir8).state -
         id( cir9).state -
-        id(cir10).state -
+        id(cir10).state); 
   #      id(cir11).state -
   #      id(cir12).state -
   #      id(cir13).state -
