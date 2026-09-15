@@ -188,8 +188,8 @@ sensor:
       - { phase_id: phase_b, input:  "5", power: { id:  cir5, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input:  "7", power: { id:  cir7, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_a, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
-      - { phase_id: phase_b, input:  "9", power: { id:  cir9, filters: [ *neg ] } }
+      - { phase_id: phase_a, input:  "8", power: { id:  cir8, filters: [ ] } }
+      - { phase_id: phase_b, input:  "9", power: { id:  cir9, filters: [ ] } }
       - { phase_id: phase_a, input: "10", power: { id: cir10, filters: [ *neg, multiply: 2 ] } }
      # - { phase_id: phase_a, input: "11", power: { id: cir11, filters: [ *neg ] } }
      # - { phase_id: phase_a, input: "12", power: { id: cir12, filters: [ *neg ] } }
