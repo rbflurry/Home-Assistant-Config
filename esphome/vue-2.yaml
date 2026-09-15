@@ -184,19 +184,19 @@ sensor:
       - { phase_id: phase_a, input:  "1", power: { id:  cir1, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input:  "2", power: { id:  cir2, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input:  "3", power: { id:  cir3, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "4", power: { id:  cir4, filters: [ *neg ] } }
+      - { phase_id: phase_a, input:  "4", power: { id:  cir4, filters: [ *neg ] } }
       - { phase_id: phase_a, input:  "5", power: { id:  cir5, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
+      - { phase_id: phase_a, input:  "6", power: { id:  cir6, filters: [ *neg, multiply: 2 ] } }
       - { phase_id: phase_a, input:  "7", power: { id:  cir7, filters: [ *neg, multiply: 2 ] } }
-      - { phase_id: phase_b, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
+      - { phase_id: phase_a, input:  "8", power: { id:  cir8, filters: [ *neg ] } }
       - { phase_id: phase_a, input:  "9", power: { id:  cir9, filters: [ *neg ] } }
-      - { phase_id: phase_b, input: "10", power: { id: cir10, filters: [ *neg ] } }
+      - { phase_id: phase_a, input: "10", power: { id: cir10, filters: [ *neg ] } }
       - { phase_id: phase_a, input: "11", power: { id: cir11, filters: [ *neg ] } }
-      - { phase_id: phase_b, input: "12", power: { id: cir12, filters: [ *neg ] } }
+      - { phase_id: phase_a, input: "12", power: { id: cir12, filters: [ *neg ] } }
       - { phase_id: phase_a, input: "13", power: { id: cir13, filters: [ *neg ] } }
-      - { phase_id: phase_b, input: "14", power: { id: cir14, filters: [ *neg ] } }
+      - { phase_id: phase_a, input: "14", power: { id: cir14, filters: [ *neg ] } }
       - { phase_id: phase_a, input: "15", power: { id: cir15, filters: [ *neg ] } }
-      - { phase_id: phase_b, input: "16", power: { id: cir16, filters: [ *neg ] } }
+      - { phase_id: phase_a, input: "16", power: { id: cir16, filters: [ *neg ] } }
     on_update:
       then:
         - component.update: total_power
