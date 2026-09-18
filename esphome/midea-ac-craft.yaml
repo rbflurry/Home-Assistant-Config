@@ -45,10 +45,11 @@ sensor:
     update_interval: 60s
 
 external_components:
-  - source: github://parkghost/esphome@feature/midea-display-light-control-via-uart
+  - source: github://rbflurry/esphome@dev
     components: [midea]
 
 switch:
   - platform: midea
     display_light:
-      name: "Display Light"
+      name: "Display"
+      
