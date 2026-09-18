@@ -50,7 +50,9 @@ switch:
     icon: mdi:volume-source
     optimistic: true
     turn_on_action:
-      midea_ac.display_toggle:
+      midea_ac.display_toggle: 
+        id: climate_me
     turn_off_action:
       midea_ac.display_toggle:
+        id: climate_me
 
