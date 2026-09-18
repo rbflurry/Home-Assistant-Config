@@ -43,3 +43,14 @@ sensor:
     accuracy_decimals: 1
     update_interval: 60s
 
+
+switch:
+  - platform: template
+    name: Display
+    icon: mdi:volume-source
+    optimistic: true
+    turn_on_action:
+      midea_ac.display_toggle:
+    turn_off_action:
+      midea_ac.display_toggle:
+
