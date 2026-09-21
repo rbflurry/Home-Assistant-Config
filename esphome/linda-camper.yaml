@@ -2,8 +2,8 @@ esphome:
   name: linda-camper
   friendly_name: linda-camper
 substitutions:
-  devicename: alliance-temp
-  upper_devicename: Alliance-temp
+  devicename: linda-camper
+  upper_devicename: linda-camper
 packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
@@ -20,8 +20,8 @@ api:
 
 mqtt:
   broker: 192.168.47.103
-  username: alliance-temp
-  password: alliance-temp
+  username: camper
+  password: camper
   discovery: true
   discovery_unique_id_generator: mac
 
