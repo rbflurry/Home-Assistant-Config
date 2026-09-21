@@ -16,7 +16,6 @@ packages:
 wifi:
   ap: !remove {} 
 
-
 api:
   encryption:
     key: "sebyNmztsE5MDkRfg5iKtlkRh0hA5qLzSRkBIKUKM9s="
@@ -71,9 +70,6 @@ sensor:
     address: 0x1627f6271e64ff28
     name: "Air Output Sensor"
     id: output
-#    filters:
-#    - lambda: return x * (9.0/5.0) + 32.0;
-#    unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
     update_interval: 15s
@@ -81,9 +77,6 @@ sensor:
     address: 0x703c01f09633d428
     name: "Air Input Sensor"
     id: input
-    #filters:
-    #- lambda: return x * (9.0/5.0) + 32.0;
-    #unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
     update_interval: 15s
