@@ -91,16 +91,3 @@ switch:
 
 status_led:
   pin: GPIO13
-
-text_sensor:
-  - platform: template
-    name: "Device Time"
-    lambda: |-
-      char buf[32];
-      auto t = id(sntp_time).now();
-      snprintf(buf, sizeof(buf), "%04d-%02d-%02d %02d:%02d:%02d",
-        t.year, t.month, t.day_of_month, t.hour, t.minute, t.second);
-      return std::string(buf);
-    update_interval: 60s
-
-
