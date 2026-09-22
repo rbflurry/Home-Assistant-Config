@@ -77,6 +77,13 @@ sensor:
 time:
   - platform: homeassistant
     id: homeassistant_time
+  - platform: sntp
+    id: sntp_time
+    timezone: America/New_York
+    servers:
+     - 192.168.47.62
+     - 0.pool.ntp.org
+     - 1.pool.ntp.org
 
 switch:
   - platform: gpio
