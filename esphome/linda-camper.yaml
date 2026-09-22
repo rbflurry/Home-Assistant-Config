@@ -15,8 +15,8 @@ esp8266:
 logger:
 
 # Enable Home Assistant API
-api:
-  reboot_timeout: 0s
+api: !remove
+ # reboot_timeout: 0s
 
 mqtt:
   broker: 192.168.47.103
