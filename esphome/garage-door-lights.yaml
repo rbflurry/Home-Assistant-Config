@@ -30,12 +30,33 @@ binary_sensor:
   - platform: gpio
     pin:
       number: GPIO32
-      mode:
-        input: true
-        pullup: true
+      mode: INPUT_PULLUP
       inverted: true
     name: "Garage Door"
     device_class: door
+    filters:
+      - delayed_on_off: 100ms
+
+  - platform: gpio
+    pin:
+      number: GPIO25
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Switch 1"
+    filters:
+      - delayed_on_off: 50ms
+    on_state:
+      - switch.toggle: relay_1
+  - platform: gpio
+    pin:
+      number: GPIO26
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Switch 2"
+    filters:
+      - delayed_on_off: 50ms
+    on_state:
+      - switch.toggle: relay_2
     
 web_server:
   
