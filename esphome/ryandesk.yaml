@@ -5,8 +5,6 @@ esp8266:
   board: esp01_1m
   restore_from_flash: true
 
-
-  
 substitutions:
   devicename: yagala_sm-so301_01
   upper_devicename: sm-so301_01
