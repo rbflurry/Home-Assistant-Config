@@ -1,8 +1,8 @@
 esphome:
   name: ${unique_id}
-  platform: ESP8266
+
+esp8266:
   board: esp01_1m
-  esp8266_restore_from_flash: true
 
 substitutions:
   devicename: yagala_sm-so301_01
@@ -67,8 +67,8 @@ binary_sensor:
     name: "${displayname} Button"
     on_press:
       - switch.toggle: relay1
-      - switch.toggle: relay2
-      - switch.toggle: relay3
-      - switch.toggle: relay4
-      - switch.toggle: usb_power
-    internal: True
+ #     - switch.toggle: relay2
+ #     - switch.toggle: relay3
+ #     - switch.toggle: relay4
+ #     - switch.toggle: usb_power
+ #   internal: True
