@@ -1,6 +1,6 @@
 substitutions:
   devicename: water-box-temp
-  upper_devicename: Stove-Sensor
+  upper_devicename: Water-Box-Temp
 
 esphome:
   name: ${devicename}
@@ -18,30 +18,9 @@ one_wire:
 sensor:
   - platform: dallas_temp
     address: 0xF50517A19A43FF28
-    name: "Stove Air Sensor"
+    name: "Water Box Temp Sensor"
     filters:
     - lambda: return x * (9.0/5.0) + 32.0;
     unit_of_measurement: "°F"
     device_class: "temperature"
     state_class: "measurement"
-
-
-switch:
-  - platform: gpio
-    pin: GPIO12
-    name: "Driveway Outlets"
-    id: switch_relay
-
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: GPIO0
-      inverted: True
-    id: switch_relay_button
-    on_press:
-      then:
-        - switch.toggle: switch_relay
-
-logger:
-  level: DEBUG
-  baud_rate: 115200
