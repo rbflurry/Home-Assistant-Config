@@ -5,7 +5,7 @@ esp8266:
   board: esp01_1m
   restore_from_flash: true
 
-captive_portal:
+
   
 substitutions:
   devicename: yagala_sm-so301_01
@@ -16,6 +16,10 @@ packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
 
+wifi:
+  ap: !remove
+#captive_portal:
+  
 switch:
   - platform: gpio
     name: "${displayname} USB Power"
