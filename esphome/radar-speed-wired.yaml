@@ -88,3 +88,5 @@ binary_sensor:
       name: "Radar Approaching"
       filters:
         - delayed_off: 3s
+
+bluetooth_proxy:
