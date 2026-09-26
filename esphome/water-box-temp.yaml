@@ -1,0 +1,47 @@
+substitutions:
+  devicename: water-box-temp
+  upper_devicename: Stove-Sensor
+
+esphome:
+  name: ${devicename}
+esp8266:
+  board: d1_mini
+  
+packages:
+  device_base: !include common.yaml
+  device_switches_sensors: !include default-sensors-switches.yaml
+
+one_wire:
+   platform: gpio
+   pin: D4
+  
+sensor:
+  - platform: dallas_temp
+    address: 0xF50517A19A43FF28
+    name: "Stove Air Sensor"
+    filters:
+    - lambda: return x * (9.0/5.0) + 32.0;
+    unit_of_measurement: "°F"
+    device_class: "temperature"
+    state_class: "measurement"
+
+
+switch:
+  - platform: gpio
+    pin: GPIO12
+    name: "Driveway Outlets"
+    id: switch_relay
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: True
+    id: switch_relay_button
+    on_press:
+      then:
+        - switch.toggle: switch_relay
+
+logger:
+  level: DEBUG
+  baud_rate: 115200
