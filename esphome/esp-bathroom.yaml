@@ -38,7 +38,7 @@ status_led:
 sensor:
   - platform: dht
     pin: GPIO3
-    model: AM2302
+    model: DHT11
     temperature:
       name: "Bathroom Temp"
       filters:
