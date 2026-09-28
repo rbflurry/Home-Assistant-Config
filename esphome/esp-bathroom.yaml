@@ -38,7 +38,7 @@ status_led:
 sensor:
   - platform: dht
     pin: GPIO3
-    model: DHT11
+    model: AUTO_DETECT
     temperature:
       name: "Bathroom Temp"
       filters:
