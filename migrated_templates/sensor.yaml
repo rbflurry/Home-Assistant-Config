@@ -410,3 +410,122 @@
       != 'unavailable' and state.attributes.power_reset == 'true' %} {% if loop.last
       %} {{ loop.index|int }} {% endif %} {% else %} 0 {% endfor %}
     name: total_wink_lights
+- sensor:
+  - name: "Estimated Load Cost Per Day"
+    unique_id: estimated_load_cost_per_day
+    unit_of_measurement: "$"
+    state: >
+      {% set watts = states('input_number.estimated_load_watts') | float(0) %}
+      {% set kwh_day = watts / 1000 * 24 %}
+      {% set is_summer = now().month in [6,7,8,9] %}
+      {% set peak_hrs = 10 if is_summer else 8 %}
+      {% set int_hrs = 6 if is_summer else 6 %}
+      {% set off_hrs = 8 if is_summer else 10 %}
+      {% set kwh_hr = kwh_day / 24 %}
+      {% set weekday_cost = (
+          kwh_hr * peak_hrs * states('input_number.rate_peak')|float(0)
+        + kwh_hr * int_hrs * states('input_number.rate_intermediate')|float(0)
+        + kwh_hr * off_hrs * states('input_number.rate_off_peak')|float(0)
+      ) %}
+      {% set weekend_cost = kwh_day * states('input_number.rate_off_peak')|float(0) %}
+      {% set blended = (5 * weekday_cost + 2 * weekend_cost) / 7 %}
+      {{ blended | round(2) }}
+    attributes:
+      kwh_per_day: >
+        {{ (states('input_number.estimated_load_watts') | float(0) / 1000 * 24) | round(2) }}
+      weekday_cost: >
+        {% set watts = states('input_number.estimated_load_watts') | float(0) %}
+        {% set kwh_day = watts / 1000 * 24 %}
+        {% set is_summer = now().month in [6,7,8,9] %}
+        {% set peak_hrs = 10 if is_summer else 8 %}
+        {% set int_hrs = 6 %}
+        {% set off_hrs = 8 if is_summer else 10 %}
+        {% set kwh_hr = kwh_day / 24 %}
+        {{ (kwh_hr * peak_hrs * states('input_number.rate_peak')|float(0)
+          + kwh_hr * int_hrs * states('input_number.rate_intermediate')|float(0)
+          + kwh_hr * off_hrs * states('input_number.rate_off_peak')|float(0)) | round(2) }}
+      weekend_cost: >
+        {% set watts = states('input_number.estimated_load_watts') | float(0) %}
+        {{ (watts / 1000 * 24 * states('input_number.rate_off_peak')|float(0)) | round(2) }}
+  - name: "Estimated Load Cost Per Month"
+    unique_id: estimated_load_cost_per_month
+    unit_of_measurement: "$"
+    state: >
+      {{ (states('sensor.estimated_load_cost_per_day') | float(0) * 30.4) | round(2) }}
+      
+- sensor:
+      - name: "Event Energy Cost"
+        unique_id: event_energy_cost
+        unit_of_measurement: "$"
+        state: >
+          {% set watts = states('input_number.event_watts') | float(0) %}
+          {% set minutes = states('input_number.event_minutes') | float(0) %}
+          {% set kwh = (watts / 1000) * (minutes / 60) %}
+          {% set selection = states('input_select.event_tou_period') %}
+          {% if selection == 'Current' %}
+            {% set rate = states('sensor.current_electric_rate') | float(0) %}
+          {% elif selection == 'Peak' %}
+            {% set rate = states('input_number.rate_peak') | float(0) %}
+          {% elif selection == 'Intermediate' %}
+            {% set rate = states('input_number.rate_intermediate') | float(0) %}
+          {% else %}
+            {% set rate = states('input_number.rate_off_peak') | float(0) %}
+          {% endif %}
+          {{ (kwh * rate) | round(3) }}
+        attributes:
+          kwh_used: >
+            {% set watts = states('input_number.event_watts') | float(0) %}
+            {% set minutes = states('input_number.event_minutes') | float(0) %}
+            {{ ((watts / 1000) * (minutes / 60)) | round(3) }}
+          period_used: >
+            {% set selection = states('input_select.event_tou_period') %}
+            {{ states('sensor.electric_tou_period') if selection == 'Current' else selection }}
+          rate_used: >
+            {% set selection = states('input_select.event_tou_period') %}
+            {% if selection == 'Current' %}
+              {{ states('sensor.current_electric_rate') }}
+            {% elif selection == 'Peak' %}
+              {{ states('input_number.rate_peak') }}
+            {% elif selection == 'Intermediate' %}
+              {{ states('input_number.rate_intermediate') }}
+            {% else %}
+              {{ states('input_number.rate_off_peak') }}
+            {% endif %}
+- sensor:
+      - name: "kWh Input Cost Per Day"
+        unique_id: kwh_input_cost_per_day
+        unit_of_measurement: "$"
+        state: >
+          {% set kwh_day = states('input_number.estimated_daily_kwh') | float(0) %}
+          {% set kwh_hr = kwh_day / 24 %}
+          {% set is_summer = now().month in [6,7,8,9] %}
+          {% set peak_hrs = 10 if is_summer else 8 %}
+          {% set int_hrs = 6 %}
+          {% set off_hrs = 8 if is_summer else 10 %}
+          {% set weekday_cost = (
+              kwh_hr * peak_hrs * states('input_number.rate_peak')|float(0)
+            + kwh_hr * int_hrs * states('input_number.rate_intermediate')|float(0)
+            + kwh_hr * off_hrs * states('input_number.rate_off_peak')|float(0)
+          ) %}
+          {% set weekend_cost = kwh_day * states('input_number.rate_off_peak')|float(0) %}
+          {{ ((5 * weekday_cost + 2 * weekend_cost) / 7) | round(2) }}
+        attributes:
+          weekday_cost: >
+            {% set kwh_day = states('input_number.estimated_daily_kwh') | float(0) %}
+            {% set kwh_hr = kwh_day / 24 %}
+            {% set is_summer = now().month in [6,7,8,9] %}
+            {% set peak_hrs = 10 if is_summer else 8 %}
+            {% set int_hrs = 6 %}
+            {% set off_hrs = 8 if is_summer else 10 %}
+            {{ (kwh_hr * peak_hrs * states('input_number.rate_peak')|float(0)
+              + kwh_hr * int_hrs * states('input_number.rate_intermediate')|float(0)
+              + kwh_hr * off_hrs * states('input_number.rate_off_peak')|float(0)) | round(2) }}
+          weekend_cost: >
+            {% set kwh_day = states('input_number.estimated_daily_kwh') | float(0) %}
+            {{ (kwh_day * states('input_number.rate_off_peak')|float(0)) | round(2) }}
+
+      - name: "kWh Input Cost Per Month"
+        unique_id: kwh_input_cost_per_month
+        unit_of_measurement: "$"
+        state: >
+          {{ (states('sensor.kwh_input_cost_per_day') | float(0) * 30.4) | round(2) }}

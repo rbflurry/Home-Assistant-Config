@@ -283,31 +283,31 @@
       
       
       
-- alias: Chicken -  Chicken Door Timer Disabled
-  id: 949efa87-22da-40c3-876d-5bc39e4ad554
-  initial_state: true
-  trigger:
-    platform: template
-    value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
-  condition:
-    - condition: state
-      entity_id: input_boolean.chicken_door
-      state: 'off'
-    - condition: state
-      entity_id: cover.chicken_door
-      state: 'closed'
-    - condition: state
-      entity_id: sun.sun
-      state: 'above_horizon'
-  action:
-    - service: notify.ryan
-      data:
-        title: 'Warning - Chicken Door'
-        message: >
-          "The chicken door did not open"
-        data:
-          push:
-            category: 'chicken_door'
+# - alias: Chicken -  Chicken Door Timer Disabled
+  # id: 949efa87-22da-40c3-876d-5bc39e4ad554
+  # initial_state: true
+  # trigger:
+    # platform: template
+    # value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_time.state }}'
+  # condition:
+    # - condition: state
+      # entity_id: input_boolean.chicken_door
+      # state: 'off'
+    # - condition: state
+      # entity_id: cover.chicken_door
+      # state: 'closed'
+    # - condition: state
+      # entity_id: sun.sun
+      # state: 'above_horizon'
+  # action:
+    # - service: notify.ryan
+      # data:
+        # title: 'Warning - Chicken Door'
+        # message: >
+          # "The chicken door did not open"
+        # data:
+          # push:
+            # category: 'chicken_door'
 
 
 

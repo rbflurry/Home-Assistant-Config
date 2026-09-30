@@ -123,5 +123,5 @@
           {% set device = trigger.event.data.text|lower|replace('turn on ','')|replace('turn off ','') %}
           OK, {{ trigger.event.data.text|lower|replace('turn','turning') }}.
         title: ''
-        target: '{{ trigger.event.data.chat_id }}'
+        chat_id: '{{ trigger.event.data.chat_id }}'
 

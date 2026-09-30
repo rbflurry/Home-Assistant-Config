@@ -3,12 +3,12 @@
 #  initial_state: false
   trigger:
    - platform: numeric_state
-     entity_id: sensor.camper_temp
+     entity_id: sensor.linda_camper_temperature
      above: 80.1
      for:
        minutes: 1
    - platform: numeric_state
-     entity_id: sensor.camper_temp
+     entity_id: sensor.linda_camper_temperature
      below: 80.0
      for:
        minutes: 1

@@ -138,10 +138,21 @@ mqtt:
       json_attributes_topic: "victor/242121/alert"
       icon: mdi:bell-alert
       
+    - name: "Victor Trap 242839 Request Received"
+      unique_id: victor_trap_242839_request_received
+      state_topic: "victor/242839/request_received"
+      value_template: "{{ value_json.value }}"
+      device_class: timestamp
+      icon: mdi:arrow-down-bold
+
+    - name: "Victor Trap 242839 Response Sent"
+      unique_id: victor_trap_242839_response_sent
+      state_topic: "victor/242839/response_sent"
+      value_template: "{{ value_json.value }}"
+      device_class: timestamp
+      icon: mdi:arrow-up-bold
       
       
-      
- 
   binary_sensor:
     # -------------------------------------------------------------------------
     # Kill present (true = kill in chamber, needs emptying)

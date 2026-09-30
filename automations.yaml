@@ -1,34 +1,30 @@
 - id: '1584913993330'
   alias: Bathroom Vent/Fan
   description: ''
-  trigger:
+  triggers:
   - above: 97
     entity_id:
     - sensor.bathroom_humid
     for:
       hours: 0
-      minutes: 10
+      minutes: 5
       seconds: 0
-    platform: numeric_state
     id: 'on'
+    trigger: numeric_state
   - entity_id: sensor.bathroom_humid
     for:
       hours: 0
       minutes: 1
       seconds: 0
-    platform: numeric_state
     id: 'off'
     below: 89
-  condition:
+    trigger: numeric_state
+  conditions:
   - condition: template
     value_template: '{{true if now() - states.switch.bathroom_fan.last_changed < timedelta(minutes=2)
       else false }}'
     enabled: false
-  - condition: template
-    value_template: '{{true if now() - state_attr(''automation.night_time'', ''last_triggered'')
-      < timedelta(minutes=5) else false }}'
-    enabled: false
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: trigger
@@ -37,53 +33,18 @@
         entity_id: switch.bathroom_fan
         state: 'on'
       sequence:
-      - service: switch.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id: switch.bathroom_fan
+        action: switch.turn_off
     - conditions:
       - condition: trigger
         id: 'on'
       sequence:
-      - service: switch.turn_on
-        data: {}
+      - data: {}
         target:
           entity_id: switch.bathroom_fan
-  mode: single
-- id: '1611147472037'
-  alias: Snooze Alarm
-  description: ''
-  trigger:
-  - platform: event
-    event_type: shortcut_event
-    event_data:
-      actionname: snooze-alarm
-  condition: []
-  action:
-  - service: light.turn_on
-    target:
-      entity_id: light.wled_bed
-    data:
-      effect: solid
-      rgb_color:
-      - 0
-      - 0
-      - 0
-  - service: light.turn_on
-    data:
-      effect: Sunrise
-    target:
-      entity_id: light.wled_bed
-  - service: number.set_value
-    target:
-      entity_id: number.bed_wled_intensity
-    data:
-      value: '120'
-  - service: number.set_value
-    target:
-      entity_id: number.bed_wled_speed
-    data:
-      value: '5'
+        action: switch.turn_on
   mode: single
 - id: '1614888725831'
   alias: record cumulative rain to midnight
@@ -280,8 +241,11 @@
   triggers:
   - entity_id:
     - sensor.ups_trap
-    to: 'UPS: No longer on battery power.'
+    to:
+    - 'UPS: No longer on battery power.'
     trigger: state
+    not_from:
+    - unavailable
   - entity_id:
     - sensor.ups_status_data
     from: OB
@@ -1440,25 +1404,6 @@
       entity_id: light.bretts_bed_wled
     data: {}
   mode: single
-- id: '1703775125209'
-  alias: chandler bi
-  description: ''
-  trigger:
-  - platform: time
-    at: '21:00:00'
-  - platform: state
-    entity_id:
-    - alert.blue_iris_chandler_running
-  condition:
-  - condition: time
-    after: '21:00:00'
-    before: 09:00:00
-  action:
-  - service: alert.turn_off
-    data: {}
-    target:
-      entity_id: alert.blue_iris_chandler_running
-  mode: single
 - id: '1704411488108'
   alias: Chicken Water heater fan
   description: ''
@@ -1665,8 +1610,9 @@
   triggers:
   - trigger: state
     entity_id:
-    - binary_sensor.winnebago_temp_esp_winnebago_temp_status
-    to: unavailable
+    - binary_sensor.motorhome_winnebago_esp_winnebago_temp_status
+    to:
+    - unavailable
   conditions: []
   actions:
   - metadata: {}
@@ -1680,7 +1626,7 @@
   triggers:
   - trigger: numeric_state
     entity_id:
-    - sensor.winnebago_temp_winnebago_temperature
+    - sensor.motorhome_winnebago_temperature
     for:
       hours: 0
       minutes: 5
@@ -1701,7 +1647,7 @@
           milliseconds: 0
       until:
       - condition: numeric_state
-        entity_id: sensor.wemos_winnebago_temperature
+        entity_id: sensor.motorhome_winnebago_temperature
         below: input_number.winnie_temp_alarm
   mode: single
 - id: '1721842902821'
@@ -2356,6 +2302,36 @@
     data: {}
     target:
       entity_id: switch.wink_kitchen
+  - parallel:
+    - if:
+      - condition: switch.is_off
+        target:
+          entity_id: switch.esp13_s21_esp13_s21_2
+        options:
+          behavior: any
+          for: 00:00:00
+      then:
+      - action: switch.turn_on
+        metadata: {}
+        target:
+          entity_id: switch.esp13_s21_esp13_s21_2
+        data: {}
+      - wait_for_trigger:
+        - trigger: state
+          entity_id:
+          - switch.esp13_s21_esp13_s21_2
+          to:
+          - 'off'
+        timeout:
+          hours: 0
+          minutes: 15
+          seconds: 0
+          milliseconds: 0
+      - action: switch.turn_off
+        metadata: {}
+        target:
+          entity_id: switch.esp13_s21_esp13_s21_2
+        data: {}
   mode: single
 - id: '1762890336427'
   alias: HA-Start
@@ -2432,7 +2408,7 @@
       sequence:
       - action: vacuum.start
         target:
-          entity_id: vacuum.robot_vacuum
+          entity_id: vacuum.roborock_q_revo
         enabled: false
         data: {}
       - action: telegram_bot.send_photo
@@ -2740,31 +2716,26 @@
   alias: Energy Savings
   description: ''
   triggers:
-  - trigger: schedule.block_started
-    target:
-      entity_id: schedule.peak_energy_summer
-    options:
-      behavior: each
-      for: 00:00:00
-  conditions:
-  - condition: state
-    entity_id: sensor.season
-    state:
-    - summer
+  - trigger: state
+    entity_id:
+    - sensor.electric_tou_period
+    to:
+    - peak
+  conditions: []
   actions:
-  - action: switch.turn_off
-    metadata: {}
-    target:
-      entity_id:
-      - switch.wink_zwaveoutlet
-      - switch.kauf_plug_a9f569_kauf_plug
-    data: {}
   - action: climate.set_hvac_mode
     metadata: {}
     target:
-      entity_id: climate.garage_attic_fan
+      entity_id:
+      - climate.garage_attic_fan
+      - climate.upstairs
     data:
       hvac_mode: 'off'
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      label_id: energy_savings
+    data: {}
   mode: single
 - id: '1788171857330'
   alias: Grid Tie is doing it!
@@ -2772,6 +2743,15 @@
   triggers:
   - trigger: state
     entity_id: sensor.ef_bk0388_grid_connection_status
+    enabled: false
+  - trigger: numeric_state
+    entity_id:
+    - sensor.ef_bk0388_grid_power
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    above: 0.01
   conditions: []
   actions:
   - action: notify.send_message
@@ -2785,29 +2765,199 @@
   alias: Energy savings off
   description: ''
   triggers:
-  - trigger: schedule.block_ended
-    target:
-      entity_id: schedule.peak_energy_summer
-    options:
-      behavior: each
-      for: 00:00:00
-  conditions:
-  - condition: state
-    entity_id: sensor.season
-    state:
-    - summer
+  - trigger: state
+    entity_id:
+    - sensor.electric_tou_period
+    from:
+    - peak
+  conditions: []
   actions:
-  - action: switch.turn_on
-    metadata: {}
-    target:
-      entity_id:
-      - switch.kauf_plug_a9f569_kauf_plug
-      - switch.wink_zwaveoutlet
-    data: {}
   - action: climate.set_hvac_mode
     metadata: {}
     target:
       entity_id: climate.garage_attic_fan
     data:
       hvac_mode: cool
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      label_id: energy_savings
+    data: {}
+  mode: single
+- id: '1789397821311'
+  alias: Left home
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - zone.home
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    below: 1
+  conditions: []
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    target:
+      entity_id:
+      - light.in_wall_paddle_dimmer_500s
+    data: {}
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id: switch.ahr_085_3_relay1
+    data: {}
+  mode: single
+- id: '1789757875768'
+  alias: Turn off Mini Split Display
+  description: ''
+  triggers:
+  - trigger: light.turned_off
+    target:
+      device_id: ff725538894842c9b7626cf49251a7a9
+    options:
+      behavior: each
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id:
+      - switch.midea_ac_craft_display
+      - switch.midea_ac_office_display
+    data: {}
+  - action: climate.turn_off
+    metadata: {}
+    target:
+      entity_id: climate.office
+    data: {}
+  mode: single
+- id: '1790013711436'
+  alias: Sync utility meter tariffs to TOU period
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.electric_tou_period
+  actions:
+  - action: select.select_option
+    metadata: {}
+    target:
+      entity_id:
+      - select.solar_lifetime_by_tou
+      - select.upstairs_minisplit_energy
+    data:
+      option: '{{ states(''sensor.electric_tou_period'') }}'
+- id: '1790170145408'
+  alias: Bretts Button
+  description: ''
+  triggers:
+  - event_type: zha_event
+    event_data:
+      device_ieee: 28:6d:97:00:01:07:9f:b0
+      command: button_single
+    trigger: event
+    note: 'button_single
+
+      button_double
+
+      button_hold'
+  conditions:
+  - condition: switch.is_off
+    target:
+      entity_id: input_boolean.bretts_button_lockout
+    options:
+      behavior: any
+      for: 00:00:00
+  actions:
+  - if:
+    - condition: switch.is_off
+      target:
+        entity_id: switch.ahr_085_3_relay1
+      options:
+        behavior: any
+        for: 00:00:00
+    - condition: light.is_off
+      target:
+        entity_id: light.bretts_bed_wled_segment_1
+      options:
+        behavior: any
+        for: 00:00:00
+    then:
+    - action: switch.turn_on
+      metadata: {}
+      target:
+        entity_id: switch.ahr_085_3_relay1
+      data: {}
+    note: Maybe only turn on the start light if its early? if late only bed lights?
+  - if:
+    - condition: switch.is_on
+      target:
+        entity_id: switch.ahr_085_3_relay1
+      options:
+        behavior: any
+        for: 00:00:00
+    - condition: light.is_off
+      target:
+        entity_id: light.bretts_bed_wled_segment_1
+      options:
+        behavior: any
+        for: 00:00:00
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      target:
+        entity_id: switch.ahr_085_3_relay1
+      data: {}
+    - action: select.select_option
+      metadata: {}
+      target:
+        entity_id: select.bretts_bed_wled_preset
+      data:
+        option: bretts-reading
+  - if:
+    - condition: switch.is_off
+      target:
+        entity_id: switch.ahr_085_3_relay1
+      options:
+        behavior: any
+        for: 00:00:00
+    - condition: light.is_on
+      target:
+        entity_id: light.bretts_bed_wled_segment_1
+      options:
+        behavior: any
+        for: 00:00:00
+    then:
+    - action: input_boolean.turn_on
+      metadata: {}
+      target:
+        entity_id: input_boolean.bretts_button_lockout
+      data: {}
+    - action: light.turn_off
+      metadata: {}
+      target:
+        entity_id: light.bretts_bed_wled_segment_1
+      data:
+        transition: 5
+    - wait_for_trigger:
+      - trigger: switch.turned_off
+        target:
+          entity_id: input_boolean.bretts_button_lockout
+        options:
+          behavior: each
+          for: 00:00:00
+      timeout:
+        hours: 0
+        minutes: 30
+        seconds: 0
+        milliseconds: 0
+      continue_on_timeout: true
+    - action: input_boolean.turn_off
+      metadata: {}
+      target:
+        entity_id: input_boolean.bretts_button_lockout
+      data: {}
   mode: single

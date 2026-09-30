@@ -1,7 +1,3 @@
-sensor.basement_temp:
-  icon: mdi:temperature-fahrenheit
-sensor.basement_humidity:
-  icon: mdi:water-percent
 sensor.recycle_day:
   friendly_name: Is it Recycle Day today?
   icon: mdi:recycle
