@@ -18,8 +18,7 @@
 substitutions:
   node_name: victor-trap-01
   batt_divider: "6.5"        # calibrate: feed 5.0V, read A0 raw, divider = 5120/raw
-  kill_cycles: "2000"        # HV drive cycles on a catch (~2s). Stock uses thousands;
-                             # raise to lengthen the shock (watchdog-fed below).
+  kill_cycles: "4500"        # ~10 s shock (4500 x ~2.2 ms). Watchdog-fed in the loop.
   kill_hi_us: "1200"
   kill_lo_us: "1000"
   report_sleep: "6h"         # routine report cadence (timer wake)
@@ -34,7 +33,6 @@ esphome:
     then:
       - output.turn_off: hv_a
       - output.turn_off: hv_b
-      - output.turn_on: batt_en         # GPIO4 enables battery divider for this awake window
       - lambda: 'ESP_LOGI("trap", "reset reason: %s", ESP.getResetReason().c_str());'
       - if:
           condition:
@@ -77,9 +75,9 @@ wifi:
 #    password: !secret ap_password
 #captive_portal:
 
-#api:
-#  encryption:
-#    key: !secret api_key
+api:
+ # encryption:
+ #   key: !secret api_key
 ota:
   - platform: esphome
     password: !secret ota_password
@@ -92,9 +90,6 @@ output:
   - platform: gpio
     pin: GPIO2
     id: hv_b
-  - platform: gpio
-    pin: GPIO4
-    id: batt_en
   - platform: esp8266_pwm
     pin: GPIO5
     id: led_status
@@ -112,6 +107,16 @@ binary_sensor:
       number: GPIO12
       mode:
         input: true
+  # GPIO4 held at its natural idle-HIGH (pullup) - this is what enables the A0
+  # battery divider. Do NOT drive it push-pull (that boot-loops the board).
+  - platform: gpio
+    name: "Setup button"
+    pin:
+      number: GPIO4
+      mode:
+        input: true
+        pullup: true
+      inverted: true
 
 sensor:
   - platform: adc
@@ -170,7 +175,7 @@ script:
             delayMicroseconds(${kill_hi_us});
             id(hv_b).turn_off(); id(hv_a).turn_off();
             delayMicroseconds(${kill_lo_us});
-            if ((i & 0x3F) == 0) { ESP.wdtFeed(); }   // keep watchdog happy on long bursts
+            if ((i & 0x1F) == 0) { ESP.wdtFeed(); delay(0); }  // feed soft+HW watchdog on a 10s burst
           }
           id(hv_a).turn_off(); id(hv_b).turn_off();
       - logger.log: "HV burst DONE"
