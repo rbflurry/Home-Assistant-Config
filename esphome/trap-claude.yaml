@@ -30,6 +30,13 @@ esphome:
 logger:
   baud_rate: 115200
 
+# Persistent kill counter (survives deep sleep / reboots)
+globals:
+  - id: kill_count
+    type: int
+    restore_value: true
+    initial_value: '0'
+
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
@@ -60,9 +67,11 @@ binary_sensor:
     id: kill_event
     device_class: problem
     pin: { number: GPIO12, mode: { input: true, pullup: true }, inverted: true }
-    filters: [ delayed_on: 10ms ]
+    filters:
+      - delayed_on: 10ms
     on_press:
-      - lambda: 'id(kill_total) += 1;'
+      - lambda: 'id(kill_count) += 1;'
+      - component.update: kill_total
       - logger.log: "KILL detected"
   - platform: gpio
     name: "Setup button"
@@ -82,7 +91,8 @@ sensor:
     name: "Kill total"
     id: kill_total
     accuracy_decimals: 0
-    #restore_value: true
+    update_interval: 60s
+    lambda: 'return id(kill_count);'
 
 # =============================================================================
 # Outputs: LED channels (PWM) + HV drive pins (plain GPIO)
@@ -123,18 +133,24 @@ switch:
   - platform: template
     name: "Test LED - Red"
     optimistic: true
-    turn_on_action:  [ output.turn_on: out_r ]
-    turn_off_action: [ output.turn_off: out_r ]
+    turn_on_action:
+      - output.turn_on: out_r
+    turn_off_action:
+      - output.turn_off: out_r
   - platform: template
     name: "Test LED - Green"
     optimistic: true
-    turn_on_action:  [ output.turn_on: out_g ]
-    turn_off_action: [ output.turn_off: out_g ]
+    turn_on_action:
+      - output.turn_on: out_g
+    turn_off_action:
+      - output.turn_off: out_g
   - platform: template
     name: "Test LED - Blue"
     optimistic: true
-    turn_on_action:  [ output.turn_on: out_b ]
-    turn_off_action: [ output.turn_off: out_b ]
+    turn_on_action:
+      - output.turn_on: out_b
+    turn_off_action:
+      - output.turn_off: out_b
 
 button:
   # --- HV test: a BOUNDED burst, then forced off. Momentary on purpose so it
@@ -162,8 +178,12 @@ button:
 #  - platform: template      # (under switch:)
 #    name: "HV continuous (DANGER)"
 #    optimistic: true
-#    turn_on_action:  [ output.turn_on: hv_13, output.turn_on: hv_2 ]
-#    turn_off_action: [ output.turn_off: hv_13, output.turn_off: hv_2 ]
+#    turn_on_action:
+#      - output.turn_on: hv_13
+#      - output.turn_on: hv_2
+#    turn_off_action:
+#      - output.turn_off: hv_13
+#      - output.turn_off: hv_2
 
 # =============================================================================
 # Deep sleep - DISABLED for bench testing. Re-enable for production:
