@@ -16,7 +16,7 @@ substitutions:
   batt_divider: "5.7"     # measure the A0 divider to confirm
 
 esp8266:
-  board: esp01
+  board: esp12e
 
 esphome:
   name: ${node_name}
@@ -43,11 +43,11 @@ wifi:
 #  ap:
 #    ssid: "${node_name}-setup"
 #    password: !secret ap_password
-captive_portal:
+#captive_portal:
 
 api:
- # encryption:
- #   key: !secret api_key
+#  encryption:
+#    key: !secret api_key
 ota:
   - platform: esphome
     password: !secret ota_password
@@ -81,20 +81,21 @@ binary_sensor:
 # Battery
 # =============================================================================
 sensor:
-  # Raw ADC count (0-1023) for calibration. Feed a known voltage into the
-  # BATTERY terminals, read this, then: batt_divider = 5120 / raw  (for 5.0 V in)
+  # Read A0 ONCE as raw count (0-1023). Feed a known voltage into the BATTERY
+  # terminals, read this, then: batt_divider = 5120 / raw   (for 5.0 V in)
   - platform: adc
     name: "A0 raw"
+    id: a0_raw
     pin: A0
     raw: true
     update_interval: 2s
-  # Calibrated battery voltage = (A0 volts 0-1.0) x divider ratio
-  #- platform: adc
-  #  name: "Battery voltage"
-  #  pin: A0
-   # update_interval: 10s
-   # filters:
-   #   - multiply: ${batt_divider}
+  # Calibrated battery voltage derived from the raw count (no 2nd pin reader)
+  - platform: template
+    name: "Battery voltage"
+    unit_of_measurement: "V"
+    accuracy_decimals: 2
+    update_interval: 10s
+    lambda: 'return id(a0_raw).state / 1024.0 * ${batt_divider};'
   - platform: template
     name: "Kill total"
     id: kill_total
