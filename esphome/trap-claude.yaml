@@ -1,25 +1,174 @@
-esphome:
-  name: trap-claude
-  friendly_name: trap-claude
+# =============================================================================
+# Victor Smart-Kill -> local ESPHome.  *** BENCH-TEST build ***
+# Deep sleep is DISABLED here so the web UI stays reachable while you test.
+# Re-enable the deep_sleep: block at the bottom for production.
+#
+# Pin map (confirmed): see victor-trap-notes.md
+#   GPIO12 catch (active-low) | GPIO4 button | GPIO5/14/15 LED PWM
+#   GPIO13 + GPIO2 = HV transformer drive | GPIO0 misc out | A0 battery
+# =============================================================================
 
-# Replace this with your actual platform if you aren't using ESP32.
-esp32:
-  board: esp32dev
+substitutions:
+  node_name: victor-trap-01
+  pin_led_r: "GPIO5"
+  pin_led_g: "GPIO14"
+  pin_led_b: "GPIO15"
+  batt_divider: "5.7"     # measure the A0 divider to confirm
+
+esp8266:
+  board: esp12e
+
+esphome:
+  name: ${node_name}
+  on_boot:
+    priority: 600
+    then:
+      - output.turn_off: hv_13       # HV OFF at boot, always
+      - output.turn_off: hv_2
+      - logger.log: "Boot - HV safe"
 
 logger:
-
-api:
-  encryption:
-    key: "wnql2xC/y4y7hIDZPPUiVHNE0WBIWH5fko5qAeLG21o="
-
-ota:
-  - platform: esphome
+  baud_rate: 115200
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-  ap:
-    ssid: trap-claude Fallback Hotspot
-    password: "eg7LNqHwsFAM"
-
+#  ap:
+#    ssid: "${node_name}-setup"
+#    password: !secret ap_password
 captive_portal:
+
+api:
+#  encryption:
+#    key: !secret api_key
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+# ---- ESPHome built-in web page (http://<device-ip>/ ) ----
+web_server:
+  port: 80
+  version: 2
+  # local: true   # uncomment to serve the web assets from flash (no internet needed)
+
+# =============================================================================
+# Inputs
+# =============================================================================
+binary_sensor:
+  - platform: gpio
+    name: "Trap fired"
+    id: kill_event
+    device_class: problem
+    pin: { number: GPIO12, mode: { input: true, pullup: true }, inverted: true }
+    filters: [ delayed_on: 10ms ]
+    on_press:
+      - lambda: 'id(kill_total) += 1;'
+      - logger.log: "KILL detected"
+  - platform: gpio
+    name: "Setup button"
+    pin: { number: GPIO4, mode: { input: true, pullup: true }, inverted: true }
+
+# =============================================================================
+# Battery
+# =============================================================================
+sensor:
+  - platform: adc
+    name: "Battery voltage"
+    pin: A0
+    update_interval: 10s
+    filters:
+      - multiply: ${batt_divider}
+  - platform: template
+    name: "Kill total"
+    id: kill_total
+    accuracy_decimals: 0
+    #restore_value: true
+
+# =============================================================================
+# Outputs: LED channels (PWM) + HV drive pins (plain GPIO)
+# =============================================================================
+output:
+  - platform: esp8266_pwm
+    pin: ${pin_led_r}
+    id: out_r
+    frequency: 1000 Hz
+  - platform: esp8266_pwm
+    pin: ${pin_led_g}
+    id: out_g
+    frequency: 1000 Hz
+  - platform: esp8266_pwm
+    pin: ${pin_led_b}
+    id: out_b
+    frequency: 1000 Hz
+  - platform: gpio
+    pin: GPIO13
+    id: hv_13
+  - platform: gpio
+    pin: GPIO2
+    id: hv_2
+
+# Full RGB light (set any color from the web UI - good LED test)
+light:
+  - platform: rgb
+    name: "Status LED"
+    red: out_r
+    green: out_g
+    blue: out_b
+
+# =============================================================================
+# TEST CONTROLS (appear on the web page)
+# =============================================================================
+switch:
+  # --- simple per-channel LED tests (full on/off) ---
+  - platform: template
+    name: "Test LED - Red"
+    optimistic: true
+    turn_on_action:  [ output.turn_on: out_r ]
+    turn_off_action: [ output.turn_off: out_r ]
+  - platform: template
+    name: "Test LED - Green"
+    optimistic: true
+    turn_on_action:  [ output.turn_on: out_g ]
+    turn_off_action: [ output.turn_off: out_g ]
+  - platform: template
+    name: "Test LED - Blue"
+    optimistic: true
+    turn_on_action:  [ output.turn_on: out_b ]
+    turn_off_action: [ output.turn_off: out_b ]
+
+button:
+  # --- HV test: a BOUNDED burst, then forced off. Momentary on purpose so it
+  #     can never latch the transformer on. START SMALL. ***HIGH VOLTAGE***
+  #     Bench-test with a scope/meter and the kill electrodes DISCONNECTED first.
+  - platform: template
+    name: "HV test burst (CAUTION)"
+    on_press:
+      - logger.log: "HV test burst START"
+      - lambda: |-
+          const int  cycles = 500;      // start tiny; stock uses thousands
+          const int  hi_us  = 1200;     // ~ stock midpoint high time
+          const int  lo_us  = 1000;     // ~ stock midpoint low time
+          for (int i = 0; i < cycles; i++) {
+            id(hv_2).turn_on();  id(hv_13).turn_on();
+            delayMicroseconds(hi_us);
+            id(hv_2).turn_off(); id(hv_13).turn_off();
+            delayMicroseconds(lo_us);
+          }
+          id(hv_2).turn_off(); id(hv_13).turn_off();   // belt-and-suspenders
+      - logger.log: "HV test burst DONE"
+
+# If you really want a latching HV drive for scope work, uncomment - but it will
+# drive continuously until you turn it off. Do NOT leave it on.
+#  - platform: template      # (under switch:)
+#    name: "HV continuous (DANGER)"
+#    optimistic: true
+#    turn_on_action:  [ output.turn_on: hv_13, output.turn_on: hv_2 ]
+#    turn_off_action: [ output.turn_off: hv_13, output.turn_off: hv_2 ]
+
+# =============================================================================
+# Deep sleep - DISABLED for bench testing. Re-enable for production:
+# deep_sleep:
+#   id: trap_sleep
+#   run_duration: 30s
+#   sleep_duration: 24h
+# =============================================================================
