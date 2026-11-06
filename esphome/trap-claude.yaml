@@ -26,6 +26,7 @@ esphome:
       - lambda: 'pinMode(4, OUTPUT); digitalWrite(4, 1);'   # enable A0 battery divider (proven)
       - output.turn_on: gpio0                                # GPIO0 HIGH -> clean boot on catch-reset
       - output.set_level: { id: hv_pwm, level: 0.0 }         # HV off
+      - output.set_level: { id: hv_pwm2, level: 0.0 }
       - lambda: 'ESP_LOGI("trap","reset reason: %s", ESP.getResetReason().c_str());'
       - if:
           condition:
@@ -47,9 +48,15 @@ esphome:
                         - output.set_level:
                             id: hv_pwm
                             level: ${hv_duty}
+                        - output.set_level:
+                            id: hv_pwm2
+                            level: ${hv_duty}
                         - delay: 10s
                         - output.set_level:
                             id: hv_pwm
+                            level: 0.0
+                        - output.set_level:
+                            id: hv_pwm2
                             level: 0.0
                       else:
                         - logger.log: "DISARMED - HV not fired"
@@ -91,9 +98,8 @@ wifi:
   on_connect:
     - output.turn_on: led_status     # blue = awake + online
  # ap:
- #   ssid: "${node_name}-setup"
- #   password: !secret ap_password
-#captive_portal:
+##   password: !secret ap_password
+captive_portal:
 
 api:
  # encryption:
@@ -107,9 +113,6 @@ binary_sensor:
   - platform: gpio
     name: "Catch line (GPIO12)"
     pin: { number: GPIO12, mode: { input: true } }
-  - platform: gpio
-    name: "Sense (GPIO2)"
-    pin: { number: GPIO2, mode: { input: true } }
 
 # ------------- Sensors -------------
 sensor:
@@ -141,9 +144,15 @@ sensor:
 
 # ------------- Outputs -------------
 output:
-  - platform: esp8266_pwm            # HV drive -> Q8 -> transformer
+  - platform: esp8266_pwm            # HV drive A -> Q8 -> transformer
     pin: GPIO13
     id: hv_pwm
+    frequency: 230.6 Hz
+    min_power: 0.0
+    max_power: 1.0
+  - platform: esp8266_pwm            # HV drive B (GPIO2) - needed for full HV
+    pin: GPIO2
+    id: hv_pwm2
     frequency: 230.6 Hz
     min_power: 0.0
     max_power: 1.0
@@ -184,9 +193,15 @@ button:
       - output.set_level:
           id: hv_pwm
           level: ${hv_duty}
+      - output.set_level:
+          id: hv_pwm2
+          level: ${hv_duty}
       - delay: 3s
       - output.set_level:
           id: hv_pwm
+          level: 0.0
+      - output.set_level:
+          id: hv_pwm2
           level: 0.0
 
 # ------------- Sleep -------------
