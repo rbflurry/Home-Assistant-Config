@@ -10,9 +10,9 @@
 
 substitutions:
   node_name: victor-trap-01
-  pin_led_r: "GPIO5"
-  pin_led_g: "GPIO14"
-  pin_led_b: "GPIO15"
+  pin_led_b: "GPIO5"      # confirmed = BLUE LED (silkscreen D3)
+  pin_led_r: "GPIO14"     # confirm with Test LED switch
+  pin_led_g: "GPIO15"     # confirm with Test LED switch
   batt_divider: "5.7"     # measure the A0 divider to confirm
 
 esp8266:
@@ -46,8 +46,8 @@ wifi:
 captive_portal:
 
 api:
-#  encryption:
-#    key: !secret api_key
+ # encryption:
+ #   key: !secret api_key
 ota:
   - platform: esphome
     password: !secret ota_password
@@ -81,6 +81,14 @@ binary_sensor:
 # Battery
 # =============================================================================
 sensor:
+  # Raw ADC count (0-1023) for calibration. Feed a known voltage into the
+  # BATTERY terminals, read this, then: batt_divider = 5120 / raw  (for 5.0 V in)
+  - platform: adc
+    name: "A0 raw"
+    pin: A0
+    raw: true
+    update_interval: 2s
+  # Calibrated battery voltage = (A0 volts 0-1.0) x divider ratio
   - platform: adc
     name: "Battery voltage"
     pin: A0
