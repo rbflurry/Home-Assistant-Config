@@ -40,20 +40,32 @@ sensor:
     pin: A0
     id: batt_v
     name: "Battery voltage"
-    update_interval: 2s              # fast for the GPIO0 toggle test
+    update_interval: never           # sampled only during the GPIO0-low pulse (see interval)
     filters:
-      - multiply: 6.3659             # ADC pin volts -> pack volts
+      - multiply: 6.44               # one-point cal: 5.48 read vs 5.54 actual
     unit_of_measurement: "V"
     accuracy_decimals: 2
   - platform: template
     name: "Battery %"
+    id: batt_pct
     unit_of_measurement: "%"
     accuracy_decimals: 0
-    update_interval: 2s
+    update_interval: never
     lambda: |-
       const float VFULL = 6.40, VEMPTY = 4.60;
       float pct = (id(batt_v).state - VEMPTY) / (VFULL - VEMPTY) * 100.0;
       return pct < 0 ? 0 : (pct > 100 ? 100 : pct);
+
+# GPIO0 LOW enables the divider -> settle -> read -> GPIO0 HIGH (divider off, save power)
+interval:
+  - interval: 15s                    # test cadence; production = once per wake
+    then:
+      - output.turn_off: gpio0       # divider ON
+      - delay: 250ms                 # settle
+      - component.update: batt_v
+      - delay: 50ms
+      - output.turn_on: gpio0        # divider OFF
+      - component.update: batt_pct
 
 output:
   - platform: gpio
@@ -74,13 +86,7 @@ output:
     max_power: 1.0
   - platform: gpio
     pin: GPIO0
-    id: gpio0             # held HIGH; toggle LOW only to sample battery
-
-switch:
-  - platform: output
-    name: "GPIO0 (divider test - OFF=low)"
-    output: gpio0
-    restore_mode: ALWAYS_ON
+    id: gpio0             # held HIGH; pulsed LOW by the interval to sample battery
 
 button:
   - platform: template
