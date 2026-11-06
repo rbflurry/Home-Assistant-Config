@@ -1,27 +1,19 @@
 # =============================================================================
-# Victor Smart-Kill -> local ESPHome  *** PRODUCTION firmware ***
-# Operating model (reverse-engineered + bench-confirmed):
-#   - Deep sleep between events. Timer wake = routine battery/status report.
-#   - Catch: rodent shorts plates -> TC7WH14FU Schmitt watchdog pulls RST ->
-#     "External System" reset wakes the ESP. On that wake we fire the HV drive
-#     (GPIO13+GPIO2), flash red, count, and report.
-#   - HV is hardware-gated by SW2 (chamber present), so it can't fire with the
-#     kill chamber removed.
+# Victor Smart-Kill -> local ESPHome  *** PRODUCTION ***
+# Model: deep sleep; timer wake = report; catch = plates short -> Schmitt pulls
+# RST -> "External System" wake -> confirm GPIO12 -> 10s HV -> re-confirm -> green.
 #
-# Pins: GPIO12 catch | GPIO4 battery-divider enable | GPIO5 blue(status)
-#       GPIO14 red(catch) | GPIO15 green(spare) | GPIO13+GPIO2 HV drive | A0 batt
+# Pins: GPIO12 catch (active-LOW) | GPIO2 sense(to U6) | GPIO4 batt-divider enable
+#       GPIO5 blue(D3) | GPIO14 red(D1) | GPIO15 green(D2) | GPIO13 HV PWM->Q8 | A0 batt
+# Battery + GPIO4 method + HV 230.6Hz PWM carried over from the prior working config.
 #
-# *** SAFETY: the "Arm trap" switch (default OFF) gates the HV. While OFF a catch
-#     is logged/counted/flashed but HV does NOT fire. Arm it only when deployed. ***
+# *** "Arm trap" (default OFF) gates the HV. OFF = catch logged but no shock. ***
 # =============================================================================
 
 substitutions:
   node_name: victor-trap-01
-  batt_divider: "6.5"        # calibrate: feed 5.0V, read A0 raw, divider = 5120/raw
-  kill_cycles: "4500"        # ~10 s shock (4500 x ~2.2 ms). Watchdog-fed in the loop.
-  kill_hi_us: "1200"
-  kill_lo_us: "1000"
-  report_sleep: "6h"         # routine report cadence (timer wake)
+  hv_duty: "0.284"          # ~28% duty at 230.6 Hz (from prior working config)
+  report_sleep: "6h"
 
 esp8266:
   board: esp01_1m
@@ -31,26 +23,54 @@ esphome:
   on_boot:
     priority: -100
     then:
-      - output.turn_off: hv_a
-      - output.turn_off: hv_b
-      - lambda: 'ESP_LOGI("trap", "reset reason: %s", ESP.getResetReason().c_str());'
+      - lambda: 'pinMode(4, OUTPUT); digitalWrite(4, 1);'   # enable A0 battery divider (proven)
+      - output.turn_on: gpio0                                # GPIO0 HIGH -> clean boot on catch-reset
+      - output.set_level: { id: hv_pwm, level: 0.0 }         # HV off
+      - lambda: 'ESP_LOGI("trap","reset reason: %s", ESP.getResetReason().c_str());'
       - if:
           condition:
             lambda: 'return ESP.getResetReason() == "External System";'
           then:
-            - logger.log: "CATCH wake (external reset)"
-            - output.turn_on: led_catch        # red
-            - lambda: 'id(kill_count) += 1;'
-            - component.update: kill_total
             - if:
                 condition:
-                  lambda: 'return id(armed);'
+                  lambda: 'return digitalRead(12) == 0;'     # GPIO12 LOW = plates shorted = catch
                 then:
-                  - script.execute: deliver_kill
+                  - logger.log: "CATCH confirmed (GPIO12 low)"
+                  - output.turn_on: led_catch                # red
+                  - lambda: 'id(kill_count) += 1;'
+                  - component.update: kill_total
+                  - if:
+                      condition:
+                        lambda: 'return id(armed);'
+                      then:
+                        - logger.log: "firing HV ~10s"
+                        - output.set_level:
+                            id: hv_pwm
+                            level: ${hv_duty}
+                        - delay: 10s
+                        - output.set_level:
+                            id: hv_pwm
+                            level: 0.0
+                      else:
+                        - logger.log: "DISARMED - HV not fired"
+                  - if:
+                      condition:
+                        lambda: 'return digitalRead(12) == 0;'   # still shorted = target present
+                      then:
+                        - logger.log: "plates STILL shorted - target present"
+                        - repeat:
+                            count: 5
+                            then:
+                              - output.turn_on: led_green
+                              - delay: 150ms
+                              - output.turn_off: led_green
+                              - delay: 150ms
+                      else:
+                        - logger.log: "plates clear after cycle"
                 else:
-                  - logger.log: "Trap DISARMED - HV not fired"
+                  - logger.log: "ext reset but plates NOT shorted - ignoring"
           else:
-            - logger.log: "Routine wake"
+            - logger.log: "routine wake"
 
 globals:
   - id: kill_count
@@ -69,10 +89,10 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   on_connect:
-    - output.turn_on: led_status          # blue = awake + online
-#  ap:
-#    ssid: "${node_name}-setup"
-#    password: !secret ap_password
+    - output.turn_on: led_status     # blue = awake + online
+ # ap:
+ #   ssid: "${node_name}-setup"
+ #   password: !secret ap_password
 #captive_portal:
 
 api:
@@ -82,55 +102,36 @@ ota:
   - platform: esphome
     password: !secret ota_password
 
-# ------------- Outputs -------------
-output:
-  - platform: gpio
-    pin: GPIO13
-    id: hv_a
-  - platform: gpio
-    pin: GPIO2
-    id: hv_b
-  - platform: esp8266_pwm
-    pin: GPIO5
-    id: led_status
-    frequency: 1000 Hz
-  - platform: esp8266_pwm
-    pin: GPIO14
-    id: led_catch
-    frequency: 1000 Hz
-
-# ------------- Inputs / sensors -------------
+# ------------- Inputs -------------
 binary_sensor:
   - platform: gpio
-    name: "Catch line (raw)"
-    pin:
-      number: GPIO12
-      mode:
-        input: true
-  # GPIO4 held at its natural idle-HIGH (pullup) - this is what enables the A0
-  # battery divider. Do NOT drive it push-pull (that boot-loops the board).
+    name: "Catch line (GPIO12)"
+    pin: { number: GPIO12, mode: { input: true } }
   - platform: gpio
-    name: "Setup button"
-    pin:
-      number: GPIO4
-      mode:
-        input: true
-        pullup: true
-      inverted: true
+    name: "Sense (GPIO2)"
+    pin: { number: GPIO2, mode: { input: true } }
 
+# ------------- Sensors -------------
 sensor:
   - platform: adc
-    name: "A0 raw"
-    id: a0_raw
     pin: A0
-    raw: true
-    update_interval: 10s        # reads while awake (batt_en held on)
-  - platform: template
+    id: batt_v
     name: "Battery voltage"
+    update_interval: 10s
+    filters:
+      - multiply: 6.3659            # ADC pin volts -> pack volts (from prior working config)
+      - median: { window_size: 7, send_every: 3 }
     unit_of_measurement: "V"
     accuracy_decimals: 2
+  - platform: template
+    name: "Battery %"
+    unit_of_measurement: "%"
+    accuracy_decimals: 0
     update_interval: 10s
-    lambda: 'return id(a0_raw).state / 1024.0 * ${batt_divider};'
+    lambda: |-
+      const float VFULL = 6.40, VEMPTY = 4.60;
+      float pct = (id(batt_v).state - VEMPTY) / (VFULL - VEMPTY) * 100.0;
+      return pct < 0 ? 0 : (pct > 100 ? 100 : pct);
   - platform: template
     name: "Kill total"
     id: kill_total
@@ -138,7 +139,28 @@ sensor:
     update_interval: 30s
     lambda: 'return id(kill_count);'
 
-# ------------- Arm / control -------------
+# ------------- Outputs -------------
+output:
+  - platform: esp8266_pwm            # HV drive -> Q8 -> transformer
+    pin: GPIO13
+    id: hv_pwm
+    frequency: 230.6 Hz
+    min_power: 0.0
+    max_power: 1.0
+  - platform: gpio
+    pin: GPIO0
+    id: gpio0                        # held HIGH (clean boot on catch-reset)
+  - platform: gpio
+    pin: GPIO5
+    id: led_status                   # blue D3
+  - platform: gpio
+    pin: GPIO14
+    id: led_catch                    # red D1
+  - platform: gpio
+    pin: GPIO15
+    id: led_green                    # green D2
+
+# ------------- Control -------------
 switch:
   - platform: template
     name: "Arm trap (HV live)"
@@ -156,33 +178,19 @@ switch:
       - deep_sleep.allow: trap_sleep
 
 button:
-  # Short manual HV test (bench). Independent of the Arm switch - use with care,
-  # chamber/SW2 decides whether real HV is produced.
   - platform: template
-    name: "HV test burst (CAUTION)"
+    name: "HV test 3s (CAUTION)"
     on_press:
-      - script.execute: deliver_kill
-
-# ------------- HV drive -------------
-script:
-  - id: deliver_kill
-    then:
-      - logger.log: "HV burst START"
-      - lambda: |-
-          const int cycles = ${kill_cycles};
-          for (int i = 0; i < cycles; i++) {
-            id(hv_b).turn_on();  id(hv_a).turn_on();
-            delayMicroseconds(${kill_hi_us});
-            id(hv_b).turn_off(); id(hv_a).turn_off();
-            delayMicroseconds(${kill_lo_us});
-            if ((i & 0x1F) == 0) { ESP.wdtFeed(); delay(0); }  // feed soft+HW watchdog on a 10s burst
-          }
-          id(hv_a).turn_off(); id(hv_b).turn_off();
-      - logger.log: "HV burst DONE"
+      - output.set_level:
+          id: hv_pwm
+          level: ${hv_duty}
+      - delay: 3s
+      - output.set_level:
+          id: hv_pwm
+          level: 0.0
 
 # ------------- Sleep -------------
-# Wakes on the timer (routine report) or on an external reset (catch).
 deep_sleep:
   id: trap_sleep
-  run_duration: 25s           # time to connect, report, (fire kill if armed)
+  run_duration: 25s
   sleep_duration: ${report_sleep}
