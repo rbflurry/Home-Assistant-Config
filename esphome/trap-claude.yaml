@@ -23,8 +23,9 @@ esphome:
   on_boot:
     priority: -100
     then:
+      - deep_sleep.prevent: trap_sleep   # stay awake until HA's API connects (see api: below)
       - lambda: 'pinMode(4, OUTPUT); digitalWrite(4, 1);'   # keep GPIO4 high
-      # GPIO0 default is driven by the "GPIO0" switch below (ALWAYS_ON = high at boot).
+      - output.turn_on: gpio0                                # GPIO0 HIGH at boot (clean boot; toggle low only to sample battery)
       - output.set_level: { id: hv_pwm, level: 0.0 }         # HV off
       - output.set_level: { id: hv_pwm2, level: 0.0 }
       - lambda: 'ESP_LOGI("trap","reset reason: %s", ESP.getResetReason().c_str());'
@@ -103,8 +104,14 @@ wifi:
 #captive_portal:
 
 api:
-#  encryption:
+ # encryption:
  #   key: !secret api_key
+  on_client_connected:
+    # HA is connected. Give it 30s to pull sensor states, then allow sleep.
+    # If HA never connects (wrong key / not added), sleep stays prevented and
+    # the board stays online so you can fix it.
+    - delay: 30s
+    - deep_sleep.allow: trap_sleep
 ota:
   - platform: esphome
     password: !secret ota_password
@@ -162,7 +169,7 @@ output:
     id: gpio0                        # held HIGH (clean boot on catch-reset)
   - platform: gpio
     pin: GPIO5
-    id: led_status                   # blue D3
+    id: led_status                   # blue D3  (active-high - worked before)
   - platform: gpio
     pin: GPIO14
     id: led_catch                    # red D1
