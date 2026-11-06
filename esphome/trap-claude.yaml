@@ -1,19 +1,15 @@
 # =============================================================================
-# Victor Smart-Kill -> local ESPHome.  *** BENCH-TEST build ***
-# Deep sleep is DISABLED here so the web UI stays reachable while you test.
-# Re-enable the deep_sleep: block at the bottom for production.
-#
-# Pin map (confirmed): see victor-trap-notes.md
-#   GPIO12 catch (active-low) | GPIO4 button | GPIO5/14/15 LED PWM
-#   GPIO13 + GPIO2 = HV transformer drive | GPIO0 misc out | A0 battery
+# Victor trap - SLEEP TEST
+#   Blue LED (GPIO5)  = board is awake AND connected to Wi-Fi (status light)
+#   Red  LED (GPIO14) = this wake was an EXTERNAL RESET (reset / catch pulling RST)
+#   Then the board deep-sleeps; it wakes on the timer (red stays OFF) or on an
+#   external reset (red turns ON), so you can tell the two apart.
 # =============================================================================
 
 substitutions:
-  node_name: victor-trap-01
-  pin_led_b: "GPIO5"      # confirmed = BLUE LED (silkscreen D3)
-  pin_led_r: "GPIO14"     # confirm with Test LED switch
-  pin_led_g: "GPIO15"     # confirm with Test LED switch
-  batt_divider: "5.7"     # measure the A0 divider to confirm
+  node_name: victor-sleeptest
+  pin_led_b: "GPIO5"      # blue = status
+  pin_led_r: "GPIO14"     # red  = woke from external reset
 
 esp8266:
   board: esp01_1m
@@ -21,183 +17,58 @@ esp8266:
 esphome:
   name: ${node_name}
   on_boot:
-    priority: 600
+    priority: -100        # run late, after core init, so outputs exist
     then:
-      - output.turn_off: hv_13       # HV OFF at boot, always
-      - output.turn_off: hv_2
-      - logger.log: "Boot - HV safe"
+      - lambda: |-
+          // Light red only if we woke from an external reset (RST pin pulled).
+          // Timer wake reports "Deep-Sleep Wake"; cold power-up reports "Power On".
+          if (ESP.getResetReason() == "External System") {
+            id(out_r).turn_on();
+          }
+      - logger.log:
+          format: "Boot - reset reason: %s"
+          args: ['ESP.getResetReason().c_str()']
 
 logger:
   baud_rate: 115200
 
-# Persistent kill counter (survives deep sleep / reboots)
-globals:
-  - id: kill_count
-    type: int
-    restore_value: true
-    initial_value: '0'
-
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-#  ap:
-#    ssid: "${node_name}-setup"
-#    password: !secret ap_password
+  on_connect:
+    - output.turn_on: out_b      # blue ON = awake + Wi-Fi connected
+  on_disconnect:
+    - output.turn_off: out_b
+ # ap:
+ #   ssid: "${node_name}-setup"
+ #   password: !secret ap_password
+
 #captive_portal:
 
-api:
-#  encryption:
-#    key: !secret api_key
+#api:
+ # encryption:
+ #   key: !secret api_key
 ota:
   - platform: esphome
     password: !secret ota_password
 
-# ---- ESPHome built-in web page (http://<device-ip>/ ) ----
 web_server:
   port: 80
-  version: 2
-  # local: true   # uncomment to serve the web assets from flash (no internet needed)
 
-# =============================================================================
-# Inputs
-# =============================================================================
-binary_sensor:
-  - platform: gpio
-    name: "Trap fired"
-    id: kill_event
-    device_class: problem
-    pin: { number: GPIO12, mode: { input: true, pullup: true }, inverted: true }
-    filters:
-      - delayed_on: 10ms
-    on_press:
-      - lambda: 'id(kill_count) += 1;'
-      - component.update: kill_total
-      - logger.log: "KILL detected"
-  - platform: gpio
-    name: "Setup button"
-    pin: { number: GPIO4, mode: { input: true, pullup: true }, inverted: true }
-
-# =============================================================================
-# Battery
-# =============================================================================
-sensor:
-  # Read A0 ONCE as raw count (0-1023). Feed a known voltage into the BATTERY
-  # terminals, read this, then: batt_divider = 5120 / raw   (for 5.0 V in)
-  - platform: adc
-    name: "A0 raw"
-    id: a0_raw
-    pin: A0
-    raw: true
-    update_interval: 2s
-  # Calibrated battery voltage derived from the raw count (no 2nd pin reader)
-  - platform: template
-    name: "Battery voltage"
-    unit_of_measurement: "V"
-    accuracy_decimals: 2
-    update_interval: 10s
-    lambda: 'return id(a0_raw).state / 1024.0 * ${batt_divider};'
-  - platform: template
-    name: "Kill total"
-    id: kill_total
-    accuracy_decimals: 0
-    update_interval: 60s
-    lambda: 'return id(kill_count);'
-
-# =============================================================================
-# Outputs: LED channels (PWM) + HV drive pins (plain GPIO)
-# =============================================================================
 output:
-  - platform: esp8266_pwm
-    pin: ${pin_led_r}
-    id: out_r
-    frequency: 1000 Hz
-  - platform: esp8266_pwm
-    pin: ${pin_led_g}
-    id: out_g
-    frequency: 1000 Hz
   - platform: esp8266_pwm
     pin: ${pin_led_b}
     id: out_b
     frequency: 1000 Hz
-  - platform: gpio
-    pin: GPIO13
-    id: hv_13
-  - platform: gpio
-    pin: GPIO2
-    id: hv_2
+  - platform: esp8266_pwm
+    pin: ${pin_led_r}
+    id: out_r
+    frequency: 1000 Hz
 
-# Full RGB light (set any color from the web UI - good LED test)
-light:
-  - platform: rgb
-    name: "Status LED"
-    red: out_r
-    green: out_g
-    blue: out_b
-
-# =============================================================================
-# TEST CONTROLS (appear on the web page)
-# =============================================================================
-switch:
-  # --- simple per-channel LED tests (full on/off) ---
-  - platform: template
-    name: "Test LED - Red"
-    optimistic: true
-    turn_on_action:
-      - output.turn_on: out_r
-    turn_off_action:
-      - output.turn_off: out_r
-  - platform: template
-    name: "Test LED - Green"
-    optimistic: true
-    turn_on_action:
-      - output.turn_on: out_g
-    turn_off_action:
-      - output.turn_off: out_g
-  - platform: template
-    name: "Test LED - Blue"
-    optimistic: true
-    turn_on_action:
-      - output.turn_on: out_b
-    turn_off_action:
-      - output.turn_off: out_b
-
-button:
-  # --- HV test: a BOUNDED burst, then forced off. Momentary on purpose so it
-  #     can never latch the transformer on. START SMALL. ***HIGH VOLTAGE***
-  #     Bench-test with a scope/meter and the kill electrodes DISCONNECTED first.
-  - platform: template
-    name: "HV test burst (CAUTION)"
-    on_press:
-      - logger.log: "HV test burst START"
-      - lambda: |-
-          const int  cycles = 500;      // start tiny; stock uses thousands
-          const int  hi_us  = 1200;     // ~ stock midpoint high time
-          const int  lo_us  = 1000;     // ~ stock midpoint low time
-          for (int i = 0; i < cycles; i++) {
-            id(hv_2).turn_on();  id(hv_13).turn_on();
-            delayMicroseconds(hi_us);
-            id(hv_2).turn_off(); id(hv_13).turn_off();
-            delayMicroseconds(lo_us);
-          }
-          id(hv_2).turn_off(); id(hv_13).turn_off();   // belt-and-suspenders
-      - logger.log: "HV test burst DONE"
-
-# If you really want a latching HV drive for scope work, uncomment - but it will
-# drive continuously until you turn it off. Do NOT leave it on.
-#  - platform: template      # (under switch:)
-#    name: "HV continuous (DANGER)"
-#    optimistic: true
-#    turn_on_action:
-#      - output.turn_on: hv_13
-#      - output.turn_on: hv_2
-#    turn_off_action:
-#      - output.turn_off: hv_13
-#      - output.turn_off: hv_2
-
-# =============================================================================
-# Deep sleep - DISABLED for bench testing. Re-enable for production:
-# deep_sleep:
-#   id: trap_sleep
-#   run_duration: 30s
-#   sleep_duration: 24h
-# =============================================================================
+# Deep sleep: stay awake long enough to connect + observe, then sleep.
+# Timer wake every 60 s; an external reset (reset button / catch) wakes it
+# out of cycle and lights the red LED.
+deep_sleep:
+  id: trap_sleep
+  run_duration: 30s
+  sleep_duration: 60s
