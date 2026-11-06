@@ -16,7 +16,7 @@ substitutions:
   batt_divider: "5.7"     # measure the A0 divider to confirm
 
 esp8266:
-  board: esp12e
+  board: esp01_1m
 
 esphome:
   name: ${node_name}
