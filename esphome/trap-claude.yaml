@@ -89,12 +89,12 @@ sensor:
     raw: true
     update_interval: 2s
   # Calibrated battery voltage = (A0 volts 0-1.0) x divider ratio
-  - platform: adc
-    name: "Battery voltage"
-    pin: A0
-    update_interval: 10s
-    filters:
-      - multiply: ${batt_divider}
+  #- platform: adc
+  #  name: "Battery voltage"
+  #  pin: A0
+   # update_interval: 10s
+   # filters:
+   #   - multiply: ${batt_divider}
   - platform: template
     name: "Kill total"
     id: kill_total
