@@ -188,6 +188,9 @@ binary_sensor:
     name: "Needs cleaning"
     device_class: problem
     lambda: 'return id(needs_cleaning);'
+  - platform: gpio
+    name: "Setup button (GPIO4)"      # GPIO4 -> U8; suspected Wi-Fi/setup button (INPUT)
+    pin: { number: GPIO4, mode: { input: true } }   # add pullup if it reads floating/noisy
 
 # ------------- Sensors -------------
 sensor:
