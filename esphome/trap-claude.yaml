@@ -23,8 +23,8 @@ esphome:
   on_boot:
     priority: -100
     then:
-      - lambda: 'pinMode(4, OUTPUT); digitalWrite(4, 1);'   # enable A0 battery divider (from your working config)
-      - output.turn_on: gpio0                                # GPIO0 HIGH -> clean boot on catch-reset
+      - lambda: 'pinMode(4, OUTPUT); digitalWrite(4, 1);'   # keep GPIO4 high
+      # GPIO0 default is driven by the "GPIO0" switch below (ALWAYS_ON = high at boot).
       - output.set_level: { id: hv_pwm, level: 0.0 }         # HV off
       - output.set_level: { id: hv_pwm2, level: 0.0 }
       - lambda: 'ESP_LOGI("trap","reset reason: %s", ESP.getResetReason().c_str());'
@@ -90,7 +90,7 @@ globals:
     initial_value: 'false'
 
 logger:
-  baud_rate: 0
+  baud_rate: 115200
 
 wifi:
   ssid: !secret wifi_ssid
@@ -103,8 +103,8 @@ wifi:
 #captive_portal:
 
 api:
-  encryption:
-#    key: !secret api_key
+#  encryption:
+ #   key: !secret api_key
 ota:
   - platform: esphome
     password: !secret ota_password
@@ -113,7 +113,7 @@ ota:
 binary_sensor:
   - platform: gpio
     name: "Catch line (GPIO12)"
-    pin: { number: GPIO12, mode: { input: true } }
+    pin: { number: GPIO12, inverted: true, mode: { input: true } }  # ON = plates shorted
 
 # ------------- Sensors -------------
 sensor:
@@ -179,6 +179,21 @@ switch:
       - lambda: 'id(armed) = true;'
     turn_off_action:
       - lambda: 'id(armed) = false;'
+  # --- Battery-divider hunt: keep "Stay awake" ON while testing so it can't sleep
+  #     with GPIO0 low. Toggle GPIO0 OFF (=low) and watch "Battery voltage".
+  #     Firmware drives GPIO0 low while awake / high before sleep - classic
+  #     "enable the bleed only when needed". ALWAYS_ON = high (safe boot) by default. ---
+  - platform: output
+    name: "GPIO0 (divider test - OFF=low)"
+    output: gpio0
+    restore_mode: ALWAYS_ON
+  - platform: template
+    name: "Stay awake"
+    optimistic: true
+    turn_on_action:
+      - deep_sleep.prevent: trap_sleep
+    turn_off_action:
+      - deep_sleep.allow: trap_sleep
 
 button:
   - platform: template
