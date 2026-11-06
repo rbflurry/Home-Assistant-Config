@@ -1,0 +1,25 @@
+esphome:
+  name: trap-claude
+  friendly_name: trap-claude
+
+# Replace this with your actual platform if you aren't using ESP32.
+esp32:
+  board: esp32dev
+
+logger:
+
+api:
+  encryption:
+    key: "wnql2xC/y4y7hIDZPPUiVHNE0WBIWH5fko5qAeLG21o="
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: trap-claude Fallback Hotspot
+    password: "eg7LNqHwsFAM"
+
+captive_portal:
