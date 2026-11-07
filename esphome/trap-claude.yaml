@@ -22,8 +22,8 @@ substitutions:
   node_name: local-kill
   # --- chained heartbeat: one sleep is a short chunk (must stay < ESP8266 ~3.5h limit);
   #     WiFi/report only fires every report_cycles chunks. 2h x 12 = ~24h, like stock. ---
-  chunk_sleep: "2min"           # one deep-sleep chunk
-  report_cycles: "3"         # bring up WiFi + report every N chunks (12 x 2h = ~24h)
+  chunk_sleep: "2h"           # one deep-sleep chunk
+  report_cycles: "12"         # bring up WiFi + report every N chunks (12 x 2h = ~24h)
   retry_sleep: "10min"        # sleep if the API never connected on a report wake
   api_timeout: "60s"          # max wait for HA before giving up and retrying
   hv_duty: "0.284"            # STATIC HV duty @ 230.6 Hz (no battery compensation)
@@ -189,7 +189,7 @@ wifi:
 #captive_portal:
 
 api:
-  encryption:
+ # encryption:
   #  key: !secret api_key
   on_client_connected:
     - delay: 15s                      # let HA pull battery / kill total
