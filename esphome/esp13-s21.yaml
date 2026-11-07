@@ -44,8 +44,10 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: True
     name: "${devicename} Button"
+#    on_press:
+#      - switch.toggle: relay
     on_press:
-      - switch.toggle: relay
+      - switch.toggle: cycle_mode
 #  - platform: status
 #    name: "${devicename} Status"
 
@@ -85,8 +87,31 @@ switch:
     name: "${devicename}"
     pin: GPIO12
     id: relay
+  - platform: template
+    id: cycle_mode
+    name: "Relay Cycle Mode"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute: cycle_script
+    turn_off_action:
+      - script.stop: cycle_script
+      - switch.turn_off: relay
 
 status_led:
   pin: GPIO13
+
+script:
+  - id: cycle_script
+    mode: restart
+    then:
+      - while:
+          condition:
+            lambda: 'return true;'   # runs until script.stop
+          then:
+            - switch.turn_on: relay
+            - delay: 10min
+            - switch.turn_off: relay
+            - delay: 30min
 
 
