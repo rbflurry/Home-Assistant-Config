@@ -20,8 +20,11 @@
 
 substitutions:
   node_name: local-kill
-  report_sleep: "3h"          # sleep after a successful HA report (ESP8266 max single sleep ~3.5h)
-  retry_sleep: "10min"        # sleep if the API never connected this wake
+  # --- chained heartbeat: one sleep is a short chunk (must stay < ESP8266 ~3.5h limit);
+  #     WiFi/report only fires every report_cycles chunks. 2h x 12 = ~24h, like stock. ---
+  chunk_sleep: "2min"           # one deep-sleep chunk
+  report_cycles: "3"         # bring up WiFi + report every N chunks (12 x 2h = ~24h)
+  retry_sleep: "10min"        # sleep if the API never connected on a report wake
   api_timeout: "60s"          # max wait for HA before giving up and retrying
   hv_duty: "0.284"            # STATIC HV duty @ 230.6 Hz (no battery compensation)
 
@@ -35,6 +38,23 @@ esphome:
   on_boot:
     priority: -100
     then:
+      # --- chained heartbeat gate ---
+      # Timer (Deep-Sleep Wake) that hasn't reached the report count yet = intermediate
+      # wake: bump the RTC counter and go straight back to sleep, no WiFi, no work.
+      # Catches (External System) and power-on always fall through to the full path.
+      - if:
+          condition:
+            lambda: 'return ESP.getResetReason() == "Deep-Sleep Wake" && (id(wake_count) + 1) < ${report_cycles};'
+          then:
+            - lambda: 'id(wake_count) += 1;'
+            - logger.log: "intermediate heartbeat wake - back to sleep"
+            - deep_sleep.allow: trap_sleep
+            - deep_sleep.enter:
+                id: trap_sleep
+                sleep_duration: ${chunk_sleep}
+
+      # --- full path: report wake (count reached), catch, or power-on ---
+      - lambda: 'id(wake_count) = 0;'             # reset the heartbeat cycle
       - deep_sleep.prevent: trap_sleep            # don't sleep until we decide
       - light.turn_on:                            # green breathes while awake/reporting
           id: led_status
@@ -151,6 +171,10 @@ globals:
     type: bool
     restore_value: true          # "Walk-by red indicator" switch state
     initial_value: 'false'
+  - id: wake_count
+    type: int
+    restore_value: true          # RTC-backed heartbeat chunk counter (survives deep sleep)
+    initial_value: '0'
 
 logger:
   baud_rate: 0                   # UART off - GPIO1/3 are used by the trap hardware
@@ -158,13 +182,14 @@ logger:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
- # ap:
-#    ssid: "${node_name}-setup"
-#    password: !secret ap_password
+  fast_connect: true          # skip the full scan - faster join = shorter wake = less battery
+#  ap:
+ #   ssid: "${node_name}-setup"
+ #   password: !secret ap_password
 #captive_portal:
 
 api:
-  #encryption:
+  encryption:
   #  key: !secret api_key
   on_client_connected:
     - delay: 15s                      # let HA pull battery / kill total
@@ -172,11 +197,11 @@ api:
         condition:
           lambda: 'return !id(stay_awake) && !(id(walkby) && id(needs_cleaning));'
         then:
-          - logger.log: "HA reported - sleeping ${report_sleep}"
+          - logger.log: "HA reported - sleeping one chunk"
           - deep_sleep.allow: trap_sleep
           - deep_sleep.enter:
               id: trap_sleep
-              sleep_duration: ${report_sleep}
+              sleep_duration: ${chunk_sleep}
         else:
           - logger.log: "staying awake (Stay awake, or walk-by indicator active)"
 
@@ -191,6 +216,8 @@ binary_sensor:
     name: "Needs cleaning"
     device_class: problem
     lambda: 'return id(needs_cleaning);'
+  - platform: status
+    name: "Status"                 # connectivity: online while connected to HA
 
 # ------------- Sensors -------------
 sensor:
@@ -274,14 +301,18 @@ interval:
             - output.turn_on: led_catch
             - delay: 60ms
             - output.turn_off: led_catch
-      # blue LED (Wi-Fi icon) on only while NOT connected, i.e. AP / setup mode
+      # blue LED (Wi-Fi icon) ONLY in fallback AP mode: not connected AND we've been
+      # awake long enough that it's a real fallback, not the brief connect window.
       - if:
           condition:
-            wifi.connected:
+            and:
+              - not:
+                  wifi.connected:
+              - lambda: 'return millis() > 25000;'   # ~AP fallback (normal connect is < 10s)
           then:
-            - output.turn_off: led_wifi
-          else:
             - output.turn_on: led_wifi
+          else:
+            - output.turn_off: led_wifi
 
 # ------------- Control -------------
 switch:
