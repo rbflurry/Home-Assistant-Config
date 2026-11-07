@@ -13,6 +13,11 @@ packages:
   device_base: !include common.yaml
   device_switches_sensors: !include default-sensors-switches.yaml
 
+web_server:
+
+captive_portal:
+  
+  
 wifi:
   networks:
     - ssid: !secret wifi_ssid_dog_iot
