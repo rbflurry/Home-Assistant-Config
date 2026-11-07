@@ -19,21 +19,26 @@
 # =============================================================================
 
 substitutions:
-  node_name: victor-trap-01
-  report_sleep: "6h"          # sleep after a successful HA report
+  node_name: local-kill
+  report_sleep: "24h"         # sleep after a successful HA report
   retry_sleep: "10min"        # sleep if the API never connected this wake
   api_timeout: "60s"          # max wait for HA before giving up and retrying
   hv_duty: "0.284"            # STATIC HV duty @ 230.6 Hz (no battery compensation)
 
 esp8266:
-  board: esp01_1m
+  board: esp01          # AT25SF041 = 512 KB flash (detected). No OTA room at 512K - flash via serial.
 
 esphome:
   name: ${node_name}
+  friendly_name: "Local-Kill"
+  name_add_mac_suffix: true          # each trap self-names as ${node_name}-<mac> for easy multi-flash
   on_boot:
     priority: -100
     then:
       - deep_sleep.prevent: trap_sleep            # don't sleep until we decide
+      - light.turn_on:                            # green breathes while awake/reporting
+          id: led_status
+          effect: "Breathe"
       - output.turn_on: gpio0                     # GPIO0 HIGH (clean boot, divider off)
       - output.set_level: { id: hv_pwm, level: 0.0 }
       - output.set_level: { id: hv_pwm2, level: 0.0 }
@@ -97,9 +102,9 @@ esphome:
                         - repeat:
                             count: 5
                             then:
-                              - output.turn_on: led_green
+                              - output.turn_on: led_catch
                               - delay: 150ms
-                              - output.turn_off: led_green
+                              - output.turn_off: led_catch
                               - delay: 150ms
                       else:
                         - logger.log: "plates clear after cycle"
@@ -153,14 +158,14 @@ logger:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-  on_connect:
-    - output.turn_on: led_status      # blue = online
+#  ap:
+#    ssid: "${node_name}-setup"
+#    password: !secret ap_password
+#captive_portal:
 
 api:
-  # encryption OFF during bring-up so HA re-pairs without a key prompt.
-  # Re-enable for production:
-  # encryption:
-  #   key: !secret api_key
+ # encryption:
+  #  key: !secret api_key
   on_client_connected:
     - delay: 15s                      # let HA pull battery / kill total
     - if:
@@ -175,9 +180,7 @@ api:
         else:
           - logger.log: "staying awake (Stay awake, or walk-by indicator active)"
 
-ota:
-  - platform: esphome
-    password: !secret ota_password
+# No OTA: 512 KB flash has no room to stage a second image. Flash via USB-serial.
 
 # ------------- Inputs -------------
 binary_sensor:
@@ -188,9 +191,6 @@ binary_sensor:
     name: "Needs cleaning"
     device_class: problem
     lambda: 'return id(needs_cleaning);'
-  - platform: gpio
-    name: "Setup button (GPIO4)"      # GPIO4 -> U8; suspected Wi-Fi/setup button (INPUT)
-    pin: { number: GPIO4, mode: { input: true } }   # add pullup if it reads floating/noisy
 
 # ------------- Sensors -------------
 sensor:
@@ -237,15 +237,31 @@ output:
   - platform: gpio
     pin: GPIO0
     id: gpio0                        # HIGH normally; pulsed LOW to enable battery divider
-  - platform: gpio
-    pin: GPIO5
-    id: led_status                   # blue
+  - platform: esp8266_pwm            # green - breathing status while awake
+    pin: GPIO15
+    id: led_status_pwm
+    frequency: 1000 Hz
   - platform: gpio
     pin: GPIO14
-    id: led_catch                    # red
+    id: led_catch                    # red - catch / needs cleaning
   - platform: gpio
-    pin: GPIO15
-    id: led_green                    # green
+    pin: GPIO5
+    id: led_wifi                     # blue (Wi-Fi icon on case) - lit only in AP/setup mode
+
+# green status LED as a dimmable light so it can "breathe" while the trap is awake
+light:
+  - platform: monochromatic
+    name: "Status LED"
+    id: led_status
+    output: led_status_pwm
+    default_transition_length: 0s
+    effects:
+      - pulse:
+          name: "Breathe"
+          transition_length: 1500ms
+          update_interval: 1500ms
+          min_brightness: 5%
+          max_brightness: 90%
 
 # ------------- Walk-by indicator: slow red blink while a kill is uncleaned -------------
 interval:
@@ -258,6 +274,14 @@ interval:
             - output.turn_on: led_catch
             - delay: 60ms
             - output.turn_off: led_catch
+      # blue LED (Wi-Fi icon) on only while NOT connected, i.e. AP / setup mode
+      - if:
+          condition:
+            wifi.connected:
+          then:
+            - output.turn_off: led_wifi
+          else:
+            - output.turn_on: led_wifi
 
 # ------------- Control -------------
 switch:
