@@ -26,6 +26,7 @@ substitutions:
   report_cycles: "12"         # bring up WiFi + report every N chunks (12 x 2h = ~24h)
   retry_sleep: "10min"        # sleep if the API never connected on a report wake
   api_timeout: "60s"          # max wait for HA before giving up and retrying
+  config_awake: "1min"        # stay awake this long on a button press / power-on, to arm/configure from HA
   hv_duty: "0.284"            # STATIC HV duty @ 230.6 Hz (no battery compensation)
 
 esp8266:
@@ -55,6 +56,11 @@ esphome:
 
       # --- full path: report wake (count reached), catch, or power-on ---
       - lambda: 'id(wake_count) = 0;'             # reset the heartbeat cycle
+      # Human-interaction wake (button press or power-on, i.e. NOT a timer report and
+      # NOT a catch) -> stay awake a long window so you can arm/configure from HA.
+      - lambda: |-
+          String r = ESP.getResetReason();
+          id(config_wake) = (r == "Power On") || (r == "External System" && digitalRead(12) != 0);
       - deep_sleep.prevent: trap_sleep            # don't sleep until we decide
       - light.turn_on:                            # green breathes while awake/reporting
           id: led_status
@@ -175,6 +181,10 @@ globals:
     type: int
     restore_value: true          # RTC-backed heartbeat chunk counter (survives deep sleep)
     initial_value: '0'
+  - id: config_wake
+    type: bool
+    restore_value: false         # this-boot only: true on a button press / power-on
+    initial_value: 'false'
 
 logger:
   baud_rate: 0                   # UART off - GPIO1/3 are used by the trap hardware
@@ -183,16 +193,24 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   fast_connect: true          # skip the full scan - faster join = shorter wake = less battery
-#  ap:
- #   ssid: "${node_name}-setup"
- #   password: !secret ap_password
-#captive_portal:
+ # ap:
+#    ssid: "${node_name}-setup"
+#    password: !secret ap_password
+captive_portal:
 
 api:
  # encryption:
   #  key: !secret api_key
   on_client_connected:
-    - delay: 15s                      # let HA pull battery / kill total
+    # long window on a button/power-on wake (time to arm/configure); short otherwise
+    - if:
+        condition:
+          lambda: 'return id(config_wake);'
+        then:
+          - logger.log: "config wake - staying awake ${config_awake} to arm/configure"
+          - delay: ${config_awake}
+        else:
+          - delay: 15s                  # let HA pull battery / kill total
     - if:
         condition:
           lambda: 'return !id(stay_awake) && !(id(walkby) && id(needs_cleaning));'
