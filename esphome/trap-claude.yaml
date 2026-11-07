@@ -20,7 +20,7 @@
 
 substitutions:
   node_name: local-kill
-  report_sleep: "24h"         # sleep after a successful HA report
+  report_sleep: "3h"          # sleep after a successful HA report (ESP8266 max single sleep ~3.5h)
   retry_sleep: "10min"        # sleep if the API never connected this wake
   api_timeout: "60s"          # max wait for HA before giving up and retrying
   hv_duty: "0.284"            # STATIC HV duty @ 230.6 Hz (no battery compensation)
@@ -158,13 +158,13 @@ logger:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-#  ap:
+ # ap:
 #    ssid: "${node_name}-setup"
 #    password: !secret ap_password
 #captive_portal:
 
 api:
- # encryption:
+  #encryption:
   #  key: !secret api_key
   on_client_connected:
     - delay: 15s                      # let HA pull battery / kill total
