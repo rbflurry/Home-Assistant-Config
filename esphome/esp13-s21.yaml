@@ -110,8 +110,8 @@ script:
             lambda: 'return true;'   # runs until script.stop
           then:
             - switch.turn_on: relay
-            - delay: 10min
+            - delay: 10sec
             - switch.turn_off: relay
-            - delay: 30min
+            - delay: 30sec
 
 
