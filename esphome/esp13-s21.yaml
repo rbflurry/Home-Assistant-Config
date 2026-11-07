@@ -44,6 +44,8 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: True
     name: "${devicename} Button"
+    filters:
+      - delayed_on: 50ms  # debounce
 #    on_press:
 #      - switch.toggle: relay
     on_press:
@@ -110,8 +112,8 @@ script:
             lambda: 'return true;'   # runs until script.stop
           then:
             - switch.turn_on: relay
-            - delay: 10sec
+            - delay: 10min
             - switch.turn_off: relay
-            - delay: 30sec
+            - delay: 30min
 
 
