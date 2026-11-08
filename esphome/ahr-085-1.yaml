@@ -13,6 +13,7 @@ packages:
   device_switches_sensors: !include default-sensors-switches.yaml
 
 api:
+  reboot_timeout: 0s
   encryption:
     key: "yaDfWd3UH9gE3O5QPF3uME13Pne4uib8udjB3I3Wslo="
     
