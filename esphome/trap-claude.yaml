@@ -176,7 +176,7 @@ globals:
   - id: armed
     type: bool
     restore_value: true
-    initial_value: 'false'
+    initial_value: 'true'
   - id: needs_cleaning
     type: bool
     restore_value: true          # survives sleep; cleared on fresh boot w/ no short
