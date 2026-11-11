@@ -54,6 +54,7 @@ esphome:
             - lambda: 'id(wake_count) += 1;'
             - logger.log: "intermediate heartbeat wake - back to sleep"
             - deep_sleep.allow: trap_sleep
+            - lambda: 'global_preferences->sync();'   # flush globals (wake_count...) before sleep
             - deep_sleep.enter:
                 id: trap_sleep
                 sleep_duration: ${chunk_sleep}
@@ -162,6 +163,7 @@ esphome:
                   lambda: 'return !id(stay_awake) && !(id(walkby) && id(needs_cleaning));'
                 then:
                   - deep_sleep.allow: trap_sleep
+                  - lambda: 'global_preferences->sync();'   # flush globals before sleep
                   - deep_sleep.enter:
                       id: trap_sleep
                       sleep_duration: ${retry_sleep}
@@ -207,14 +209,14 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   fast_connect: true          # skip the full scan - faster join = shorter wake = less battery
-#  ap:
+ # ap:
  #   ssid: "${node_name}-setup"
  #   password: !secret ap_password
 #captive_portal:
 
 api:
  # encryption:
- #  key: !secret api_key
+#key: !secret api_key
   on_client_connected:
     - light.turn_on:                  # solid green once HA is connected (stop the breathe)
         id: led_status
@@ -235,6 +237,7 @@ api:
         then:
           - logger.log: "HA reported - sleeping one chunk"
           - deep_sleep.allow: trap_sleep
+          - lambda: 'global_preferences->sync();'   # flush globals (armed...) before sleep
           - deep_sleep.enter:
               id: trap_sleep
               sleep_duration: ${chunk_sleep}
@@ -364,9 +367,9 @@ switch:
     name: "Arm trap (HV live)"
     lambda: 'return id(armed);'
     turn_on_action:
-      - lambda: 'id(armed) = true;'
+      - lambda: 'id(armed) = true; global_preferences->sync();'
     turn_off_action:
-      - lambda: 'id(armed) = false;'
+      - lambda: 'id(armed) = false; global_preferences->sync();'
   - platform: template
     name: "Stay awake"               # blocks sleep for bench work
     lambda: 'return id(stay_awake);'
