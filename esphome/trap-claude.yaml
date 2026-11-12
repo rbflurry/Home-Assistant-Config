@@ -61,25 +61,65 @@ esphome:
 
       # --- full path: report wake (count reached), catch, or power-on ---
       - lambda: 'id(wake_count) = 0;'             # reset the heartbeat cycle
-      # Human-interaction wake (button press or power-on, i.e. NOT a timer report and
-      # NOT a catch) -> stay awake a long window so you can arm/configure from HA.
-      - lambda: |-
-          String r = ESP.getResetReason();
-          bool plates_clear = digitalRead(12) != 0;
-          id(config_wake) = (r == "Power On") || (r == "External System" && plates_clear);
-          if (r == "Deep-Sleep Wake")       id(wake_reason) = "Scheduled";
-          else if (r == "Power On")         id(wake_reason) = "Power on";
-          else if (r == "External System")  id(wake_reason) = plates_clear ? "Button" : "Catch";
-          else                              id(wake_reason) = std::string(r.c_str());
-      - component.update: wake_reason_s
       - deep_sleep.prevent: trap_sleep            # don't sleep until we decide
-      - light.turn_on:                            # green breathes while awake/reporting
-          id: led_status
-          effect: "Breathe"
       - output.turn_on: gpio0                     # GPIO0 HIGH (clean boot, divider off)
       - output.set_level: { id: hv_pwm, level: 0.0 }
       - output.set_level: { id: hv_pwm2, level: 0.0 }
-      - lambda: 'ESP_LOGI("trap","reset reason: %s", ESP.getResetReason().c_str());'
+
+      # --- classify the wake from ONE early GPIO12 read (drives both the label and
+      #     the catch decision). Done FIRST so a catch can fire with minimum latency. ---
+      - lambda: |-
+          String r = ESP.getResetReason();
+          bool plates_bridged = digitalRead(12) == 0;   // LOW = shorted
+          id(config_wake) = (r == "Power On") || (r == "External System" && !plates_bridged);
+          if (r == "Deep-Sleep Wake")       id(wake_reason) = "Scheduled";
+          else if (r == "Power On")         id(wake_reason) = "Power on";
+          else if (r == "External System")  id(wake_reason) = plates_bridged ? "Catch" : "Button";
+          else                              id(wake_reason) = std::string(r.c_str());
+
+      # --- CATCH: fire HV AS FAST AS POSSIBLE (before battery sample / breathe / report) ---
+      - if:
+          condition:
+            lambda: 'return id(wake_reason) == std::string("Catch");'
+          then:
+            - logger.log: "CATCH - firing HV 10s (always live)"
+            - output.turn_on: led_catch
+            - output.set_level:
+                id: hv_pwm
+                level: ${hv_duty}
+            - output.set_level:
+                id: hv_pwm2
+                level: ${hv_duty}
+            - lambda: 'id(kill_count) += 1; id(needs_cleaning) = true;'
+            - delay: 10s
+            - output.set_level:
+                id: hv_pwm
+                level: 0.0
+            - output.set_level:
+                id: hv_pwm2
+                level: 0.0
+            - output.turn_off: led_catch
+            - component.update: kill_total
+            - if:
+                condition:
+                  lambda: 'return digitalRead(12) == 0;'   # still shorted = target present
+                then:
+                  - logger.log: "plates STILL shorted - target present"
+                  - repeat:
+                      count: 5
+                      then:
+                        - output.turn_on: led_catch
+                        - delay: 150ms
+                        - output.turn_off: led_catch
+                        - delay: 150ms
+                else:
+                  - logger.log: "plates clear after cycle"
+
+      # --- now the non-urgent stuff ---
+      - component.update: wake_reason_s
+      - light.turn_on:                            # green breathes while awake/reporting
+          id: led_status
+          effect: "Breathe"
 
       # --- fresh power-on with no short clears the "needs cleaning" flag ---
       - if:
@@ -96,54 +136,6 @@ esphome:
       - delay: 50ms
       - output.turn_on: gpio0                     # divider OFF (save power)
       - component.update: batt_pct
-
-      # --- catch handling (only on external-reset wake) ---
-      - if:
-          condition:
-            lambda: 'return ESP.getResetReason() == "External System";'
-          then:
-            - if:
-                condition:
-                  lambda: 'return digitalRead(12) == 0;'   # GPIO12 LOW = plates shorted
-                then:
-                  - logger.log: "CATCH confirmed (GPIO12 low)"
-                  - output.turn_on: led_catch              # solid red during the cycle
-                  - lambda: 'id(kill_count) += 1; id(needs_cleaning) = true;'
-                  - component.update: kill_total
-                  # HV is ALWAYS LIVE - fires on every confirmed catch (no arm switch)
-                  - logger.log: "firing HV 10s (always live)"
-                  - output.set_level:
-                      id: hv_pwm
-                      level: ${hv_duty}
-                  - output.set_level:
-                      id: hv_pwm2
-                      level: ${hv_duty}
-                  - delay: 10s
-                  - output.set_level:
-                      id: hv_pwm
-                      level: 0.0
-                  - output.set_level:
-                      id: hv_pwm2
-                      level: 0.0
-                  - output.turn_off: led_catch
-                  - if:
-                      condition:
-                        lambda: 'return digitalRead(12) == 0;'   # still shorted = target present
-                      then:
-                        - logger.log: "plates STILL shorted - target present"
-                        - repeat:
-                            count: 5
-                            then:
-                              - output.turn_on: led_catch
-                              - delay: 150ms
-                              - output.turn_off: led_catch
-                              - delay: 150ms
-                      else:
-                        - logger.log: "plates clear after cycle"
-                else:
-                  - logger.log: "ext reset but plates NOT shorted"
-          else:
-            - logger.log: "routine (timer) wake"
 
       # --- API watchdog: wait up to api_timeout; if HA never connects, short-sleep & retry ---
       - delay: ${api_timeout}
@@ -201,13 +193,13 @@ wifi:
   password: !secret wifi_password
   fast_connect: true          # skip the full scan - faster join = shorter wake = less battery
 #ap:
-#ssid: "${node_name}-setup"
+ #   ssid: "${node_name}-setup"
  #   password: !secret ap_password
 #captive_portal:
 
 api:
  # encryption:
-  #  key: !secret api_key
+ #   key: !secret api_key
   on_client_connected:
     - light.turn_on:                  # solid green once HA is connected (stop the breathe)
         id: led_status
@@ -269,7 +261,8 @@ sensor:
     lambda: |-
       const float VFULL = 6.40, VEMPTY = 4.60;
       float pct = (id(batt_v).state - VEMPTY) / (VFULL - VEMPTY) * 100.0;
-      return pct < 0 ? 0 : (pct > 100 ? 100 : pct);
+      float clamped = pct < 0 ? 0 : (pct > 100 ? 100 : pct);
+      return roundf(clamped);   // whole-number state so templates don't see a long float
   - platform: template
     name: "Kill total"
     id: kill_total
