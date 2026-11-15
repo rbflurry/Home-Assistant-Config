@@ -29,11 +29,19 @@ esphome:
       - output.turn_off: led_shock            # blue off
       - output.turn_on: gpio0                 # GPIO0 high (clean boot)
       - lambda: |-
+          // PLATES decide a catch, NOT the reset reason: waking from deep sleep often
+          // reports "Deep-Sleep Wake"/"Power On" even when an external reset (a catch)
+          // woke it. Sample for ~225ms in case the sense lags right after wake.
+          bool bridged = false;
+          for (int i = 0; i < 15; i++) {
+            if (digitalRead(12) == 0) { bridged = true; break; }
+            delay(15);
+          }
           String r = ESP.getResetReason();
-          bool bridged = digitalRead(12) == 0;   // LOW = plates shorted
-          if (r == "Deep-Sleep Wake")       id(wake_reason) = "Scheduled";
+          if (bridged)                      id(wake_reason) = "Catch";   // bridged = catch, whatever woke it
+          else if (r == "Deep-Sleep Wake")  id(wake_reason) = "Scheduled";
           else if (r == "Power On")         id(wake_reason) = "Power on";
-          else if (r == "External System")  id(wake_reason) = bridged ? "Catch" : "Button";
+          else if (r == "External System")  id(wake_reason) = "Button";
           else                              id(wake_reason) = std::string(r.c_str());
       - component.update: wake_reason_s
       # CATCH -> show where HV WOULD fire, with the BLUE LED. No HV.
