@@ -1,14 +1,19 @@
 # =============================================================================
-# BENCH TEST build -- HV DISABLED, safe to poke the plates.
+# BENCH TEST build (SLEEP A/B) -- HV DISABLED, safe to poke the plates.
 # The BLUE LED lights when it WOULD have shocked (instead of firing HV).
-# No deep sleep: stays awake on the desk for easy testing.
+# Deep sleep ENABLED (run 15s / sleep 60s) to test wake-on-touch from sleep.
+# "Stay awake" switch flips to always-awake so you can compare the two states.
+#   - Stay awake OFF (sleeping): touch during the 60s sleep -> does it WAKE + blue?
+#   - Stay awake ON  (awake):    touch -> reboots -> blue every time (known good)
+# If it wakes every touch when sleeping, deep sleep is fine. If touches that work
+# awake DON'T wake it from sleep, deep sleep is desensitizing the catch.
 # Detection path is identical to production: bridge the plates -> sense pulls
 # RST -> board reboots -> if plates read bridged = "Catch" -> BLUE on 10s.
 # HV drive pins (GPIO13/GPIO2) are held LOW the whole time = no high voltage.
 # =============================================================================
 
 substitutions:
-  node_name: local-kill-hvtest
+  node_name: local-kill-hvtest-sleep
 
 esp8266:
   board: esp01
@@ -68,6 +73,10 @@ globals:
     type: std::string
     restore_value: false
     initial_value: '""'
+  - id: stay_awake
+    type: bool
+    restore_value: false
+    initial_value: 'false'
 
 logger:
   baud_rate: 0
@@ -172,3 +181,19 @@ button:
       - delay: 50ms
       - output.turn_on: gpio0
       - component.update: batt_pct
+
+switch:
+  - platform: template
+    name: "Stay awake"                 # ON = never sleep (always-awake A/B baseline)
+    lambda: 'return id(stay_awake);'
+    turn_on_action:
+      - lambda: 'id(stay_awake) = true;'
+      - deep_sleep.prevent: trap_sleep
+    turn_off_action:
+      - lambda: 'id(stay_awake) = false;'
+      - deep_sleep.allow: trap_sleep
+
+deep_sleep:
+  id: trap_sleep
+  run_duration: 15s                     # awake 15s after each wake
+  sleep_duration: 60s                   # then sleep 60s (touch the plates during this)
