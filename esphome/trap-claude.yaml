@@ -100,7 +100,6 @@ esphome:
             - delay: ${hv_settle}                 # rail settle so boot finishes before the HV draw
             - logger.log: "CATCH - firing HV 10s (always live)"
             - output.turn_on: led_catch
-            - lambda: 'id(kill_count) += 1; id(needs_cleaning) = true;'
             # mark HV live in flash; if the board resets mid-fire this flag survives = brownout proof
             - lambda: 'id(hv_live) = true; global_preferences->sync();'
             # soft-start: ramp duty up to limit transformer inrush current (avoid rail brownout)
@@ -128,12 +127,16 @@ esphome:
                 level: 0.0
             - lambda: 'id(hv_live) = false; global_preferences->sync();'   # fire completed cleanly
             - output.turn_off: led_catch
-            - component.update: kill_total
+            # confirm AFTER the shock (like the stock): a body still across the plates = real kill.
+            # Only now do we count it and flag cleaning - a glancing contact that left isn't counted.
+            - delay: 200ms                        # let the sense settle after HV
             - if:
                 condition:
-                  lambda: 'return digitalRead(12) == 0;'   # still shorted = target present
+                  lambda: 'return digitalRead(12) == 0;'   # still shorted = body present
                 then:
-                  - logger.log: "plates STILL shorted - target present"
+                  - logger.log: "confirmed kill - body on plates"
+                  - lambda: 'id(kill_count) += 1; id(needs_cleaning) = true; global_preferences->sync();'
+                  - component.update: kill_total
                   - repeat:
                       count: 5
                       then:
@@ -142,7 +145,7 @@ esphome:
                         - output.turn_off: led_catch
                         - delay: 150ms
                 else:
-                  - logger.log: "plates clear after cycle"
+                  - logger.log: "plates clear after shock - fired but not counted"
 
       # --- now the non-urgent stuff ---
       - component.update: wake_reason_s
@@ -229,14 +232,14 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   fast_connect: true          # skip the full scan - faster join = shorter wake = less battery
- # ap:
- #   ssid: "${node_name}-setup"
-#    password: !secret ap_password
+  #ap:
+   # ssid: "${node_name}-setup"
+  #  password: !secret ap_password
 captive_portal:
 
 api:
  # encryption:
- #   key: !secret api_key
+   # key: !secret api_key
   on_client_connected:
     - light.turn_on:                  # solid green once HA is connected (stop the breathe)
         id: led_status
@@ -416,15 +419,6 @@ button:
       - output.set_level:
           id: hv_pwm2
           level: 0.0
-  - platform: template
-    name: "Sample battery now"
-    on_press:
-      - output.turn_off: gpio0
-      - delay: 250ms
-      - component.update: batt_v
-      - delay: 50ms
-      - output.turn_on: gpio0
-      - component.update: batt_pct
   - platform: template
     name: "Mark cleaned"
     on_press:
