@@ -1,72 +1,188 @@
 # =============================================================================
-# BENCH TEST build (SLEEP A/B) -- HV DISABLED, safe to poke the plates.
-# The BLUE LED lights when it WOULD have shocked (instead of firing HV).
-# Deep sleep ENABLED (run 15s / sleep 60s) to test wake-on-touch from sleep.
-# "Stay awake" switch flips to always-awake so you can compare the two states.
-#   - Stay awake OFF (sleeping): touch during the 60s sleep -> does it WAKE + blue?
-#   - Stay awake ON  (awake):    touch -> reboots -> blue every time (known good)
-# If it wakes every touch when sleeping, deep sleep is fine. If touches that work
-# awake DON'T wake it from sleep, deep sleep is desensitizing the catch.
-# Detection path is identical to production: bridge the plates -> sense pulls
-# RST -> board reboots -> if plates read bridged = "Catch" -> BLUE on 10s.
-# HV drive pins (GPIO13/GPIO2) are held LOW the whole time = no high voltage.
+# Victor Smart-Kill -> local ESPHome   *** PRODUCTION ***
+#
+# Wake sources:
+#   - timer (deep-sleep)  -> "Deep-Sleep Wake"   -> routine report
+#   - catch (plates short pulls RST via Schmitt) -> "External System" -> kill cycle
+#   - power-on (battery inserted)                -> "Power On"         -> clears "needs cleaning"
+#
+# Flow each wake:
+#   boot -> GPIO0 high -> (fresh boot + no short? clear needs_cleaning) ->
+#   sample battery (GPIO0 pulsed low 300ms) ->
+#   if catch: red, count++, needs_cleaning=true, ALWAYS-LIVE 10s static HV, green re-confirm ->
+#   wait for HA API (<= api_timeout): connected -> report 15s -> sleep 6h
+#                                     not connected          -> sleep 10min (retry)
+#   (sleep is blocked while "Stay awake" is on, or while a walk-by indicator is active)
+#
+# Pins: GPIO12 catch(active-LOW) | GPIO2 + GPIO13 HV PWM | GPIO0 batt-divider enable(LOW)
+#       GPIO5 blue | GPIO14 red | GPIO15 green | A0 batt | GPIO1/3 used by board (UART off)
 # =============================================================================
 
 substitutions:
-  node_name: local-kill-hvtest-sleep
+  node_name: local-kill
+  # --- chained heartbeat: one sleep is a short chunk (must stay < ESP8266 ~3.5h limit);
+  #     WiFi/report only fires every report_cycles chunks. 2h x 12 = ~24h, like stock. ---
+  chunk_sleep: "2h"           # one deep-sleep chunk
+  report_cycles: "12"         # bring up WiFi + report every N chunks (12 x 2h = ~24h)
+  retry_sleep: "10min"        # sleep if the API never connected on a report wake
+  api_timeout: "60s"          # max wait for HA before giving up and retrying
+  hv_settle: "300ms"          # let the supply rail stabilize after wake before the big HV draw
+  hv_duty: "0.284"            # STATIC HV duty @ 230.6 Hz (no battery compensation)
 
 esp8266:
-  board: esp01
+  board: esp01          # AT25SF041 = 512 KB flash (detected). No OTA room at 512K - flash via serial.
+  restore_from_flash: true   # persist globals (kill_count, needs_cleaning, wake_count) across deep sleep + power loss
+
+preferences:
+  flash_write_interval: 15s  # commit changed globals within 15s so an arm toggle sticks before sleep
 
 esphome:
   name: ${node_name}
-  name_add_mac_suffix: true
+  friendly_name: "Local-Kill"
+  name_add_mac_suffix: true          # each trap self-names as ${node_name}-<mac> for easy multi-flash
   on_boot:
     priority: -100
     then:
-      - output.turn_off: hv_a                 # HV drive OFF (held low = no HV, ever)
-      - output.turn_off: hv_b
-      - output.turn_off: led_shock            # blue off
-      - output.turn_on: gpio0                 # GPIO0 high (clean boot)
+      # --- read the plates FIRST (sample ~225ms in case the sense lags after a wake).
+      #     A bridged plate IS a catch, no matter what the reset reason claims -- waking
+      #     from deep sleep often mis-reports an external (catch) reset as Deep-Sleep Wake. ---
       - lambda: |-
-          // PLATES decide a catch, NOT the reset reason: waking from deep sleep often
-          // reports "Deep-Sleep Wake"/"Power On" even when an external reset (a catch)
-          // woke it. Sample for ~225ms in case the sense lags right after wake.
-          bool bridged = false;
+          bool b = false;
           for (int i = 0; i < 15; i++) {
-            if (digitalRead(12) == 0) { bridged = true; break; }
+            if (digitalRead(12) == 0) { b = true; break; }   // breaks early when bridged = fast fire
             delay(15);
           }
+          id(plates_now) = b;
+
+      # --- chained heartbeat gate ---
+      # A timer wake with plates CLEAR and the count not reached = intermediate wake:
+      # bump the RTC counter and go straight back to sleep. A bridged plate (a catch)
+      # skips this and falls through to fire, even if the reset reason mislabels it.
+      - if:
+          condition:
+            lambda: 'return ESP.getResetReason() == "Deep-Sleep Wake" && !id(plates_now) && (id(wake_count) + 1) < ${report_cycles};'
+          then:
+            - lambda: 'id(wake_count) += 1;'
+            - logger.log: "intermediate heartbeat wake - back to sleep"
+            - deep_sleep.allow: trap_sleep
+            - lambda: 'global_preferences->sync();'   # flush globals (wake_count...) before sleep
+            - deep_sleep.enter:
+                id: trap_sleep
+                sleep_duration: ${chunk_sleep}
+
+      # --- full path: report wake (count reached), catch, or power-on ---
+      - lambda: 'id(wake_count) = 0;'             # reset the heartbeat cycle
+      # brownout detector: if hv_live survived the reset, last boot died MID-HV-FIRE
+      - lambda: |-
+          id(hv_brownout) = id(hv_live);
+          id(hv_live) = false;
+          if (id(hv_brownout)) ESP_LOGW("hv", "BROWNOUT: board reset during the last HV fire");
+      - lambda: 'global_preferences->sync();'
+      - deep_sleep.prevent: trap_sleep            # don't sleep until we decide
+      - output.turn_on: gpio0                     # GPIO0 HIGH (clean boot, divider off)
+      - output.set_level: { id: hv_pwm, level: 0.0 }
+      - output.set_level: { id: hv_pwm2, level: 0.0 }
+
+      # --- classify from the plate read above: bridged = Catch regardless of reset reason ---
+      - lambda: |-
           String r = ESP.getResetReason();
-          if (bridged)                      id(wake_reason) = "Catch";   // bridged = catch, whatever woke it
+          if (id(plates_now))               id(wake_reason) = "Catch";   // bridged = catch, whatever woke it
           else if (r == "Deep-Sleep Wake")  id(wake_reason) = "Scheduled";
           else if (r == "Power On")         id(wake_reason) = "Power on";
           else if (r == "External System")  id(wake_reason) = "Button";
           else                              id(wake_reason) = std::string(r.c_str());
-      - component.update: wake_reason_s
-      # CATCH -> show where HV WOULD fire, with the BLUE LED. No HV.
+
+      # --- CATCH: fire HV AS FAST AS POSSIBLE (before battery sample / breathe / report) ---
       - if:
           condition:
             lambda: 'return id(wake_reason) == std::string("Catch");'
           then:
-            - logger.log: "CATCH (TEST): blue = would-shock 10s, HV disabled"
-            - output.turn_on: led_catch         # red = caught
-            - output.turn_on: led_shock         # BLUE = would be shocking now
+            - delay: ${hv_settle}                 # rail settle so boot finishes before the HV draw
+            - logger.log: "CATCH - firing HV 10s (always live)"
+            - output.turn_on: led_catch
             - lambda: 'id(kill_count) += 1; id(needs_cleaning) = true;'
-            - component.update: kill_total
+            # mark HV live in flash; if the board resets mid-fire this flag survives = brownout proof
+            - lambda: 'id(hv_live) = true; global_preferences->sync();'
+            # soft-start: ramp duty up to limit transformer inrush current (avoid rail brownout)
+            - output.set_level: { id: hv_pwm, level: 0.07 }
+            - output.set_level: { id: hv_pwm2, level: 0.07 }
+            - delay: 80ms
+            - output.set_level: { id: hv_pwm, level: 0.14 }
+            - output.set_level: { id: hv_pwm2, level: 0.14 }
+            - delay: 80ms
+            - output.set_level: { id: hv_pwm, level: 0.21 }
+            - output.set_level: { id: hv_pwm2, level: 0.21 }
+            - delay: 80ms
+            - output.set_level:
+                id: hv_pwm
+                level: ${hv_duty}
+            - output.set_level:
+                id: hv_pwm2
+                level: ${hv_duty}
             - delay: 10s
-            - output.turn_off: led_shock
+            - output.set_level:
+                id: hv_pwm
+                level: 0.0
+            - output.set_level:
+                id: hv_pwm2
+                level: 0.0
+            - lambda: 'id(hv_live) = false; global_preferences->sync();'   # fire completed cleanly
             - output.turn_off: led_catch
-      # battery sample once (GPIO0 low -> read -> high)
-      - output.turn_off: gpio0
+            - component.update: kill_total
+            - if:
+                condition:
+                  lambda: 'return digitalRead(12) == 0;'   # still shorted = target present
+                then:
+                  - logger.log: "plates STILL shorted - target present"
+                  - repeat:
+                      count: 5
+                      then:
+                        - output.turn_on: led_catch
+                        - delay: 150ms
+                        - output.turn_off: led_catch
+                        - delay: 150ms
+                else:
+                  - logger.log: "plates clear after cycle"
+
+      # --- now the non-urgent stuff ---
+      - component.update: wake_reason_s
+      - light.turn_on:                            # green breathes while awake/reporting
+          id: led_status
+          effect: "Breathe"
+
+      # --- fresh power-on with no short clears the "needs cleaning" flag ---
+      - if:
+          condition:
+            lambda: 'return ESP.getResetReason() == "Power On" && digitalRead(12) != 0;'
+          then:
+            - lambda: 'id(needs_cleaning) = false;'
+            - logger.log: "fresh boot, plates clear - needs_cleaning cleared"
+
+      # --- battery: ONE sample per wake (GPIO0 low -> settle -> read -> GPIO0 high) ---
+      - output.turn_off: gpio0                    # divider ON
       - delay: 250ms
       - component.update: batt_v
       - delay: 50ms
-      - output.turn_on: gpio0
+      - output.turn_on: gpio0                     # divider OFF (save power)
       - component.update: batt_pct
-      - light.turn_on:                          # green breathe = awake
-          id: led_status
-          effect: "Breathe"
+
+      # --- API watchdog: wait up to api_timeout; if HA never connects, short-sleep & retry ---
+      - delay: ${api_timeout}
+      - if:
+          condition:
+            not:
+              api.connected:
+          then:
+            - logger.log: "no API this wake - sleeping ${retry_sleep} to retry"
+            - if:
+                condition:
+                  lambda: 'return !id(stay_awake) && !(id(walkby) && id(needs_cleaning));'
+                then:
+                  - deep_sleep.allow: trap_sleep
+                  - lambda: 'global_preferences->sync();'   # flush globals before sleep
+                  - deep_sleep.enter:
+                      id: trap_sleep
+                      sleep_duration: ${retry_sleep}
 
 globals:
   - id: kill_count
@@ -75,44 +191,99 @@ globals:
     initial_value: '0'
   - id: needs_cleaning
     type: bool
-    restore_value: true
+    restore_value: true          # survives sleep; cleared on fresh boot w/ no short
     initial_value: 'false'
-  - id: wake_reason
-    type: std::string
-    restore_value: false
-    initial_value: '""'
   - id: stay_awake
     type: bool
     restore_value: false
     initial_value: 'false'
+  - id: walkby
+    type: bool
+    restore_value: true          # "Walk-by red indicator" switch state
+    initial_value: 'false'
+  - id: wake_count
+    type: int
+    restore_value: true          # RTC-backed heartbeat chunk counter (survives deep sleep)
+    initial_value: '0'
+  - id: wake_reason
+    type: std::string
+    restore_value: false         # friendly label for why this wake happened
+    initial_value: '""'
+  - id: hv_live
+    type: bool
+    restore_value: true          # flashed true during an HV fire; survives a reset = brownout proof
+    initial_value: 'false'
+  - id: hv_brownout
+    type: bool
+    restore_value: false         # this-boot flag: last reset happened mid-HV-fire
+    initial_value: 'false'
+  - id: plates_now
+    type: bool
+    restore_value: false         # this-boot: plates bridged at wake (= catch, any reset reason)
+    initial_value: 'false'
 
 logger:
-  baud_rate: 0
+  baud_rate: 0                   # UART off - GPIO1/3 are used by the trap hardware
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-  fast_connect: true
+  fast_connect: true          # skip the full scan - faster join = shorter wake = less battery
+ # ap:
+ #   ssid: "${node_name}-setup"
+#    password: !secret ap_password
+captive_portal:
 
-api:                                            # no encryption for the bench
+api:
+ # encryption:
+ #   key: !secret api_key
+  on_client_connected:
+    - light.turn_on:                  # solid green once HA is connected (stop the breathe)
+        id: led_status
+        brightness: 100%
+        effect: "None"
+    - delay: 15s                        # let HA pull battery / kill total, then sleep
+    - if:
+        condition:
+          lambda: 'return !id(stay_awake) && !(id(walkby) && id(needs_cleaning));'
+        then:
+          - logger.log: "HA reported - sleeping one chunk"
+          - deep_sleep.allow: trap_sleep
+          - lambda: 'global_preferences->sync();'   # flush globals (kill_count...) before sleep
+          - deep_sleep.enter:
+              id: trap_sleep
+              sleep_duration: ${chunk_sleep}
+        else:
+          - logger.log: "staying awake (Stay awake, or walk-by indicator active)"
 
+# No OTA: 512 KB flash has no room to stage a second image. Flash via USB-serial.
+
+# ------------- Inputs -------------
 binary_sensor:
   - platform: gpio
     name: "Plates bridged"
-    pin: { number: GPIO12, inverted: true, mode: { input: true } }   # ON = shorted
+    pin: { number: GPIO12, inverted: true, mode: { input: true } }   # ON = plates shorted
   - platform: template
     name: "Needs cleaning"
     device_class: problem
     lambda: 'return id(needs_cleaning);'
+  - platform: template
+    name: "HV brownout last cycle"  # ON = board reset mid-HV-fire (supply couldn't hold the pulse)
+    device_class: problem
+    entity_category: diagnostic
+    lambda: 'return id(hv_brownout);'
+  - platform: status
+    name: "Status"                 # connectivity: online while connected to HA
 
+# ------------- Sensors -------------
 sensor:
   - platform: adc
     pin: A0
     id: batt_v
     name: "Battery voltage"
-    update_interval: never
+    update_interval: never            # sampled once per wake during the GPIO0-low pulse
     filters:
-      - multiply: 6.44
+      - multiply: 6.44                # one-point cal (5.48 read vs 5.54 actual)
     unit_of_measurement: "V"
     accuracy_decimals: 2
   - platform: template
@@ -122,8 +293,10 @@ sensor:
     accuracy_decimals: 0
     update_interval: never
     lambda: |-
-      float p = (id(batt_v).state - 4.60) / (6.40 - 4.60) * 100.0;
-      return roundf(p < 0 ? 0 : (p > 100 ? 100 : p));
+      const float VFULL = 6.40, VEMPTY = 4.60;
+      float pct = (id(batt_v).state - VEMPTY) / (VFULL - VEMPTY) * 100.0;
+      float clamped = pct < 0 ? 0 : (pct > 100 ? 100 : pct);
+      return roundf(clamped);   // whole-number state so templates don't see a long float
   - platform: template
     name: "Kill total"
     id: kill_total
@@ -135,30 +308,39 @@ text_sensor:
   - platform: template
     name: "Wake reason"
     id: wake_reason_s
+    entity_category: diagnostic
     update_interval: never
     lambda: 'return {id(wake_reason)};'
 
+# ------------- Outputs -------------
 output:
-  - platform: gpio
+  - platform: esp8266_pwm            # HV drive A -> Q8 -> transformer
     pin: GPIO13
-    id: hv_a                 # HV drive A - held LOW in this build (no HV)
-  - platform: gpio
+    id: hv_pwm
+    frequency: 230.6 Hz
+    min_power: 0.0
+    max_power: 1.0
+  - platform: esp8266_pwm            # HV drive B (needed for full HV)
     pin: GPIO2
-    id: hv_b                 # HV drive B - held LOW in this build (no HV)
+    id: hv_pwm2
+    frequency: 230.6 Hz
+    min_power: 0.0
+    max_power: 1.0
   - platform: gpio
     pin: GPIO0
-    id: gpio0
-  - platform: gpio
-    pin: GPIO5
-    id: led_shock            # BLUE - lights when it WOULD shock
-  - platform: gpio
-    pin: GPIO14
-    id: led_catch            # red - caught
-  - platform: esp8266_pwm
+    id: gpio0                        # HIGH normally; pulsed LOW to enable battery divider
+  - platform: esp8266_pwm            # green - breathing status while awake
     pin: GPIO15
     id: led_status_pwm
     frequency: 1000 Hz
+  - platform: gpio
+    pin: GPIO14
+    id: led_catch                    # red - catch / needs cleaning
+  - platform: gpio
+    pin: GPIO5
+    id: led_wifi                     # blue (Wi-Fi icon on case) - lit only in AP/setup mode
 
+# green status LED as a dimmable light so it can "breathe" while the trap is awake
 light:
   - platform: monochromatic
     name: "Status LED"
@@ -173,13 +355,67 @@ light:
           min_brightness: 5%
           max_brightness: 90%
 
+# ------------- Walk-by indicator: slow red blink while a kill is uncleaned -------------
+interval:
+  - interval: 3s
+    then:
+      - if:
+          condition:
+            lambda: 'return id(walkby) && id(needs_cleaning);'
+          then:
+            - output.turn_on: led_catch
+            - delay: 60ms
+            - output.turn_off: led_catch
+      # blue LED (Wi-Fi icon) ONLY in fallback AP mode: not connected AND we've been
+      # awake long enough that it's a real fallback, not the brief connect window.
+      - if:
+          condition:
+            and:
+              - not:
+                  wifi.connected:
+              - lambda: 'return millis() > 25000;'   # ~AP fallback (normal connect is < 10s)
+          then:
+            - output.turn_on: led_wifi
+          else:
+            - output.turn_off: led_wifi
+
+# ------------- Control -------------
+switch:
+  - platform: template
+    name: "Stay awake"               # blocks sleep for bench work
+    lambda: 'return id(stay_awake);'
+    turn_on_action:
+      - lambda: 'id(stay_awake) = true;'
+      - deep_sleep.prevent: trap_sleep
+    turn_off_action:
+      - lambda: 'id(stay_awake) = false;'
+      - deep_sleep.allow: trap_sleep
+  - platform: template
+    name: "Walk-by red indicator"    # ON = stay awake + slow red blink until cleaned
+    lambda: 'return id(walkby);'
+    turn_on_action:
+      - lambda: 'id(walkby) = true;'
+    turn_off_action:
+      - lambda: 'id(walkby) = false;'
+      - output.turn_off: led_catch
+
 button:
   - platform: template
-    name: "Would-shock test 3s (blue, no HV)"
+    name: "HV test 3s (CAUTION)"
     on_press:
-      - output.turn_on: led_shock
+      - output.set_level:
+          id: hv_pwm
+          level: ${hv_duty}
+      - output.set_level:
+          id: hv_pwm2
+          level: ${hv_duty}
       - delay: 3s
-      - output.turn_off: led_shock
+      - output.set_level:
+          id: hv_pwm
+          level: 0.0
+      - output.set_level:
+          id: hv_pwm2
+          level: 0.0
   - platform: template
     name: "Sample battery now"
     on_press:
@@ -189,19 +425,14 @@ button:
       - delay: 50ms
       - output.turn_on: gpio0
       - component.update: batt_pct
-
-switch:
   - platform: template
-    name: "Stay awake"                 # ON = never sleep (always-awake A/B baseline)
-    lambda: 'return id(stay_awake);'
-    turn_on_action:
-      - lambda: 'id(stay_awake) = true;'
-      - deep_sleep.prevent: trap_sleep
-    turn_off_action:
-      - lambda: 'id(stay_awake) = false;'
-      - deep_sleep.allow: trap_sleep
+    name: "Mark cleaned"
+    on_press:
+      - lambda: 'id(needs_cleaning) = false;'
+      - output.turn_off: led_catch
 
+# ------------- Sleep -------------
 deep_sleep:
   id: trap_sleep
-  run_duration: 15s                     # awake 15s after each wake
-  sleep_duration: 60s                   # then sleep 60s (touch the plates during this)
+  # No run_duration/sleep_duration: sleep is driven only by the explicit
+  # deep_sleep.enter calls above (6h after a report, 10min on API failure).
