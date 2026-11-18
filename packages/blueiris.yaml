@@ -6,10 +6,10 @@
 ## Customize
 ################################################
 
-homeassistant:
-  customize:
-    packages.blueiris: &customize
-      package: 'blueiris'
+# homeassistant:
+  # customize:
+    # packages.blueiris: &customize
+      # package: 'blueiris'
 
 
 ################################################

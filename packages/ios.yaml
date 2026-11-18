@@ -6,15 +6,15 @@
 ## Customize
 ################################################
 
-homeassistant:
-  customize:
-    packages.ios: &customize
-      package: 'ios'
-      hidden: true
-      haaska_hidden: true
-      homebridge_hidden: true
-      emulated_hue_hidden: true
-#      emulated_hue_name: "back office light"
+# homeassistant:
+  # customize:
+    # packages.ios: &customize
+      # package: 'ios'
+      # hidden: true
+      # haaska_hidden: true
+      # homebridge_hidden: true
+      # emulated_hue_hidden: true
+# #      emulated_hue_name: "back office light"
 
 ################################################
 ## Platform

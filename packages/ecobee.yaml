@@ -6,10 +6,10 @@
 ## Customize
 ################################################
 
-homeassistant:
-  customize:
-    packages.ecobee: &customize
-      package: 'ecobee'
+# homeassistant:
+  # customize:
+    # packages.ecobee: &customize
+      # package: 'ecobee'
 
 
 ################################################

@@ -19,6 +19,17 @@
     id: 'off'
     below: 89
     trigger: numeric_state
+    enabled: false
+  - trigger: state
+    entity_id:
+    - binary_sensor.esp_bathroom_status
+    to:
+    - 'on'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    id: 'on'
   conditions:
   - condition: template
     value_template: '{{true if now() - states.switch.bathroom_fan.last_changed < timedelta(minutes=2)
@@ -549,9 +560,11 @@
     trigger: state
   conditions: []
   actions:
-  - data:
-      message: "\U0001F4F9Blue Iris: {{trigger.to_state.state}}\U0001F4F9"
-    action: notify.telegram_ryan
+  - action: notify.send_message
+    target:
+      entity_id: notify.telegram_bot_700554930_618533989
+    data:
+      message: "\U0001F4F9Blue Iris: {{ trigger.to_state.state }}\U0001F4F9"
   mode: single
 - id: '1667183802979'
   alias: Hot Water
@@ -664,11 +677,11 @@
 - id: '1667185720938'
   alias: No one is home , turn the lights on
   description: ''
-  trigger:
-  - platform: sun
-    event: sunset
+  triggers:
+  - event: sunset
     offset: 0
-  condition:
+    trigger: sun
+  conditions:
   - condition: state
     entity_id: input_boolean.house_guest
     state: 'off'
@@ -678,23 +691,23 @@
   - condition: state
     entity_id: zone.home
     state: '0'
-  action:
-  - service: homeassistant.turn_on
-    data: {}
+  actions:
+  - data: {}
     target:
       entity_id:
       - switch.wink_front_porch_switch
       - switch.ahr_085_2_relay2
       - switch.ahr_085_2_relay1
       - switch.wink_hallway_switch
-  - service: notify.telegram_group
-    data:
-      message: No one is home so i turned on some lights
-  - service: light.turn_on
-    metadata: {}
+    action: homeassistant.turn_on
+  - data:
+      message: I turned on some lights so you wouldn't be afraid when you got home.
+    action: notify.telegram_group
+  - metadata: {}
     data: {}
     target:
       entity_id: light.wink_hallway
+    action: light.turn_on
   mode: single
 - id: '1668793611494'
   alias: Wallpanel Battery Management
@@ -905,9 +918,8 @@
 - id: '1674312143783'
   alias: Air compressor purge auto off
   description: ''
-  trigger:
-  - platform: device
-    type: turned_on
+  triggers:
+  - type: turned_on
     device_id: 183e4d2b4ff3b11f051389546588444d
     entity_id: switch.sonoff_b_1_relay
     domain: switch
@@ -915,8 +927,27 @@
       hours: 0
       minutes: 0
       seconds: 10
-  condition: []
-  action:
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 183e4d2b4ff3b11f051389546588444d
+    entity_id: switch.sonoff_b_1_relay
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - type: turn_on
+    device_id: 183e4d2b4ff3b11f051389546588444d
+    entity_id: e74937373e0e369b499d936797be5132
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
   - type: turn_off
     device_id: 183e4d2b4ff3b11f051389546588444d
     entity_id: switch.sonoff_b_1_relay
@@ -925,31 +956,69 @@
 - id: '1675108306097'
   alias: Garage - Opened turn on garage lights
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - binary_sensor.garage_entry_door
     from: 'off'
     to: 'on'
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - cover.ratfirstbay_door
     - cover.ratthirdbay_door
     - cover.ratsecondbay_door
     from: closed
     to: opening
-  condition: []
-  action:
-  - service: light.turn_on
-    data: {}
+    trigger: state
+  conditions:
+  - condition: sun.is_set
+    options: {}
+  actions:
+  - data: {}
     target:
       entity_id: light.garage_lights_front
-  - service: timer.start
-    data:
-      duration: 00:10:00
+    action: light.turn_on
+  - data:
+      duration:
+        hours: 0
+        minutes: 5
+        seconds: 0
     target:
       entity_id: timer.garage_lights
-  mode: single
+    action: timer.start
+    enabled: false
+  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
+    timeout:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+    enabled: false
+  - wait_template: '{{ is_state("group.all_garage_doors", "closed")}}'
+    timeout:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_off
+    target:
+      entity_id:
+      - light.garage_lights_front
+    data: {}
+  - if:
+    - condition: door.is_closed
+      target:
+        entity_id: binary_sensor.garage_entry_door
+      options:
+        for:
+          hours: 0
+          minutes: 5
+          seconds: 0
+    - condition: state
+      entity_id: cover.ratthirdbay_door
+      state:
+      - closed
+    then: []
+  mode: restart
 - id: '1675444247548'
   alias: Laundry on
   description: ''
@@ -1313,47 +1382,6 @@
           - climate.office
         action: climate.set_hvac_mode
   mode: single
-- id: '1698197021513'
-  alias: Wake up Alarm - turn on lights - new
-  description: ''
-  trigger:
-  - platform: template
-    value_template: '{{ states.sensor.time.state == states.sensor.alarm_time.state
-      }}'
-  condition:
-  - condition: state
-    entity_id: input_boolean.alarm_on
-    state: 'on'
-  - condition: state
-    entity_id: sun.sun
-    state: below_horizon
-  - condition: template
-    value_template: '{{ states.sensor.time.state >= states.sensor.alarm_time.state
-      }}'
-  - condition: or
-    conditions:
-    - condition: template
-      value_template: '{{ (now().strftime("%a") == "Mon") and (states.input_boolean.alarm_mon.state=="on")}}'
-    - condition: template
-      value_template: '{{ (now().strftime("%a") == "Tue") and (states.input_boolean.alarm_tue.state=="on")}}'
-    - condition: template
-      value_template: '{{ (now().strftime("%a") == "Wed") and (states.input_boolean.alarm_wed.state=="on")}}'
-    - condition: template
-      value_template: '{{ (now().strftime("%a") == "Thu") and (states.input_boolean.alarm_thur.state=="on")}}'
-    - condition: template
-      value_template: '{{ (now().strftime("%a") == "Fri") and (states.input_boolean.alarm_fri.state=="on")}}'
-    - condition: template
-      value_template: '{{ (now().strftime("%a") == "Sat") and (states.input_boolean.alarm_sat.state=="on")}}'
-    - condition: template
-      value_template: '{{ (now().strftime("%a") == "Sun") and (states.input_boolean.alarm_sun.state=="on")}}'
-  action:
-  - service: homeassistant.turn_on
-    data: {}
-    target:
-      entity_id:
-      - light.jasco_products_14294_in_wall_smart_dimmer_level
-  mode: single
-  initial_state: true
 - id: '1700657413066'
   alias: barn light night
   description: ''
@@ -2245,22 +2273,6 @@
       - condition: template
         value_template: '{{ is_state(trigger.entity_id, ''on'') }}'
   mode: single
-- id: '1756870232885'
-  alias: Trap 1 kill
-  description: ''
-  triggers:
-  - type: connected
-    device_id: e9a8b53cdf25dd26f2dbedcf06dc1f04
-    entity_id: dacf15835fb054c81836d346067ef623
-    domain: binary_sensor
-    trigger: device
-  conditions: []
-  actions:
-  - action: notify.mobile_app_fry_2
-    metadata: {}
-    data:
-      message: It’s alive!
-  mode: single
 - id: '1761140238172'
   alias: Turn on driveway flood when coming home
   description: ''
@@ -2281,32 +2293,12 @@
     entity_id: switch.wink_kitchen
     state: 'off'
   actions:
-  - action: switch.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: switch.wink_kitchen
-  - wait_for_trigger:
-    - trigger: state
-      entity_id:
-      - switch.wink_kitchen
-      to:
-      - 'off'
-    timeout:
-      hours: 0
-      minutes: 15
-      seconds: 0
-      milliseconds: 0
-  - action: switch.turn_off
-    metadata: {}
-    data: {}
-    target:
-      entity_id: switch.wink_kitchen
   - parallel:
     - if:
       - condition: switch.is_off
         target:
-          entity_id: switch.esp13_s21_esp13_s21_2
+          entity_id:
+          - switch.wp3_1_gosund_wp3_1_relay
         options:
           behavior: any
           for: 00:00:00
@@ -2314,12 +2306,13 @@
       - action: switch.turn_on
         metadata: {}
         target:
-          entity_id: switch.esp13_s21_esp13_s21_2
+          entity_id:
+          - switch.wp3_1_gosund_wp3_1_relay
         data: {}
       - wait_for_trigger:
         - trigger: state
           entity_id:
-          - switch.esp13_s21_esp13_s21_2
+          - switch.wp3_1_gosund_wp3_1_relay
           to:
           - 'off'
         timeout:
@@ -2330,7 +2323,39 @@
       - action: switch.turn_off
         metadata: {}
         target:
-          entity_id: switch.esp13_s21_esp13_s21_2
+          entity_id:
+          - switch.wp3_1_gosund_wp3_1_relay
+        data: {}
+    - if:
+      - condition: switch.is_off
+        target:
+          entity_id:
+          - switch.wink_kitchen
+        options:
+          behavior: any
+          for: 00:00:00
+      then:
+      - action: switch.turn_on
+        metadata: {}
+        target:
+          entity_id:
+          - switch.wink_kitchen
+        data: {}
+      - wait_for_trigger:
+        - trigger: state
+          entity_id:
+          - switch.wink_kitchen
+          to:
+          - 'off'
+        timeout:
+          hours: 0
+          minutes: 15
+          seconds: 0
+          milliseconds: 0
+      - action: switch.turn_off
+        metadata: {}
+        target:
+          entity_id: switch.wink_kitchen
         data: {}
   mode: single
 - id: '1762890336427'
@@ -2397,7 +2422,7 @@
           - {}
           - media_content_type: app
             media_content_id: media-source://camera
-      entity_id: ai_task.ollama_ai_task
+      entity_id: ai_task.ollama_ai_task_2
     response_variable: floor_check
   - variables:
       ai_response: '{{ floor_check.data | trim }}'
@@ -2713,7 +2738,7 @@
         '
   mode: single
 - id: '1787939771435'
-  alias: Energy Savings
+  alias: Energy Savings Peak TOU
   description: ''
   triggers:
   - trigger: state
@@ -2723,6 +2748,12 @@
     - peak
   conditions: []
   actions:
+  - action: scene.create
+    metadata: {}
+    data:
+      scene_id: tou_before_peak
+      snapshot_entities: "{{ label_entities('energy_savings')\n      | reject('in',
+        label_entities('vacation_hold'))\n      | list }}\n"
   - action: climate.set_hvac_mode
     metadata: {}
     target:
@@ -2749,9 +2780,9 @@
     - sensor.ef_bk0388_grid_power
     for:
       hours: 0
-      minutes: 1
+      minutes: 10
       seconds: 0
-    above: 0.01
+    above: 10
   conditions: []
   actions:
   - action: notify.send_message
@@ -2762,7 +2793,7 @@
       message: It’s happening!!!!
   mode: single
 - id: '1788358229633'
-  alias: Energy savings off
+  alias: Energy savings peak off tou
   description: ''
   triggers:
   - trigger: state
@@ -2778,11 +2809,35 @@
       entity_id: climate.garage_attic_fan
     data:
       hvac_mode: cool
+    enabled: false
+  - action: homeassistant.turn_on
+    target:
+      entity_id: "{% set ents = label_entities('energy_savings') %} {% if is_state('input_boolean.vacation_mode',
+        'on') %}\n  {{ ents | reject('eq', 'switch.wink_zwaveoutlet') | list }}\n{%
+        else %}\n  {{ ents }}\n{% endif %}\n"
+    data: {}
   - action: switch.turn_on
     metadata: {}
     target:
-      label_id: energy_savings
+      entity_id:
+      - switch.motorhome_winnebago_plug_winnebago_plug_2
+      - switch.kauf_plug_a9f569_kauf_plug
     data: {}
+    enabled: false
+  - if:
+    - condition: switch.is_off
+      target:
+        entity_id: input_boolean.vacation_mode
+      options:
+        behavior: any
+        for: 00:00:00
+    then:
+    - action: switch.turn_on
+      metadata: {}
+      target:
+        entity_id: switch.wink_zwaveoutlet
+      data: {}
+    enabled: false
   mode: single
 - id: '1789397821311'
   alias: Left home
@@ -2961,3 +3016,119 @@
         entity_id: input_boolean.bretts_button_lockout
       data: {}
   mode: single
+- id: '1790904754181'
+  alias: Restart tab
+  description: ''
+  triggers:
+  - trigger: time
+    at: 05:00:00
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  conditions: []
+  actions:
+  - action: button.press
+    metadata: {}
+    target:
+      entity_id: button.fire_tablet_restart_browser
+    data: {}
+  mode: single
+- id: '1791934995462'
+  alias: 'Turn off at midnight '
+  description: ''
+  triggers:
+  - trigger: time
+    at: 00:01:00
+  conditions: []
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      label_id: off_at_midnight
+    data: {}
+  mode: single
+- id: '1791935169692'
+  alias: Auto-off labeled switches after 2h
+  triggers:
+  - trigger: time_pattern
+    minutes: /5
+  actions:
+  - variables:
+      stale: "{{ label_entities('auto_off_2h')\n   | expand\n   | selectattr('state',
+        'eq', 'on')\n   | selectattr('last_changed', 'lt', now() - timedelta(hours=2))\n
+        \  | map(attribute='entity_id') | list }}\n"
+  - condition: template
+    value_template: '{{ stale | count > 0 }}'
+  - action: homeassistant.turn_off
+    target:
+      entity_id: '{{ stale }}'
+  mode: single
+- id: '1791988800420'
+  alias: Turn off the mini split screens
+  description: ''
+  triggers:
+  - trigger: climate.target_temperature_changed
+    target:
+      entity_id:
+      - climate.craft_room
+      - climate.office
+    options:
+      threshold:
+        type: any
+  conditions:
+  - condition: sun.is_set
+    options: {}
+  actions:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - action: switch.turn_off
+    metadata: {}
+    target:
+      entity_id:
+      - switch.midea_ac_craft_display
+      - switch.midea_ac_office_display
+    data: {}
+  mode: single
+- id: '1794195302724'
+  alias: 'Mouse trap doing something. '
+  description: Send battery voltage, % and wake reason when a trap checks in
+  triggers:
+  - entity_id:
+    - binary_sensor.local_kill_2b30d8_status
+    - binary_sensor.local_kill_2b1562_status
+    to:
+    - 'on'
+    trigger: state
+  actions:
+  - delay: 00:00:05
+  - variables:
+      ents: '{{ device_entities(device_id(trigger.entity_id)) }}'
+      volt_ent: '{{ ents | select(''match'', ''sensor\..*battery_voltage$'') | first
+        | default('''') }}'
+      pct_ent: '{{ ents | select(''match'', ''sensor\..*battery$'') | first | default('''')
+        }}'
+      why_ent: '{{ ents | select(''match'', ''sensor\..*wake_reason$'') | first |
+        default('''') }}'
+      trap: '{{ device_attr(device_id(trigger.entity_id), ''name_by_user'') or device_attr(device_id(trigger.entity_id),
+        ''name'') }}'
+      volts: '{{ states(volt_ent) | float(0) }}'
+      pct: '{{ states(pct_ent) }}'
+      why: '{{ states(why_ent) if why_ent else ''unknown'' }}'
+  - data:
+      title: "{{ '\U0001FAAB ' if volts < 5.0 else '\U0001F50B ' }}{{ trap }} woke
+        ({{ why }})"
+      message: Battery {{ '%.2f' | format(volts) }} V ({{ pct }}%) {%- if volts <
+        5.0 %} - getting low, plan a battery swap{% endif %}
+      data:
+        tag: '{{ trigger.entity_id }}-battery'
+        group: local-kill
+    action: notify.telegram_ryan
+  mode: parallel

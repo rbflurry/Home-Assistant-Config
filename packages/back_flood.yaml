@@ -6,15 +6,15 @@
 ## Customize
 ################################################
 
-homeassistant:
-  customize:
-    packages.back_flood: &customize
-      package: 'back_flood'
+# homeassistant:
+  # customize:
+    # packages.back_flood: &customize
+      # package: 'back_flood'
 
-    packages.back_flood_exposed: &customize_exposed
-      <<: *customize
-      haaska_hidden: false
-      homebridge_hidden: false
+    # packages.back_flood_exposed: &customize_exposed
+      # <<: *customize
+      # haaska_hidden: false
+      # homebridge_hidden: false
 
 
 ################################################

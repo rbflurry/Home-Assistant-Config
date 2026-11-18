@@ -64,3 +64,4 @@ frigate.yml
 /.cache
 /esphome/fonts
 /esphome/archive
+/.ha_mcp

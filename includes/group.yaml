@@ -21,6 +21,7 @@ all_garage_doors:
     - cover.ratthirdbay_door
     - cover.ratsecondbay_door
     - cover.ratfirstbay_door
+    - binary_sensor.garage_entry_door
 
 indoor_lights:
   name: Indoor Lights
