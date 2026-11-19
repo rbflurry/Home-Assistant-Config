@@ -736,7 +736,7 @@
 - id: '1668982954413'
   alias: Sunset/Sunrise
   description: ''
-  trigger:
+  triggers:
   - platform: sun
     event: sunset
     offset: 0
@@ -745,39 +745,35 @@
     event: sunrise
     id: sunrise
     offset: '30'
-  condition: []
-  action:
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: trigger
         id: sunset
       sequence:
-      - service: light.turn_on
-        data:
+      - data:
           color_name: red
           brightness: 1
         target:
           entity_id: light.wink_led_strip_bath
-      - service: homeassistant.turn_on
-        data: {}
+        action: light.turn_on
+      - data: {}
         target:
-          entity_id:
-          - group.outdoor_lights
-          - switch.wink_front_porch_switch
+          label_id: outdoor_lights
+        action: homeassistant.turn_on
     - conditions:
       - condition: trigger
         id: sunrise
       sequence:
-      - service: light.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id: light.wink_led_strip_bath
-      - service: homeassistant.turn_off
-        data: {}
+        action: light.turn_off
+      - data: {}
         target:
-          entity_id:
-          - switch.wink_front_porch_switch
-          - group.outdoor_lights
+          label_id: outdoor_lights
+        action: homeassistant.turn_off
   mode: single
 - id: '1668999676802'
   alias: Bath Lights
@@ -955,69 +951,33 @@
   mode: single
 - id: '1675108306097'
   alias: Garage - Opened turn on garage lights
-  description: ''
+  description: After sunset, any garage door or the entry door opening turns on the
+    front garage lights. They stay on until all four doors are closed.
   triggers:
-  - entity_id:
-    - binary_sensor.garage_entry_door
-    from: 'off'
-    to: 'on'
-    trigger: state
+  - target:
+      entity_id: binary_sensor.garage_entry_door
+    trigger: door.opened
   - entity_id:
     - cover.ratfirstbay_door
-    - cover.ratthirdbay_door
     - cover.ratsecondbay_door
+    - cover.ratthirdbay_door
     from: closed
-    to: opening
     trigger: state
   conditions:
   - condition: sun.is_set
     options: {}
   actions:
-  - data: {}
+  - action: light.turn_on
+    data: {}
     target:
       entity_id: light.garage_lights_front
-    action: light.turn_on
-  - data:
-      duration:
-        hours: 0
-        minutes: 5
-        seconds: 0
-    target:
-      entity_id: timer.garage_lights
-    action: timer.start
-    enabled: false
-  - wait_template: '{{ is_state(trigger.entity_id, ''off'') }}'
-    timeout:
-      hours: 0
-      minutes: 5
-      seconds: 0
-      milliseconds: 0
-    enabled: false
-  - wait_template: '{{ is_state("group.all_garage_doors", "closed")}}'
-    timeout:
-      hours: 0
-      minutes: 5
-      seconds: 0
-      milliseconds: 0
+  - wait_template: '{{ is_state(''cover.ratfirstbay_door'', ''closed'') and is_state(''cover.ratsecondbay_door'',
+      ''closed'') and is_state(''cover.ratthirdbay_door'', ''closed'') and is_state(''binary_sensor.garage_entry_door'',
+      ''off'') }}'
   - action: light.turn_off
-    target:
-      entity_id:
-      - light.garage_lights_front
     data: {}
-  - if:
-    - condition: door.is_closed
-      target:
-        entity_id: binary_sensor.garage_entry_door
-      options:
-        for:
-          hours: 0
-          minutes: 5
-          seconds: 0
-    - condition: state
-      entity_id: cover.ratthirdbay_door
-      state:
-      - closed
-    then: []
+    target:
+      entity_id: light.garage_lights_front
   mode: restart
 - id: '1675444247548'
   alias: Laundry on
@@ -1220,7 +1180,7 @@
   actions:
   - data: {}
     target:
-      entity_id: group.outdoor_lights
+      label_id: outdoor_lights
     action: homeassistant.turn_off
   - metadata: {}
     data: {}
@@ -1232,7 +1192,7 @@
     below: 1
   - data: {}
     target:
-      entity_id: group.indoor_lights
+      label_id: indoor_lights
     action: homeassistant.turn_off
   mode: single
 - id: '1678291560795'
@@ -1563,31 +1523,31 @@
 - id: '1714482990730'
   alias: Keep Things Switched On
   description: ''
-  trigger:
-  - platform: homeassistant
-    event: start
-  - platform: template
-    value_template: "{{ label_entities(\"Always On\") | select('is_state', 'off')
+  triggers:
+  - event: start
+    trigger: homeassistant
+  - value_template: "{{ label_entities(\"Always On\") | select('is_state', 'off')
       | list | count\n      != 0 }}"
-  - platform: time_pattern
-    minutes: '10'
-  condition:
+    trigger: template
+  - minutes: /10
+    trigger: time_pattern
+  conditions:
   - condition: template
     value_template: "{{ label_entities(\"Always On\") | select('is_state', 'off')
       | list | count\n      != 0 }}"
-  action:
+  actions:
   - delay:
       hours: 0
       minutes: 0
       seconds: 5
       milliseconds: 0
-  - service: switch.turn_on
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       label_id:
       - power_on_after_outage
       - always_on
+    action: switch.turn_on
   mode: single
 - id: '1717189678611'
   alias: Turn on front porch light with door bell visitor
@@ -1839,9 +1799,8 @@
 - id: '1723510702431'
   alias: Galtab reload
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - sensor.galtab_browser_visibility
     from:
     to: unavailable
@@ -1849,11 +1808,13 @@
       hours: 0
       minutes: 0
       seconds: 10
-  condition: []
-  action:
-  - service: fully_kiosk.load_url
-    metadata: {}
-    data: {}
+    trigger: state
+  conditions: []
+  actions:
+  - metadata: {}
+    data:
+      device_id: ff7deb1e48d821b2e2b9066b05ad1de4
+    action: fully_kiosk.load_url
   mode: single
 - id: '1723552054351'
   alias: Vacation Mode Changes
@@ -2195,6 +2156,7 @@
   - data:
       message: The Watering Hole Is Full
     action: notify.telegram_group
+  max_exceeded: silent
   mode: single
 - id: '1743014589123'
   alias: Speed test
@@ -2358,20 +2320,6 @@
           entity_id: switch.wink_kitchen
         data: {}
   mode: single
-- id: '1762890336427'
-  alias: HA-Start
-  description: ''
-  triggers:
-  - trigger: homeassistant
-    event: start
-  conditions: []
-  actions:
-  - action: script.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: script.populate_roborock_scripts
-  mode: single
 - id: '1764787327088'
   alias: Carpet check
   description: ''
@@ -2391,7 +2339,8 @@
     data:
       filename: /config/www/entryway_check.jpg
     target:
-      entity_id: camera.lilold_mouse
+      entity_id:
+      - camera.mouse
     enabled: true
   - delay:
       hours: 0
@@ -2411,11 +2360,11 @@
 
         Answer ONLY with one word: either "SAFE" or "UNSAFE"'
       attachments:
-        media_content_id: media-source://camera/camera.lilold_mouse
-        media_content_type: image/jpeg
+      - media_content_id: media-source://camera/camera.mouse
+        media_content_type: application/vnd.apple.mpegurl
         metadata:
-          title: LilOld Mouse
-          thumbnail: /api/camera_proxy/camera.lilold_mouse
+          title: Mouse
+          thumbnail: /api/camera_proxy/camera.mouse
           media_class: video
           children_media_class:
           navigateIds:
@@ -2627,11 +2576,12 @@
   alias: Turn on light with doorbell person
   description: ''
   triggers:
-  - type: turned_on
-    device_id: 2fb75c9c872cd338575295cf4b4579c6
-    entity_id: 734a599de7c20671ef165b2156768147
-    domain: binary_sensor
-    trigger: device
+  - trigger: motion.detected
+    target:
+      entity_id: binary_sensor.front_bell_person
+  - trigger: occupancy.detected
+    target:
+      entity_id: binary_sensor.dw_test_car_occupancy
   conditions:
   - condition: sun
     before: sunrise
@@ -3096,6 +3046,7 @@
       - switch.midea_ac_craft_display
       - switch.midea_ac_office_display
     data: {}
+  max_exceeded: silent
   mode: single
 - id: '1794195302724'
   alias: 'Mouse trap doing something. '
@@ -3132,3 +3083,225 @@
         group: local-kill
     action: notify.telegram_ryan
   mode: parallel
+- id: '1794969544379'
+  alias: HA Starts - Send Message
+  description: ''
+  triggers:
+  - event: start
+    trigger: homeassistant
+  conditions: []
+  actions:
+  - delay: 00:00:15
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.populate_roborock_scripts
+  - data:
+      title: Ha Start
+      message: "{% for entity in label_entities('processes') if is_state(entity, 'on')-%}
+        {% set closed_loop = loop %}\n  {%- if closed_loop.length ==6 and closed_loop.first
+        %}All the processes are running.{% endif -%}\n  {%- if closed_loop.length
+        <6 %}\n  {%- if closed_loop.first %}Running:  {% elif closed_loop.last %}
+        and {% else %} {% endif -%}\n    {{state_attr(entity, 'friendly_name')}}\n
+        \ {%- endif %}\n{%- endfor -%}\n{% for entity in label_entities('processes')
+        if is_state(entity, 'off')-%} {% set open_loop = loop %}\n  {%- if open_loop.length
+        ==6 and open_loop.first %}All the processes are stopped.{% endif -%}\n  {%-
+        if open_loop.length <6 %}\n  {%- if open_loop.first %}Stopped:  {% elif open_loop.last
+        %} and {% else %} {% endif -%}\n    {{state_attr(entity, 'friendly_name')}}\n
+        \ {%- endif %}\n{%- endfor %}.\n"
+    action: notify.telegram_ryan
+  - data:
+      topic: cmnd/sonoff_basement/POWER
+      payload: ''
+    action: mqtt.publish
+  - data:
+      topic: cmnd/sonoff4chpro/POWER1
+      payload: ''
+    action: mqtt.publish
+  - data:
+      topic: cmnd/sonoff4chpro/POWER2
+      payload: ''
+    action: mqtt.publish
+  - data:
+      topic: cmnd/sonoff4chpro/POWER3
+      payload: ''
+    action: mqtt.publish
+  - data:
+      topic: cmnd/sonoff4chpro/POWER4
+      payload: ''
+    action: mqtt.publish
+  - data:
+      topic: cmnd/sensornode2/POWER1
+      payload: ''
+    action: mqtt.publish
+  - data:
+      topic: cmnd/sensornode2/POWER2
+      payload: ''
+    action: mqtt.publish
+  - data:
+      topic: cmnd/sensornode2/POWER3
+      payload: ''
+    action: mqtt.publish
+  mode: single
+- id: '1795095322601'
+  alias: Front porch bulb - dim at night, brighten on motion/person
+  description: Bulb runs at 20% while the porch switch is on (sunset to sunrise).
+    Doorbell motion/person or Frigate porch person brightens to 100%, then back to
+    20% 3 minutes after everything clears.
+  triggers:
+  - entity_id: switch.wink_front_porch_switch
+    id: porch_on
+    to: 'on'
+    trigger: state
+  - id: activity
+    target:
+      entity_id:
+      - binary_sensor.front_bell_motion
+      - binary_sensor.front_bell_person
+    trigger: motion.detected
+  - id: activity
+    target:
+      entity_id: binary_sensor.frontporch_person_occupancy
+    trigger: occupancy.detected
+  conditions:
+  - condition: state
+    entity_id: switch.wink_front_porch_switch
+    state: 'on'
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: porch_on
+      sequence:
+      - delay:
+          seconds: 5
+      - action: light.turn_on
+        data:
+          brightness_pct: 20
+          transition: 2
+        target:
+          entity_id: light.front_porch
+    - conditions:
+      - condition: trigger
+        id: activity
+      sequence:
+      - action: light.turn_on
+        data:
+          brightness_pct: 100
+          transition: 1
+        target:
+          entity_id: light.front_porch
+      - continue_on_timeout: true
+        timeout:
+          minutes: 30
+        wait_template: '{{ is_state(''binary_sensor.front_bell_motion'', ''off'')
+          and is_state(''binary_sensor.front_bell_person'', ''off'') and is_state(''binary_sensor.frontporch_person_occupancy'',
+          ''off'') }}'
+      - delay:
+          minutes: 3
+      - action: light.turn_on
+        data:
+          brightness_pct: 20
+          transition: 3
+        target:
+          entity_id: light.front_porch
+  mode: restart
+- id: '1795096803599'
+  alias: Smoke Detected
+  description: Migrated from YAML (id 7f02c5a4-...). Calls and notifies, turns on
+    indoor lights (label), shuts off HVAC so it doesn't circulate smoke. Each step
+    continues on error so one failure can't block the rest.
+  triggers:
+  - entity_id: sensor.smoke_status
+    to:
+    - smoke
+    - Smoke
+    - co
+    - CO
+    - test
+    trigger: state
+  - entity_id: sensor.smoke_status
+    from: OK
+    to: unknown
+    trigger: state
+  conditions: []
+  actions:
+  - action: notify.twilio_call
+    continue_on_error: true
+    data:
+      message: '{% set s = trigger.to_state.state | lower %}{% set what = {''smoke'':
+        ''Smoke'', ''co'': ''Carbon monoxide'', ''test'': ''Smoke detector test'',
+        ''unknown'': ''Smoke detector offline''}.get(s, trigger.to_state.state) %}{{
+        what }} at Home. Repeat, {{ what }} at Home. Repeat, {{ what }} at Home.'
+      target:
+      - '+12406728691'
+      - '+14105996687'
+  - action: notify.everyone_group
+    continue_on_error: true
+    data:
+      message: '{% set s = trigger.to_state.state | lower %}{% set what = {''smoke'':
+        ''Smoke'', ''co'': ''Carbon monoxide'', ''test'': ''Smoke detector test'',
+        ''unknown'': ''Smoke detector offline''}.get(s, trigger.to_state.state) %}{{
+        what }} at Home (sensor reported: {{ trigger.to_state.state }})'
+      title: '{% set s = trigger.to_state.state | lower %}{% set what = {''smoke'':
+        ''Smoke'', ''co'': ''Carbon monoxide'', ''test'': ''Smoke detector test'',
+        ''unknown'': ''Smoke detector offline''}.get(s, trigger.to_state.state) %}{{
+        what }} at Home'
+  - action: homeassistant.turn_on
+    continue_on_error: true
+    target:
+      label_id: indoor_lights
+  - action: climate.set_fan_mode
+    continue_on_error: true
+    data:
+      fan_mode: auto
+    target:
+      entity_id: climate.home
+  - action: climate.set_hvac_mode
+    continue_on_error: true
+    data:
+      hvac_mode: 'off'
+    target:
+      entity_id: climate.home
+  mode: single
+- id: '1795096904731'
+  alias: Turn off outside lights if no one is home for five minutes and sun is up
+  description: Migrated from YAML (id 97fbd57c-...). Uses the outdoor_lights label
+    instead of group.outdoor_lights.
+  triggers:
+  - entity_id: group.device_family
+    for:
+      minutes: 5
+    to: not_home
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+  actions:
+  - action: homeassistant.turn_off
+    target:
+      label_id: outdoor_lights
+  mode: single
+- id: '1795097008453'
+  alias: Turn off floods if no one is home for five minutes
+  description: Migrated from YAML (id 6f754e85-...), driveway flood added. Skipped
+    when house guest mode is on.
+  triggers:
+  - entity_id: group.device_family
+    for:
+      minutes: 5
+    to: not_home
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.house_guest
+    state: 'off'
+  actions:
+  - action: homeassistant.turn_off
+    target:
+      entity_id:
+      - switch.wink_back_flood
+      - switch.wink_kitchen
+  mode: single

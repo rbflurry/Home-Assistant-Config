@@ -1,63 +1,63 @@
-- alias: HA Starts - Send Message
-  id: 2ad9f3ab-24bb-44ef-bfdf-5d7455fcadb2
-  trigger:
-    - platform: homeassistant
-      event: start
-  action:
-    - delay: 00:00:15
-    - service: notify.telegram_ryan
-      data:
-        title: "Ha Start"
-        message: >
-          {% for entity in states.group.processes.attributes.entity_id if is_state(entity, 'on')-%}
-          {% set closed_loop = loop %}
-            {%- if closed_loop.length ==6 and closed_loop.first %}All the processes are running.{% endif -%}
-            {%- if closed_loop.length <6 %}
-            {%- if closed_loop.first %}Running:  {% elif closed_loop.last %} and {% else %} {% endif -%}
-              {{state_attr(entity, 'friendly_name')}}
-            {%- endif %}
-          {%- endfor -%}
+# - alias: HA Starts - Send Message
+  # id: 2ad9f3ab-24bb-44ef-bfdf-5d7455fcadb2
+  # trigger:
+    # - platform: homeassistant
+      # event: start
+  # action:
+    # - delay: 00:00:15
+    # - service: notify.telegram_ryan
+      # data:
+        # title: "Ha Start"
+        # message: >
+          # {% for entity in states.group.processes.attributes.entity_id if is_state(entity, 'on')-%}
+          # {% set closed_loop = loop %}
+            # {%- if closed_loop.length ==6 and closed_loop.first %}All the processes are running.{% endif -%}
+            # {%- if closed_loop.length <6 %}
+            # {%- if closed_loop.first %}Running:  {% elif closed_loop.last %} and {% else %} {% endif -%}
+              # {{state_attr(entity, 'friendly_name')}}
+            # {%- endif %}
+          # {%- endfor -%}
        
-          {% for entity in states.group.processes.attributes.entity_id if is_state(entity, 'off')-%}
-          {% set open_loop = loop %}
-            {%- if open_loop.length ==6 and open_loop.first %}All the processes are stopped.{% endif -%}
-            {%- if open_loop.length <6 %}
-            {%- if open_loop.first %}Stopped:  {% elif open_loop.last %} and {% else %} {% endif -%}
-              {{state_attr(entity, 'friendly_name')}}
-            {%- endif %}
-          {%- endfor %}.
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sonoff_basement/POWER"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sonoff4chpro/POWER1"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sonoff4chpro/POWER2"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sonoff4chpro/POWER3"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sonoff4chpro/POWER4"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sensornode2/POWER1"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sensornode2/POWER2"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sensornode2/POWER3"
-        payload: ""
+          # {% for entity in states.group.processes.attributes.entity_id if is_state(entity, 'off')-%}
+          # {% set open_loop = loop %}
+            # {%- if open_loop.length ==6 and open_loop.first %}All the processes are stopped.{% endif -%}
+            # {%- if open_loop.length <6 %}
+            # {%- if open_loop.first %}Stopped:  {% elif open_loop.last %} and {% else %} {% endif -%}
+              # {{state_attr(entity, 'friendly_name')}}
+            # {%- endif %}
+          # {%- endfor %}.
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sonoff_basement/POWER"
+        # payload: ""
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sonoff4chpro/POWER1"
+        # payload: ""
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sonoff4chpro/POWER2"
+        # payload: ""
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sonoff4chpro/POWER3"
+        # payload: ""
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sonoff4chpro/POWER4"
+        # payload: ""
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sensornode2/POWER1"
+        # payload: ""
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sensornode2/POWER2"
+        # payload: ""
+    # - service: mqtt.publish
+      # data:
+        # topic: "cmnd/sensornode2/POWER3"
+        # payload: ""
 
 - alias: HA Stop - Send Message stop timers
   id: 4e6ad19b-2eec-4427-99d8-e61b7a3787fe

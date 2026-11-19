@@ -15,38 +15,38 @@ garage:
     - cover.ratsecondbay_door
     - cover.ratfirstbay_door
 
-all_garage_doors:
-  name: All Garage Doors
-  entities:
-    - cover.ratthirdbay_door
-    - cover.ratsecondbay_door
-    - cover.ratfirstbay_door
-    - binary_sensor.garage_entry_door
+# all_garage_doors:
+  # name: All Garage Doors
+  # entities:
+    # - cover.ratthirdbay_door
+    # - cover.ratsecondbay_door
+    # - cover.ratfirstbay_door
+    # - binary_sensor.garage_entry_door
 
-indoor_lights:
-  name: Indoor Lights
-  entities:
-    - light.wink_hallway
-    - light.ge_daylight_140015df_1
-    - light.osram_lightify_a19_tunable_white_00094db0_3
-    - light.wink_bed_room
-    - light.wink_office
-    - switch.wink_hallway_switch
-    - light.wled_bed
-    - light.sengled_e11_g13_035cb3f8_1
-    - light.sengled_e11_g13_035c3bc7_1
-    - light.jasco_products_14294_in_wall_smart_dimmer_level
-    - light.bed_room_overhead_1_0359a396
-    - light.bed_room_overhead_2_07825c03_level_on_off
-    - light.bed_room_overhead_3_08385c03_level_on_off
-    - light.bed_room_overhead_zha_group_0x0003
+# indoor_lights:
+  # name: Indoor Lights
+  # entities:
+    # - light.wink_hallway
+    # - light.ge_daylight_140015df_1
+    # - light.osram_lightify_a19_tunable_white_00094db0_3
+    # - light.wink_bed_room
+    # - light.wink_office
+    # - switch.wink_hallway_switch
+    # - light.wled_bed
+    # - light.sengled_e11_g13_035cb3f8_1
+    # - light.sengled_e11_g13_035c3bc7_1
+    # - light.jasco_products_14294_in_wall_smart_dimmer_level
+    # - light.bed_room_overhead_1_0359a396
+    # - light.bed_room_overhead_2_07825c03_level_on_off
+    # - light.bed_room_overhead_3_08385c03_level_on_off
+    # - light.bed_room_overhead_zha_group_0x0003
   
-outdoor_lights:
-  name: Outdoor Lights
-  entities:
-    - switch.wink_front_porch_switch
-    - switch.ahr_085_2_relay1
-    - switch.ahr_085_2_relay2
+# outdoor_lights:
+  # name: Outdoor Lights
+  # entities:
+    # - switch.wink_front_porch_switch
+    # - switch.ahr_085_2_relay1
+    # - switch.ahr_085_2_relay2
   
 device_family:
   name: Family
@@ -54,13 +54,13 @@ device_family:
     - person.ryan
     - person.chelsea
 
-processes:
-  name: Processes
-  entities:
-    - switch.wink_zwaveoutlet
+# processes:
+  # name: Processes
+  # entities:
+    # - switch.wink_zwaveoutlet
     
-upstairs_lights:
-  name: Uptairs Lights
-  entities:
-    - light.sengled_e11_g13_035c3bc7_1
-    - light.sengled_e11_g13_035cb3f8_1
+# upstairs_lights:
+  # name: Uptairs Lights
+  # entities:
+    # - light.sengled_e11_g13_035c3bc7_1
+    # - light.sengled_e11_g13_035cb3f8_1
