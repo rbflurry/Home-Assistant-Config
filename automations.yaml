@@ -226,25 +226,23 @@
 - id: '1657802534737'
   alias: Climate - Craft Room Cool - On
   description: ''
-  trigger:
-  - platform: template
-    value_template: '{{states.climate.craft_room.attributes.current_temperature >
-      states.climate.craft_room.attributes.temperature}}'
-    for:
+  triggers:
+  - for:
       minutes: 5
-  condition:
-  - condition: device
-    device_id: a71a54da1e80ae275a69e54383eb20ed
-    domain: climate
-    entity_id: bab6cfb92b760c2510616faead126007
-    type: is_hvac_mode
-    hvac_mode: 'off'
-  action:
-  - device_id: a71a54da1e80ae275a69e54383eb20ed
-    domain: climate
-    entity_id: bab6cfb92b760c2510616faead126007
-    type: set_hvac_mode
-    hvac_mode: cool
+    trigger: template
+    value_template: '{{ state_attr(''climate.craft_room'', ''current_temperature'')
+      | float(0) > state_attr(''climate.craft_room'', ''temperature'') | float(999)
+      }}'
+  conditions:
+  - condition: state
+    entity_id: climate.craft_room
+    state: 'off'
+  actions:
+  - action: climate.set_hvac_mode
+    data:
+      hvac_mode: cool
+    target:
+      entity_id: climate.craft_room
   mode: single
 - id: '1657809251650'
   alias: UPS Turn Off lights after blip
@@ -312,27 +310,29 @@
 - id: '1665668429834'
   alias: Door Alerts v2
   description: ''
-  trigger:
+  triggers:
   - platform: state
     entity_id: binary_sensor.garage_entry_door, binary_sensor.front_door, binary_sensor.wink_back_door_opened,
       binary_sensor.basement_door, binary_sensor.front_door
     to: 'on'
-  condition:
+  conditions:
   - condition: numeric_state
     entity_id: zone.home
     above: 0
     value_template: '{{ float(state.state) }}'
     enabled: false
-  action:
+  actions:
   - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
 
       '
     timeout: 00:00:10
-  - service: notify.telegram_ryan
-    data:
+  - data:
       message: "{% set new = trigger.entity_id %} {% if is_state(new, 'off') %}\n
         \ {{ trigger.to_state.name }} was opened and closed.\n{% else %}\n  {{ trigger.to_state.name
         }} was opened.\n{% endif %}\n"
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+    action: telegram_bot.send_message
   - condition: template
     value_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''on'') }}
 
@@ -340,11 +340,13 @@
   - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
 
       '
-  - service: notify.telegram_ryan
-    data:
+  - data:
       message: '{{ trigger.to_state.name }} was closed.
 
         '
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+    action: telegram_bot.send_message
   mode: parallel
   max: 10
 - id: '1665711480975'
@@ -465,45 +467,40 @@
   alias: upstairs dimmer
   description: ''
   triggers:
-  - event_type: zha_event
-    event_data:
-      device_id: 50b370ca9c6b4fcf91f0fee0cb747b7b
+  - event_data:
       command: move_to_level_with_on_off
+      device_ieee: ff:ff:00:0f:e7:fd:72:22
+    event_type: zha_event
     trigger: event
   conditions: []
   actions:
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{trigger.event.data.params.level <= 5}}'
+        value_template: '{{ trigger.event.data.params.level <= 5 }}'
       sequence:
-      - data: {}
+      - action: light.turn_off
         target:
           entity_id:
           - light.sengled_e11_g13_035cb3f8_1
           - light.sengled_e11_g13_035c3bc7_1
-        action: light.turn_off
       - delay:
-          hours: 0
-          minutes: 0
           seconds: 5
-          milliseconds: 0
     default:
-    - data: {}
+    - action: switch.turn_on
       target:
         entity_id:
         - switch.outlet_1
         - switch.desk_power_strip_1
         - switch.desk_power_strip_usb_power
-      action: switch.turn_on
-    - data:
-        brightness: '{{trigger.event.data.params.level | int}}'
+    - action: light.turn_on
+      data:
+        brightness: '{{ trigger.event.data.params.level | int }}'
         transition: 1
       target:
         entity_id:
         - light.sengled_e11_g13_035c3bc7_1
         - light.sengled_e11_g13_035cb3f8_1
-      action: light.turn_on
   mode: restart
 - id: '1666123844519'
   alias: bed light dimmer
@@ -549,7 +546,9 @@
   actions:
   - data:
       message: '✏HCPSS: {{trigger.to_state.state}}✏'
-    action: notify.telegram_group
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+    action: telegram_bot.send_message
   mode: single
 - id: '1667065431239'
   alias: Blue Iris Status
@@ -702,7 +701,9 @@
     action: homeassistant.turn_on
   - data:
       message: I turned on some lights so you wouldn't be afraid when you got home.
-    action: notify.telegram_group
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+    action: telegram_bot.send_message
   - metadata: {}
     data: {}
     target:
@@ -915,39 +916,26 @@
   alias: Air compressor purge auto off
   description: ''
   triggers:
-  - type: turned_on
-    device_id: 183e4d2b4ff3b11f051389546588444d
-    entity_id: switch.sonoff_b_1_relay
-    domain: switch
+  - entity_id: switch.sonoff_b_1_relay
     for:
-      hours: 0
-      minutes: 0
       seconds: 10
-    trigger: device
+    to: 'on'
+    trigger: state
   conditions: []
   actions:
-  - type: turn_off
-    device_id: 183e4d2b4ff3b11f051389546588444d
-    entity_id: switch.sonoff_b_1_relay
-    domain: switch
+  - action: switch.turn_off
+    target:
+      entity_id: switch.sonoff_b_1_relay
   - delay:
-      hours: 0
-      minutes: 0
       seconds: 5
-      milliseconds: 0
-  - type: turn_on
-    device_id: 183e4d2b4ff3b11f051389546588444d
-    entity_id: e74937373e0e369b499d936797be5132
-    domain: switch
+  - action: switch.turn_on
+    target:
+      entity_id: switch.sonoff_b_1_relay
   - delay:
-      hours: 0
-      minutes: 0
       seconds: 5
-      milliseconds: 0
-  - type: turn_off
-    device_id: 183e4d2b4ff3b11f051389546588444d
-    entity_id: switch.sonoff_b_1_relay
-    domain: switch
+  - action: switch.turn_off
+    target:
+      entity_id: switch.sonoff_b_1_relay
   mode: single
 - id: '1675108306097'
   alias: Garage - Opened turn on garage lights
@@ -1013,105 +1001,6 @@
         target:
           entity_id: switch.in_wall_paddle_switch_500s
   mode: single
-- id: '1675694589234'
-  alias: Chicken Water
-  description: ''
-  triggers:
-  - event: sunrise
-    offset: 0
-    trigger: sun
-  - at: '10:00:00'
-    id: '10'
-    trigger: time
-  - entity_id:
-    - switch.side_spigot
-    to: 'on'
-    trigger: state
-  conditions:
-  - condition: state
-    entity_id: switch.bathroom_fan
-    state: unavailable
-  - condition: state
-    entity_id: input_boolean.chicken_frozen
-    state: 'off'
-  actions:
-  - if:
-    - condition: state
-      entity_id: input_boolean.chicken_water_automations
-      state: 'off'
-    - condition: state
-      entity_id: switch.side_spigot
-      state: 'on'
-    then:
-    - data:
-        message: Chicken Water Automation Disabled - Please remember to turn off water
-      action: notify.telegram_group
-    - stop: Disabled
-  - if:
-    - condition: state
-      entity_id: switch.side_spigot
-      state: unavailable
-    then:
-    - data:
-        message: Chicken Water Automation - Spigot is unavailable
-      action: notify.telegram_group
-    - data: {}
-      target:
-        entity_id: input_boolean.chickens_need_watering
-      action: homeassistant.turn_on
-    - stop: Spigot Unavailable
-  - if:
-    - condition: state
-      entity_id: input_boolean.chicken_water_automations
-      state: 'off'
-    then:
-    - data: {}
-      target:
-        entity_id: input_boolean.chickens_need_watering
-      action: homeassistant.turn_on
-    - stop: Disabled
-  - if:
-    - condition: and
-      conditions:
-      - condition: numeric_state
-        entity_id: sensor.pws_5in1_temperature
-        below: 32.1
-    then:
-    - if:
-      - condition: trigger
-        id: '10'
-      then:
-      - data: {}
-        target:
-          entity_id: input_boolean.chickens_need_watering
-        action: homeassistant.turn_on
-      enabled: false
-    - stop: Too Cold.
-  - data:
-      message: Filling the Watering Hole
-    action: notify.telegram_group
-  - data: {}
-    target:
-      entity_id: switch.side_spigot
-    action: switch.turn_on
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 50
-      milliseconds: 0
-  - data: {}
-    target:
-      entity_id: switch.side_spigot
-    action: switch.turn_off
-  - data:
-      skip_condition: true
-    target:
-      entity_id: automation.tag_chicken_water_is_scanned
-    action: automation.trigger
-  - data:
-      message: The Watering Hole Is Full
-    action: notify.telegram_group
-  mode: single
 - id: '1676037938048'
   alias: 3D print is done
   description: ''
@@ -1129,7 +1018,9 @@
   actions:
   - data:
       message: 3D Print is done!!
-    action: notify.telegram_ryan
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+    action: telegram_bot.send_message
   mode: single
 - id: '1676429256085'
   alias: Bed Room Dimmer
@@ -1238,20 +1129,22 @@
 - id: '1684260682049'
   alias: my ip changes
   description: ''
-  trigger:
+  triggers:
   - platform: state
     entity_id:
     - sensor.myip
-  condition: []
-  action:
-  - service: notify.telegram_ryan
-    data:
+  conditions: []
+  actions:
+  - data:
       message: 'IP changed from: {{trigger.from_state.state}}  to {{trigger.to_state.state}}'
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+    action: telegram_bot.send_message
   mode: single
 - id: '1688228439218'
   alias: Send Message when no one is home but a door was opened v3
   description: ''
-  trigger:
+  triggers:
   - platform: state
     entity_id:
     - binary_sensor.garage_entry_door
@@ -1269,21 +1162,24 @@
       hours: 0
       minutes: 1
       seconds: 0
-  condition:
+  conditions:
   - condition: state
     entity_id: zone.home
     state: '0'
-  action:
+  actions:
   - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
 
       '
     timeout: 00:00:05
-  - service: notify.everyone_group
-    data:
+  - data:
       message: "{% set new = trigger.entity_id %} {% if is_state(new, 'off') %}\n
         \ No one is home and {{ trigger.to_state.name }} was opened and closed.\n{%
         else %}\n  No one is home and {{ trigger.to_state.name }} was opened.\n{%
         endif %}\n"
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      - notify.telegram_bot_700554930_664122562
+    action: telegram_bot.send_message
   - condition: template
     value_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''on'') }}
 
@@ -1291,11 +1187,14 @@
   - wait_template: '{% set new = trigger.entity_id %} {{ is_state(new, ''off'') }}
 
       '
-  - service: notify.everyone_group
-    data:
+  - data:
       message: 'No one is home and {{ trigger.to_state.name }} was closed
 
         '
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      - notify.telegram_bot_700554930_664122562
+    action: telegram_bot.send_message
   mode: parallel
   max: 10
 - id: '1688688970200'
@@ -1458,7 +1357,10 @@
       message: "\U0001F697 Ryan, your drive time is {{ states('sensor.waze_device_ryan_to_home',
         True, True)}}  taking {{ state_attr('sensor.waze_device_ryan_to_home', 'route')
         }}. Drive safe\U0001F697"
-    action: notify.everyone_group
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      - notify.telegram_bot_700554930_664122562
+    action: telegram_bot.send_message
   mode: single
 - id: '1712957154301'
   alias: Chelsea Headed Home
@@ -1478,12 +1380,15 @@
       message: "\U0001F697 Chelsea, your drive time is {{ states('sensor.waze_chelsea_to_home',
         True, True) }} taking {{ state_attr('sensor.waze_chelsea_to_home', 'route')
         }}. Drive safe\U0001F697"
-    action: notify.everyone_group
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      - notify.telegram_bot_700554930_664122562
+    action: telegram_bot.send_message
   mode: single
 - id: '1713203767357'
   alias: Garage Send Message when chelsea left but garage door is still open
   description: ''
-  trigger:
+  triggers:
   - platform: state
     entity_id:
     - person.chelsea
@@ -1491,17 +1396,19 @@
     for:
       minutes: 10
     from: home
-  condition:
+  conditions:
   - condition: or
     conditions:
     - condition: state
       entity_id: cover.ratfirstbay_door
       state: open
-  action:
-  - service: notify.telegram_ryan
-    data:
+  actions:
+  - data:
       title: Chelsea Left
       message: First Bay was left open
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+    action: telegram_bot.send_message
   mode: single
 - id: '1714482903010'
   alias: 'Turn off side spigot when it goes unavailable '
@@ -1552,20 +1459,16 @@
 - id: '1717189678611'
   alias: Turn on front porch light with door bell visitor
   description: ''
-  trigger:
-  - type: turned_on
-    platform: device
-    device_id: 2fb75c9c872cd338575295cf4b4579c6
-    entity_id: 734a599de7c20671ef165b2156768147
-    domain: binary_sensor
-  condition:
+  triggers:
+  - target:
+      entity_id: binary_sensor.front_bell_person
+    trigger: motion.detected
+  conditions:
   - condition: state
     entity_id: sun.sun
     state: below_horizon
-  action:
-  - service: switch.turn_on
-    metadata: {}
-    data: {}
+  actions:
+  - action: switch.turn_on
     target:
       entity_id: switch.wink_front_porch_switch
   mode: single
@@ -1573,24 +1476,20 @@
   alias: Run the air purge Compressor
   description: ''
   triggers:
-  - device_id: 05af22b56c7f5bfd80f9c2877b626d86
-    domain: cover
-    entity_id: f7ee2d8b3275cf417cb487ae1c507887
-    type: opening
-    trigger: device
+  - entity_id: cover.ratsecondbay_door
+    to: opening
+    trigger: state
   conditions:
   - condition: template
     value_template: '{{true if as_timestamp(now()) | int - as_timestamp(state_attr(this.entity_id,
       ''last_triggered'')) | int > 1209600  else false }}'
-  - condition: numeric_state
+  - above: 35
+    condition: numeric_state
     entity_id: sensor.pws_5in1_temperature
-    above: 35
   actions:
-  - metadata: {}
-    data: {}
+  - action: switch.turn_on
     target:
       entity_id: switch.sonoff_b_1_relay
-    action: switch.turn_on
   mode: single
 - id: '1721842648143'
   alias: Winnie is down
@@ -1606,7 +1505,9 @@
   - metadata: {}
     data:
       message: Winnie is down
-    action: notify.telegram_group
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+    action: telegram_bot.send_message
   mode: single
 - id: '1721842715748'
   alias: Winnie above temp
@@ -1627,7 +1528,9 @@
       - metadata: {}
         data:
           message: Winnie is hot (above 80) for 5 minutes
-        action: notify.telegram_group
+          entity_id:
+          - notify.telegram_bot_700554930_356616190_2
+        action: telegram_bot.send_message
       - delay:
           hours: 0
           minutes: 1
@@ -1641,22 +1544,18 @@
 - id: '1721842902821'
   alias: Turn tv off if it turn on and vacation mode is on
   description: ''
-  trigger:
-  - platform: device
-    type: changed_states
-    device_id: fd453b832f920b1ea646d619f09bbf60
-    entity_id: 848b6c82304b8a5ecc249d839f7a1a38
-    domain: media_player
-  condition:
+  triggers:
+  - entity_id: media_player.lg_webos_tv_nano80upa
+    to: 'on'
+    trigger: state
+  conditions:
   - condition: state
     entity_id: input_boolean.vacation_mode
-    state: ''
-  action:
-  - service: media_player.turn_off
-    metadata: {}
-    data: {}
+    state: 'on'
+  actions:
+  - action: media_player.turn_off
     target:
-      device_id: fd453b832f920b1ea646d619f09bbf60
+      entity_id: media_player.lg_webos_tv_nano80upa
   mode: single
 - id: '1722957712789'
   alias: Time - Refresh Z-wave Devices
@@ -1676,81 +1575,83 @@
 - id: '1723057460333'
   alias: Climate - Send Message on colder outside than inside
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.home_temperature
-  condition:
+  triggers:
+  - entity_id: sensor.home_temperature
+    trigger: state
+  conditions:
   - condition: state
     entity_id: climate.home
     state: cool
-  - condition: template
-    value_template: '{{ states(''sensor.pws_5in1_temperature'') < states(''input_number.climate_set_temp'')
-      }}'
+  - condition: numeric_state
+    entity_id: sensor.pws_5in1_temperature
+    below: input_number.climate_set_temp
   - condition: state
     entity_id: cover.windows
     state: closed
-  action:
-  - service: notify.ryan
+  actions:
+  - action: telegram_bot.send_message
     data:
-      title: Colder outside than inside set temp.
       message: 'Outside temp is {{ states(''sensor.pws_5in1_temperature'') }} and
-        inside set temp is {{ states(''sensor.input_number.climate_set_temp'') }}
-        Cool is off
+        inside set temp is {{ states(''input_number.climate_set_temp'') }} Cool is
+        off
 
         '
-  - service: climate.set_hvac_mode
-    target:
-      device_id: 2ba3ffc670e10864c5730ac799773af9
+      title: Colder outside than inside set temp.
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+  - action: climate.set_hvac_mode
     data:
       hvac_mode: 'off'
+    target:
+      entity_id: climate.home
   mode: single
 - id: '1723057499582'
   alias: Climate - Send Message on hotter outside than inside
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.home_temperature
-  condition:
+  triggers:
+  - entity_id: sensor.home_temperature
+    trigger: state
+  conditions:
   - condition: state
     entity_id: climate.home
     state: 'off'
-  - condition: template
-    value_template: '{{ states(''sensor.pws_5in1_temperature'') > states(''input_number.climate_set_temp'')
-      }}'
+  - condition: numeric_state
+    entity_id: sensor.pws_5in1_temperature
+    above: input_number.climate_set_temp
   - condition: state
     entity_id: cover.windows
     state: closed
-  action:
-  - service: notify.ryan
+  actions:
+  - action: telegram_bot.send_message
     data:
-      title: Hotter outside than inside set temp.
       message: 'Outside temp is {{ states(''sensor.pws_5in1_temperature'') }} and
         inside set temp is {{ states(''input_number.climate_set_temp'') }} Cool is
         on
 
         '
-  - service: climate.set_hvac_mode
-    target:
-      device_id: 2ba3ffc670e10864c5730ac799773af9
+      title: Hotter outside than inside set temp.
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+  - action: climate.set_hvac_mode
     data:
       hvac_mode: 'off'
+    target:
+      entity_id: climate.home
   mode: single
 - id: '1723298593061'
   alias: Climate - windows open turn off climate
   description: ''
-  trigger:
-  - platform: state
-    entity_id: cover.windows
+  triggers:
+  - entity_id: cover.windows
     to: open
-  condition: []
-  action:
-  - service: climate.set_hvac_mode
-    target:
-      device_id: 2ba3ffc670e10864c5730ac799773af9
+    trigger: state
+  conditions: []
+  actions:
+  - action: climate.set_hvac_mode
     data:
       hvac_mode: 'off'
+    target:
+      entity_id: climate.home
   mode: single
 - id: '1723493670635'
   alias: Billpay
@@ -1993,45 +1894,6 @@
           label_id: christmas_lights
         action: homeassistant.turn_off
   mode: single
-- id: '1737052082491'
-  alias: Basement door open turn basement_light on for 10 minutes unless it is already
-    on.
-  description: ''
-  triggers:
-  - entity_id: binary_sensor.basement_door
-    from: 'off'
-    to: 'on'
-    trigger: state
-  - entity_id: binary_sensor.basement_door
-    from: 'on'
-    to: 'off'
-    trigger: state
-  conditions:
-  - condition: state
-    entity_id: switch.wink_basement
-    state: 'off'
-  actions:
-  - data:
-      entity_id:
-      - switch.wink_basement
-    action: zwave_js.refresh_value
-  - delay: 0:00:05
-  - condition: state
-    entity_id: switch.wink_basement
-    state: 'off'
-  - entity_id: switch.wink_basement
-    action: homeassistant.turn_on
-  - wait_for_trigger:
-    - trigger: state
-      entity_id:
-      - binary_sensor.basement_door
-      to: 'off'
-    continue_on_timeout: false
-  - entity_id: timer.basement_light
-    data:
-      duration: 00:10:00
-    action: timer.start
-  mode: single
 - id: '1737507106180'
   alias: CCPS Status
   description: ''
@@ -2049,7 +1911,9 @@
   actions:
   - data:
       message: '✏CCPS✏: {{trigger.to_state.state}}'
-    action: notify.telegram_group
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+    action: telegram_bot.send_message
   mode: single
 - id: '1741533565068'
   alias: Chicken - New Water
@@ -2084,7 +1948,9 @@
     then:
     - data:
         message: Chicken Water Automation Disabled - Please remember to turn off water
-      action: notify.telegram_group
+        entity_id:
+        - notify.telegram_bot_700554930_356616190_2
+      action: telegram_bot.send_message
     - stop: Disabled
   - if:
     - condition: state
@@ -2093,7 +1959,9 @@
     then:
     - data:
         message: Chicken Water Automation - Spigot is unavailable
-      action: notify.telegram_group
+        entity_id:
+        - notify.telegram_bot_700554930_356616190_2
+      action: telegram_bot.send_message
     - data: {}
       target:
         entity_id: input_boolean.chickens_need_watering
@@ -2125,14 +1993,19 @@
           entity_id: input_boolean.chickens_need_watering
         action: homeassistant.turn_on
       enabled: false
-    - action: notify.everyone_group
+    - action: telegram_bot.send_message
       metadata: {}
       data:
         message: It was too cold to water the chickens, do it yourself.
+        entity_id:
+        - notify.telegram_bot_700554930_618533989
+        - notify.telegram_bot_700554930_664122562
     - stop: Too Cold.
   - data:
       message: Filling the Watering Hole
-    action: notify.telegram_group
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+    action: telegram_bot.send_message
   - data: {}
     target:
       entity_id:
@@ -2155,7 +2028,9 @@
     action: automation.trigger
   - data:
       message: The Watering Hole Is Full
-    action: notify.telegram_group
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+    action: telegram_bot.send_message
   max_exceeded: silent
   mode: single
 - id: '1743014589123'
@@ -2193,10 +2068,13 @@
   - repeat:
       count: 5
       sequence:
-      - action: notify.everyone_group
+      - action: telegram_bot.send_message
         metadata: {}
         data:
           message: “Ziplocks please, if you have the time. I love you
+          entity_id:
+          - notify.telegram_bot_700554930_618533989
+          - notify.telegram_bot_700554930_664122562
       - delay:
           hours: 0
           minutes: 5
@@ -2216,16 +2094,21 @@
     to: 'on'
   conditions: []
   actions:
-  - action: notify.everyone_group
+  - action: telegram_bot.send_message
     metadata: {}
     data:
       message: WATER!
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      - notify.telegram_bot_700554930_664122562
   - repeat:
       sequence:
-      - action: notify.telegram_group
+      - action: telegram_bot.send_message
         metadata: {}
         data:
           message: Still wet
+          entity_id:
+          - notify.telegram_bot_700554930_356616190_2
       - delay:
           hours: 0
           minutes: 1
@@ -2252,7 +2135,7 @@
     before: sunrise
     after: sunset
   - condition: state
-    entity_id: switch.wink_kitchen
+    entity_id: switch.driveway_flood
     state: 'off'
   actions:
   - parallel:
@@ -2292,7 +2175,7 @@
       - condition: switch.is_off
         target:
           entity_id:
-          - switch.wink_kitchen
+          - switch.driveway_flood
         options:
           behavior: any
           for: 00:00:00
@@ -2301,12 +2184,12 @@
         metadata: {}
         target:
           entity_id:
-          - switch.wink_kitchen
+          - switch.driveway_flood
         data: {}
       - wait_for_trigger:
         - trigger: state
           entity_id:
-          - switch.wink_kitchen
+          - switch.driveway_flood
           to:
           - 'off'
         timeout:
@@ -2317,7 +2200,7 @@
       - action: switch.turn_off
         metadata: {}
         target:
-          entity_id: switch.wink_kitchen
+          entity_id: switch.driveway_flood
         data: {}
   mode: single
 - id: '1764787327088'
@@ -2409,48 +2292,33 @@
   alias: 'Air hose chicken drain. '
   description: ''
   triggers:
-  - type: turned_on
-    device_id: a070c87aea3c558b8e3e51cdbec10dfe
-    entity_id: 6a07c44256b333c6ae285bfb386162e6
-    domain: switch
-    trigger: device
+  - entity_id: switch.sonoff_b_2_relay
+    to: 'on'
+    trigger: state
   conditions: []
   actions:
   - delay:
-      hours: 0
       minutes: 1
-      seconds: 0
-      milliseconds: 0
   - action: switch.turn_off
-    metadata: {}
     target:
       entity_id: switch.sonoff_b_2_relay
-    data: {}
   mode: single
 - id: '1767724951442'
   alias: turn off upstairs heat after 4 hours
   description: ''
   triggers:
-  - device_id: ba5d1b464d32a0046f09f6238e7e62e2
-    domain: climate
-    entity_id: a450193f611947578be0017263e1bc9f
-    type: hvac_mode_changed
-    metadata:
-      secondary: false
-    trigger: device
-    to: heat
+  - entity_id: climate.upstairs
     for:
       hours: 4
-      minutes: 0
-      seconds: 0
+    to: heat
+    trigger: state
   conditions: []
   actions:
   - action: climate.set_hvac_mode
-    metadata: {}
-    target:
-      entity_id: climate.upstairs
     data:
       hvac_mode: 'off'
+    target:
+      entity_id: climate.upstairs
   mode: single
 - id: '1767834041163'
   alias: upstairs when left home
@@ -2487,7 +2355,7 @@
     path: aderusha/link_multiple_devices.yaml
     input:
       linked_entities:
-      - switch.wink_kitchen
+      - switch.driveway_flood
       - switch.wp3_2_gosund_wp3_2_relay
 - id: '1768693235355'
   alias: Link On/Off State of carriage/flood
@@ -2648,23 +2516,18 @@
   alias: Turn off AC after dark and lights off
   description: ''
   triggers:
-  - trigger: state
-    entity_id:
-    - light.wink_office
-    to:
-    - 'off'
-    from:
-    - 'on'
+  - entity_id: light.wink_office
+    from: 'on'
+    to: 'off'
+    trigger: state
   conditions:
-  - condition: sun
+  - after: sunset
     before: sunrise
-    after: sunset
+    condition: sun
   actions:
   - action: climate.turn_off
-    metadata: {}
     target:
-      device_id: ba5d1b464d32a0046f09f6238e7e62e2
-    data: {}
+      entity_id: climate.upstairs
   mode: single
 - id: '1785337821086'
   alias: Garage Attic Fan - Sync Target
@@ -2819,25 +2682,21 @@
   alias: Turn off Mini Split Display
   description: ''
   triggers:
-  - trigger: light.turned_off
-    target:
-      device_id: ff725538894842c9b7626cf49251a7a9
-    options:
+  - options:
       behavior: each
+    target:
+      entity_id: light.sengled_e11_g13_035cb3f8_1
+    trigger: light.turned_off
   conditions: []
   actions:
   - action: switch.turn_off
-    metadata: {}
     target:
       entity_id:
       - switch.midea_ac_craft_display
       - switch.midea_ac_office_display
-    data: {}
   - action: climate.turn_off
-    metadata: {}
     target:
       entity_id: climate.office
-    data: {}
   mode: single
 - id: '1790013711436'
   alias: Sync utility meter tariffs to TOU period
@@ -3078,10 +2937,9 @@
         ({{ why }})"
       message: Battery {{ '%.2f' | format(volts) }} V ({{ pct }}%) {%- if volts <
         5.0 %} - getting low, plan a battery swap{% endif %}
-      data:
-        tag: '{{ trigger.entity_id }}-battery'
-        group: local-kill
-    action: notify.telegram_ryan
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+    action: telegram_bot.send_message
   mode: parallel
 - id: '1794969544379'
   alias: HA Starts - Send Message
@@ -3110,7 +2968,9 @@
         if open_loop.length <6 %}\n  {%- if open_loop.first %}Stopped:  {% elif open_loop.last
         %} and {% else %} {% endif -%}\n    {{state_attr(entity, 'friendly_name')}}\n
         \ {%- endif %}\n{%- endfor %}.\n"
-    action: notify.telegram_ryan
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+    action: telegram_bot.send_message
   - data:
       topic: cmnd/sonoff_basement/POWER
       payload: ''
@@ -3237,7 +3097,7 @@
       target:
       - '+12406728691'
       - '+14105996687'
-  - action: notify.everyone_group
+  - action: telegram_bot.send_message
     continue_on_error: true
     data:
       message: '{% set s = trigger.to_state.state | lower %}{% set what = {''smoke'':
@@ -3248,6 +3108,9 @@
         ''Smoke'', ''co'': ''Carbon monoxide'', ''test'': ''Smoke detector test'',
         ''unknown'': ''Smoke detector offline''}.get(s, trigger.to_state.state) %}{{
         what }} at Home'
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      - notify.telegram_bot_700554930_664122562
   - action: homeassistant.turn_on
     continue_on_error: true
     target:
@@ -3303,5 +3166,600 @@
     target:
       entity_id:
       - switch.wink_back_flood
-      - switch.wink_kitchen
+      - switch.driveway_flood
+  mode: single
+- id: '1795098225963'
+  alias: Front porch - door/garage opens at night, light on for 10 min
+  description: Replaces timer.front_porch and its 3 automations. Only manages the
+    light if it was off (or this automation turned it on); any new trigger restarts
+    the 10 minutes.
+  triggers:
+  - entity_id: binary_sensor.front_door
+    from: 'off'
+    to: 'on'
+    trigger: state
+  - entity_id:
+    - cover.ratfirstbay_door
+    - cover.ratsecondbay_door
+    - cover.ratthirdbay_door
+    from: closed
+    to: open
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  - condition: state
+    entity_id: binary_sensor.still_dark
+    state: 'on'
+  - alias: Light is off, or this automation already owns it
+    condition: template
+    value_template: '{{ is_state(''switch.wink_front_porch_switch'', ''off'') or this.attributes.current
+      | int(0) > 0 }}'
+  actions:
+  - action: switch.turn_on
+    target:
+      entity_id: switch.wink_front_porch_switch
+  - delay:
+      minutes: 10
+  - action: switch.turn_off
+    target:
+      entity_id: switch.wink_front_porch_switch
+  mode: restart
+- id: '1795098226681'
+  alias: Back flood - door/garage activity at night, light on for 10 min
+  description: Replaces timer.back_flood and its 5 automations. Only manages the flood
+    if it was off (or this automation turned it on); any new trigger restarts the
+    10 minutes. On HA start, a flood that's on gets 10 more minutes then turns off.
+  triggers:
+  - entity_id:
+    - binary_sensor.wink_back_door_opened
+    - binary_sensor.garage_entry_door
+    from: 'off'
+    id: activity
+    to: 'on'
+    trigger: state
+  - entity_id:
+    - binary_sensor.wink_back_door_opened
+    - binary_sensor.garage_entry_door
+    from: 'on'
+    id: activity
+    to: 'off'
+    trigger: state
+  - entity_id:
+    - cover.ratfirstbay_door
+    - cover.ratsecondbay_door
+    - cover.ratthirdbay_door
+    from: closed
+    id: activity
+    to: open
+    trigger: state
+  - event: start
+    id: ha_start
+    trigger: homeassistant
+  conditions:
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: trigger
+        id: ha_start
+      - condition: state
+        entity_id: switch.wink_back_flood
+        state: 'on'
+    - condition: and
+      conditions:
+      - condition: trigger
+        id: activity
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      - condition: state
+        entity_id: binary_sensor.still_dark
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.fox_hunt
+        state: 'off'
+      - alias: Flood is off, or this automation already owns it
+        condition: template
+        value_template: '{{ is_state(''switch.wink_back_flood'', ''off'') or this.attributes.current
+          | int(0) > 0 }}'
+  actions:
+  - action: switch.turn_on
+    target:
+      entity_id: switch.wink_back_flood
+  - delay:
+      minutes: 10
+  - action: switch.turn_off
+    target:
+      entity_id: switch.wink_back_flood
+  mode: restart
+- id: '1795098227431'
+  alias: Basement - door activity, light on until 10 min after door closes
+  description: Replaces timer.basement_light and its 3 automations. Only manages the
+    light if it was off (or this automation turned it on). Refreshes the Z-Wave switch
+    first in case its state is stale.
+  triggers:
+  - entity_id: binary_sensor.basement_door
+    from: 'off'
+    to: 'on'
+    trigger: state
+  - entity_id: binary_sensor.basement_door
+    from: 'on'
+    to: 'off'
+    trigger: state
+  conditions:
+  - alias: Light is off, or this automation already owns it
+    condition: template
+    value_template: '{{ is_state(''switch.wink_basement'', ''off'') or this.attributes.current
+      | int(0) > 0 }}'
+  actions:
+  - if:
+    - alias: First run (not extending)
+      condition: template
+      value_template: '{{ this.attributes.current | int(0) == 0 }}'
+    then:
+    - action: zwave_js.refresh_value
+      data:
+        entity_id:
+        - switch.wink_basement
+    - delay:
+        seconds: 5
+    - if:
+      - condition: state
+        entity_id: switch.wink_basement
+        state: 'on'
+      then:
+      - stop: Light was already on (manual) - leave it alone
+  - action: switch.turn_on
+    target:
+      entity_id: switch.wink_basement
+  - wait_template: '{{ is_state(''binary_sensor.basement_door'', ''off'') }}'
+  - delay:
+      minutes: 10
+  - action: switch.turn_off
+    target:
+      entity_id: switch.wink_basement
+  mode: restart
+- id: '1795114110754'
+  alias: Chicken -  Chicken Door Timer V2
+  description: Migrated from YAML (id 22d5fa60-...). Telegram via telegram_bot to
+    Chat with the house.
+  triggers:
+  - event: sunrise
+    offset: -00:14:00
+    trigger: sun
+  conditions:
+  - condition: state
+    entity_id: input_boolean.chicken_door
+    state: 'on'
+  - condition: state
+    entity_id: cover.chicken_door
+    state: closed
+  - condition: state
+    entity_id: cover.chicken_pen
+    state: closed
+  actions:
+  - action: homeassistant.turn_on
+    target:
+      entity_id:
+      - input_boolean.chicken_door_automations
+      - automation.chicken_door_last_call_v2
+  - action: homeassistant.turn_off
+    target:
+      entity_id:
+      - input_boolean.cancel_last_call
+      - switch.chicken_sensor_v2_chicken_door_lockout
+  - action: cover.open_cover
+    target:
+      entity_id: cover.chicken_door
+  - timeout: 00:00:20
+    wait_template: '{{ is_state(''cover.chicken_door'', ''open'') }}'
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+      inline_keyboard:
+      - Open Door:/CHICKEN_OPEN_DOOR
+      - Close Door:/CHICKEN_CLOSE_DOOR
+      message: "{% if is_state('cover.chicken_door', 'open') %}\n  Success: Automation
+        triggered the door to open and it did.\n{% else %}\n  Failure: Automation
+        triggered the door to open but it did not!\n{% endif %}\n"
+      title: "\U0001F414 Chicken Door Trigger \U0001F414"
+  - delay: 00:00:20
+  - action: homeassistant.turn_off
+    target:
+      entity_id:
+      - input_boolean.chicken_door_automations
+      - input_boolean.chicken_door_last_call
+  mode: single
+- id: '1795114111548'
+  alias: Chicken - Door - Last Call V2
+  description: Migrated from YAML (id 4e0e9bf7-...). Telegram via telegram_bot to
+    Chat with the house.
+  triggers:
+  - trigger: template
+    value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_last_call_time_dirty.state
+      }}'
+  conditions:
+  - condition: state
+    entity_id: cover.chicken_door
+    state: closed
+  - condition: state
+    entity_id: input_boolean.cancel_last_call
+    state: 'off'
+  actions:
+  - action: homeassistant.turn_on
+    target:
+      entity_id:
+      - input_boolean.chicken_door_last_call
+      - input_boolean.chicken_door_automations
+  - action: homeassistant.turn_off
+    target:
+      entity_id: switch.chicken_sensor_v2_chicken_door_lockout
+  - action: cover.open_cover
+    target:
+      entity_id: cover.chicken_door
+  - timeout: 00:00:20
+    wait_template: '{{ is_state(''cover.chicken_door'', ''open'') }}'
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+      inline_keyboard:
+      - Open Door:/CHICKEN_OPEN_DOOR
+      - Close Door:/CHICKEN_CLOSE_DOOR
+      message: "{% if is_state('cover.chicken_door', 'open') %}\n  I opened the chicken
+        door for last call.\n{% else %}\n  I tried to open the chicken door for last
+        call but it did not open!\n{% endif %}\n"
+      title: "\U0001F414 Last Call - Chicken Door \U0001F414"
+  - delay: 00:02:00
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+      inline_keyboard:
+      - Open Door:/CHICKEN_OPEN_DOOR
+      - Close Door:/CHICKEN_CLOSE_DOOR
+      message: "{% if is_state('cover.chicken_door', 'closed') %}\n  The chicken door
+        was closed during last call.\n{% else %}\n  The chicken door is still open
+        ill close it now.\n{% endif %}\n"
+      title: "\U0001F414 Last Call - Chicken Door \U0001F414"
+  - action: homeassistant.turn_off
+    data:
+      entity_id: '{% if ( states.cover.chicken_door.state == ''closed'') %}input_boolean.chicken_door_last_call,
+        switch.sonoff_4ch_relay_2, input_boolean.chicken_door_automations {% else
+        %} input_boolean.fake {% endif %}'
+  - condition: state
+    entity_id: cover.chicken_door
+    state: open
+  - action: cover.close_cover
+    data:
+      entity_id: "{% if ( states.cover.chicken_door.state == 'open') -%}\n  cover.chicken_door\n{%-
+        else -%}\n  none\n{%- endif -%}\n"
+  - timeout: 00:00:20
+    wait_template: '{{ is_state(''cover.chicken_door'', ''closed'') }}'
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+      inline_keyboard:
+      - Open Door:/CHICKEN_OPEN_DOOR
+      - Close Door:/CHICKEN_CLOSE_DOOR
+      message: "{% if is_state('cover.chicken_door', 'closed') %}\n  I closed the
+        chicken door after last call.\n{% else %}\n  I tried to close the chicken
+        door after last call but it did not close!\n{% endif %}\n"
+      title: "\U0001F414 Last Call - Chicken Door \U0001F414"
+  - delay: 00:00:20
+  - action: homeassistant.turn_off
+    target:
+      entity_id:
+      - input_boolean.chicken_door_last_call
+      - switch.sonoff_4ch_relay_2
+      - input_boolean.chicken_door_automations
+  - action: homeassistant.turn_on
+    target:
+      entity_id:
+      - switch.chicken_sensor_v2_chicken_pen_lockout
+      - switch.chicken_sensor_v2_chicken_door_lockout
+  mode: single
+- id: '1795114113320'
+  alias: Chicken - Sunset close door V2
+  description: Migrated from YAML (id 0ee5b3a6-...). Telegram via telegram_bot to
+    Chat with the house.
+  triggers:
+  - trigger: template
+    value_template: '{{ states.sensor.time.state == states.sensor.chicken_door_close_time_dirty.state
+      }}'
+  conditions:
+  - condition: state
+    entity_id: cover.chicken_door
+    state: open
+  - condition: template
+    value_template: '{{ states.sensor.time.state >= states.sensor.chicken_door_close_time_dirty.state
+      }}'
+  - condition: state
+    entity_id: input_boolean.chicken_door_last_call
+    state: 'off'
+  actions:
+  - action: homeassistant.turn_on
+    target:
+      entity_id: input_boolean.chicken_door_automations
+  - action: homeassistant.turn_off
+    target:
+      entity_id: switch.chicken_sensor_v2_chicken_door_lockout
+  - action: cover.close_cover
+    target:
+      entity_id: cover.chicken_door
+  - timeout: 00:00:20
+    wait_template: '{{ is_state(''cover.chicken_door'', ''closed'') }}'
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+      inline_keyboard:
+      - Open Door:/CHICKEN_OPEN_DOOR
+      - Close Door:/CHICKEN_CLOSE_DOOR
+      message: "{% if is_state('cover.chicken_door', 'closed') %}\n  Automation triggered
+        the door to close and it did.\n{% else %}\n  Automation triggered the door
+        to close but it did not!\n{% endif %}\n"
+      title: "\U0001F414 Chicken Door Closed \U0001F414"
+  - delay: 00:00:20
+  - action: homeassistant.turn_off
+    target:
+      entity_id: input_boolean.chicken_door_automations
+  mode: single
+- id: '1795114114350'
+  alias: Send Message when UPS on Batt
+  description: Migrated from YAML (id e49fa1a6-...). Telegram via telegram_bot to
+    Chat with the house.
+  triggers:
+  - entity_id: sensor.ups_status_data
+    trigger: state
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_356616190_2
+      message: "{% if is_state('sensor.ups_status_data', 'OL') %}\n  UPS is On\n{%
+        else %}\n  UPS is {{ states('sensor.ups_status_data') }}.\n{% endif %}\n"
+  mode: single
+- id: '1795114115091'
+  alias: HA Stop - Send Message stop timers
+  description: 'Migrated from YAML (id 4e6ad19b-...). Timer-finish step dropped: the
+    timer helpers it stopped have been removed.'
+  triggers:
+  - event: shutdown
+    trigger: homeassistant
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      message: 'Ha is Shutting Down
+
+        '
+      title: Home Assistant Stop
+  mode: single
+- id: '1795114115859'
+  alias: Send Message on state changes
+  description: Migrated from YAML (id 775a4c37-...). Telegram via telegram_bot to
+    Ryry.
+  triggers:
+  - entity_id:
+    - switch.wink_zwaveoutlet
+    - binary_sensor.climate_aux_heat
+    from: 'on'
+    to: 'off'
+    trigger: state
+  - entity_id:
+    - switch.wink_zwaveoutlet
+    - binary_sensor.climate_aux_heat
+    from: 'off'
+    to: 'on'
+    trigger: state
+  - above: 90
+    entity_id: sensor.disk_use_percent
+    trigger: numeric_state
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      message: '{{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+
+        '
+      title: A state changed
+  mode: single
+- id: '1795115036215'
+  alias: Chicken -  Send Message on chicken coop state changes
+  description: Migrated from YAML (id 50287845-...). notify.ryan -> Ryan's Telegram.
+  triggers:
+  - entity_id: cover.chicken_door
+    from: open
+    to: closed
+    trigger: state
+  - entity_id: cover.chicken_door
+    from: closed
+    to: open
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.chicken_door_automations
+    state: 'off'
+  actions:
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      message: '{{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+
+        '
+      title: "\U0001F414 Chicken Coop \U0001F414"
+  mode: single
+- id: '1795115037218'
+  alias: Chicken -  Send Message on chicken pen state changes
+  description: Migrated from YAML (id cf426ebc-...). notify.ryan -> Ryan's Telegram.
+  triggers:
+  - entity_id: cover.chicken_pen
+    from: open
+    to: closed
+    trigger: state
+  - entity_id: cover.chicken_pen
+    from: closed
+    to: open
+    trigger: state
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      message: '{{ trigger.to_state.name }} is {{ trigger.to_state.state }}
+
+        '
+      title: "\U0001F414 Chicken Coop \U0001F414"
+  mode: single
+- id: '1795115038374'
+  alias: Garage Send Message when everyone left and a door is open.
+  description: Migrated from YAML (id 446f9d1f-...). notify.ryan -> Ryan's Telegram.
+  triggers:
+  - entity_id: group.device_family
+    for:
+      minutes: 5
+    to: not_home
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: group.garage
+    state: open
+  actions:
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      message: "{% if is_state('cover.ratfirstbay_door', 'open') -%}\n  First Bay
+        is open.\n{% endif -%} {% if is_state('cover.ratsecondbay_door', 'open') -%}\n
+        \ Second Bay is open.\n{% endif -%} {%- if is_state('cover.ratthirdbay_door',
+        'open') -%}\n  Third Bay is open\n{% endif -%}\n"
+      title: Garage Door Left Open
+  mode: single
+- id: '1795115039114'
+  alias: wink - Send Message when all the wink lights are on.
+  description: Migrated from YAML (id 84266477-...). notify.ryan -> Ryan's Telegram.
+  triggers:
+  - trigger: template
+    value_template: '{{ states(''sensor.total_wink_lights_on'') == states(''sensor.total_wink_lights'')
+      and states(''sensor.total_wink_lights'') | int(0) != 0 }}'
+  conditions: []
+  actions:
+  - action: telegram_bot.send_message
+    data:
+      entity_id:
+      - notify.telegram_bot_700554930_618533989
+      message: All the wink lights are on {{ states('sensor.total_wink_lights_on')
+        | int(0) }} of {{ states('sensor.total_wink_lights') }}
+      title: All wink lights are on
+  mode: single
+- id: '1795117241464'
+  alias: Chicken - Dim coop bulb when it comes on
+  description: Moved from Node-RED 'Chicken' tab. When the coop bulb turns on (or
+    its brightness is changed), or the Chicken Light Switch relay powers it (5s boot
+    delay), set brightness to 1. Only runs while input_boolean.chicken_light_dimming
+    is on.
+  triggers:
+  - entity_id: light.wink_ge_link_bulb
+    id: bulb_on
+    to: 'on'
+    trigger: state
+  - attribute: brightness
+    entity_id: light.wink_ge_link_bulb
+    id: bulb_brightness
+    trigger: state
+  - entity_id: switch.sonoff_4ch_relay_2
+    id: relay_on
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.chicken_light_dimming
+    state: 'on'
+  actions:
+  - if:
+    - condition: trigger
+      id: relay_on
+    then:
+    - delay:
+        seconds: 5
+  - if:
+    - condition: state
+      entity_id: light.wink_ge_link_bulb
+      state: 'on'
+    then:
+    - action: light.turn_on
+      data:
+        brightness: 1
+      target:
+        entity_id: light.wink_ge_link_bulb
+  max_exceeded: silent
+  mode: single
+- id: '1795117242202'
+  alias: Chicken - Bug zapper on at sunset, off at sunrise
+  description: Moved from Node-RED 'Chicken' tab. Switches the Bug Zapper/Water Heater
+    outlet (sonoff_4ch_relay_3) on at sunset and off at sunrise. Only runs while input_boolean.chicken_bug_automations
+    is on (zapper season).
+  triggers:
+  - event: sunset
+    id: sunset
+    trigger: sun
+  - event: sunrise
+    id: sunrise
+    trigger: sun
+  conditions:
+  - condition: state
+    entity_id: input_boolean.chicken_bug_automations
+    state: 'on'
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sunset
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.sonoff_4ch_relay_3
+    - conditions:
+      - condition: trigger
+        id: sunrise
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.sonoff_4ch_relay_3
+  mode: single
+- id: '1795117532906'
+  alias: Chores - Clear chore alert when bin is at the road
+  description: Moved from Node-RED 'Frigate Bins' tab. When Frigate's oldroad camera
+    sees a waste bin and the chore alert is active, turn the chore alert off. Also
+    clears it if the alert turns on while a bin is already visible.
+  triggers:
+  - above: 0
+    entity_id: sensor.oldroad_waste_bin_count
+    trigger: numeric_state
+  - trigger: state
+    entity_id: alert.chores
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: alert.chores
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.oldroad_waste_bin_count
+    above: 0
+  actions:
+  - action: alert.turn_off
+    target:
+      entity_id: alert.chores
   mode: single

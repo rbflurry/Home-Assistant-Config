@@ -125,9 +125,9 @@
     done_message: weather station is up
     entity_id: binary_sensor.template_weather_down
     state: "on"
-    repeat: 60
+    repeat: 30
     can_acknowledge: True
-    #skip_first: True
+    skip_first: True
     notifiers:
       - telegram_group
       
