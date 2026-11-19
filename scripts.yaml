@@ -208,3 +208,36 @@ run_vacuum_later:
         '
   alias: run vacuum later
   description: ''
+ge_link_bulb_reset:
+  alias: GE Link bulb reset (power cycle)
+  description: Moved from Node-RED 'GE Bulb Reset' tab. Toggles the switch powering
+    a GE Link bulb 7 times, 5 seconds apart, to factory-reset it. The Node-RED version
+    was hardcoded to switch.4chpro_2, which no longer exists, so pick the switch when
+    you run it.
+  fields:
+    power_switch:
+      description: Switch/relay that powers the bulb
+      name: Power switch
+      required: true
+      selector:
+        entity:
+          domain: switch
+    toggles:
+      default: 7
+      name: Toggles
+      selector:
+        number:
+          max: 15
+          min: 1
+          mode: box
+  icon: mdi:lightbulb-auto
+  mode: single
+  sequence:
+  - repeat:
+      count: '{{ toggles | default(7) | int }}'
+      sequence:
+      - action: switch.toggle
+        target:
+          entity_id: '{{ power_switch }}'
+      - delay:
+          seconds: 5
